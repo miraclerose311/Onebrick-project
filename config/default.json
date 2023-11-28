@@ -1,0 +1,4 @@
+{
+  "mongoURI": "mongodb+srv://midas:rQirlBSiQx5Y3j3r@brick-selling.aqptxig.mongodb.net/brick-selling",
+  "jwtSecret": "secretzasfasd"
+}
