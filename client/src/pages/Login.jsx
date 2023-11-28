@@ -13,8 +13,9 @@ const Login = () => {
   const onLogin = useGoogleLogin({
     onSuccess: (codeResponse) => {
       const { access_token } = codeResponse;
+      console.log('access_token => ', access_token)
       dispatch(googleLogin(access_token));
-      window.alert('Successfully logged in');
+      // window.alert('Successfully logged in');
     },
     onError: (error) => console.log('Login failed: ', error),
   });

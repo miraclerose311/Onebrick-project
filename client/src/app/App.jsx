@@ -13,6 +13,7 @@ import Landing from '../pages/Landing';
 import Contact from '../pages/Contact';
 
 function App() {
+
   // const [user, setUser] = useState([]);
   // const [profile, setProfile] = useState([]);
 

@@ -27,6 +27,10 @@ export const googleLogin = (access_token) => async (dispatch) => {
     console.log(res.data);
     dispatch(login());
   } catch (e) {
-    window.alert(e);
+    if (e.response.data['Error'] == "This user does not exists") {
+      window.alert('This user does not exists')
+    } else {
+      window.alert('Some error ocurred')
+    }
   }
 };

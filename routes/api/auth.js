@@ -80,8 +80,8 @@ router.post('/google-login', async (req, res) => {
         },
       }
     );
-    const { email, family_name, given_name } = response.data;
-    const fullName = given_name + ' ' + family_name;
+    const { email } = response.data;
+    console.log(email)
 
     let user = await User.findOne({ email });
     // Check if there is a user this email

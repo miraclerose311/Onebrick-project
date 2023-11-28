@@ -2,9 +2,10 @@ import axios from 'axios';
 // import store from '../store';
 // import { LOGOUT } from '../actions/types';
 
+
 // Create an instance of axios
 const api = axios.create({
-  baseURL: 'http://localhost:3306/api',
+  baseURL: `${import.meta.env.VITE_BACKEND_URL}/api`,
   headers: {
     'Content-Type': 'application/json',
   },
