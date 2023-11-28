@@ -96,7 +96,7 @@ export default function Footer() {
           </p>
         </div>
         <div className='w-full xl:w-2/3 flex flex-col lg:flex-row px-4'>
-          <div className='w-full flex flex-row'>
+          <div className='w-full flex flex-col md:flex-row'>
             <div className='w-full lg:w-1/2 flex flex-col text-gray-400'>
               <p className='py-4 text-2xl font-bold text-gray-300'>
                 QUICK LINKS
