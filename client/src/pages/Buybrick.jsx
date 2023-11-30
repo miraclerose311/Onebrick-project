@@ -181,6 +181,7 @@ const Buybrick = () => {
   const [modalPosition, setModalPosition] = useState({ x: 0, y: 0 });
   const [isSlideModalOpen, setIsSlideModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState(null);
+  const [amount, setAmount] = useState(1);
   const modalRef = useRef(null);
 
   const handleClick = (event) => {
@@ -198,10 +199,19 @@ const Buybrick = () => {
   const handleBuyButtonClicked = () => {
     setIsSlideModalOpen(true);
     setModalContent(1);
+    setIsModalOpen(false);
   };
 
   const handleCloseModal = () => {
     setIsSlideModalOpen(false);
+  };
+
+  const handleIncreaseAmount = () => {
+    if (amount < 35000) setAmount(amount + 1);
+  };
+
+  const handleDecreaseAmount = () => {
+    if (amount > 1) setAmount(amount - 1);
   };
 
   const handleReadyModal = () => {
@@ -437,18 +447,24 @@ const Buybrick = () => {
                   Hope?
                 </p>
                 <div className='flex flex-row'>
-                  <button className='border px-4 py-2 text-2xl flex items-center border-gray-400'>
+                  <button
+                    className='border px-4 py-2 text-2xl border-gray-400 w-12'
+                    onClick={handleDecreaseAmount}
+                  >
                     -
                   </button>
-                  <button className='border px-4 py-2 text-2xl border-gray-400'>
-                    1
+                  <button className='border px-4 py-2 text-2xl border-gray-400 w-12'>
+                    {amount}
                   </button>
-                  <button className='border px-4 py-2 text-2xl border-gray-400'>
+                  <button
+                    className='border px-4 py-2 text-2xl border-gray-400 w-12'
+                    onClick={handleIncreaseAmount}
+                  >
                     +
                   </button>
                 </div>
                 <p className='font-montserrat text-2xl py-2'>Contribution</p>
-                <p className='font-raleway text-xl py-2'>₹ 10,000</p>
+                <p className='font-raleway text-xl py-2'>₹ {10000 * amount}</p>
                 <select className='border px-2 py-2 my-6 cursor-pointer border-gray-400'>
                   <option>I am a Non-Resident Indian</option>
                   <option>I am a Foreign National</option>
