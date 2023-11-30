@@ -22,13 +22,13 @@ export default function Navbar() {
 
   console.log('isAuthenticated => ', isAuthenticated);
 
-  const onBuybrick = () => {
-    if (isAuthenticated) {
-      navigate('/buybrick');
-    } else {
-      navigate('/login');
-    }
-  };
+  // const onBuybrick = () => {
+  //   if (isAuthenticated) {
+  //     navigate('/buybrick');
+  //   } else {
+  //     navigate('/login');
+  //   }
+  // };
 
   const onLogout = () => {
     dispatch(logout());
@@ -55,17 +55,17 @@ export default function Navbar() {
   );
 
   return (
-    <nav className='bg-transparent z-20 start-0 border-b border-gray-200 px-10 text-left'>
+    <nav className='bg-transparent z-20 start-0 border-b border-gray-200 px-2 xl:px-10 text-left'>
       <div className='flex flex-row items-center justify-around mx-auto p-4'>
-        <Link to='/' className='items-center space-x-3'>
-          <img src={logoImg} className='h-20' alt='Logo' />
+        <Link to='/' className='items-center h-20 w-44'>
+          <img src={logoImg} className='h-20 w-40 max-w-none' alt='Logo' />
         </Link>
-        <div className='flex flex-row items-center md:order-1 md:right justify-center'>
-          <ul className='hidden md:flex md:flex-row md:justify-center p-2 mr-8 mt-4 rounded-lg md:p-0 md:space-x-6 items-center'>
+        <div className='flex flex-row items-center md:right justify-center'>
+          <ul className='hidden lg:flex lg:flex-row lg:justify-center p-2 mr-2 xl:mr-8 rounded-lg md:p-0 items-center'>
             <li>
               <Link
                 to='/'
-                className='block py-2 text-gray-700 hover:decoration-2 hover:underline hover:font-bold rounded text-lg'
+                className='block py-2 text-gray-700 hover:decoration-2 hover:underline rounded text-lg mx-2 lg:mx-4'
                 aria-current='page'
               >
                 HOME
@@ -74,7 +74,7 @@ export default function Navbar() {
             <li>
               <Link
                 to='/about'
-                className='block py-2 text-gray-700 hover:decoration-2 hover:underline hover:font-bold rounded text-lg'
+                className='block py-2 text-gray-700 hover:decoration-2 hover:underline rounded text-lg mx-2 lg:mx-4'
                 aria-current='page'
               >
                 ABOUT ALPHA
@@ -83,7 +83,7 @@ export default function Navbar() {
             <li>
               <Link
                 to='/donors'
-                className='block py-2 text-gray-700 hover:decoration-2 hover:underline hover:font-bold rounded text-lg'
+                className='block py-2 text-gray-700 hover:decoration-2 hover:underline rounded text-lg mx-2 lg:mx-4'
                 aria-current='page'
               >
                 DONORS
@@ -92,7 +92,7 @@ export default function Navbar() {
             <li>
               <Link
                 to='/beneficiaries'
-                className='block py-2 text-gray-700 hover:decoration-2 hover:underline hover:font-bold rounded text-lg'
+                className='block py-2 text-gray-700 hover:decoration-2 hover:underline rounded text-lg mx-2 lg:mx-4'
                 aria-current='page'
               >
                 BENEFICIARIES
@@ -101,7 +101,7 @@ export default function Navbar() {
             <li>
               <Link
                 to='/contact'
-                className='block py-2 text-gray-700 hover:decoration-2 hover:underline hover:font-bold rounded text-lg'
+                className='block py-2 text-gray-700 hover:decoration-2 hover:underline rounded text-lg mx-2 lg:mx-4'
                 aria-current='page'
               >
                 CONTACT US
@@ -112,7 +112,7 @@ export default function Navbar() {
             data-collapse-toggle='navbar-sticky'
             type='button'
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className='inline-flex items-center p-1 w-10 h-10 justify-center text text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 mr-8'
+            className='inline-flex items-center p-1 w-10 h-10 justify-center text text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 mr-8'
             aria-controls='navbar-sticky'
             aria-expanded='false'
           >
@@ -132,14 +132,15 @@ export default function Navbar() {
               />
             </svg>
           </button>
-          <button
+          <Link
+            to='/buybrick'
             type='button'
-            className='text-white bg-red-700 hover:bg-red-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center'
-            onClick={onBuybrick}
+            className='text-white bg-red-700 hover:bg-red-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-md px-4 py-2 text-center'
           >
-            BUY A BRICK
-          </button>
-          {!isAuthenticated ? (
+            WALL OF HOPE
+          </Link>
+
+          {/* {!isAuthenticated ? (
             <Link className='ml-4' to='/register'>
               <img
                 src={UserImg}
@@ -199,7 +200,7 @@ export default function Navbar() {
                 </Menu.Items>
               </Transition>
             </Menu>
-          )}
+          )} */}
         </div>
       </div>
       {isMenuOpen && DropdownNavbar()}
