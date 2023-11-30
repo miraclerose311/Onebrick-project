@@ -35,7 +35,7 @@ export default function Navbar() {
   };
 
   const DropdownNavbar = () => (
-    <div className='text-center flex flex-col md:hidden'>
+    <div className='text-center flex flex-col md:hidden '>
       <button className='py-2 text-lg hover:font-bold'>
         <Link to='/'>HOME</Link>
       </button>
@@ -55,19 +55,13 @@ export default function Navbar() {
   );
 
   return (
-    <nav className='bg-transparent z-20 start-0 border-b border-gray-200 px-10'>
-      <div className='max-w-screen-xl flex flex-wrap flex-row items-center justify-between mx-auto p-4'>
-        <Link
-          to='/'
-          className='flex items-center space-x-3 rtl:space-x-reverse'
-        >
+    <nav className='bg-transparent z-20 start-0 border-b border-gray-200 px-10 text-left'>
+      <div className='flex flex-row items-center justify-around mx-auto p-4'>
+        <Link to='/' className='items-center space-x-3'>
           <img src={logoImg} className='h-20' alt='Logo' />
         </Link>
-        <div
-          className='flex flex-row items-center md:order-1 md:right md:w-auto'
-          id='navbar-sticky'
-        >
-          <ul className='hidden md:flex md:flex-row p-2 mr-8 mt-4 rounded-lg md:p-0 md:space-x-6 md:mt-0 md:border-0'>
+        <div className='flex flex-row items-center md:order-1 md:right justify-center'>
+          <ul className='hidden md:flex md:flex-row md:justify-center p-2 mr-8 mt-4 rounded-lg md:p-0 md:space-x-6 items-center'>
             <li>
               <Link
                 to='/'
