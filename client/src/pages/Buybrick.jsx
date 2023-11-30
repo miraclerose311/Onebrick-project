@@ -125,24 +125,21 @@ const Buybrick = () => {
     image.src = src;
   }, [src]);
 
-  // const [isDragging, setIsDragging] = useState(false);
-
-  // Brick events
-  const handleBrickClicked = (e) => {
+  const handleBrickDown = (e) => {
     const id = e.target.id;
     setClickedId(id);
+  };
 
+  useEffect(() => {
     setBricks((prev) => {
       const new_state = [...prev];
       return new_state.map((item) =>
-        item.id === id
+        item.id === clickedId
           ? { ...item, clicked: true }
           : { ...item, clicked: false }
       );
     });
-  };
-
-  useEffect(() => {}, [clickedId]);
+  }, [clickedId]);
 
   const renderBricks = () => {
     const colBricks = [];
@@ -163,9 +160,7 @@ const Buybrick = () => {
                   bricks[index].clicked ? 'bg-yellow-500' : 'bg-gray-100',
                   bricks[index].sold && 'opacity-0'
                 )}
-                onClick={handleBrickClicked}
-                // onMouseDown={handleMouseDown}
-                // onMouseUp={handleMouseUp}
+                onMouseDown={handleBrickDown}
               />
             );
           })}
@@ -196,6 +191,10 @@ const Buybrick = () => {
     setIsModalOpen(true);
   };
 
+  const handleMouseDown = () => {
+    setIsModalOpen(false);
+  };
+
   const handleBuyButtonClicked = () => {
     setIsSlideModalOpen(true);
     setModalContent(1);
@@ -204,6 +203,7 @@ const Buybrick = () => {
 
   const handleCloseModal = () => {
     setIsSlideModalOpen(false);
+    setAmount(1);
   };
 
   const handleIncreaseAmount = () => {
@@ -231,14 +231,10 @@ const Buybrick = () => {
       );
     });
     setIsModalOpen(false);
+    setAmount(1);
   };
 
   console.log(modalContent);
-
-  // const handleBrickDrag = (e) => {
-  //   const id = e.target.id;
-  //   const brick = bricks.find((item) => item.id === id);
-  //   const brick_index = bricks.findIndex((item)
 
   return (
     <div className='text-center items-center h-screen min-w-[500px] bg-gray-600 w-full flex itmes-center sm:justify-center'>
@@ -507,7 +503,7 @@ const Buybrick = () => {
                   placeholder='Aadhaar ID (if available)'
                 />
                 <button
-                  className='text-gray-100 bg-red-700 px-6 py-4 my-4 rounded-md'
+                  className='text-gray-100 bg-red-700 my-4 px-4 py-2 rounded-md'
                   onClick={handleAddressModal}
                 >
                   ADD ADDRESS
@@ -554,6 +550,7 @@ const Buybrick = () => {
         className='w-full h-full bg-gray-400 flex justify-center items-center relative'
         ref={containerRef}
         onClick={handleClick}
+        onMouseDown={handleMouseDown}
       >
         {imageScale > 0 && (
           <TransformWrapper
