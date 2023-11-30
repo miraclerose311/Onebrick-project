@@ -7,44 +7,54 @@ import {
   useState,
 } from 'react';
 import { Menu, Transition } from '@headlessui/react';
-import { logout } from '../features/auth/authSlice';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+// import { logout } from '../features/auth/authSlice';
+// import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
 
-import brickImage from '../assets/img/background.jpg';
+import brickImage from '../assets/img/alpha_building_high_res.jpg';
 import { brickIds } from '../utils';
 
+// import BrickBuyModal from '../components/BrickBuyModal';
+import UserImg from '../assets/img/user.png';
+import './Modal.css';
+
 const Buybrick = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { isAuthenticated } = useSelector((state) => state.auth);
+  // const navigate = useNavigate();
+  // const { isAuthenticated } = useSelector((state) => state.auth);
+  // console.log('isAuthenticated => ', isAuthenticated);
 
   // Create bricks states
   const [bricks, setBricks] = useState([]);
+  const [clickedId, setClickedId] = useState(null);
 
   // Initialize bircks states
   useEffect(() => {
     const bricksStates = [];
     brickIds.forEach((id) => {
-      const randomIndex = Math.floor(Math.random() * 3 + 1) * 100;
       bricksStates.push({
         id: id,
         sold: false,
         owner: false,
-        color: randomIndex,
+        clicked: false,
       });
     });
     setBricks(bricksStates);
+    useCallback;
   }, []);
 
+  // console.log(bricks);
+
+  // Initialize container and image states
   const containerRef = useRef();
+
   const [containerWidth, setContainerWidth] = useState(0);
   const [containerHeight, setContainerHeight] = useState(0);
 
   const [imageNaturalWidth, setImageNaturalWidth] = useState(0);
   const [imageNaturalHeight, setImageNaturalHeight] = useState(0);
 
+  // Initialize zoom in and out variables
   const scaleUp = true;
   const src = brickImage;
   const zoomFactor = 8;
@@ -53,15 +63,15 @@ const Buybrick = () => {
     return classes.filter(Boolean).join(' ');
   }
 
-  const onLogout = () => {
-    dispatch(logout());
-  };
+  // const onLogout = () => {
+  //   dispatch(logout());
+  // };
 
-  useEffect(() => {
-    if (!isAuthenticated) {
-      navigate('/login');
-    }
-  }, [isAuthenticated, navigate]);
+  // useEffect(() => {
+  //   if (!isAuthenticated) {
+  //     navigate('/login');
+  //   }
+  // }, [isAuthenticated, navigate]);
 
   const handleResize = useCallback(() => {
     if (containerRef !== null) {
@@ -105,7 +115,6 @@ const Buybrick = () => {
   ]);
 
   const handleImageOnLoad = (image) => {
-    console.log('Natural Width => ', image.naturalWidth);
     setImageNaturalWidth(image.naturalWidth);
     setImageNaturalHeight(image.naturalHeight);
   };
@@ -116,7 +125,24 @@ const Buybrick = () => {
     image.src = src;
   }, [src]);
 
-  console.log(bricks);
+  // const [isDragging, setIsDragging] = useState(false);
+
+  // Brick events
+  const handleBrickClicked = (e) => {
+    const id = e.target.id;
+    setClickedId(id);
+
+    setBricks((prev) => {
+      const new_state = [...prev];
+      return new_state.map((item) =>
+        item.id === id
+          ? { ...item, clicked: true }
+          : { ...item, clicked: false }
+      );
+    });
+  };
+
+  useEffect(() => {}, [clickedId]);
 
   const renderBricks = () => {
     const colBricks = [];
@@ -132,11 +158,14 @@ const Buybrick = () => {
                 key={index}
                 id={id}
                 value={bricks[index]}
-                className={
-                  'border rounded-md w-5 h-5 ' +
-                  (!bricks[index].sold && `bg-gray-${bricks[index].color}`)
-                }
-                onClick={(e) => handleBrickClicked(e)}
+                className={classNames(
+                  'border rounded-md w-5 h-5',
+                  bricks[index].clicked ? 'bg-yellow-500' : 'bg-gray-100',
+                  bricks[index].sold && 'opacity-0'
+                )}
+                onClick={handleBrickClicked}
+                // onMouseDown={handleMouseDown}
+                // onMouseUp={handleMouseUp}
               />
             );
           })}
@@ -148,26 +177,64 @@ const Buybrick = () => {
     return colBricks;
   };
 
-  const handleBrickClicked = (e) => {
-    const id = e.target.id;
-    console.log(id);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalPosition, setModalPosition] = useState({ x: 0, y: 0 });
+  const [isSlideModalOpen, setIsSlideModalOpen] = useState(false);
+  const [modalContent, setModalContent] = useState(null);
+  const modalRef = useRef(null);
+
+  const handleClick = (event) => {
+    // Get the position of the clicked point
+    const x = event.clientX;
+    const y = event.clientY;
+
+    // Set the position of the modal relative to the clicked point
+    setModalPosition({ x: x + 20, y: y + 20 });
+
+    // Open the modal
+    setIsModalOpen(true);
+  };
+
+  const handleBuyButtonClicked = () => {
+    setIsSlideModalOpen(true);
+    setModalContent(1);
+  };
+
+  const handleCloseModal = () => {
+    setIsSlideModalOpen(false);
+  };
+
+  const handleReadyModal = () => {
+    setModalContent(2);
+  };
+
+  const handleAddressModal = () => {
+    setModalContent(3);
+  };
+
+  const handlePaymentModal = () => {
+    setIsSlideModalOpen(false);
     setBricks((prev) => {
       const new_state = [...prev];
       return new_state.map((item) =>
-        item.id === id ? { ...item, sold: true } : { ...item }
+        item.id === clickedId ? { ...item, sold: true } : { ...item }
       );
     });
+    setIsModalOpen(false);
   };
 
-  console.log(imageScale);
-  console.log(containerWidth, containerHeight);
-  console.log(imageNaturalWidth, imageNaturalHeight);
+  console.log(modalContent);
+
+  // const handleBrickDrag = (e) => {
+  //   const id = e.target.id;
+  //   const brick = bricks.find((item) => item.id === id);
+  //   const brick_index = bricks.findIndex((item)
 
   return (
-    <div className='text-center items-center h-screen min-w-[500px] bg-gary-500 w-full flex justify-center itmes-center'>
-      <div className='fixed top-24 md:right-24 lg:right-48 xl:right-64 flex justify-around p-3 itmes-center min-w-[400px] z-10'>
+    <div className='text-center items-center h-screen min-w-[500px] bg-gray-600 w-full flex itmes-center sm:justify-center'>
+      <div className='fixed top-12 right-4 sm:right-8 md:right-12 lg:right-18 xl:right-24 flex justify-around p-3 itmes-center min-w-[400px] z-10'>
         <Menu as='div' className='relative flex justify-center itmes-center'>
-          <Menu.Button className='btn btn-change px-3 rounded-lg hover:border-2 hover:border-gray-500'>
+          <Menu.Button className='btn btn-change px-3 rounded-lg hover:border-2 hover:border-sky-400'>
             <svg
               className='w-5 h-5'
               aria-hidden='true'
@@ -252,16 +319,14 @@ const Buybrick = () => {
             </Menu.Items>
           </Transition>
         </Menu>
-
         <div className='flex items-center mx-4'>
           <input
             type='search'
-            className='border-2 border-gray-400 rounded-full w-[240px] h-10 px-4 py-2 bg-gray-200 outline-none focus-visible:border-gray-500'
+            className='border-2 border-gray-400 rounded-full w-[240px] h-10 px-4 py-2 bg-gray-200 outline-none focus-visible:border-sky-400'
             placeholder='Search the Wall of Hope'
           />
         </div>
-
-        <Menu as='div' className='relative flex justify-center itmes-center'>
+        {/* <Menu as='div' className='relative flex justify-center itmes-center'>
           <Menu.Button className='btn btn-change border-gray-500'>
             <span className='w-12 h-12 bg-sky-500 rounded-full flex items-center justify-center text-gray-100 text-lg shadow-lg shadow-gray-400 hover:border-2 hover:border-gray-700 border-gray-800'>
               P
@@ -308,31 +373,179 @@ const Buybrick = () => {
               </div>
             </Menu.Items>
           </Transition>
-        </Menu>
+        </Menu> */}
+        <Link className='ml-2' to='#'>
+          <img
+            src={UserImg}
+            className='h-10 hover:border-2 border-sky-400 rounded-full'
+          />
+        </Link>
       </div>
-      <div className='fixed bottom-48 w-full flex justify-center flex-col items-center z-10'>
+      <div className='fixed left-16 bottom-16 w-1/3 sm:w-1/4 md:w-1/5 lg:w-1/6 flex flex-col items-center z-10'>
         <div className='font-montserrat text-sky-500 font-bold'>
           17000 / 35000
         </div>
-        <div className='w-1/2 md:w-1/3 lg:w-1/5 bg-gray-300 rounded-full h-2.5'>
+        <div className='w-full bg-gray-300 rounded-full h-2.5'>
           <div
             className='bg-sky-400 h-2.5 rounded-full'
             style={{ width: '45%' }}
           ></div>
         </div>
       </div>
+      {isModalOpen && (
+        <div
+          className='border border-gray-600 bg-gray-200 opacity-80 absolute px-4 py-8 w-52 h-72 flex flex-col justify-center items-center z-30'
+          ref={modalRef}
+          style={{
+            left: modalPosition.x,
+            top: modalPosition.y,
+            boxShadow: '0px 0px 5px rgba(0, 0, 0, 0.7)',
+          }}
+        >
+          <p className='font-lg py-2 font-bold font-montserrat'>{clickedId}</p>
+          <p className='font-raleway pb-2'>
+            Buy this Brick and Save a Life. Click on this box to dedicate your
+            support and help us build a sanctuary of care for those in need.
+          </p>
+          <button
+            className='text-gray-100 bg-red-700 px-4 py-2 rounded-md'
+            onClick={handleBuyButtonClicked}
+          >
+            BUY THIS BRICK
+          </button>
+        </div>
+      )}
+      {isSlideModalOpen && modalContent !== 0 && (
+        <div className='modal'>
+          <div className='modal-content flex-col flex justify-center items-center relative'>
+            <button
+              className='close-button text-4xl'
+              onClick={handleCloseModal}
+            >
+              &times;
+            </button>
+            {modalContent === 1 && (
+              <>
+                <p className='text-4xl font-montserrat px-8'>
+                  Congratulations!
+                </p>
+                <p className='font-raleway text-xl my-4'>
+                  You have taken a step towards making a significant difference!
+                </p>
+                <p className='font-raleway text-xl my-4'>
+                  How many bricks would you like to contribute to our Wall of
+                  Hope?
+                </p>
+                <div className='flex flex-row'>
+                  <button className='border px-4 py-2 text-2xl flex items-center border-gray-400'>
+                    -
+                  </button>
+                  <button className='border px-4 py-2 text-2xl border-gray-400'>
+                    1
+                  </button>
+                  <button className='border px-4 py-2 text-2xl border-gray-400'>
+                    +
+                  </button>
+                </div>
+                <p className='font-montserrat text-2xl py-2'>Contribution</p>
+                <p className='font-raleway text-xl py-2'>₹ 10,000</p>
+                <select className='border px-2 py-2 my-6 cursor-pointer border-gray-400'>
+                  <option>I am a Non-Resident Indian</option>
+                  <option>I am a Foreign National</option>
+                </select>
+                <button
+                  className='text-gray-100 bg-red-700 px-4 py-2 rounded-md'
+                  onClick={handleReadyModal}
+                >
+                  READY TO PAY?
+                </button>
+              </>
+            )}
+            {modalContent === 2 && (
+              <>
+                <p className='text-4xl font-montserrat px-8'>
+                  Donor Information
+                </p>
+                <p className='font-raleway text-xl my-4'>Why we need this?</p>
+                <p className='font-raleway text-xl my-4'>
+                  You have taken a step towards making a significant difference!
+                </p>
+                <input
+                  className='border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2'
+                  placeholder='Full Name'
+                />
+                <input
+                  className='border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2'
+                  placeholder='Mobile'
+                />
+                <input
+                  className='border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2'
+                  placeholder='Email ID'
+                />
+                <input
+                  className='border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2'
+                  placeholder='PAN (if available)'
+                />
+                <input
+                  className='border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2'
+                  placeholder='Aadhaar ID (if available)'
+                />
+                <button
+                  className='text-gray-100 bg-red-700 px-6 py-4 my-4 rounded-md'
+                  onClick={handleAddressModal}
+                >
+                  ADD ADDRESS
+                </button>
+              </>
+            )}
+            {modalContent === 3 && (
+              <>
+                <p className='text-4xl font-montserrat px-8'>
+                  Just one more step!
+                </p>
+                <p className='font-raleway text-xl my-4'>Why we need this?</p>
+                <p className='font-raleway text-xl my-4'>
+                  You have taken a step towards making a significant difference!
+                </p>
+                <input
+                  className='border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2'
+                  placeholder='Address'
+                />
+                <input
+                  className='border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2'
+                  placeholder='Country'
+                />
+                <input
+                  className='border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2'
+                  placeholder='State'
+                />
+                <input
+                  className='border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2'
+                  placeholder='PIN'
+                />
+                <button
+                  className='text-gray-100 bg-red-700 px-4 py-2 my-4 rounded-md'
+                  onClick={handlePaymentModal}
+                >
+                  MAKE PAYMENT
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+      )}
       <div
-        className='w-full h-full bg-gray-400 flex justify-center items-center'
+        className='w-full h-full bg-gray-400 flex justify-center items-center relative'
         ref={containerRef}
+        onClick={handleClick}
       >
         {imageScale > 0 && (
           <TransformWrapper
             key={`${imageNaturalWidth}x${imageNaturalHeight}`}
-            initialScale={imageScale}
+            initialScale={1}
             minScale={imageScale}
             maxScale={zoomFactor * imageScale}
             centerOnInit
-            // onTransformed={(value) => console.log(value)}
             wheel={{ smoothStep: 0.004 }}
           >
             <TransformComponent
@@ -346,7 +559,7 @@ const Buybrick = () => {
                   {renderBricks()}
                 </div>
                 <img
-                  src={src}
+                  src={brickImage}
                   className='absoulte top-0 left-0 max-w-none'
                   style={{
                     width: `5000px`,
