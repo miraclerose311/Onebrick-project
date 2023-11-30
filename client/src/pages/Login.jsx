@@ -11,6 +11,7 @@ const Login = () => {
   const { isAuthenticated } = useSelector((state) => state.auth);
 
   const onLogin = useGoogleLogin({
+    redirect_uri: "https://9291-146-19-207-71.ngrok-free.app/login",
     onSuccess: (codeResponse) => {
       const { access_token } = codeResponse;
       console.log('access_token => ', access_token)

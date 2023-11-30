@@ -13,6 +13,7 @@ const Register = () => {
   console.log(isAuthenticated);
 
   const onRegister = useGoogleLogin({
+    redirect_uri: "https://9291-146-19-207-71.ngrok-free.app/register",
     onSuccess: (codeResponse) => {
       const { access_token } = codeResponse;
       dispatch(googleRegister(access_token));
