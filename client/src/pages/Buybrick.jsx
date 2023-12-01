@@ -9,7 +9,6 @@ import {
 import { Menu, Transition } from '@headlessui/react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
 
