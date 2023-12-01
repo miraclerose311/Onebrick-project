@@ -10,6 +10,7 @@ import { Menu, Transition } from '@headlessui/react';
 // import { logout } from '../features/auth/authSlice';
 // import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
 
 import brickImage from '../assets/img/alpha_building_high_res.jpg';
@@ -18,6 +19,9 @@ import { brickIds } from '../utils';
 // import BrickBuyModal from '../components/BrickBuyModal';
 import UserImg from '../assets/img/user.png';
 import './Modal.css';
+import First from '../components/modals/First';
+import DonorInformation from '../components/modals/Donor_info';
+import DonorAddress from '../components/modals/Donor_address';
 
 const Buybrick = () => {
   // const navigate = useNavigate();
@@ -142,7 +146,7 @@ const Buybrick = () => {
     });
   };
 
-  useEffect(() => {}, [clickedId]);
+  useEffect(() => { }, [clickedId]);
 
   const renderBricks = () => {
     const colBricks = [];
@@ -164,8 +168,8 @@ const Buybrick = () => {
                   bricks[index].sold && 'opacity-0'
                 )}
                 onClick={handleBrickClicked}
-                // onMouseDown={handleMouseDown}
-                // onMouseUp={handleMouseUp}
+              // onMouseDown={handleMouseDown}
+              // onMouseUp={handleMouseUp}
               />
             );
           })}
@@ -180,8 +184,8 @@ const Buybrick = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalPosition, setModalPosition] = useState({ x: 0, y: 0 });
   const [isSlideModalOpen, setIsSlideModalOpen] = useState(false);
-  const [modalContent, setModalContent] = useState(null);
-  const [amount, setAmount] = useState(1);
+  const [modalContent, setModalContent] = useState(0);
+  console.log("modal-content:", modalContent);
   const modalRef = useRef(null);
 
   const handleClick = (event) => {
@@ -206,20 +210,12 @@ const Buybrick = () => {
     setIsSlideModalOpen(false);
   };
 
-  const handleIncreaseAmount = () => {
-    if (amount < 35000) setAmount(amount + 1);
-  };
+  const handlePreviousModal = () => {
+    setModalContent(modalContent - 1)
+  }
 
-  const handleDecreaseAmount = () => {
-    if (amount > 1) setAmount(amount - 1);
-  };
-
-  const handleReadyModal = () => {
-    setModalContent(2);
-  };
-
-  const handleAddressModal = () => {
-    setModalContent(3);
+  const handleNextModal = () => {
+    setModalContent(modalContent + 1);
   };
 
   const handlePaymentModal = () => {
@@ -429,124 +425,21 @@ const Buybrick = () => {
         <div className='modal'>
           <div className='modal-content flex-col flex justify-center items-center relative'>
             <button
-              className='close-button text-4xl'
+              className='modal-previous-button text-4xl'
+              onClick={handlePreviousModal}
+            >
+              &#8592;
+            </button>
+            <button
+              className='modal-close-button text-4xl'
               onClick={handleCloseModal}
             >
               &times;
             </button>
-            {modalContent === 1 && (
-              <>
-                <p className='text-4xl font-montserrat px-8'>
-                  Congratulations!
-                </p>
-                <p className='font-raleway text-xl my-4'>
-                  You have taken a step towards making a significant difference!
-                </p>
-                <p className='font-raleway text-xl my-4'>
-                  How many bricks would you like to contribute to our Wall of
-                  Hope?
-                </p>
-                <div className='flex flex-row'>
-                  <button
-                    className='border px-4 py-2 text-2xl border-gray-400 w-12'
-                    onClick={handleDecreaseAmount}
-                  >
-                    -
-                  </button>
-                  <button className='border px-4 py-2 text-2xl border-gray-400 w-12'>
-                    {amount}
-                  </button>
-                  <button
-                    className='border px-4 py-2 text-2xl border-gray-400 w-12'
-                    onClick={handleIncreaseAmount}
-                  >
-                    +
-                  </button>
-                </div>
-                <p className='font-montserrat text-2xl py-2'>Contribution</p>
-                <p className='font-raleway text-xl py-2'>₹ {10000 * amount}</p>
-                <select className='border px-2 py-2 my-6 cursor-pointer border-gray-400'>
-                  <option>I am a Non-Resident Indian</option>
-                  <option>I am a Foreign National</option>
-                </select>
-                <button
-                  className='text-gray-100 bg-red-700 px-4 py-2 rounded-md'
-                  onClick={handleReadyModal}
-                >
-                  READY TO PAY?
-                </button>
-              </>
-            )}
-            {modalContent === 2 && (
-              <>
-                <p className='text-4xl font-montserrat px-8'>
-                  Donor Information
-                </p>
-                <p className='font-raleway text-xl my-4'>Why we need this?</p>
-                <p className='font-raleway text-xl my-4'>
-                  You have taken a step towards making a significant difference!
-                </p>
-                <input
-                  className='border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2'
-                  placeholder='Full Name'
-                />
-                <input
-                  className='border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2'
-                  placeholder='Mobile'
-                />
-                <input
-                  className='border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2'
-                  placeholder='Email ID'
-                />
-                <input
-                  className='border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2'
-                  placeholder='PAN (if available)'
-                />
-                <input
-                  className='border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2'
-                  placeholder='Aadhaar ID (if available)'
-                />
-                <button
-                  className='text-gray-100 bg-red-700 px-6 py-4 my-4 rounded-md'
-                  onClick={handleAddressModal}
-                >
-                  ADD ADDRESS
-                </button>
-              </>
-            )}
-            {modalContent === 3 && (
-              <>
-                <p className='text-4xl font-montserrat px-8'>
-                  Just one more step!
-                </p>
-                <p className='font-raleway text-xl my-4'>Why we need this?</p>
-                <p className='font-raleway text-xl my-4'>
-                  You have taken a step towards making a significant difference!
-                </p>
-                <input
-                  className='border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2'
-                  placeholder='Address'
-                />
-                <input
-                  className='border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2'
-                  placeholder='Country'
-                />
-                <input
-                  className='border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2'
-                  placeholder='State'
-                />
-                <input
-                  className='border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2'
-                  placeholder='PIN'
-                />
-                <button
-                  className='text-gray-100 bg-red-700 px-4 py-2 my-4 rounded-md'
-                  onClick={handlePaymentModal}
-                >
-                  MAKE PAYMENT
-                </button>
-              </>
-            )}
+
+            {modalContent === 1 && <First handleNextModal={handleNextModal} />}
+            {modalContent === 2 && <DonorInformation handleNextModal={handleNextModal} />}
+            {modalContent === 3 && <DonorAddress handleNextModal={handleNextModal} />}
           </div>
         </div>
       )}
