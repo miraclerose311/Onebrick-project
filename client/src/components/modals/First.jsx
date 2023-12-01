@@ -8,10 +8,10 @@ const First = ({ handleNextModal }) => {
     const dispatch = useDispatch();
 
     const handleIncreaseAmount = () => {
-        dispatch(increaseAmount())
+        amount <= 35000 && dispatch(increaseAmount())
     }
     const handleDecreaseAmount = () => {
-        dispatch(decreaseAmount())
+        amount > 1 && dispatch(decreaseAmount())
     }
     const handleChangeLocation = (e) => {
         dispatch(changeLocation(e.target.value))

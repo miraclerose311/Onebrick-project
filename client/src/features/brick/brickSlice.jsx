@@ -5,13 +5,15 @@ const initialState = {
         id: "",
         amount: 1,
         location: "",
-        donor: {
+        donor_info: {
             name: "",
             mobile: "",
             email: "",
             pan: "",
             aadhaar: "",
             address: "",
+        },
+        donor_address: {
             country: "",
             state: "",
             PIN: ""
@@ -30,23 +32,28 @@ export const brickSlice = createSlice({
     name: 'brick',
     initialState,
     reducers: {
-        add_donor_info: (state, action) => {
-            // state.brick.donor = Object.assign(...state.brick.donor, action.payload)
-            console.log(action.payload)
-        },
-        increaseAmount: (state, action) => {
+        increaseAmount: state => {
             state.brick.amount += 1
         },
-        decreaseAmount: (state, action) => {
+        decreaseAmount: state => {
             state.brick.amount -= 1
         },
         changeLocation: (state, action) => {
             state.brick.location = action.payload
+        },
+        add_donor_info: (state, action) => {
+            state.brick.donor_info = action.payload
+        },
+        add_donor_address: (state, action) => {
+            state.brick.donor_address = action.payload
+        },
+        add_dedication: (state, action) => {
+            state.brick.dedication = action.payload
         }
     },
 });
 
 // Action creators are generated for each case reducer function
-export const { add_donor_info, increaseAmount, decreaseAmount, changeLocation } = brickSlice.actions;
+export const { increaseAmount, decreaseAmount, changeLocation, add_donor_info, add_donor_address, add_dedication, } = brickSlice.actions;
 
 export default brickSlice.reducer;

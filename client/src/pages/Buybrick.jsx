@@ -9,7 +9,8 @@ import {
 import { Menu, Transition } from '@headlessui/react';
 // import { logout } from '../features/auth/authSlice';
 // import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
 
@@ -22,11 +23,15 @@ import './Modal.css';
 import First from '../components/modals/First';
 import DonorInformation from '../components/modals/Donor_info';
 import DonorAddress from '../components/modals/Donor_address';
+import Video from '../components/modals/Video';
+import DedicationForm from '../components/modals/Dedication_form';
+import DedicationConfirm from '../components/modals/Dedication_confirm';
+import { set } from 'mongoose';
 
 const Buybrick = () => {
-  // const navigate = useNavigate();
-  // const { isAuthenticated } = useSelector((state) => state.auth);
-  // console.log('isAuthenticated => ', isAuthenticated);
+  const navigate = useNavigate();
+  const { isAuthenticated } = useSelector((state) => state.auth);
+  console.log('isAuthenticated => ', isAuthenticated);
 
   // Create bricks states
   const [bricks, setBricks] = useState([]);
@@ -185,21 +190,31 @@ const Buybrick = () => {
   const [modalPosition, setModalPosition] = useState({ x: 0, y: 0 });
   const [isSlideModalOpen, setIsSlideModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState(0);
-  console.log("modal-content:", modalContent);
+
   const modalRef = useRef(null);
 
-  const handleClick = (event) => {
+  const handleClick = (e) => {
+
     // Get the position of the clicked point
-    const x = event.clientX;
-    const y = event.clientY;
+    const x = e.clientX;
+    const y = e.clientY;
 
     // Set the position of the modal relative to the clicked point
-    setModalPosition({ x: x + 20, y: y + 20 });
+    setModalPosition({ x: x + 10, y: y + 10 });
+    if (x > 1000) setModalPosition({ x: x - 220, y: y });
+    if (y > 600) setModalPosition({ x: x, y: y - 300 });
 
     // Open the modal
     setIsModalOpen(true);
   };
 
+  const handleRightClick = (e) => {
+    e.preventDefault();
+
+    //Close modal when right clicked
+    setIsModalOpen(false)
+    setClickedId(null)
+  }
   const handleBuyButtonClicked = () => {
     setIsSlideModalOpen(true);
     setModalContent(1);
@@ -236,7 +251,7 @@ const Buybrick = () => {
 
   return (
     <div className='text-center items-center h-screen min-w-[500px] bg-gray-600 w-full flex itmes-center sm:justify-center'>
-      <div className='fixed top-12 right-4 sm:right-8 md:right-12 lg:right-18 xl:right-24 flex justify-around p-3 itmes-center min-w-[400px] z-10'>
+      <div className='fixed top-12 right-32 sm:right-8 md:right-12 lg:right-18 xl:right-24 flex justify-around p-3 itmes-center min-w-[400px] z-10'>
         <Menu as='div' className='relative flex justify-center itmes-center'>
           <Menu.Button className='btn btn-change px-3 rounded-lg hover:border-2 hover:border-sky-400'>
             <svg
@@ -385,7 +400,7 @@ const Buybrick = () => {
           />
         </Link>
       </div>
-      <div className='fixed left-16 bottom-16 w-1/3 sm:w-1/4 md:w-1/5 lg:w-1/6 flex flex-col items-center z-10'>
+      <div className='fixed left-32 bottom-16 w-1/3 sm:w-1/4 md:w-1/5 lg:w-1/6 flex flex-col items-center z-10'>
         <div className='font-montserrat text-sky-500 font-bold'>
           17000 / 35000
         </div>
@@ -438,13 +453,16 @@ const Buybrick = () => {
             {modalContent === 1 && <First handleNextModal={handleNextModal} />}
             {modalContent === 2 && <DonorInformation handleNextModal={handleNextModal} />}
             {modalContent === 3 && <DonorAddress handleNextModal={handleNextModal} />}
+            {modalContent === 4 && <Video handleNextModal={handleNextModal} />}
+            {modalContent === 5 && <DedicationForm handleNextModal={handleNextModal} />}
+            {modalContent === 6 && <DedicationConfirm handleNextModal={handleNextModal} />}
           </div>
         </div>
       )}
       <div
         className='w-full h-full bg-gray-400 flex justify-center items-center relative'
         ref={containerRef}
-        onClick={handleClick}
+
       >
         {imageScale > 0 && (
           <TransformWrapper
@@ -461,7 +479,7 @@ const Buybrick = () => {
                 height: '100%',
               }}
             >
-              <div className='relative'>
+              <div className='relative' onClick={handleClick}>
                 <div className='absolute top-0 left-0 w-full h-full flex flex-col'>
                   {renderBricks()}
                 </div>
@@ -473,12 +491,13 @@ const Buybrick = () => {
                     height: `2800px`,
                   }}
                 />
+
               </div>
             </TransformComponent>
           </TransformWrapper>
         )}
       </div>
-    </div>
+    </div >
   );
 };
 
