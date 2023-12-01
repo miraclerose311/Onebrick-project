@@ -1,38 +1,15 @@
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
-import { Fragment } from 'react';
-import { Menu, Transition } from '@headlessui/react';
-import { logout } from '../features/auth/authSlice';
 
-// import Dropdown from './Dropdown';
 import logoImg from '../assets/img/logo.png';
-import UserImg from '../assets/img/user.png';
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ');
-}
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const navigate = useNavigate();
   const { isAuthenticated } = useSelector((state) => state.auth);
-  const dispatch = useDispatch();
 
   console.log('isAuthenticated => ', isAuthenticated);
-
-  // const onBuybrick = () => {
-  //   if (isAuthenticated) {
-  //     navigate('/buybrick');
-  //   } else {
-  //     navigate('/login');
-  //   }
-  // };
-
-  const onLogout = () => {
-    dispatch(logout());
-  };
 
   const DropdownNavbar = () => (
     <div className='text-center flex flex-col md:hidden '>
@@ -61,12 +38,11 @@ export default function Navbar() {
           <img src={logoImg} className='h-20 w-40 max-w-none' alt='Logo' />
         </Link>
         <div className='flex flex-row items-center md:right justify-center'>
-          <ul className='hidden lg:flex lg:flex-row lg:justify-center p-2 mr-2 xl:mr-8 rounded-lg md:p-0 items-center'>
+          <ul className='hidden lg:flex lg:flex-row lg:justify-center p-2 mr-2 lg:mr-2 xl:mr-8 rounded-lg md:p-0 items-center'>
             <li>
               <Link
                 to='/'
                 className='block py-2 text-gray-700 hover:decoration-2 hover:underline rounded text-lg mx-2 lg:mx-4'
-                aria-current='page'
               >
                 HOME
               </Link>
