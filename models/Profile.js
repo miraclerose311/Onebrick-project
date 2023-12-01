@@ -9,6 +9,22 @@ const ProfileSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  indian: {
+    type: Boolean,
+    default: true
+  },
+  address: {
+    type: String,
+  },
+  country: {
+    type: String,
+  },
+  state: {
+    type: String,
+  },
+  pin: {
+    type: String,
+  }
 });
 
 module.exports = mongoose.model('profile', ProfileSchema);
