@@ -229,8 +229,6 @@ const Buybrick = () => {
     setIsModalOpen(false);
   };
 
-  console.log(modalContent);
-
   // const handleBrickDrag = (e) => {
   //   const id = e.target.id;
   //   const brick = bricks.find((item) => item.id === id);

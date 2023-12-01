@@ -1,5 +1,5 @@
-import { useState } from "react"
-import { useDispatch } from "react-redux"
+import { useEffect, useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
 import { add_donor_info } from "../../features/brick/brickSlice"
 
 const DonorInformation = ({ handleNextModal }) => {
@@ -9,17 +9,24 @@ const DonorInformation = ({ handleNextModal }) => {
     const [pan, setPan] = useState('')
     const [aadhaar, setAadhaar] = useState('')
 
+    const { donor } = useSelector(state => state.brick.brick)
     const dispatch = useDispatch();
-
+    useEffect(() => {
+        setName(donor.name)
+        setMobile(donor.mobile)
+        setEmail(donor.email)
+        setPan(donor.pan)
+        setAadhaar(donor.aadhaar)
+    }, [])
     const handleSubmit = (e) => {
-        const donorInfor = {
+        const donor = {
             name,
             mobile,
             email,
             pan,
             aadhaar
         }
-        dispatch(add_donor_info(donorInfor))
+        dispatch(add_donor_info(donor))
         handleNextModal()
     }
 

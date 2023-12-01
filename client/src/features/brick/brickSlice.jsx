@@ -9,8 +9,8 @@ const initialState = {
             name: "",
             mobile: "",
             email: "",
-            PAN: "",
-            aadhaar_id: "",
+            pan: "",
+            aadhaar: "",
             address: "",
             country: "",
             state: "",
@@ -31,7 +31,8 @@ export const brickSlice = createSlice({
     initialState,
     reducers: {
         add_donor_info: (state, action) => {
-            state.brick.donor = action.payload
+            // state.brick.donor = Object.assign(...state.brick.donor, action.payload)
+            console.log(action.payload)
         },
         increaseAmount: (state, action) => {
             state.brick.amount += 1
