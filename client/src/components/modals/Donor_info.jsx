@@ -9,24 +9,25 @@ const DonorInformation = ({ handleNextModal }) => {
     const [pan, setPan] = useState('')
     const [aadhaar, setAadhaar] = useState('')
 
-    const { donor } = useSelector(state => state.brick.brick)
+    const { donor_info } = useSelector(state => state.brick.brick)
     const dispatch = useDispatch();
     useEffect(() => {
-        setName(donor.name)
-        setMobile(donor.mobile)
-        setEmail(donor.email)
-        setPan(donor.pan)
-        setAadhaar(donor.aadhaar)
+        setName(donor_info.name)
+        setMobile(donor_info.mobile)
+        setEmail(donor_info.email)
+        setPan(donor_info.pan)
+        setAadhaar(donor_info.aadhaar)
     }, [])
+
     const handleSubmit = (e) => {
-        const donor = {
+        const infoData = {
             name,
             mobile,
             email,
             pan,
             aadhaar
         }
-        dispatch(add_donor_info(donor))
+        dispatch(add_donor_info(infoData))
         handleNextModal()
     }
 
