@@ -7,23 +7,16 @@ import {
   useState,
 } from 'react';
 import { Menu, Transition } from '@headlessui/react';
-// import { logout } from '../features/auth/authSlice';
-// import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
 
 import brickImage from '../assets/img/alpha_building_high_res.jpg';
 import { brickIds } from '../utils';
 
-// import BrickBuyModal from '../components/BrickBuyModal';
 import UserImg from '../assets/img/user.png';
 import './Modal.css';
 
 const Buybrick = () => {
-  // const navigate = useNavigate();
-  // const { isAuthenticated } = useSelector((state) => state.auth);
-  // console.log('isAuthenticated => ', isAuthenticated);
-
   // Create bricks states
   const [bricks, setBricks] = useState([]);
   const [clickedId, setClickedId] = useState(null);
@@ -43,8 +36,6 @@ const Buybrick = () => {
     useCallback;
   }, []);
 
-  // console.log(bricks);
-
   // Initialize container and image states
   const containerRef = useRef();
 
@@ -62,16 +53,6 @@ const Buybrick = () => {
   function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
   }
-
-  // const onLogout = () => {
-  //   dispatch(logout());
-  // };
-
-  // useEffect(() => {
-  //   if (!isAuthenticated) {
-  //     navigate('/login');
-  //   }
-  // }, [isAuthenticated, navigate]);
 
   const handleResize = useCallback(() => {
     if (containerRef !== null) {
@@ -233,8 +214,6 @@ const Buybrick = () => {
     setIsModalOpen(false);
     setAmount(1);
   };
-
-  console.log(modalContent);
 
   return (
     <div className='text-center items-center h-screen min-w-[500px] bg-gray-600 w-full flex itmes-center sm:justify-center'>
