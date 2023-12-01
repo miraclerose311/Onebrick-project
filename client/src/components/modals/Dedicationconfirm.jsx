@@ -2,15 +2,16 @@
 
 import { useState, useEffect } from "react"
 import { useSelector, useDispatch } from "react-redux";
+import { FaAnglesRight } from "react-icons/fa6";
 import { add_dedication } from "../../features/brick/brickSlice"
 import user from '../../assets/img/user.png'
 
-const DedicationConfirm = ({ handleNextModal }) => {
+const DedicationConfirm = ({ handleSold }) => {
 
     //Declear States for Dedication Form
     const [name, setName] = useState('')
     const [relationship, setRelationship] = useState('')
-    const [message, setMessage] = useState('');
+    // const [message, setMessage] = useState('');
     const [image, setImage] = useState(null);
 
     //Get Dedication data from Redux for display when redirect
@@ -19,17 +20,12 @@ const DedicationConfirm = ({ handleNextModal }) => {
     useEffect(() => {
         setName(dedication.name)
         setRelationship(dedication.relationship)
-        setMessage(dedication.message)
+        // setMessage(dedication.message)
         setImage(dedication.image)
     }, [])
 
-    const dispatch = useDispatch();
     const handleSubmit = (e) => {
-        const dedicationData = {
-            name, relationship, message, image
-        }
-        dispatch(add_dedication(dedicationData))
-        // handleNextModal()
+        handleSold()
     }
 
     return (
@@ -71,7 +67,8 @@ const DedicationConfirm = ({ handleNextModal }) => {
                 className='text-gray-100 bg-red-700 px-4 py-2 my-4 rounded-md'
                 onClick={handleSubmit}
             >
-                MAKE PAYMENT
+                <span className='flex flex-row items-center justify-between gap-x-3'>CONGRATULATION<FaAnglesRight /></span>
+
             </button>
         </>
     )

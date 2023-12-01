@@ -49,11 +49,14 @@ export const brickSlice = createSlice({
         },
         add_dedication: (state, action) => {
             state.brick.dedication = action.payload
+        },
+        clear_brick: (state) => {
+            state.brick = initialState.brick
         }
     },
 });
 
 // Action creators are generated for each case reducer function
-export const { increaseAmount, decreaseAmount, changeLocation, add_donor_info, add_donor_address, add_dedication, } = brickSlice.actions;
+export const { increaseAmount, decreaseAmount, changeLocation, add_donor_info, add_donor_address, add_dedication, clear_brick } = brickSlice.actions;
 
 export default brickSlice.reducer;

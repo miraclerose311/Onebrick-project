@@ -6,30 +6,38 @@ import {
   useRef,
   useState,
 } from 'react';
+
 import { Menu, Transition } from '@headlessui/react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-
+import { useDispatch, useSelector } from 'react-redux';
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
 
 import brickImage from '../assets/img/alpha_building_high_res.jpg';
 import { brickIds } from '../utils';
 
+import { logout } from '../features/auth/authSlice'
+
+//modal components and css, icons
+import Enter from '../components/modals/Enter';
+import DonorInformation from '../components/modals/Donorinfo';
+import DonorAddress from '../components/modals/Donoraddress';
+import Video from '../components/modals/Video';
+import DedicationForm from '../components/modals/Dedicationform';
+import DedicationConfirm from '../components/modals/Dedicationconfirm';
 import UserImg from '../assets/img/user.png';
 import './Modal.css';
-import First from '../components/modals/First';
-import DonorInformation from '../components/modals/Donor_info';
-import DonorAddress from '../components/modals/Donor_address';
-import Video from '../components/modals/Video';
-import DedicationForm from '../components/modals/Dedication_form';
-import DedicationConfirm from '../components/modals/Dedication_confirm';
-import { set } from 'mongoose';
+
+//icons
+import { TiArrowLeftThick } from "react-icons/ti";
+import { MdCancel } from "react-icons/md";
+import { FcMenu } from "react-icons/fc";
+import { clear_brick } from '../features/brick/brickSlice';
 
 const Buybrick = () => {
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { isAuthenticated } = useSelector((state) => state.auth);
-  console.log('isAuthenticated => ', isAuthenticated);
 
   // Create bricks states
   const [bricks, setBricks] = useState([]);
@@ -134,7 +142,6 @@ const Buybrick = () => {
           : { ...item, clicked: false }
       );
     });
-
   }, [clickedId]);
 
   const renderBricks = () => {
@@ -176,7 +183,6 @@ const Buybrick = () => {
   const modalRef = useRef(null);
 
   const handleClick = (e) => {
-
     // Get the position of the clicked point
     const x = e.clientX;
     const y = e.clientY;
@@ -192,7 +198,6 @@ const Buybrick = () => {
 
   const handleRightClick = (e) => {
     e.preventDefault();
-
     //Close modal when right clicked
     setIsModalOpen(false)
     setClickedId(null)
@@ -203,14 +208,17 @@ const Buybrick = () => {
   };
 
   const handleBuyButtonClicked = () => {
-    setIsSlideModalOpen(true);
-    setModalContent(1);
-    setIsModalOpen(false);
+    if (isAuthenticated) {
+      setIsSlideModalOpen(true);
+      setModalContent(1);
+      setIsModalOpen(false);
+    } else {
+      navigate('/login')
+    }
   };
 
   const handleCloseModal = () => {
     setIsSlideModalOpen(false);
-    setAmount(1);
   };
 
   const handlePreviousModal = () => {
@@ -221,6 +229,18 @@ const Buybrick = () => {
     setModalContent(modalContent + 1);
   };
 
+  const handleSold = () => {
+    setBricks((prev) => {
+      const new_state = [...prev];
+      return new_state.map((item) =>
+        item.id === clickedId
+          ? { ...item, clicked: false, sold: true }
+          : { ...item, clicked: false }
+      );
+    });
+    setIsSlideModalOpen(false);
+    dispatch(clear_brick());
+  }
   const handlePaymentModal = () => {
     setIsSlideModalOpen(false);
     setBricks((prev) => {
@@ -238,21 +258,7 @@ const Buybrick = () => {
       <div className='fixed top-12 right-32 sm:right-8 md:right-12 lg:right-18 xl:right-24 flex justify-around p-3 itmes-center min-w-[400px] z-10'>
         <Menu as='div' className='relative flex justify-center itmes-center'>
           <Menu.Button className='btn btn-change px-3 rounded-lg hover:border-2 hover:border-sky-400'>
-            <svg
-              className='w-5 h-5'
-              aria-hidden='true'
-              xmlns='http://www.w3.org/2000/svg'
-              fill='none'
-              viewBox='0 0 17 14'
-            >
-              <path
-                stroke='currentColor'
-                strokeLinecap='round'
-                strokeLinejoin='round'
-                strokeWidth='2'
-                d='M1 1h15M1 7h15M1 13h15'
-              />
-            </svg>
+            <FcMenu className='text-4xl' />
           </Menu.Button>
 
           <Transition
@@ -377,12 +383,11 @@ const Buybrick = () => {
             </Menu.Items>
           </Transition>
         </Menu> */}
-        <Link className='ml-2' to='#'>
-          <img
-            src={UserImg}
-            className='h-10 hover:border-2 border-sky-400 rounded-full'
-          />
-        </Link>
+        <img
+          src={UserImg}
+          className='h-10 hover:border-2 border-sky-400 rounded-full'
+          onClick={e => dispatch(logout())}
+        />
       </div>
       <div className='fixed left-32 bottom-16 w-1/3 sm:w-1/4 md:w-1/5 lg:w-1/6 flex flex-col items-center z-10'>
         <div className='font-montserrat text-sky-500 font-bold'>
@@ -421,32 +426,31 @@ const Buybrick = () => {
       {isSlideModalOpen && modalContent !== 0 && (
         <div className='modal'>
           <div className='modal-content flex-col flex justify-center items-center relative'>
-            <button
-              className='modal-previous-button text-4xl'
+            <TiArrowLeftThick
+              className='modal-previous-button text-2xl'
               onClick={handlePreviousModal}
-            >
-              &#8592;
-            </button>
-            <button
-              className='modal-close-button text-4xl'
+            />
+
+            <MdCancel
+              className='modal-close-button text-2xl'
               onClick={handleCloseModal}
-            >
-              &times;
-            </button>
-            {modalContent === 1 && <First handleNextModal={handleNextModal} />}
+            />
+            {modalContent === 1 && <Enter handleNextModal={handleNextModal} />}
             {modalContent === 2 && <DonorInformation handleNextModal={handleNextModal} />}
             {modalContent === 3 && <DonorAddress handleNextModal={handleNextModal} />}
             {modalContent === 4 && <Video handleNextModal={handleNextModal} />}
             {modalContent === 5 && <DedicationForm handleNextModal={handleNextModal} />}
-            {modalContent === 6 && <DedicationConfirm handleNextModal={handleNextModal} />}
+            {modalContent === 6 && <DedicationConfirm handleSold={handleSold} />}
 
           </div>
         </div>
-      )}
+      )
+      }
       <div
         className='w-full h-full bg-gray-400 flex justify-center items-center relative'
         ref={containerRef}
         onClick={handleClick}
+        onContextMenu={handleRightClick}
         onMouseDown={handleMouseDown}
       >
         {imageScale > 0 && (

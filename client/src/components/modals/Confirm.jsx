@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { add_dedication } from "../../features/brick/brickSlice"
 import user from '../../assets/img/user.png'
 
-const DedicationForm = ({ handleNextModal }) => {
+const Confirm = ({ handleSold }) => {
 
     //Declear States for Dedication Form
     const [name, setName] = useState('')
@@ -29,7 +29,7 @@ const DedicationForm = ({ handleNextModal }) => {
             // : JSON.stringify(image)
         }
         dispatch(add_dedication(dedicationData))
-        handleNextModal()
+        handleSold()
     }
 
     return (
@@ -93,4 +93,4 @@ const DedicationForm = ({ handleNextModal }) => {
     )
 }
 
-export default DedicationForm
+export default Confirm

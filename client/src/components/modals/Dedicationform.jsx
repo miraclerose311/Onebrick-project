@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react"
 import { useSelector, useDispatch } from "react-redux";
 import { add_dedication } from "../../features/brick/brickSlice"
+import { FaAnglesRight } from "react-icons/fa6";
 import user from '../../assets/img/user.png'
 
 const DedicationForm = ({ handleNextModal }) => {
@@ -87,7 +88,8 @@ const DedicationForm = ({ handleNextModal }) => {
                 className='text-gray-100 bg-red-700 px-4 py-2 my-4 rounded-md'
                 onClick={handleSubmit}
             >
-                MAKE PAYMENT
+                <span className='flex flex-row items-center justify-between gap-x-3'>SAVE DEDICATION<FaAnglesRight /></span>
+
             </button>
         </>
     )

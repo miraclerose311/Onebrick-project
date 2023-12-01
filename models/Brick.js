@@ -6,7 +6,12 @@ const BrickSchema = new mongoose.Schema({
     required: true,
     unique: true
   },
-  count: {
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'user',
+    required: true
+  },
+  amount: {
     type: Number,
     required: true,
     default: 1,
@@ -16,12 +21,9 @@ const BrickSchema = new mongoose.Schema({
     required: true
   },
   donor: {
-    name: String,
     mobile: String,
-    email: String,
     PAN: String,
     aadhaar_id: String,
-    address: String,
     address: String,
     country: String,
     state: String,

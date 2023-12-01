@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { add_donor_info } from "../../features/brick/brickSlice"
+import { FaAnglesRight } from "react-icons/fa6";
+import { toast, ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 
 const DonorInformation = ({ handleNextModal }) => {
     const [name, setName] = useState('')
@@ -19,20 +22,34 @@ const DonorInformation = ({ handleNextModal }) => {
         setAadhaar(donor_info.aadhaar)
     }, [])
 
+    const notify = () => {
+        toast.warn("Please fill in the required fields.", {
+            position: "bottom-left",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeOnClick: true,
+        })
+    }
     const handleSubmit = (e) => {
-        const infoData = {
-            name,
-            mobile,
-            email,
-            pan,
-            aadhaar
+        if (name === '' || mobile === '' || email === '') {
+            notify();
         }
-        dispatch(add_donor_info(infoData))
-        handleNextModal()
+        else {
+            const infoData = {
+                name,
+                mobile,
+                email,
+                pan,
+                aadhaar
+            }
+            dispatch(add_donor_info(infoData))
+            handleNextModal()
+        }
     }
 
     return (
         <>
+            <ToastContainer />
             <p className='text-4xl font-montserrat px-8'>
                 Donor Information
             </p>
@@ -79,7 +96,7 @@ const DonorInformation = ({ handleNextModal }) => {
                 className='text-gray-100 bg-red-700 px-6 py-2 my-4 rounded-md'
                 onClick={handleSubmit}
             >
-                ADD ADDRESS
+                <span className='flex flex-row items-center justify-between gap-x-3'>ADD ADDRESS <FaAnglesRight /></span>
             </button>
         </>
     )
