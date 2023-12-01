@@ -7,8 +7,6 @@ import {
   useState,
 } from 'react';
 import { Menu, Transition } from '@headlessui/react';
-// import { logout } from '../features/auth/authSlice';
-// import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
@@ -16,7 +14,6 @@ import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
 import brickImage from '../assets/img/alpha_building_high_res.jpg';
 import { brickIds } from '../utils';
 
-// import BrickBuyModal from '../components/BrickBuyModal';
 import UserImg from '../assets/img/user.png';
 import './Modal.css';
 import First from '../components/modals/First';
@@ -24,10 +21,6 @@ import DonorInformation from '../components/modals/Donor_info';
 import DonorAddress from '../components/modals/Donor_address';
 
 const Buybrick = () => {
-  // const navigate = useNavigate();
-  // const { isAuthenticated } = useSelector((state) => state.auth);
-  // console.log('isAuthenticated => ', isAuthenticated);
-
   // Create bricks states
   const [bricks, setBricks] = useState([]);
   const [clickedId, setClickedId] = useState(null);
@@ -47,8 +40,6 @@ const Buybrick = () => {
     useCallback;
   }, []);
 
-  // console.log(bricks);
-
   // Initialize container and image states
   const containerRef = useRef();
 
@@ -66,16 +57,6 @@ const Buybrick = () => {
   function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
   }
-
-  // const onLogout = () => {
-  //   dispatch(logout());
-  // };
-
-  // useEffect(() => {
-  //   if (!isAuthenticated) {
-  //     navigate('/login');
-  //   }
-  // }, [isAuthenticated, navigate]);
 
   const handleResize = useCallback(() => {
     if (containerRef !== null) {
@@ -129,24 +110,22 @@ const Buybrick = () => {
     image.src = src;
   }, [src]);
 
-  // const [isDragging, setIsDragging] = useState(false);
-
-  // Brick events
-  const handleBrickClicked = (e) => {
+  const handleBrickDown = (e) => {
     const id = e.target.id;
     setClickedId(id);
+  };
 
+  useEffect(() => {
     setBricks((prev) => {
       const new_state = [...prev];
       return new_state.map((item) =>
-        item.id === id
+        item.id === clickedId
           ? { ...item, clicked: true }
           : { ...item, clicked: false }
       );
     });
-  };
 
-  useEffect(() => { }, [clickedId]);
+  }, [clickedId]);
 
   const renderBricks = () => {
     const colBricks = [];
@@ -167,9 +146,7 @@ const Buybrick = () => {
                   bricks[index].clicked ? 'bg-yellow-500' : 'bg-gray-100',
                   bricks[index].sold && 'opacity-0'
                 )}
-                onClick={handleBrickClicked}
-              // onMouseDown={handleMouseDown}
-              // onMouseUp={handleMouseUp}
+                onMouseDown={handleBrickDown}
               />
             );
           })}
@@ -200,6 +177,10 @@ const Buybrick = () => {
     setIsModalOpen(true);
   };
 
+  const handleMouseDown = () => {
+    setIsModalOpen(false);
+  };
+
   const handleBuyButtonClicked = () => {
     setIsSlideModalOpen(true);
     setModalContent(1);
@@ -208,6 +189,7 @@ const Buybrick = () => {
 
   const handleCloseModal = () => {
     setIsSlideModalOpen(false);
+    setAmount(1);
   };
 
   const handlePreviousModal = () => {
@@ -227,12 +209,8 @@ const Buybrick = () => {
       );
     });
     setIsModalOpen(false);
+    setAmount(1);
   };
-
-  // const handleBrickDrag = (e) => {
-  //   const id = e.target.id;
-  //   const brick = bricks.find((item) => item.id === id);
-  //   const brick_index = bricks.findIndex((item)
 
   return (
     <div className='text-center items-center h-screen min-w-[500px] bg-gray-600 w-full flex itmes-center sm:justify-center'>
@@ -434,10 +412,10 @@ const Buybrick = () => {
             >
               &times;
             </button>
-
             {modalContent === 1 && <First handleNextModal={handleNextModal} />}
             {modalContent === 2 && <DonorInformation handleNextModal={handleNextModal} />}
             {modalContent === 3 && <DonorAddress handleNextModal={handleNextModal} />}
+                  
           </div>
         </div>
       )}
@@ -445,6 +423,7 @@ const Buybrick = () => {
         className='w-full h-full bg-gray-400 flex justify-center items-center relative'
         ref={containerRef}
         onClick={handleClick}
+        onMouseDown={handleMouseDown}
       >
         {imageScale > 0 && (
           <TransformWrapper
