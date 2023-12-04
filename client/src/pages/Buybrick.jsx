@@ -328,21 +328,6 @@ const Buybrick = () => {
         />
       </div>
       <ProgressBar />
-      {
-        loading && <div className='flex left-0 top-0 w-full h-full bg-gray-300 opacity-80 justify-center items-center absolute z-1000'>
-                      <Oval
-                        height={80}
-                        width={80}
-                        color="#0369a1"
-                        wrapperStyle={{}}
-                        wrapperClass=""
-                        visible={true}
-                        ariaLabel='oval-loading'
-                        secondaryColor="#0369a1"
-                        strokeWidth={2}
-                        strokeWidthSecondary={2}
-                      />
-                    </div>}
       {isModalOpen && <BuyBrick modalPosition={modalPosition} clickedIndex={bricks[clickedIndex].brick_id} handleBuyButtonClicked={handleBuyButtonClicked} />}
       {isBrickInfoModalOpen && <BrickInfo brickInfo={hovered} modalPosition={modalPosition} />}
       {isSlideModalOpen && modalContent !== 0 && (
@@ -392,7 +377,20 @@ const Buybrick = () => {
               <div className='relative' onClick={handlePanClick}>
                 <div className='absolute top-0 left-0 w-full h-full flex flex-col'>
                   {
-                    !loading && renderBricks()
+                    loading ? (<div className='flex left-0 top-0 w-full h-full bg-gray-300 opacity-95 justify-center items-center absolute z-1000'>
+                    <Oval
+                      height={80}
+                      width={80}
+                      color="#0369a1"
+                      wrapperStyle={{}}
+                      wrapperClass=""
+                      visible={true}
+                      ariaLabel='oval-loading'
+                      secondaryColor="#0369a1"
+                      strokeWidth={2}
+                      strokeWidthSecondary={2}
+                    />
+                  </div>) : renderBricks()
                   }
                   {/* {<CircularProgress disableShrink />} */}
                 </div>
