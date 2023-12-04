@@ -24,22 +24,34 @@ export const initialBricks = () => async (dispatch) => {
 
 export const soldAmout = () => async (dispatch) => {
   try {
-    await api.get('/brick/sold_amount').then((res) => {
+    await api.get('/brick/sold_amount')
+    .then((res) => {
       dispatch(setSoldAmount(res.data));
-    })
+    }) 
   } catch (e) {
     console.log(e);
   }
 }
 
-export const buy = (brick_id, index) => async (dispatch) => {
+export const buy = (brick_id, user, amount, index) => async (dispatch) => {
   try {
-    await api.post('/brick/buy', { brick_id }).then((res) => {
+    await api.post('/brick/buy', { brick_id, user, amount }).then((res) => {
       dispatch(soldBrick({ brick_id, index }))
     }).catch((err) => {
       console.log(err);
     });
   } catch (e) {
     console.log(e);
+  }
+}
+
+export const insertDedication = (dedication) => async (dispatch) => {
+  try {
+    await api.post('/brick/dedication_insert', dedication)
+      .then(res => {
+        console.log(res.data);
+      })
+  } catch (e) {
+    console.log(e)
   }
 }

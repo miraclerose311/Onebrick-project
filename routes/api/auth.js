@@ -79,18 +79,17 @@ router.post('/google-login', async (req, res) => {
           Accept: 'application/json',
         },
       }
-    );
-    const { email } = response.data;
-    console.log(email)
-
-    let user = await User.findOne({ email });
+      );
+      const { email } = response.data;
+      
+      let user = await User.findOne({ email });
     // Check if there is a user this email
     if (!user) {
       console.log('This user does not exists');
       return res.status(400).json({ Error: 'This user does not exists' });
     }
 
-    return res.status(200).json({ user });
+    return res.status(200).json(user);
   } catch (e) {
     console.log(e);
     res.status(400).send();

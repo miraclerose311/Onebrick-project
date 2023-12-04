@@ -11,7 +11,6 @@ const DedicationConfirm = ({ handleSold }) => {
     //Declear States for Dedication Form
     const [name, setName] = useState('')
     const [relationship, setRelationship] = useState('')
-    // const [message, setMessage] = useState('');
     const [image, setImage] = useState(null);
 
     //Get Dedication data from Redux for display when redirect
@@ -20,8 +19,7 @@ const DedicationConfirm = ({ handleSold }) => {
     useEffect(() => {
         setName(dedication.name)
         setRelationship(dedication.relationship)
-        // setMessage(dedication.message)
-        setImage(dedication.image)
+        // setImage(dedication.image)
     }, [])
 
     const handleSubmit = (e) => {

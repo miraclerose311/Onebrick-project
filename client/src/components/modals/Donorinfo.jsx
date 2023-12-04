@@ -6,20 +6,20 @@ import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 
 const DonorInformation = ({ handleNextModal }) => {
-    const [name, setName] = useState('')
+    const [fullName, setName] = useState('')
     const [mobile, setMobile] = useState('')
     const [email, setEmail] = useState('')
     const [pan, setPan] = useState('')
     const [aadhaar, setAadhaar] = useState('')
 
-    const { donor_info } = useSelector(state => state.brick.brick)
+    const { donor } = useSelector(state => state.brick)
     const dispatch = useDispatch();
     useEffect(() => {
-        setName(donor_info.name)
-        setMobile(donor_info.mobile)
-        setEmail(donor_info.email)
-        setPan(donor_info.pan)
-        setAadhaar(donor_info.aadhaar)
+        setName(donor.fullName)
+        setMobile(donor.mobile)
+        setEmail(donor.email)
+        setPan(donor.pan)
+        setAadhaar(donor.aadhaar)
     }, [])
 
     const notify = () => {
@@ -31,12 +31,12 @@ const DonorInformation = ({ handleNextModal }) => {
         })
     }
     const handleSubmit = (e) => {
-        if (name === '' || mobile === '' || email === '') {
+        if (fullName === '' || mobile === '' || email === '') {
             notify();
         }
         else {
             const infoData = {
-                name,
+                fullName,
                 mobile,
                 email,
                 pan,
@@ -59,7 +59,7 @@ const DonorInformation = ({ handleNextModal }) => {
             </p>
             <input
                 type="text"
-                value={name}
+                value={fullName}
                 onChange={e => setName(e.target.value)}
                 className='border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2'
                 placeholder='Full Name'

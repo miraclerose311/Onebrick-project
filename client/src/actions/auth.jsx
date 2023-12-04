@@ -7,8 +7,7 @@ export const googleRegister = (access_token) => async (dispatch) => {
       '/auth/google-register',
       JSON.stringify({ access_token })
     );
-    console.log(res.data);
-    dispatch(login());
+
   } catch (e) {
     if (e.response.data['Error'] == 'This user already exists') {
       window.alert('This user already exists');
@@ -19,18 +18,15 @@ export const googleRegister = (access_token) => async (dispatch) => {
 };
 
 export const googleLogin = (access_token) => async (dispatch) => {
+  
   try {
     const res = await api.post(
       '/auth/google-login',
       JSON.stringify({ access_token })
     );
-    console.log(res.data);
-    dispatch(login());
+    dispatch(login(res.data));
   } catch (e) {
-    if (e.response.data['Error'] == "This user does not exists") {
-      window.alert('This user does not exists')
-    } else {
-      window.alert('Some error ocurred')
-    }
+    console.log(e)
+      // window.alert('This user does not exists')
   }
 };

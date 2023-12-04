@@ -12,3 +12,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+.custom-shadow {
+  box-shadow: 0 0 50px 20px  rgb(233, 40, 14)
+}

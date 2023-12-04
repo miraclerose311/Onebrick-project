@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
 
 const DonorSchema = new mongoose.Schema({
+  user_id: {
+    type: String,
+  },
   fullName: {
     type: String,
     required: true

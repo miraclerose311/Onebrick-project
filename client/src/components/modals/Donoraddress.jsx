@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react"
 import { useSelector, useDispatch } from "react-redux";
 import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
-import { add_donor_address } from "../../features/brick/brickSlice"
+import { add_donor_info } from "../../features/brick/brickSlice"
+import { insertDonor } from "../../actions/donor";
+
 import { FaAnglesRight } from "react-icons/fa6";
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
@@ -24,29 +26,35 @@ const DonorAddress = ({ handleNextModal }) => {
     }
 
     //Get Donor Address from Redux for display when redirect
-    const { donor_address } = useSelector(state => state.brick.brick)
+    const { donor } = useSelector(state => state.brick)
+    const user_id = localStorage.getItem('user')
 
     useEffect(() => {
-        setAddress(donor_address.address)
-        setCountry(donor_address.country)
-        setState(donor_address.state)
-        setPin(donor_address.pin)
+        setAddress(donor.address)
+        setCountry(donor.country)
+        setState(donor.state)
+        setPin(donor.pin)
     }, [])
-    console.log(address, country, pin)
     const dispatch = useDispatch();
     const handleSubmit = (e) => {
         if (address && country && pin) {
             const addressData = {
-                address, country, region, pin
+                address, country, state: region, pin
             }
-            dispatch(add_donor_address(addressData))
-            handleNextModal()
+            dispatch(add_donor_info(addressData))
+            dispatch(insertDonor({
+                user_id,
+                fullName: donor.fullName,
+                email: donor.email,
+                mobile: donor.mobile,
+                address, country, region, pin
+            }))
+            handleNextModal();
         }
         else {
             notify();
         }
     }
-
     return (
         <>
             <p className='text-4xl font-montserrat px-8'>
@@ -73,6 +81,7 @@ const DonorAddress = ({ handleNextModal }) => {
                 value={region}
                 onChange={(val) => setState(val)} />
             <input
+                value={pin}
                 onChange={e => setPin(e.target.value)}
                 className='border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2'
                 placeholder='PIN'

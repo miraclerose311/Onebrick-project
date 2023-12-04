@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
 // import { bricks } from '../utils';
 import { getBricks, initialBricks } from '../actions/brick';
+import { logout } from '../features/auth/authSlice';
+import { googleLogin } from '../actions/auth';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 function Test() {
     const dispatch = useDispatch();
-    const bricks = useSelector(state => state.brick.bricks);
-    console.log("bricks", bricks);
-    const handleClick = () => {
-        console.log("button clicked")
-        dispatch(initialBricks());
-    }
+    // const {currentUser} = useSelector(state => state.auth);
+    const user = localStorage.getItem('user')
+    const navigate = useNavigate()
+    
     return (
         <div className='flex flex-wrap'>
             {/* {
@@ -18,7 +19,8 @@ function Test() {
                     return <div className='w-20 h-5 border border' key={brickId}>{brickId}</div>
                 })
             } */}
-            <button className='border border-black p-5 mx-auto my-32' onClick={handleClick}>Initial Bricks</button>
+            <button className='bg-yellow-300 p-5 mx-auto my-32' onClick={e => navigate('/login')}>login</button>
+            <button className='bg-yellow-300 p-5 mx-auto my-32' onClick={e => dispatch(logout())}>logout</button>
         </div>
     );
 }

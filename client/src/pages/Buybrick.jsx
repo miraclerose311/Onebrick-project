@@ -16,7 +16,7 @@ import brickImage from '../assets/img/alpha_building_high_res.jpg';
 import { brickIds } from '../utils';
 
 import CircularProgress from '@mui/material/CircularProgress';
-import { Triangle } from 'react-loader-spinner'
+import { Oval } from 'react-loader-spinner'
 
 import { logout } from '../features/auth/authSlice'
 
@@ -29,31 +29,29 @@ import DedicationForm from '../components/modals/Dedicationform';
 import DedicationConfirm from '../components/modals/Dedicationconfirm';
 import UserImg from '../assets/img/user.png';
 import './Modal.css';
+import '../index.css'
 
 //icons
 import { TiArrowLeftThick } from "react-icons/ti";
 import { MdCancel } from "react-icons/md";
 import { FcMenu } from "react-icons/fc";
 import { getBricks, buy } from '../actions/brick';
-import { changeClicked } from '../features/brick/brickSlice';
 import BuyBrick from '../components/modals/BuyBrick';
 import BrickInfo from '../components/modals/BrickInfor';
 import ProgressBar from '../components/ProgressBar'
 
 const Buybrick = () => {
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { isAuthenticated } = useSelector((state) => state.auth);
-
+  const user = localStorage.getItem('user')
   // Initialize bircks states
   useEffect(() => {
     dispatch(getBricks());
     useCallback;
   }, []);
-
   // Create bricks states
-  const { bricks, loading } = useSelector(state => state.brick)
+  const { bricks, loading, donor } = useSelector(state => state.brick)
+  const {amount} = useSelector(state => state.brick.brick)
   const [clickedIndex, setClickedIndex] = useState(null);
 
   // Initialize container and image states
@@ -140,7 +138,6 @@ const Buybrick = () => {
     if (!bricks[index].sold) {
       setIsBrickInfoModalOpen(false);
       setClickedIndex(index);
-      dispatch(changeClicked(index));
       setIsModalOpen(true);
     }
   };
@@ -162,6 +159,7 @@ const Buybrick = () => {
     e.preventDefault();
     //Close modal when right clicked
     setIsModalOpen(false)
+    setClickedIndex(null)
   }
 
   const handleMouseOver = (e) => {
@@ -183,10 +181,9 @@ const Buybrick = () => {
   }
 
   const handleBuyButtonClicked = () => {
-    if (isAuthenticated) {
-      // setIsSlideModalOpen(true);
-      // setModalContent(1);
-      dispatch(buy(bricks[clickedIndex].id, clickedIndex))
+    if (user) {
+      setIsSlideModalOpen(true);
+      setModalContent(1);
       setIsModalOpen(false);
     } else {
       navigate('/login')
@@ -205,6 +202,14 @@ const Buybrick = () => {
     setModalContent(modalContent + 1);
   };
 
+  const handleSkipModal = (count) => {
+    setModalContent(modalContent + count)
+  }
+
+  const handleSold = () => {
+      dispatch(buy(bricks[clickedIndex].brick_id, user, amount, clickedIndex))
+      setIsSlideModalOpen(false)
+  }
 
   const renderBricks = () => {
     const colBricks = [];
@@ -218,9 +223,8 @@ const Buybrick = () => {
                 key={index}
                 id={index}
                 className={classNames(
-                  'border-2 border-trasparent rounded-md w-5 h-5',
-                  bricks[index].clicked ? 'bg-yellow-500' : 'bg-gray-100',
-                  // bricks[index].clicked ? 'bg-yellow-500' : 'bg-gray-100',
+                  'border-2 border-white rounded-md w-5 h-5',
+                  index === clickedIndex ? 'bg-yellow-500' : 'bg-gray-100',
                   bricks[index].sold && 'opacity-0'
                 )}
                 onClick={e => handleBrickClick(index)}
@@ -323,9 +327,24 @@ const Buybrick = () => {
           onClick={e => dispatch(logout())}
         />
       </div>
-      {isModalOpen && <BuyBrick modalPosition={modalPosition} clickedIndex={bricks[clickedIndex].id} handleBuyButtonClicked={handleBuyButtonClicked} />}
+      <ProgressBar />
+      {
+        loading && <div className='flex left-0 top-0 w-full h-full bg-gray-300 opacity-80 justify-center items-center absolute z-1000'>
+                      <Oval
+                        height={80}
+                        width={80}
+                        color="#0369a1"
+                        wrapperStyle={{}}
+                        wrapperClass=""
+                        visible={true}
+                        ariaLabel='oval-loading'
+                        secondaryColor="#0369a1"
+                        strokeWidth={2}
+                        strokeWidthSecondary={2}
+                      />
+                    </div>}
+      {isModalOpen && <BuyBrick modalPosition={modalPosition} clickedIndex={bricks[clickedIndex].brick_id} handleBuyButtonClicked={handleBuyButtonClicked} />}
       {isBrickInfoModalOpen && <BrickInfo brickInfo={hovered} modalPosition={modalPosition} />}
-
       {isSlideModalOpen && modalContent !== 0 && (
         <div className='modal'>
           <div className='modal-content flex-col flex justify-center items-center relative'>
@@ -338,12 +357,12 @@ const Buybrick = () => {
               className='modal-close-button text-2xl'
               onClick={handleCloseModal}
             />
-            {modalContent === 1 && <Enter handleNextModal={handleNextModal} />}
+            {modalContent === 1 && <Enter handleNextModal={handleSkipModal} />}
             {modalContent === 2 && <DonorInformation handleNextModal={handleNextModal} />}
             {modalContent === 3 && <DonorAddress handleNextModal={handleNextModal} />}
             {modalContent === 4 && <Video handleNextModal={handleNextModal} />}
-            {modalContent === 5 && <DedicationForm handleNextModal={handleNextModal} />}
-            {/* {modalContent === 6 && <DedicationConfirm handleSold={handleSold} />} */}
+            {modalContent === 5 && <DedicationForm handleNextModal={handleNextModal} brick_id={bricks[clickedIndex].brick_id} />}
+            {modalContent === 6 && <DedicationConfirm handleSold={handleSold} />}
 
           </div>
         </div>
@@ -355,7 +374,6 @@ const Buybrick = () => {
         onClick={handlePanClick}
         onContextMenu={handleRightClick}
       >
-        <ProgressBar />
         {imageScale > 0 && (
           <TransformWrapper
             key={`${imageNaturalWidth}x${imageNaturalHeight}`}
@@ -374,19 +392,7 @@ const Buybrick = () => {
               <div className='relative' onClick={handlePanClick}>
                 <div className='absolute top-0 left-0 w-full h-full flex flex-col'>
                   {
-                    loading ? (
-                      <div className='flex w-full h-full bg-gray-300 opacity-80 justify-center items-center absolute'>
-                        <Triangle
-                          height="80"
-                          width="80"
-                          color="red"
-                          ariaLabel="triangle-loading"
-                          wrapperStyle={{}}
-                          wrapperClassName=""
-                          visible={true}
-                        />
-                      </div>
-                    ) : renderBricks()
+                    !loading && renderBricks()
                   }
                   {/* {<CircularProgress disableShrink />} */}
                 </div>
