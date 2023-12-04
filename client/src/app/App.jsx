@@ -11,6 +11,9 @@ import Buybrick from '../pages/Buybrick';
 import Donors from '../pages/Donors';
 import Landing from '../pages/Landing';
 import Contact from '../pages/Contact';
+import Test from '../components/test';
+
+
 
 function App() {
 
@@ -80,6 +83,7 @@ function App() {
           <Route path='/buybrick' element={<Buybrick />} />
           <Route path='/donors' element={<Donors />} />
           <Route path='/contact' element={<Contact />} />
+          <Route path='/test' element={<Test />} />
         </Routes>
       </Router>
     </>

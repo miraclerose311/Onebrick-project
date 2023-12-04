@@ -1,12 +1,17 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { increaseAmount, decreaseAmount, changeLocation } from '../../features/brick/brickSlice';
+import { FaAnglesRight } from "react-icons/fa6";
+import { isProfiled } from '../../actions/donor';
+import { useState } from 'react';
 
-const First = ({ handleNextModal }) => {
+const Enter = ({ handleNextModal }) => {
 
     const { amount, location } = useSelector((state) => state.brick.brick);
-
+    const {profiled} = useSelector((state) => state.auth)
+    
     const dispatch = useDispatch();
-
+    dispatch(isProfiled())
+    
     const handleIncreaseAmount = () => {
         amount <= 35000 && dispatch(increaseAmount())
     }
@@ -16,6 +21,8 @@ const First = ({ handleNextModal }) => {
     const handleChangeLocation = (e) => {
         dispatch(changeLocation(e.target.value))
     }
+
+    const count = profiled ? 3 : 1
 
     return (
         <>
@@ -31,16 +38,16 @@ const First = ({ handleNextModal }) => {
             </p>
             <div className='flex flex-row'>
                 <button
-                    className='border px-4 py-2 text-2xl border-gray-400 w-12'
+                    className='border px-4 py-1 text-2xl border-gray-400 w-12'
                     onClick={handleDecreaseAmount}
                 >
                     -
                 </button>
-                <button className='border px-4 py-2 text-2xl border-gray-400 w-12'>
+                <button className='border px-4 py-1 text-2xl border-gray-400 w-12'>
                     {amount}
                 </button>
                 <button
-                    className='border px-4 py-2 text-2xl border-gray-400 w-12'
+                    className='border px-4 py-1 text-2xl border-gray-400 w-12'
                     onClick={handleIncreaseAmount}
                 >
                     +
@@ -54,12 +61,12 @@ const First = ({ handleNextModal }) => {
             </select>
             <button
                 className='text-gray-100 bg-red-700 px-4 py-2 rounded-md'
-                onClick={handleNextModal}
+                onClick={e => handleNextModal(count)}
             >
-                READY TO PAY?
+                <span className='flex flex-row items-center justify-between gap-x-3'>READY TO PAY <FaAnglesRight /></span>
             </button>
         </>
     )
 }
 
-export default First;
+export default Enter;

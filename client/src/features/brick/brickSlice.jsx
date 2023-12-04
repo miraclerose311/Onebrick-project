@@ -4,20 +4,6 @@ const initialState = {
     brick: {
         id: "",
         amount: 1,
-        location: "",
-        donor_info: {
-            name: "",
-            mobile: "",
-            email: "",
-            pan: "",
-            aadhaar: "",
-            address: "",
-        },
-        donor_address: {
-            country: "",
-            state: "",
-            PIN: ""
-        },
         dedication: {
             name: "",
             relationship: "",
@@ -25,13 +11,46 @@ const initialState = {
             image: ""
         }
     },
-    bricks: []
+    donor: {
+        id: "",
+        fullName: "",
+        mobile: "",
+        email: "",
+        pan: "",
+        aadhaar: "",
+        address: "",
+        location: "",
+        country: "",
+        state: "",
+        pin: ""
+    },
+    bricks: [],
+    soldAmount: 0,
+    loading: true,
+    clicked: ""
 };
 
 export const brickSlice = createSlice({
     name: 'brick',
     initialState,
     reducers: {
+        setLoading: (state, action) => {
+            state.loading = action.payload
+        },
+        setBricks: (state, action) => {
+            state.bricks = action.payload
+            state.loading = false
+        },
+        soldBrick: (state, action) => {
+            const todo = state.bricks[action.payload.index]
+            todo.sold = 1
+        },
+        clearDonor: state => {
+            state.donor = initialState.donor
+        },
+        setSoldAmount: (state, action) => {
+            state.soldAmount = action.payload
+        },
         increaseAmount: state => {
             state.brick.amount += 1
         },
@@ -42,18 +61,23 @@ export const brickSlice = createSlice({
             state.brick.location = action.payload
         },
         add_donor_info: (state, action) => {
-            state.brick.donor_info = action.payload
+            // state.donor = action.payload
+            state.donor = Object.assign(state.donor, action.payload)
         },
         add_donor_address: (state, action) => {
             state.brick.donor_address = action.payload
         },
         add_dedication: (state, action) => {
             state.brick.dedication = action.payload
+        },
+        clear_brick: (state) => {
+            state.brick = initialState.brick
         }
     },
 });
 
 // Action creators are generated for each case reducer function
-export const { increaseAmount, decreaseAmount, changeLocation, add_donor_info, add_donor_address, add_dedication, } = brickSlice.actions;
+export const { setBricks, setLoading, soldBrick, setSoldAmount, changeClicked, increaseAmount, decreaseAmount, changeLocation, clearDonor, add_donor_info, add_donor_address, add_dedication, clear_brick } = brickSlice.actions;
 
 export default brickSlice.reducer;
+

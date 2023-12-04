@@ -1,23 +1,57 @@
 import api from '../utils/api';
-import { add_donor_info } from '../features/brick/brickSlice';
+import { setBricks, soldBrick, setSoldAmount } from '../features/brick/brickSlice';
 
-// export const addCount = (count) => {
-//     add_donor_info(count);
-// };
+export const getBricks = () => async (dispatch) => {
+  try {
+    await api.get('/brick/all').then((res) => {
+      dispatch(setBricks(res.data))
+    })
+  } catch (e) {
+    console.log(e)
+  }
+};
 
-// export const googleLogin = (access_token) => async (dispatch) => {
-//   try {
-//     const res = await api.post(
-//       '/auth/google-login',
-//       JSON.stringify({ access_token })
-//     );
-//     console.log(res.data);
-//     dispatch(login());
-//   } catch (e) {
-//     if (e.response.data['Error'] == "This user does not exists") {
-//       window.alert('This user does not exists')
-//     } else {
-//       window.alert('Some error ocurred')
-//     }
-//   }
-// };
+export const initialBricks = () => async (dispatch) => {
+  try {
+    await api.post('/brick/initial').then((res) => {
+      console.log("Success!");
+    });
+  } catch (e) {
+    // if (e.response.data['Error'] == 'This user already exists') {
+    console.log(e);
+  }
+}
+
+export const soldAmout = () => async (dispatch) => {
+  try {
+    await api.get('/brick/sold_amount')
+    .then((res) => {
+      dispatch(setSoldAmount(res.data));
+    }) 
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+export const buy = (brick_id, user, amount, index) => async (dispatch) => {
+  try {
+    await api.post('/brick/buy', { brick_id, user, amount }).then((res) => {
+      dispatch(soldBrick({ brick_id, index }))
+    }).catch((err) => {
+      console.log(err);
+    });
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+export const insertDedication = (dedication) => async (dispatch) => {
+  try {
+    await api.post('/brick/dedication_insert', dedication)
+      .then(res => {
+        console.log(res.data);
+      })
+  } catch (e) {
+    console.log(e)
+  }
+}

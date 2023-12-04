@@ -1,38 +1,55 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { add_donor_info } from "../../features/brick/brickSlice"
+import { FaAnglesRight } from "react-icons/fa6";
+import { toast, ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 
 const DonorInformation = ({ handleNextModal }) => {
-    const [name, setName] = useState('')
+    const [fullName, setName] = useState('')
     const [mobile, setMobile] = useState('')
     const [email, setEmail] = useState('')
     const [pan, setPan] = useState('')
     const [aadhaar, setAadhaar] = useState('')
 
-    const { donor_info } = useSelector(state => state.brick.brick)
+    const { donor } = useSelector(state => state.brick)
     const dispatch = useDispatch();
     useEffect(() => {
-        setName(donor_info.name)
-        setMobile(donor_info.mobile)
-        setEmail(donor_info.email)
-        setPan(donor_info.pan)
-        setAadhaar(donor_info.aadhaar)
+        setName(donor.fullName)
+        setMobile(donor.mobile)
+        setEmail(donor.email)
+        setPan(donor.pan)
+        setAadhaar(donor.aadhaar)
     }, [])
 
+    const notify = () => {
+        toast.warn("Please fill in the required fields.", {
+            position: "bottom-left",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeOnClick: true,
+        })
+    }
     const handleSubmit = (e) => {
-        const infoData = {
-            name,
-            mobile,
-            email,
-            pan,
-            aadhaar
+        if (fullName === '' || mobile === '' || email === '') {
+            notify();
         }
-        dispatch(add_donor_info(infoData))
-        handleNextModal()
+        else {
+            const infoData = {
+                fullName,
+                mobile,
+                email,
+                pan,
+                aadhaar
+            }
+            dispatch(add_donor_info(infoData))
+            handleNextModal()
+        }
     }
 
     return (
         <>
+            <ToastContainer />
             <p className='text-4xl font-montserrat px-8'>
                 Donor Information
             </p>
@@ -42,7 +59,7 @@ const DonorInformation = ({ handleNextModal }) => {
             </p>
             <input
                 type="text"
-                value={name}
+                value={fullName}
                 onChange={e => setName(e.target.value)}
                 className='border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2'
                 placeholder='Full Name'
@@ -79,7 +96,7 @@ const DonorInformation = ({ handleNextModal }) => {
                 className='text-gray-100 bg-red-700 px-6 py-2 my-4 rounded-md'
                 onClick={handleSubmit}
             >
-                ADD ADDRESS
+                <span className='flex flex-row items-center justify-between gap-x-3'>ADD ADDRESS <FaAnglesRight /></span>
             </button>
         </>
     )

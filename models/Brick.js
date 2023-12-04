@@ -1,38 +1,37 @@
 const mongoose = require('mongoose');
 
 const BrickSchema = new mongoose.Schema({
-  id: {
+  brick_id: {
     type: String,
     required: true,
     unique: true
   },
-  count: {
-    type: Number,
-    required: true,
-    default: 1,
+  donor_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'donor'
   },
-  location: {
-    type: String,
-    required: true
+  amount: {
+    type: Number
   },
-  donor: {
-    name: String,
-    mobile: String,
-    email: String,
-    PAN: String,
-    aadhaar_id: String,
-    address: String,
-    address: String,
-    country: String,
-    state: String,
-    PIN: String
-  },
+  location: String,
   dedication: {
-    name: String,
-    relationship: String,
-    message: String,
-    image: Buffer
+    name: {
+      type: String
+    },
+    relationship: {
+      type: String
+    },
+    message: {
+      type: String
+    },
+    image: {
+      type: Buffer
+    }
+  },
+  sold: {
+    type: Boolean,
+    default: false
   }
 });
 
-module.exports = mongoose.model('brick', BrickSchema);
+module.exports = mongoose.model('bricks', BrickSchema);

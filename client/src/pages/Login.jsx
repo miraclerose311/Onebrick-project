@@ -8,13 +8,12 @@ import { googleLogin } from '../actions/auth';
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { isAuthenticated } = useSelector((state) => state.auth);
+  const user = localStorage.getItem('user');
 
   const onLogin = useGoogleLogin({
     redirect_uri: "https://9291-146-19-207-71.ngrok-free.app/login",
     onSuccess: (codeResponse) => {
       const { access_token } = codeResponse;
-      console.log('access_token => ', access_token)
       dispatch(googleLogin(access_token));
       // window.alert('Successfully logged in');
     },
@@ -22,10 +21,10 @@ const Login = () => {
   });
 
   useEffect(() => {
-    if (isAuthenticated) {
+    if (user) {
       navigate('/buybrick');
     }
-  }, [isAuthenticated, navigate]);
+  }, [user, navigate]);
 
   return (
     <section className='h-screen items-center flex flex-col lg:flex-row justify-around px-10 font-raleway'>

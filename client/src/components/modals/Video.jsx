@@ -1,5 +1,5 @@
 import video from '../../assets/video.mp4'
-
+import { FaAnglesRight } from "react-icons/fa6";
 const Video = ({ handleNextModal }) => {
 
     return (
@@ -20,7 +20,9 @@ const Video = ({ handleNextModal }) => {
                 className='text-gray-100 bg-red-700 px-6 py-2 my-4 rounded-md'
                 onClick={handleNextModal}
             >
-                DEDICATE MY BRICK
+
+                <span className='flex flex-row items-center justify-between gap-x-3'>DEDICATE MY BRICK<FaAnglesRight /></span>
+
             </button>
         </>
     )
