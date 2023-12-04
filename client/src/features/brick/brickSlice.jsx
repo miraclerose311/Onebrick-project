@@ -25,13 +25,54 @@ const initialState = {
             image: ""
         }
     },
-    bricks: []
+    bricks: [],
+    soldAmount: 0,
+    loading: true,
+    clicked: ""
 };
 
 export const brickSlice = createSlice({
     name: 'brick',
     initialState,
     reducers: {
+        setLoading: (state, action) => {
+            state.loading = action.payload
+        },
+        setBricks: (state, action) => {
+            // state.bricks = initialState.bricks;
+            [...action.payload].forEach((item, index) => {
+                state.bricks.push({
+                    index,
+                    id: item.brick_id,
+                    sold: item.sold,
+                    owner: false,
+                    clicked: false,
+                })
+            });
+            state.loading = false
+        },
+        soldBrick: (state, action) => {
+            const todo = state.bricks[action.payload.index]
+            todo.sold = 1
+        },
+        setSoldAmount: (state, action) => {
+            state.soldAmount = action.payload
+        },
+        changeClicked: (state, action) => {
+            if (state.clicked === action.payload) {
+                const todo = state.bricks[action.payload]
+                todo.clicked = !todo.clicked
+                state.clicked = action.payload
+            } else {
+                if (state.clicked && state.bricks[state.clicked].clicked == 1) {
+                    const prevSelected = state.bricks[state.clicked]
+                    prevSelected.clicked = !prevSelected.clicked
+                }
+                state.clicked = action.payload;
+                const todo = state.bricks[action.payload]
+                todo.clicked = !todo.clicked
+            }
+        },
         increaseAmount: state => {
             state.brick.amount += 1
         },
@@ -57,6 +98,7 @@ export const brickSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { increaseAmount, decreaseAmount, changeLocation, add_donor_info, add_donor_address, add_dedication, clear_brick } = brickSlice.actions;
+export const { setBricks, setLoading, soldBrick, setSoldAmount, changeClicked, increaseAmount, decreaseAmount, changeLocation, add_donor_info, add_donor_address, add_dedication, clear_brick } = brickSlice.actions;
 
 export default brickSlice.reducer;
+
