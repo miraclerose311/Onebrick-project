@@ -1,5 +1,7 @@
 import api from '../utils/api';
 import { login } from '../features/auth/authSlice';
+import { setIsProfiled } from '../features/auth/authSlice';
+
 
 export const googleRegister = (access_token) => async (dispatch) => {
   try {
@@ -30,3 +32,16 @@ export const googleLogin = (access_token) => async (dispatch) => {
       // window.alert('This user does not exists')
   }
 };
+
+export const isProfiled = () => async (dispatch) => {
+  try{
+    const user_id = localStorage.getItem('user');
+    await api.post('/users/isProfiled', {user_id})
+      .then(res => {
+        const bool = res.data ? true : false
+        dispatch(setIsProfiled(bool))
+      })
+  } catch (e) {
+    console.log(e);
+  }
+}

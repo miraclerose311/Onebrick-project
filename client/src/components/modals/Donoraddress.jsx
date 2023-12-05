@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import { useSelector, useDispatch } from "react-redux";
 import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
 import { add_donor_info } from "../../features/brick/brickSlice"
-import { insertDonor } from "../../actions/donor";
+import { addProfile } from "../../actions/donor";
 
 import { FaAnglesRight } from "react-icons/fa6";
 import { toast, ToastContainer } from 'react-toastify';
@@ -42,11 +42,13 @@ const DonorAddress = ({ handleNextModal }) => {
                 address, country, state: region, pin
             }
             dispatch(add_donor_info(addressData))
-            dispatch(insertDonor({
+            dispatch(addProfile({
                 user_id,
                 fullName: donor.fullName,
                 email: donor.email,
                 mobile: donor.mobile,
+                pan: donor.pan,
+                aadhaar: donor.aadhaar,
                 address, country, region, pin
             }))
             handleNextModal();

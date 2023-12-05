@@ -6,14 +6,16 @@ const BrickSchema = new mongoose.Schema({
     required: true,
     unique: true
   },
-  donor_id: {
+  user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'donor'
+    ref: 'user'
   },
   amount: {
     type: Number
   },
-  location: String,
+  location: {
+    type: String
+  },
   dedication: {
     name: {
       type: String

@@ -30,10 +30,7 @@ router.post('/insert', async (req, res) => {
     res.status(500).send('Server error');
   }
 });
-router.post('/isProfiled', async(req, res) => {
-  const count = await Donor.find({user_id: req.body.user_id}).count();
-  res.json(count);
-})
+
 
 module.exports = router;
 

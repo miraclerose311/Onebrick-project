@@ -1,5 +1,6 @@
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
+import Sold from '../components/modals/Sold';
 
 const Landing = () => {
   return (
