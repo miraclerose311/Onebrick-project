@@ -156,6 +156,8 @@ const Buybrick = () => {
 			setIsSoldModalOpen(false);
 			setClickedIndex(index);
 			setIsModalOpen(true);
+		} else {
+			setIsModalOpen(false);
 		}
 	};
 
@@ -266,6 +268,7 @@ const Buybrick = () => {
 				>
 					{Array.from(Array(250).keys()).map((row) => {
 						const index = col * 250 + row;
+						console.log(isSoldModalOpen && clickedIndex == index);
 						return (
 							<button
 								key={index}
@@ -273,16 +276,8 @@ const Buybrick = () => {
 								className={classNames(
 									"border-2 border-white rounded-md w-5 h-5",
 									index === clickedIndex ? "bg-yellow-400" : "bg-gray-100",
-									bricks[index].sold &&
-										!filtered.includes(bricks[index]) &&
-										"opacity-0",
-									bricks[index].sold &&
-										index === clickedIndex &&
-										"bg-red-400 custom-shadow",
-									isSoldModalOpen &&
-										bricks[index].sold &&
-										clickedIndex == index &&
-										"bg-white",
+									bricks[index].sold && "opacity-0",
+									isSoldModalOpen && clickedIndex == index && "bg-white",
 									filtered.includes(bricks[index]) && "bg-red-400 custom-shadow"
 								)}
 								onClick={(e) => handleBrickClick(index)}
