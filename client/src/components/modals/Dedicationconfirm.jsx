@@ -18,7 +18,7 @@ const DedicationConfirm = ({ handleSold }) => {
 	useEffect(() => {
 		setName(dedication.name);
 		setRelationship(dedication.relationship);
-		// setImage(dedication.image)
+		setImage(dedication.image);
 	}, []);
 
 	const handleSubmit = (e) => {

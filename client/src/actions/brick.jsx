@@ -53,7 +53,7 @@ export const buy = (brick_id, user, amount, index) => async (dispatch) => {
 	}
 };
 
-export const insertDedication = (dedication) => async (dispatch) => {
+export const insertDedication = async (dedication) => {
 	try {
 		await api.post("/brick/dedication_insert", dedication).then((res) => {
 			console.log(res.data);

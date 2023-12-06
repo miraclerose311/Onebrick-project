@@ -230,7 +230,7 @@ const Buybrick = () => {
 		setIsSlideModalOpen(false);
 		setIsSoldModalOpen(true);
 	};
-
+	console.log("clicked_brick => ", clickedIndex);
 	const handleLogout = () => {
 		<ToastContainer />;
 
@@ -240,11 +240,10 @@ const Buybrick = () => {
 	const handleSearch = (e) => {
 		const searchtext = e.target.value;
 		setSearch(searchtext);
-		if (!searchtext) setFiltered([]);
+		if (searchtext.length < 2) setFiltered([]);
 		else {
 			const temp = bricks.filter((item) => {
 				if ("user" in item) {
-					console.log(item.user.profile);
 					return (
 						(item.sold && item.user.profile.fullName.includes(searchtext)) ||
 						item.brick_id.includes(searchtext)
@@ -256,7 +255,6 @@ const Buybrick = () => {
 			setFiltered(temp);
 		}
 	};
-	console.log("filtered => ", filtered);
 	const renderBricks = () => {
 		const colBricks = [];
 
@@ -278,6 +276,13 @@ const Buybrick = () => {
 									bricks[index].sold &&
 										!filtered.includes(bricks[index]) &&
 										"opacity-0",
+									bricks[index].sold &&
+										index === clickedIndex &&
+										"bg-red-400 custom-shadow",
+									isSoldModalOpen &&
+										bricks[index].sold &&
+										clickedIndex == index &&
+										"bg-white",
 									filtered.includes(bricks[index]) && "bg-red-400 custom-shadow"
 								)}
 								onClick={(e) => handleBrickClick(index)}

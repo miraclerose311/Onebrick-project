@@ -68,21 +68,9 @@ router.post("/buy", async (req, res) => {
 		});
 });
 
-router.get("/alla", async (req, res) => {
-	await Brick.aggregate([
-		{
-			$project: {
-				_id: 0,
-				brick_id: 1,
-				sold: 1,
-			},
-		},
-	])
-		.then((result) => res.json(result))
-		.catch((e) => console.log(e));
-});
 
 router.post("/dedication_insert", async (req, res) => {
+  // console.log("body", req.body);
 	const { brick_id, name, relationship, message } = req.body;
 
 	const newDedication = { name, relationship, message };
