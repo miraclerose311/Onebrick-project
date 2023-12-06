@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken');
 const config = require('config');
 const auth = require('../../middleware/auth');
 const { check, validationResult } = require('express-validator');
+const mongoose = require('mongoose');
 
 const User = require('../../models/User');
 const Profile = require('../../models/Profile');
@@ -62,9 +63,26 @@ router.post(
   }
 );
 
-// @route    GET api/users
-// @desc     Get all users not admin
-// @access   Public
+router.post('/isProfiled', async(req, res) => {
+  const count = await User.findById({_id: req.body.user_id}).then(result => {
+    res.json(result.profile.fullName)
+  })
+})
+
+router.post('/add_profile', async(req, res) => {
+  const profileData = {fullName, mobile, pan, aadhaar, address, country, resion, pin} = req.body
+  try {
+      await User.findByIdAndUpdate(
+        {_id: new mongoose.Types.ObjectId(req.body.user_id)},
+        { $set: {profile: profileData}},
+        {upsert: true}
+      )
+    }catch(e) {
+    console.log(e);
+  }
+})
+
+
 router.get('/', auth, async (req, res) => {
   try {
     const users = await User.find({ type: 1 }).select('name email');

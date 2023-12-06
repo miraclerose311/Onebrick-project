@@ -175,7 +175,7 @@ router.post(
     }
 
     const { firstName, lastName, email, mobile } = req.body;
-
+    const fullName = firstName + " " + lastName;
     try {
       // if user exists
       let user = await User.findOne({ email });

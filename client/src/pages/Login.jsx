@@ -1,9 +1,11 @@
-import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { useGoogleLogin } from '@react-oauth/google';
 import { useDispatch } from 'react-redux';
 import { googleLogin } from '../actions/auth';
+
+
+import { toast, ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -14,17 +16,22 @@ const Login = () => {
     redirect_uri: "https://9291-146-19-207-71.ngrok-free.app/login",
     onSuccess: (codeResponse) => {
       const { access_token } = codeResponse;
-      dispatch(googleLogin(access_token));
-      // window.alert('Successfully logged in');
+      dispatch(googleLogin(access_token)).then(res => {
+        notify();
+        navigate('/buybrick');
+      });
     },
     onError: (error) => console.log('Login failed: ', error),
   });
 
-  useEffect(() => {
-    if (user) {
-      navigate('/buybrick');
-    }
-  }, [user, navigate]);
+  const notify = () => {
+    toast.warn("Successfully logged in", {
+        position: "right-top",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeOnClick: true,
+    })
+  }
 
   return (
     <section className='h-screen items-center flex flex-col lg:flex-row justify-around px-10 font-raleway'>
@@ -35,7 +42,7 @@ const Login = () => {
           alt='Login image'
         />
       </div>
-
+      <ToastContainer />
       <div className='w-2/3 lg:w-1/3 justify-center'>
         <div className='flex flex-col items-center justify-center'>
           <p className='text-4xl font-montserrat mb-4'>Sign In</p>

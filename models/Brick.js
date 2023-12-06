@@ -6,14 +6,16 @@ const BrickSchema = new mongoose.Schema({
     required: true,
     unique: true
   },
-  donor_id: {
+  user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'donor'
+    ref: 'user'
   },
   amount: {
     type: Number
   },
-  location: String,
+  location: {
+    type: String
+  },
   dedication: {
     name: {
       type: String
@@ -33,5 +35,7 @@ const BrickSchema = new mongoose.Schema({
     default: false
   }
 });
+
+BrickSchema.index({brick_id: 1}, {user: 1}, {amount: 1}, {sold: true})
 
 module.exports = mongoose.model('bricks', BrickSchema);
