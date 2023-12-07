@@ -4,7 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
 	// token: localStorage.getItem('token'),
-	isAuthenticated: !!localStorage.getItem("token"),
+	isAuthenticated: !!localStorage.getItem("user"),
 	currentUser: {},
 	profiled: false,
 };
@@ -14,9 +14,11 @@ export const authSlice = createSlice({
 	initialState,
 	reducers: {
 		login: (state, action) => {
+			console.log("Google login function");
+			console.log("payload => ", action.payload._id);
 			localStorage.setItem("user", action.payload._id);
 			state.currentUser = action.payload;
-			state.token = action.payload;
+			// state.token = action.payload;
 			state.isAuthenticated = true;
 		},
 		logout: (state, action) => {

@@ -136,8 +136,8 @@ const Buybrick = () => {
 		toast.warn("Logouted!", {
 			position: "right-top",
 			autoClose: 2000,
-			hideProgressBar: true,
-			closeOnClick: true,
+			hideProgressBar: false,
+			closeOnClick: false,
 		});
 	};
 
@@ -232,11 +232,13 @@ const Buybrick = () => {
 		setIsSlideModalOpen(false);
 		setIsSoldModalOpen(true);
 	};
-	console.log("clicked_brick => ", clickedIndex);
 	const handleLogout = () => {
-		<ToastContainer />;
+		if (user) {
+			dispatch(logout());
+			toast.success("Success Logouted");
+		}
 
-		dispatch(logout());
+		// notify();
 	};
 
 	const handleSearch = (e) => {
@@ -260,7 +262,7 @@ const Buybrick = () => {
 	const renderBricks = () => {
 		const colBricks = [];
 
-		Array.from(Array(140).keys()).map((col) => {
+		Array.from(Array(10).keys()).map((col) => {
 			const colBrick = (
 				<div
 					key={col}
@@ -268,7 +270,6 @@ const Buybrick = () => {
 				>
 					{Array.from(Array(250).keys()).map((row) => {
 						const index = col * 250 + row;
-						console.log(isSoldModalOpen && clickedIndex == index);
 						return (
 							<button
 								key={index}
