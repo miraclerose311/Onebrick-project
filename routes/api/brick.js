@@ -37,6 +37,7 @@ router.get("/sold_amount", async (req, res) => {
 router.get("/all", async (req, res) => {
 	await Brick.find()
 		.populate("user")
+		.limit(2500)
 		.then((result) => {
 			res.json(result);
 		})

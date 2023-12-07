@@ -33,7 +33,7 @@ export default function Navbar() {
 	);
 
 	return (
-		<nav className="bg-transparent z-20 start-0 border-b border-gray-200 px-2 xl:px-10 text-left">
+		<nav className="bg-transparent z-20 start-0 px-2 xl:px-10 text-left absolute w-full">
 			<div className="flex flex-row items-center justify-around mx-auto p-4">
 				<Link
 					to="/"

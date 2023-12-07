@@ -65,7 +65,7 @@ router.post(
 
 router.post('/isProfiled', async(req, res) => {
   const count = await User.findById({_id: req.body.user_id}).then(result => {
-    res.json(result.profile.fullName)
+    res.json(result)
   })
 })
 
