@@ -111,13 +111,13 @@ export default function Footer() {
 									<Link to="/buybrick">BUY A BRICK</Link>
 								</li>
 								<li className="py-2 hover:text-gray-200">
-									<Link to="about">ABOUT US</Link>
+									<Link to="/about">ABOUT US</Link>
 								</li>
 								<li className="py-2 hover:text-gray-200">
-									<Link to="beneficiaries">BENEFICIARIES</Link>
+									<Link to="/beneficiaries">BENEFICIARIES</Link>
 								</li>
 								<li className="py-2 hover:text-gray-200">
-									<Link to="donors">DONORS</Link>
+									<Link to="/donors">DONORS</Link>
 								</li>
 							</ul>
 						</div>
