@@ -10,7 +10,7 @@ import Image15 from "../assets/img/Image15.png";
 
 const Pagination = () => {
 	return (
-		<div className="flex w-1/3 xl:w-1/4 border border-gray-400 rounded-lg justify-evenly items-center px-12 py-1">
+		<div className="flex border w-full border-gray-400 rounded-lg justify-evenly items-center px-12 py-1">
 			<a
 				href="#"
 				class="cursor-pointer"
@@ -32,12 +32,12 @@ const Pagination = () => {
 			<a className="px-3 py-1 cursor-pointer bg-sky-500 rounded-md text-white">
 				2
 			</a>
-			<a className="px-1 py-1 cursor-pointer rounded-md text-gray-600">3</a>
-			<a className="px-1 py-1 cursor-pointer rounded-md text-gray-600">...</a>
-			<a className="px-1 py-1 cursor-pointer rounded-md">12</a>
+			<a className="px-3 py-1 cursor-pointer rounded-md text-gray-600">3</a>
+			<a className="px-3 py-1 cursor-pointer rounded-md text-gray-600">...</a>
+			<a className="px-3 py-1 cursor-pointer rounded-md">12</a>
 			<a
 				href="#"
-				class="cursor-pointer  bg-gray-200 p-2 rounded-sm"
+				class="cursor-pointer p-2 rounded-sm"
 			>
 				<span class="sr-only">Next</span>
 				<svg
