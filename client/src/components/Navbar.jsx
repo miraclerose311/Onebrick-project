@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
-import logoImg from "../assets/img/logo.png";
+import logoImg from "../assets/img/logo1.png";
 
 export default function Navbar() {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -18,7 +18,7 @@ export default function Navbar() {
 				<Link to="/">HOME</Link>
 			</button>
 			<button className="py-2 text-lg hover:font-medium">
-				<Link to="/about">ABOUT ALPHA</Link>
+				<Link to="/about">ABOUT US</Link>
 			</button>
 			<button className="py-2 text-lg hover:font-medium">
 				<Link to="/donors">DONORS</Link>
@@ -37,7 +37,7 @@ export default function Navbar() {
 			<div className="flex flex-row justify-between items-center py-4">
 				<Link
 					to="/"
-					className="items-center h-12 w-24 md:h-16 md:w-32 lg:h-20 lg:w-44"
+					className="items-center w-32 h-16 xl:h-20 xl:w-36"
 				>
 					<img
 						src={logoImg}
@@ -45,50 +45,50 @@ export default function Navbar() {
 						alt="Logo"
 					/>
 				</Link>
-				<div className="flex flex-row w-full lg:w-3/4 items-center relative">
-					<ul className="hidden lg:flex lg:flex-row  items-center w-4/5">
-						<li className="flex justify-center lg:w-1/5">
+				<div className="flex items-center relative">
+					<ul className="hidden lg:flex items-center 2xl:pr-4">
+						<li className="flex mr-6">
 							<Link
 								to="/"
-								className="block py-2 text-gray-700 hover:decoration-2 hover:underline lg:text-md xl:text-lg 2xl:text-xl"
+								className="block py-2 text-gray-700 hover:decoration-2 hover:underline lg:text-lg xl:text-xl 2xl:text-2xl font-medium"
 							>
 								HOME
 							</Link>
 						</li>
-						<li className="flex justify-center lg:w-1/5">
+						<li className="flex mr-6">
 							<Link
 								to="/about"
-								className="block py-2 text-gray-700 hover:decoration-2 hover:underline lg:text-md xl:text-lg 2xl:text-xl"
+								className="block py-2 text-gray-700 hover:decoration-2 hover:underline lg:text-lg xl:text-xl 2xl:text-2xl font-medium"
 								aria-current="page"
 							>
-								ABOUT ALPHA
+								ABOUT
 							</Link>
 						</li>
-						<li className="flex justify-center lg:w-1/5">
+						<li className="flex mr-6">
 							<Link
 								to="/donors"
-								className="block py-2 text-gray-700 hover:decoration-2 hover:underline lg:text-md xl:text-lg 2xl:text-xl"
+								className="block py-2 text-gray-700 hover:decoration-2 hover:underline lg:text-lg xl:text-xl 2xl:text-2xl font-medium"
 								aria-current="page"
 							>
 								DONORS
 							</Link>
 						</li>
-						<li className="flex justify-center lg:w-1/5">
+						<li className="flex mr-6">
 							<Link
 								to="/beneficiaries"
-								className="block py-2 text-gray-700 hover:decoration-2 hover:underline lg:text-md xl:text-lg 2xl:text-xl"
+								className="block py-2 text-gray-700 hover:decoration-2 hover:underline lg:text-lg xl:text-xl 2xl:text-2xl font-medium"
 								aria-current="page"
 							>
 								BENEFICIARIES
 							</Link>
 						</li>
-						<li className="flex justify-center lg:w-1/5">
+						<li className="flex mr-6">
 							<Link
 								to="/contact"
-								className="block py-2 text-gray-700 hover:decoration-2 hover:underline lg:text-md xl:text-lg 2xl:text-xl"
+								className="block py-2 text-gray-700 hover:decoration-2 hover:underline lg:text-lg xl:text-xl 2xl:text-2xl font-medium"
 								aria-current="page"
 							>
-								CONTACT US
+								CONTACT
 							</Link>
 						</li>
 					</ul>
@@ -96,12 +96,12 @@ export default function Navbar() {
 						data-collapse-toggle="navbar-sticky"
 						type="button"
 						onClick={() => setIsMenuOpen(!isMenuOpen)}
-						className="relative inline-flex items-center  ml-auto p-1 w-8 h-8 justify-center text text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 mr-2 sm:mr-4 md:mr-6 lg:mr-8"
+						className="relative inline-flex items-center  ml-auto p-1 justify-center text text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 mr-6 sm:mr-10 md:mr-12 lg:mr-8"
 						aria-controls="navbar-sticky"
 						aria-expanded="false"
 					>
 						<svg
-							className="w-5 h-5"
+							className="w-8 h-8"
 							aria-hidden="true"
 							xmlns="http://www.w3.org/2000/svg"
 							fill="none"
@@ -117,16 +117,16 @@ export default function Navbar() {
 						</svg>
 						{isMenuOpen && DropdownNavbar()}
 					</button>
-
 					<Link
 						to="/buybrick"
 						type="button"
-						className="text-white lg:ml-auto  text-sm md:text-md lg:text-sm xl:text-md 2xl:text-lg bg-red-700 hover:bg-red-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-md px-4 py-2 text-center"
+						className=" text-white lg:ml-auto  text-xl md:text-md lg:text-md xl:text-lg 2xl:text-xl bg-red-700 hover:bg-red-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-md px-6 py-3 lg:px-3 lg:py-1 xl:px-6 xl:py-3 text-center"
 					>
 						WALL OF HOPE
 					</Link>
+				</div>
 
-					{/* {!isAuthenticated ? (
+				{/* {!isAuthenticated ? (
             <Link className='ml-4' to='/register'>
               <img
                 src={UserImg}
@@ -187,7 +187,6 @@ export default function Navbar() {
               </Transition>
             </Menu>
           )} */}
-				</div>
 			</div>
 		</nav>
 	);
