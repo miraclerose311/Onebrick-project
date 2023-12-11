@@ -1,5 +1,3 @@
-/** @format */
-
 const Sold = ({ modalPosition, brick_id }) => {
 	return (
 		<div

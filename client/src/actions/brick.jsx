@@ -1,5 +1,3 @@
-/** @format */
-
 import api from "../utils/api";
 import {
 	setBricks,

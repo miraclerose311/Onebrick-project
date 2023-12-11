@@ -1,5 +1,3 @@
-/** @format */
-
 import { Link, useNavigate } from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,7 +10,6 @@ import { useEffect } from "react";
 const Login = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const user = localStorage.getItem("user");
 	const { isAuthenticated } = useSelector((state) => state.auth);
 
 	const onLogin = useGoogleLogin({

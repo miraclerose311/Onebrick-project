@@ -1,5 +1,3 @@
-/** @format */
-
 const BrickBuyModal = () => {
 	return (
 		<div

@@ -1,5 +1,3 @@
-/** @format */
-
 import { useRef } from "react";
 const BuyBrick = ({ modalPosition, clickedIndex, handleBuyButtonClicked }) => {
 	const modalRef = useRef(null);

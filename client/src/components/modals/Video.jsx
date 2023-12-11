@@ -1,7 +1,6 @@
-/** @format */
-
 import video from "../../assets/video.mp4";
 import { FaAnglesRight } from "react-icons/fa6";
+
 const Video = ({ handleNextModal }) => {
 	return (
 		<>

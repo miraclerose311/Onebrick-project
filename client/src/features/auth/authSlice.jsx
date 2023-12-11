@@ -1,12 +1,8 @@
-/** @format */
-
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-	// token: localStorage.getItem('token'),
+	token: localStorage.getItem('token'),
 	isAuthenticated: !!localStorage.getItem("user"),
-	currentUser: {},
-	profiled: false,
 };
 
 export const authSlice = createSlice({
@@ -16,23 +12,19 @@ export const authSlice = createSlice({
 		login: (state, action) => {
 			console.log("Google login function");
 			console.log("payload => ", action.payload._id);
-			localStorage.setItem("user", action.payload._id);
-			state.currentUser = action.payload;
-			// state.token = action.payload;
+			localStorage.setItem("token", action.payload.token);
 			state.isAuthenticated = true;
+			state.token = action.payload.token
 		},
-		logout: (state, action) => {
+		logout: (state) => {
 			localStorage.clear();
 			state.token = null;
 			state.isAuthenticated = false;
-		},
-		setIsProfiled: (state, action) => {
-			state.profiled = action.payload;
 		},
 	},
 });
 
 // Action creators are generated for each case reducer function
-export const { login, logout, setIsProfiled } = authSlice.actions;
+export const { login, logout } = authSlice.actions;
 
 export default authSlice.reducer;

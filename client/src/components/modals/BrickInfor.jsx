@@ -1,5 +1,3 @@
-/** @format */
-
 import { useRef } from "react";
 
 const BrickInfo = ({ brickInfo, modalPosition }) => {

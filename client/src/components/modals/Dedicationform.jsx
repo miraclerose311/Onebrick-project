@@ -1,5 +1,3 @@
-/** @format */
-
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { add_dedication } from "../../features/brick/brickSlice";

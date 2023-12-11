@@ -1,5 +1,3 @@
-/** @format */
-
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { FaAnglesRight } from "react-icons/fa6";

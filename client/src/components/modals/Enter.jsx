@@ -1,5 +1,3 @@
-/** @format */
-
 import { useSelector, useDispatch } from "react-redux";
 import {
 	increaseAmount,

@@ -1,5 +1,3 @@
-/** @format */
-
 const express = require("express");
 const router = express.Router();
 const auth = require("../../middleware/auth");
@@ -25,14 +23,6 @@ router.get("/sold_amount", async (req, res) => {
 			res.json(amount);
 		});
 });
-
-// router.get('/all', async (req, res) => {
-//   await Brick.find().then(result => {
-//     res.json(result)
-//   }).catch(function (error) {
-//     console.log(error)      // Failure
-//   });
-// });
 
 router.get("/all", async (req, res) => {
 	await Brick.find()
