@@ -261,8 +261,7 @@ const Buybrick = () => {
 	};
 	const renderBricks = () => {
 		const colBricks = [];
-
-		Array.from(Array(10).keys()).map((col) => {
+		Array.from(Array(140).keys()).map((col) => {
 			const colBrick = (
 				<div
 					key={col}
