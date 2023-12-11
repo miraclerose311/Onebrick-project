@@ -37,7 +37,6 @@ router.get("/sold_amount", async (req, res) => {
 router.get("/all", async (req, res) => {
 	await Brick.find()
 		.populate("user")
-		.limit(2500)
 		.then((result) => {
 			res.json(result);
 		})
@@ -69,9 +68,8 @@ router.post("/buy", async (req, res) => {
 		});
 });
 
-
 router.post("/dedication_insert", async (req, res) => {
-  // console.log("body", req.body);
+	// console.log("body", req.body);
 	const { brick_id, name, relationship, message } = req.body;
 
 	const newDedication = { name, relationship, message };
