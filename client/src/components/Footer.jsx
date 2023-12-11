@@ -88,8 +88,8 @@ export default function Footer() {
           </div>
         </div>
       </div> */}
-			<div className="flex flex-wrap px-20">
-				<div className="w-full xl:w-1/3 pl-4">
+			<div className="flex flex-wrap px-12 sm:px-16 md:px-24 lg:px-24 xl:px-40 2xl:px-64">
+				<div className="w-full xl:w-1/3">
 					<img
 						src={logoWhiteImg}
 						className="h-28"
@@ -100,7 +100,7 @@ export default function Footer() {
 						and support to those in their final journey.
 					</p>
 				</div>
-				<div className="w-full xl:w-2/3 flex flex-col lg:flex-row px-4">
+				<div className="w-full xl:w-2/3 flex flex-col lg:flex-row">
 					<div className="w-full flex flex-col md:flex-row">
 						<div className="w-full lg:w-1/2 flex flex-col text-gray-400">
 							<p className="py-4 text-2xl font-bold text-gray-300">

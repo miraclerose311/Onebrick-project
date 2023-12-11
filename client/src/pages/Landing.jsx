@@ -18,15 +18,15 @@ const Landing = () => {
 			<Navbar />
 
 			<div className="">
-				<div className="flex flex-wrap bg-gray-300 pt-32 ">
-					<div className="w-full lg:w-7/12  px-12 sm:px-16 md:px-24 lg:px-0">
+				<div className="flex flex-wrap bg-gray-300 pt-32 px-8 sm:px-16 md:px-24 lg:px-32 xl:px-44 2xl:px-64">
+					<div className="w-full lg:w-7/12 lg:px-0">
 						<img
 							src={Image6}
 							className="w-full h-full object-cover"
 						/>
 					</div>
-					<div className="w-full lg:w-5/12 flex flex-col mt-12 lg:mt-0 lg:pl-8 xl:pl-12 px-12 sm:px-16 md:px-24 py-4 md:py-12">
-						<p className="text-4xl sm:text-5xl md:text-6xl lg:text-5xl xl:text-6xl 2xl:text-7xl text-sky-600 font-montserrat font-bold">
+					<div className="w-full lg:w-5/12 flex flex-col mt-12 lg:mt-0 lg:pl-8 xl:pl-12 py-4 md:py-12">
+						<p className="text-center lg:text-left text-4xl sm:text-5xl md:text-6xl lg:text-5xl xl:text-6xl 2xl:text-7xl text-sky-600 font-montserrat font-bold">
 							Welcome to Alpha Hospice
 						</p>
 						<p className="text-lg sm:text-xl md:text-2xl lg:text-lg xl:text-xl 2xl:text-2xl font-raleway text-gray-500 pt-5">

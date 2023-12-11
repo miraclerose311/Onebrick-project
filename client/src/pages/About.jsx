@@ -172,8 +172,8 @@ const About = () => {
 				</div>
 			</div>
 
-			<div className="flex flex-col w-full lg:pb-24 lg:pt-28 px-8 sm:px-16 md:px-24 lg:px-24 xl:px-40 2xl:px-64 bg-white justify-center items-center">
-				<p className="font-bold text-4xl md:text-5xl xl:text-6xl 2xl:text-7xl text-center text-sky-700 pt-16 lg:pt-0 font-montserrat z-10">
+			<div className="flex flex-col w-full lg:py-28 px-8 sm:px-16 md:px-24 lg:px-24 xl:px-40 2xl:px-64 py-16 md:py-24 bg-white justify-center items-center">
+				<p className="font-bold text-4xl md:text-5xl xl:text-6xl 2xl:text-7xl text-center text-sky-700 lg:pt-0 font-montserrat z-10">
 					Moments of Compassion
 				</p>
 				<p className="text-2xl text-center text-neutral-600 py-3 font-raleway">
@@ -519,8 +519,8 @@ const About = () => {
 				</button>
 			</div>
 
-			<div className="flex flex-wrap w-full  px-8 sm:px-16 md:px-20 lg:px-24 xl:px-40 2xl:px-64 pt-12 relative justify-center">
-				<div className="absolute mt-12 xl:w-5/6 w-full h-5/6 bg-gray-200 right-0"></div>
+			<div className="flex flex-wrap w-full bg-gray-200  px-8 sm:px-16 md:px-20 lg:px-24 xl:px-40 2xl:px-64 pt-12 relative justify-center">
+				<div className="absolute mt-12 xl:w-5/6 w-full lg:h-5/6 bg-gray-200 right-0"></div>
 				<div className="lg:w-1/3 w-full z-10">
 					<img
 						src={Image2}
