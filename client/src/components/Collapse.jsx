@@ -13,17 +13,15 @@ const Collapse = ({ title, content }) => {
 	const classOfButton = expand
 		? "text-red-800 text-3xl"
 		: "text-2xl text-center";
-	const classOfContent = expand ? "flex text-xl" : "hidden";
+	const classOfContent = expand ? "flex text-xl w-fill" : "hidden";
 	return (
-		<div className="bg-white w-full px-3 py-2 flex-col rounded-lg">
+		<div
+			className="bg-white w-full cursor-pointer px-3 py-2 flex-col rounded-lg"
+			onClick={handleToggle}
+		>
 			<div className="flex justify-between items-center">
 				<p className={classOfTitle}>{title}</p>
-				<button
-					className={classOfButton}
-					onClick={handleToggle}
-				>
-					{expand ? "-" : "+"}
-				</button>
+				<button className={classOfButton}>{expand ? "-" : "+"}</button>
 			</div>
 			<p className={classOfContent}>{content}</p>
 		</div>
