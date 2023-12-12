@@ -15,13 +15,13 @@ export const getBricks = () => async (dispatch) => {
   }
 };
 
-// export const initialBricks = () => async (dispatch) => {
-//   try {
-//     await api.post('/brick/initial').then((res) => {});
-//   } catch (e) {
-//     console.log(e);
-//   }
-// };
+export const initialBricks = () => async (dispatch) => {
+  try {
+    await api.post('/brick/initial').then((res) => {});
+  } catch (e) {
+    console.log(e);
+  }
+};
 
 export const getSoldAmount = () => async (dispatch) => {
   try {

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
 import {
   increaseAmount,
   decreaseAmount,
@@ -8,7 +9,7 @@ import {
 import { FaAnglesRight } from 'react-icons/fa6';
 
 const IntroModal = ({ handleSkipModal }) => {
-  const { amount } = useSelector((state) => state.brick.brick);
+  const { amount } = useSelector((state) => state.brick.current);
   const { profile } = useSelector((state) => state.auth);
   const [skipIndex, setSkipIndex] = useState(1);
 
@@ -76,6 +77,10 @@ const IntroModal = ({ handleSkipModal }) => {
       </button>
     </>
   );
+};
+
+IntroModal.propTypes = {
+  handleSkipModal: PropTypes.func.isRequired,
 };
 
 export default IntroModal;

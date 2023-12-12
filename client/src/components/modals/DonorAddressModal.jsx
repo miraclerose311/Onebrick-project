@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
 import { jwtDecode } from 'jwt-decode';
 import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
 import { add_donor_info } from '../../features/brick/brickSlice';
@@ -11,7 +12,7 @@ const DonorAddressModal = ({ handleNextModal }) => {
   const [address, setAddress] = useState('');
   const [pin, setPin] = useState('');
   const [country, setCountry] = useState('');
-  const [region, setState] = useState(''); //region means state
+  const [region, setState] = useState(''); // region means state
 
   const [userId, setUserId] = useState(null);
 
@@ -61,6 +62,7 @@ const DonorAddressModal = ({ handleNextModal }) => {
       handleNextModal();
     }
   };
+
   return (
     <>
       <p className='text-4xl font-montserrat px-8'>Just one more step!</p>
@@ -101,6 +103,10 @@ const DonorAddressModal = ({ handleNextModal }) => {
       </button>
     </>
   );
+};
+
+DonorAddressModal.propTypes = {
+  handleNextModal: PropTypes.func.isRequired,
 };
 
 export default DonorAddressModal;

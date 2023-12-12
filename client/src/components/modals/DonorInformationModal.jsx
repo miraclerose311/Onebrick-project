@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 import { add_donor_info } from '../../features/brick/brickSlice';
 import { FaAnglesRight } from 'react-icons/fa6';
 import { setAlertWithTimeout } from '../../features/alert/alertSlice';
@@ -93,6 +94,10 @@ const DonorInformationModal = ({ handleNextModal }) => {
       </button>
     </>
   );
+};
+
+DonorInformationModal.propTypes = {
+  handleNextModal: PropTypes.func.isRequired,
 };
 
 export default DonorInformationModal;

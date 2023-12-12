@@ -1,21 +1,18 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import { addDedication } from '../../features/brick/brickSlice';
-
-import { FaAnglesRight } from 'react-icons/fa6';
+import { add_dedication } from '../../features/brick/brickSlice';
 import user from '../../assets/img/user.png';
 
-const DedicationFormModal = ({ handleNextModal, brick_id }) => {
-  // Declear States for Dedication Form
+const ConfirmModal = ({ handleSold }) => {
+  //Declear States for Dedication Form
   const [name, setName] = useState('');
   const [relationship, setRelationship] = useState('');
   const [message, setMessage] = useState('');
-  const [image, setImage] = useState();
+  const [image, setImage] = useState(null);
 
-  // Get Dedication data from Redux for display when redirect
+  //Get Dedication data from Redux for display when redirect
   const { dedication } = useSelector((state) => state.brick.current);
-  const dispatch = useDispatch();
 
   useEffect(() => {
     setName(dedication.name);
@@ -29,17 +26,17 @@ const DedicationFormModal = ({ handleNextModal, brick_id }) => {
     dedication.image,
   ]);
 
+  const dispatch = useDispatch();
   const handleSubmit = () => {
     const dedicationData = {
-      brick_id,
       name,
       relationship,
       message,
       image,
       // : JSON.stringify(image)
     };
-    dispatch(addDedication(dedicationData));
-    handleNextModal();
+    dispatch(add_dedication(dedicationData));
+    handleSold();
   };
 
   return (
@@ -99,18 +96,14 @@ const DedicationFormModal = ({ handleNextModal, brick_id }) => {
         className='text-gray-100 bg-red-700 px-4 py-2 my-4 rounded-md'
         onClick={handleSubmit}
       >
-        <span className='flex flex-row items-center justify-between gap-x-3'>
-          SAVE DEDICATION
-          <FaAnglesRight />
-        </span>
+        MAKE PAYMENT
       </button>
     </>
   );
 };
 
-DedicationFormModal.propTypes = {
-  handleNextModal: PropTypes.func.isRequired,
-  brick_id: PropTypes.string.isRequired,
+ConfirmModal.propTypes = {
+  handleSold: PropTypes.func.isRequired,
 };
 
-export default DedicationFormModal;
+export default ConfirmModal;

@@ -17,7 +17,7 @@ import { logout } from '../features/auth/authSlice';
 
 // Import modal components
 import IntroModal from '../components/modals/IntroModal';
-import DonorInformationModal from '../components/modals/DonorinformationModal';
+import DonorInformationModal from '../components/modals/DonorInformationModal';
 import DonorAddressModal from '../components/modals/DonorAddressModal';
 import VideoModal from '../components/modals/VideoModal';
 import DedicationFormModal from '../components/modals/DedicationFormModal';
@@ -50,7 +50,7 @@ const Buybrick = () => {
 
   // Create brick states
   const { bricks, loading } = useSelector((state) => state.brick);
-  const { amount } = useSelector((state) => state.brick.brick);
+  const { amount } = useSelector((state) => state.brick.current);
   const [clickedIndex, setClickedIndex] = useState(null);
   const [search, setSearch] = useState('');
   const [filtered, setFiltered] = useState([]);
@@ -236,24 +236,30 @@ const Buybrick = () => {
     navigate('/login');
   };
 
-  const handleSearch = (e) => {
-    const searchtext = e.target.value;
-    setSearch(searchtext);
-    if (searchtext.length < 2) setFiltered([]);
+  const onChangeSearchInput = (e) => {
+    if (e.target.value.length > 2) setSearch(e.target.value);
     else {
+      setSearch('');
+      setFiltered([]);
+    }
+  };
+
+  useEffect(() => {
+    if (search !== '') {
       const temp = bricks.filter((item) => {
-        if ('user' in item) {
+        if (item.user) {
           return (
-            (item.sold && item.user.profile.fullName.includes(searchtext)) ||
-            item.brick_id.includes(searchtext)
+            (item.sold && item.user.profile.fullName.includes(search)) ||
+            item.brick_id.includes(search)
           );
         } else {
-          return item.sold && item.brick_id.includes(searchtext);
+          return item.sold && item.brick_id.includes(search);
         }
       });
       setFiltered(temp);
     }
-  };
+  }, [search, bricks]);
+
   const renderBricks = () => {
     const colBricks = [];
     Array.from(Array(140).keys()).map((col) => {
@@ -268,7 +274,9 @@ const Buybrick = () => {
                 className={classNames(
                   'border-2 border-white rounded-md w-5 h-5',
                   index === clickedIndex ? 'bg-yellow-400' : 'bg-gray-100',
-                  bricks[index].sold && 'opacity-0',
+                  !filtered.includes(bricks[index]) &&
+                    bricks[index].sold &&
+                    'opacity-0',
                   isSoldModalOpen && clickedIndex == index && 'bg-white',
                   filtered.includes(bricks[index]) && 'bg-red-400 custom-shadow'
                 )}
@@ -360,10 +368,9 @@ const Buybrick = () => {
         <div className='flex items-center mx-4'>
           <input
             type='search'
-            value={search}
             className='border-2 border-gray-400 rounded-full w-[240px] h-10 px-4 py-2 bg-gray-200 outline-none focus-visible:border-sky-700'
             placeholder='Search the Wall of Hope'
-            onChange={handleSearch}
+            onChange={onChangeSearchInput}
           />
         </div>
         <Menu as='div' className='relative flex justify-center itmes-center'>

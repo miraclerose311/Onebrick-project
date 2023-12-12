@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  brick: {
+  current: {
     id: '',
     amount: 1,
     dedication: {
@@ -51,28 +51,28 @@ export const brickSlice = createSlice({
       state.soldAmount = action.payload;
     },
     increaseAmount: (state) => {
-      state.brick.amount += 1;
+      state.current.amount += 1;
     },
     decreaseAmount: (state) => {
-      state.brick.amount -= 1;
+      state.current.amount -= 1;
     },
     selectAmount: (state, action) => {
-      state.brick.amount = action.payload;
+      state.current.amount = action.payload;
     },
     changeLocation: (state, action) => {
-      state.brick.location = action.payload;
+      state.current.location = action.payload;
     },
     add_donor_info: (state, action) => {
       state.donor = Object.assign(state.donor, action.payload);
     },
     add_donor_address: (state, action) => {
-      state.brick.donor_address = action.payload;
+      state.current.donor_address = action.payload;
     },
     addDedication: (state, action) => {
-      state.brick.dedication = action.payload;
+      state.current.dedication = action.payload;
     },
     clear_brick: (state) => {
-      state.brick = initialState.brick;
+      state.current = initialState.brick;
     },
   },
 });

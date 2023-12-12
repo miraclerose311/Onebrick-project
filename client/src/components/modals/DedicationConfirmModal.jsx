@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 import { FaAnglesRight } from 'react-icons/fa6';
 import user from '../../assets/img/user.png';
 
@@ -10,7 +11,7 @@ const DedicationConfirmModal = ({ handleBuyBrick }) => {
   const [image, setImage] = useState(null);
 
   //Get Dedication data from Redux for display when redirect
-  const { dedication } = useSelector((state) => state.brick.brick);
+  const { dedication } = useSelector((state) => state.brick.current);
 
   useEffect(() => {
     setName(dedication.name);
@@ -73,6 +74,10 @@ const DedicationConfirmModal = ({ handleBuyBrick }) => {
       </button>
     </>
   );
+};
+
+DedicationConfirmModal.propTypes = {
+  handleBuyBrick: PropTypes.func.isRequired,
 };
 
 export default DedicationConfirmModal;

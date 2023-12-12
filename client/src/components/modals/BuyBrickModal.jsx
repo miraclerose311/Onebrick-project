@@ -1,4 +1,6 @@
 import { useRef } from 'react';
+import PropTypes from 'prop-types';
+
 const BuyBrickModal = ({
   modalPosition,
   clickedIndex,
@@ -29,6 +31,12 @@ const BuyBrickModal = ({
       </button>
     </div>
   );
+};
+
+BuyBrickModal.propTypes = {
+  modalPosition: PropTypes.object.isRequired,
+  clickedIndex: PropTypes.string.isRequired,
+  handleBuyBrickButtonClick: PropTypes.func.isRequired,
 };
 
 export default BuyBrickModal;
