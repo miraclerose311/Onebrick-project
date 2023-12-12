@@ -1,7 +1,7 @@
 import video from "../../assets/video.mp4";
 import { FaAnglesRight } from "react-icons/fa6";
 
-const Video = ({ handleNextModal }) => {
+const VideoModal = ({ handleNextModal }) => {
 	return (
 		<>
 			<p className="text-4xl font-montserrat px-8">Congratulations!</p>
@@ -36,4 +36,4 @@ const Video = ({ handleNextModal }) => {
 	);
 };
 
-export default Video;
+export default VideoModal;

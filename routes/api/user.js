@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-// const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('config');
@@ -63,25 +62,33 @@ router.post(
   }
 );
 
-router.post('/isProfiled', async(req, res) => {
-  const count = await User.findById({_id: req.body.user_id}).then(result => {
-    res.json(result)
-  })
-})
+// router.post('/isProfiled', async(req, res) => {
+//   const count = await User.findById({_id: req.body.user_id}).then(result => {
+//     res.json(result)
+//   })
+// })
 
-router.post('/add_profile', async(req, res) => {
-  const profileData = {fullName, mobile, pan, aadhaar, address, country, resion, pin} = req.body
+router.post('/add-profile', async (req, res) => {
+  const profileData = ({
+    fullName,
+    mobile,
+    pan,
+    aadhaar,
+    address,
+    country,
+    resion,
+    pin,
+  } = req.body);
   try {
-      await User.findByIdAndUpdate(
-        {_id: new mongoose.Types.ObjectId(req.body.user_id)},
-        { $set: {profile: profileData}},
-        {upsert: true}
-      )
-    }catch(e) {
+    await User.findByIdAndUpdate(
+      { _id: new mongoose.Types.ObjectId(req.body.user_id) },
+      { $set: { profile: profileData } },
+      { upsert: true }
+    );
+  } catch (e) {
     console.log(e);
   }
-})
-
+});
 
 router.get('/', auth, async (req, res) => {
   try {

@@ -1,36 +1,32 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { v4 as uuidv4 } from 'uuid';
 
-const initialState = [];
+const initialState = { alertType: null, content: '' };
 
 export const alertSlice = createSlice({
   name: 'alert',
   initialState,
   reducers: {
     setAlert: (state, action) => {
-      const id = uuidv4();
-      const newAlert = {
-        id,
-        alertType: action.payload.alertType,
-        content: action.payload.content,
-      };
-      console.log('Calling setAlert');
-      console.log(action.payload);
-      state.push(newAlert);
-      setTimeout(() => {
-        const index = state.findIndex((alert) => alert.id === id);
-        removeAlert(index);
-      }, 5000);
+      state.alertType = action.payload.alertType;
+      state.content = action.payload.content;
     },
 
-    removeAlert: (state, action) => {
-      const { index } = action.payload;
-      state.splice(index, 1);
+    removeAlert: (state) => {
+      console.log('Executing removeAlert');
+      state.alertType = null;
+      state.content = '';
     },
   },
 });
 
 // Action creators are generated for each case reducer function
 export const { setAlert, removeAlert } = alertSlice.actions;
+
+export const setAlertWithTimeout = (alertData) => (dispatch) => {
+  dispatch(setAlert(alertData));
+  setTimeout(() => {
+    dispatch(removeAlert());
+  }, 2000);
+};
 
 export default alertSlice.reducer;

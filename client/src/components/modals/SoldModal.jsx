@@ -1,4 +1,4 @@
-const Sold = ({ modalPosition, brick_id }) => {
+const SoldModal = ({ modalPosition, brick_id }) => {
 	return (
 		<div
 			className="border border-gray-600 rounded bg-gray-200 absolute px-4 py-8 w-52 h-64 flex flex-col justify-center items-center z-30"
@@ -21,4 +21,4 @@ const Sold = ({ modalPosition, brick_id }) => {
 	);
 };
 
-export default Sold;
+export default SoldModal;

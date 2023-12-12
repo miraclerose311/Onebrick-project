@@ -3,7 +3,7 @@ import {clearDonor} from '../features/brick/brickSlice'
 
 export const addProfile = (data) => async (dispatch) => {
   try {
-    await api.post('/users/add_profile', data)
+    await api.post('/users/add-profile', data)
       .then(res => {
         dispatch(clearDonor())
       })

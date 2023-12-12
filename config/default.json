@@ -1,4 +1,4 @@
 {
   "mongoURI": "mongodb+srv://bentan:0tKsBLx8CmnQqcCX@cluster0.wa2fqzo.mongodb.net/?retryWrites=true&w=majority",
-  "jwtSecret": "secretzasfasd"
+  "jwtSecret": "OneBrickSecret"
 }

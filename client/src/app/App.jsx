@@ -1,4 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
 
 // Import custom page components
 import About from '../pages/About';
@@ -10,10 +12,35 @@ import Donors from '../pages/Donors';
 import Landing from '../pages/Landing';
 import Contact from '../pages/Contact';
 
+// Import React toast for Alert
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 function App() {
+  const alert = useSelector((state) => state.alert);
+
+  useEffect(() => {
+    console.log(alert);
+
+    if (alert.alertType)
+      switch (alert.alertType) {
+        case 'success':
+          toast.success(alert.content, {
+            position: 'top-right',
+            autoClose: 2000,
+          });
+          break;
+        case 'error':
+          toast.warn(alert.content, {
+            position: 'top-right',
+          });
+          break;
+      }
+  }, [alert]);
 
   return (
     <>
+      <ToastContainer />
       <Router>
         <Routes>
           <Route path='/' exact element={<Landing />} />

@@ -1,6 +1,6 @@
 import { useRef } from "react";
 
-const BrickInfo = ({ brickInfo, modalPosition }) => {
+const BrickInformationModal = ({ brickInfo, modalPosition }) => {
 	// const modalRef = useRef(null);
 
 	return (
@@ -45,4 +45,4 @@ const BrickInfo = ({ brickInfo, modalPosition }) => {
 	);
 };
 
-export default BrickInfo;
+export default BrickInformationModal;

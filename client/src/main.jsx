@@ -1,4 +1,3 @@
-import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './app/App.jsx';
 import './index.css';
@@ -8,10 +7,10 @@ import store from './app/store.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
-    <React.StrictMode>
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </React.StrictMode>
+    {/* <React.StrictMode> */}
+    <Provider store={store}>
+      <App />
+    </Provider>
+    {/* </React.StrictMode> */}
   </GoogleOAuthProvider>
 );

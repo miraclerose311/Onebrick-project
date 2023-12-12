@@ -4,38 +4,38 @@ const BrickSchema = new mongoose.Schema({
   brick_id: {
     type: String,
     required: true,
-    unique: true
+    unique: true,
   },
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'user'
+    ref: 'user',
   },
   amount: {
-    type: Number
+    type: Number,
   },
   location: {
-    type: String
+    type: String,
   },
   dedication: {
     name: {
-      type: String
+      type: String,
     },
     relationship: {
-      type: String
+      type: String,
     },
     message: {
-      type: String
+      type: String,
     },
     image: {
-      type: Buffer
-    }
+      type: Buffer,
+    },
   },
   sold: {
     type: Boolean,
-    default: false
-  }
+    default: false,
+  },
 });
 
-BrickSchema.index({brick_id: 1}, {user: 1}, {amount: 1}, {sold: true})
+// BrickSchema.index({brick_id: 1}, {user: 1}, {amount: 1}, {sold: true})
 
 module.exports = mongoose.model('bricks', BrickSchema);

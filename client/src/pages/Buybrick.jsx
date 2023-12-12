@@ -6,52 +6,50 @@ import {
   useRef,
   useState,
 } from 'react';
-
-import { Menu, Transition } from '@headlessui/react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
+import { Menu, Transition } from '@headlessui/react';
 
-import brickImage from '../assets/img/alpha_building_high_res.jpg';
-import { Oval } from 'react-loader-spinner';
+import { getBricks, buyBrick } from '../actions/brick';
+import { setAlertWithTimeout } from '../features/alert/alertSlice';
 import { logout } from '../features/auth/authSlice';
 
-// Iimport modal components and css, icons
-import Enter from '../components/modals/Enter';
-import DonorInformation from '../components/modals/Donorinfo';
-import DonorAddress from '../components/modals/Donoraddress';
-import Video from '../components/modals/Video';
-import DedicationForm from '../components/modals/Dedicationform';
-import DedicationConfirm from '../components/modals/Dedicationconfirm';
-import UserImg from '../assets/img/user.png';
-import './Modal.css';
-import '../index.css';
+// Import modal components
+import IntroModal from '../components/modals/IntroModal';
+import DonorInformationModal from '../components/modals/DonorinformationModal';
+import DonorAddressModal from '../components/modals/DonorAddressModal';
+import VideoModal from '../components/modals/VideoModal';
+import DedicationFormModal from '../components/modals/DedicationFormModal';
+import DedicationConfirmModal from '../components/modals/DedicationConfirmModal';
+import BuyBrickModal from '../components/modals/BuyBrickModal';
+import BrickInformationModal from '../components/modals/BrickInformationModal';
+import SoldModal from '../components/modals/SoldModal';
 
-// Import icons
+// Import assets
+import UserImg from '../assets/img/user.png';
+import brickImage from '../assets/img/alpha_building_high_res.jpg';
+import './Modal.css';
 import { TiArrowLeftThick } from 'react-icons/ti';
 import { MdCancel } from 'react-icons/md';
 import { FcMenu } from 'react-icons/fc';
-
-import { getBricks, buy } from '../actions/brick';
-import BuyBrick from '../components/modals/BuyBrick';
-import BrickInfo from '../components/modals/BrickInfor';
+import { Oval } from 'react-loader-spinner';
 import ProgressBar from '../components/ProgressBar';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import Sold from '../components/modals/Sold';
+import { selectAmount } from '../features/brick/brickSlice';
 
 const Buybrick = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = localStorage.getItem('user');
+  const { isAuthenticated } = useSelector((state) => state.auth);
+
   // Initialize bircks states
   useEffect(() => {
     dispatch(getBricks());
-    useCallback;
   }, [dispatch]);
-  // Create bricks states
-  const { bricks, loading } = useSelector((state) => state.brick);
 
+  // Create brick states
+  const { bricks, loading } = useSelector((state) => state.brick);
   const { amount } = useSelector((state) => state.brick.brick);
   const [clickedIndex, setClickedIndex] = useState(null);
   const [search, setSearch] = useState('');
@@ -75,6 +73,7 @@ const Buybrick = () => {
     return classes.filter(Boolean).join(' ');
   }
 
+  // ----------------------- Handle resize operations : Start ------------------------------------
   const handleResize = useCallback(() => {
     if (containerRef !== null) {
       const width = containerRef.current.clientWidth;
@@ -126,17 +125,10 @@ const Buybrick = () => {
     image.onload = () => handleImageOnLoad(image);
     image.src = src;
   }, [src]);
+  // ----------------------- Handle resize operations : End ------------------------------------
 
-  // const notify = () => {
-  //   toast.warn('Logouted!', {
-  //     position: 'right-top',
-  //     autoClose: 2000,
-  //     hideProgressBar: false,
-  //     closeOnClick: false,
-  //   });
-  // };
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  // Initialize modal variables
+  const [isBuyBrickModalOpen, setIsBuyBrickModalOpen] = useState(false);
   const [isBrickInfoModalOpen, setIsBrickInfoModalOpen] = useState(false);
   const [isSlideModalOpen, setIsSlideModalOpen] = useState(false);
   const [isSoldModalOpen, setIsSoldModalOpen] = useState(false);
@@ -150,9 +142,9 @@ const Buybrick = () => {
       setIsBrickInfoModalOpen(false);
       setIsSoldModalOpen(false);
       setClickedIndex(index);
-      setIsModalOpen(true);
+      setIsBuyBrickModalOpen(true);
     } else {
-      setIsModalOpen(false);
+      setIsBuyBrickModalOpen(false);
     }
   };
 
@@ -165,20 +157,18 @@ const Buybrick = () => {
     setModalPosition({ x: x + 10, y: y + 10 });
     if (x > 1000) setModalPosition({ x: x - 220, y: y });
     if (y > 600) setModalPosition({ x: x, y: y - 300 });
-    // Open the modal
-    // setIsModalOpen(true);
   };
 
   const handleRightClick = (e) => {
     e.preventDefault();
     //Close modal when right clicked
-    setIsModalOpen(false);
+    setIsBuyBrickModalOpen(false);
     setIsSoldModalOpen(false);
     setClickedIndex(null);
   };
 
   const handleMouseOver = (e) => {
-    if (bricks[e.target.id].sold && !isModalOpen && !isSoldModalOpen) {
+    if (bricks[e.target.id].sold && !isBuyBrickModalOpen && !isSoldModalOpen) {
       // Get the position of the clicked point
       const x = e.clientX;
       const y = e.clientY;
@@ -195,15 +185,17 @@ const Buybrick = () => {
     }
   };
 
-  const handleBuyButtonClicked = () => {
-    if (user) {
+  const handleBuyBrickButtonClick = () => {
+    if (isAuthenticated) {
       setIsSlideModalOpen(true);
       setModalContent(1);
-      setIsModalOpen(false);
+      setIsBuyBrickModalOpen(false);
     } else {
       navigate('/login');
     }
   };
+
+  console.log(modalContent);
 
   const handleCloseModal = () => {
     setIsSlideModalOpen(false);
@@ -217,23 +209,31 @@ const Buybrick = () => {
     setModalContent(modalContent + 1);
   };
 
-  const handleSkipModal = (count) => {
-    setModalContent(modalContent + count);
+  const handleSkipModal = (index) => {
+    setModalContent(index);
   };
 
-  const handleSold = () => {
-    dispatch(buy(bricks[clickedIndex].brick_id, user, amount, clickedIndex));
+  const handleBuyBrick = () => {
+    dispatch(
+      buyBrick(bricks[clickedIndex].brick_id, user, amount, clickedIndex)
+    );
 
     setIsSlideModalOpen(false);
     setIsSoldModalOpen(true);
   };
-  const handleLogout = () => {
-    if (user) {
-      dispatch(logout());
-      toast.success('Success Logouted');
-    }
 
-    // notify();
+  const handleLogout = () => {
+    dispatch(selectAmount(1));
+    dispatch(logout());
+    const successAlert = {
+      alertType: 'success',
+      content: 'Successfully signed out',
+    };
+    dispatch(setAlertWithTimeout(successAlert));
+  };
+
+  const handleLogin = () => {
+    navigate('/login');
   };
 
   const handleSearch = (e) => {
@@ -301,61 +301,59 @@ const Buybrick = () => {
             leaveFrom='transform opacity-100 scale-100'
             leaveTo='transform opacity-0 scale-95'
           >
-            <Menu.Items className='absolute left-0 top-12 z-10 mt-2 w-56 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'>
-              <div className='py-1'>
-                <Menu.Item>
-                  {({ active }) => (
-                    <Link
-                      to='/'
-                      className={classNames(
-                        active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                        'block px-4 py-2 text-left text-sm'
-                      )}
-                    >
-                      Home
-                    </Link>
-                  )}
-                </Menu.Item>
-                <Menu.Item>
-                  {({ active }) => (
-                    <Link
-                      to='/about'
-                      className={classNames(
-                        active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                        'block px-4 py-2 text-left text-sm'
-                      )}
-                    >
-                      About Us
-                    </Link>
-                  )}
-                </Menu.Item>
-                <Menu.Item>
-                  {({ active }) => (
-                    <Link
-                      to='/beneficiaries'
-                      className={classNames(
-                        active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                        'block px-4 py-2 text-left text-sm'
-                      )}
-                    >
-                      Beneficiaries
-                    </Link>
-                  )}
-                </Menu.Item>
-                <Menu.Item>
-                  {({ active }) => (
-                    <Link
-                      to='/contact'
-                      className={classNames(
-                        active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                        'block px-4 py-2 text-left text-sm'
-                      )}
-                    >
-                      Contact Us
-                    </Link>
-                  )}
-                </Menu.Item>
-              </div>
+            <Menu.Items className='absolute left-0 top-12 z-10 mt-2 w-36 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'>
+              <Menu.Item>
+                {({ active }) => (
+                  <Link
+                    to='/'
+                    className={classNames(
+                      active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                      'block px-4 py-2 text-left text-sm'
+                    )}
+                  >
+                    Home
+                  </Link>
+                )}
+              </Menu.Item>
+              <Menu.Item>
+                {({ active }) => (
+                  <Link
+                    to='/about'
+                    className={classNames(
+                      active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                      'block px-4 py-2 text-left text-sm'
+                    )}
+                  >
+                    About Us
+                  </Link>
+                )}
+              </Menu.Item>
+              <Menu.Item>
+                {({ active }) => (
+                  <Link
+                    to='/beneficiaries'
+                    className={classNames(
+                      active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                      'block px-4 py-2 text-left text-sm'
+                    )}
+                  >
+                    Beneficiaries
+                  </Link>
+                )}
+              </Menu.Item>
+              <Menu.Item>
+                {({ active }) => (
+                  <Link
+                    to='/contact'
+                    className={classNames(
+                      active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                      'block px-4 py-2 text-left text-sm'
+                    )}
+                  >
+                    Contact Us
+                  </Link>
+                )}
+              </Menu.Item>
             </Menu.Items>
           </Transition>
         </Menu>
@@ -368,28 +366,74 @@ const Buybrick = () => {
             onChange={handleSearch}
           />
         </div>
-        <img
-          src={UserImg}
-          className='h-10 hover:border-2 border-sky-700 rounded-full'
-          onClick={handleLogout}
-        />
+        <Menu as='div' className='relative flex justify-center itmes-center'>
+          <Menu.Button className='btn rounded-full'>
+            <img
+              src={UserImg}
+              className='h-10 hover:border-2 border-sky-700 rounded-full'
+            />
+          </Menu.Button>
+          <Transition
+            as={Fragment}
+            enter='transition ease-out duration-100'
+            enterFrom='transform opacity-0 scale-95'
+            enterTo='transform opacity-100 scale-100'
+            leave='transition ease-in duration-75'
+            leaveFrom='transform opacity-100 scale-100'
+            leaveTo='transform opacity-0 scale-95'
+          >
+            <Menu.Items className='absolute right-0 top-12 z-10 mt-2 w-24 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'>
+              <Menu.Item>
+                {isAuthenticated
+                  ? ({ active }) => (
+                      <button
+                        className={classNames(
+                          active
+                            ? 'bg-gray-100 text-gray-900'
+                            : 'text-gray-700',
+                          'block px-4 py-2 text-sm w-full rounded-md'
+                        )}
+                        onClick={handleLogout}
+                      >
+                        Sign out
+                      </button>
+                    )
+                  : ({ active }) => (
+                      <button
+                        className={classNames(
+                          active
+                            ? 'bg-gray-100 text-gray-900'
+                            : 'text-gray-700',
+                          'block px-4 py-2 text-sm w-full rounded-md'
+                        )}
+                        onClick={handleLogin}
+                      >
+                        Sign In
+                      </button>
+                    )}
+              </Menu.Item>
+            </Menu.Items>
+          </Transition>
+        </Menu>
       </div>
 
       <ProgressBar />
-      <ToastContainer />
 
-      {isModalOpen && (
-        <BuyBrick
+      {isBuyBrickModalOpen && (
+        <BuyBrickModal
           modalPosition={modalPosition}
           clickedIndex={bricks[clickedIndex].brick_id}
-          handleBuyButtonClicked={handleBuyButtonClicked}
+          handleBuyBrickButtonClick={handleBuyBrickButtonClick}
         />
       )}
       {isBrickInfoModalOpen && (
-        <BrickInfo brickInfo={hovered} modalPosition={modalPosition} />
+        <BrickInformationModal
+          brickInfo={hovered}
+          modalPosition={modalPosition}
+        />
       )}
       {isSoldModalOpen && (
-        <Sold
+        <SoldModal
           brick_id={bricks[clickedIndex].brick_id}
           modalPosition={modalPosition}
         />
@@ -398,30 +442,34 @@ const Buybrick = () => {
         <div className='modal'>
           <div className='modal-content flex-col flex justify-center items-center relative'>
             <TiArrowLeftThick
-              className='modal-previous-button text-2xl'
+              className='modal-previous-button text-2xl hover:cursor-pointer'
               onClick={handlePreviousModal}
             />
 
             <MdCancel
-              className='modal-close-button text-2xl'
+              className='modal-close-button text-2xl hover:cursor-pointer'
               onClick={handleCloseModal}
             />
-            {modalContent === 1 && <Enter handleNextModal={handleSkipModal} />}
+            {modalContent === 1 && (
+              <IntroModal handleSkipModal={handleSkipModal} />
+            )}
             {modalContent === 2 && (
-              <DonorInformation handleNextModal={handleNextModal} />
+              <DonorInformationModal handleNextModal={handleNextModal} />
             )}
             {modalContent === 3 && (
-              <DonorAddress handleNextModal={handleNextModal} />
+              <DonorAddressModal handleNextModal={handleNextModal} />
             )}
-            {modalContent === 4 && <Video handleNextModal={handleNextModal} />}
+            {modalContent === 4 && (
+              <VideoModal handleNextModal={handleNextModal} />
+            )}
             {modalContent === 5 && (
-              <DedicationForm
+              <DedicationFormModal
                 handleNextModal={handleNextModal}
                 brick_id={bricks[clickedIndex].brick_id}
               />
             )}
             {modalContent === 6 && (
-              <DedicationConfirm handleSold={handleSold} />
+              <DedicationConfirmModal handleBuyBrick={handleBuyBrick} />
             )}
           </div>
         </div>
