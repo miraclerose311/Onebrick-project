@@ -12,7 +12,6 @@ export const alertSlice = createSlice({
     },
 
     removeAlert: (state) => {
-      console.log('Executing removeAlert');
       state.alertType = null;
       state.content = '';
     },

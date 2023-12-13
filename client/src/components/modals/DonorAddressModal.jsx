@@ -23,7 +23,6 @@ const DonorAddressModal = ({ handleNextModal }) => {
   useEffect(() => {
     if (token) {
       const { id } = jwtDecode(token);
-      console.log(id);
       setUserId(id);
     }
   }, [token]);

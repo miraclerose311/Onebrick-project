@@ -18,8 +18,6 @@ const IntroModal = ({ handleSkipModal }) => {
     else setSkipIndex(4);
   }, [profile]);
 
-  console.log(skipIndex);
-
   const dispatch = useDispatch();
 
   const handleIncreaseAmount = () => {

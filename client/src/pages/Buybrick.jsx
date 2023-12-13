@@ -6,14 +6,16 @@ import {
   useRef,
   useState,
 } from 'react';
+import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
-import { Menu, Transition } from '@headlessui/react';
 
-import { getBricks, buyBrick } from '../actions/brick';
+import { getBricks } from '../actions/brick';
+import { createOrder } from '../actions/payment';
 import { setAlertWithTimeout } from '../features/alert/alertSlice';
 import { logout } from '../features/auth/authSlice';
+import { setAlert } from '../features/alert/alertSlice';
 
 // Import modal components
 import IntroModal from '../components/modals/IntroModal';
@@ -36,11 +38,11 @@ import { FcMenu } from 'react-icons/fc';
 import { Oval } from 'react-loader-spinner';
 import ProgressBar from '../components/ProgressBar';
 import { selectAmount } from '../features/brick/brickSlice';
+import { Menu, Transition } from '@headlessui/react';
 
 const Buybrick = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const user = localStorage.getItem('user');
   const { isAuthenticated } = useSelector((state) => state.auth);
 
   // Initialize bircks states
@@ -48,12 +50,15 @@ const Buybrick = () => {
     dispatch(getBricks());
   }, [dispatch]);
 
-  // Create brick states
+  // Fetch brick states
   const { bricks, loading } = useSelector((state) => state.brick);
   const { amount } = useSelector((state) => state.brick.current);
   const [clickedIndex, setClickedIndex] = useState(null);
   const [search, setSearch] = useState('');
   const [filtered, setFiltered] = useState([]);
+
+  // Fetch payment states
+  const { order } = useSelector((state) => state.payment);
 
   // Initialize container and image states
   const containerRef = useRef();
@@ -195,8 +200,6 @@ const Buybrick = () => {
     }
   };
 
-  console.log(modalContent);
-
   const handleCloseModal = () => {
     setIsSlideModalOpen(false);
   };
@@ -213,13 +216,83 @@ const Buybrick = () => {
     setModalContent(index);
   };
 
-  const handleBuyBrick = () => {
-    dispatch(
-      buyBrick(bricks[clickedIndex].brick_id, user, amount, clickedIndex)
+  const handleBuyBrick = async () => {
+    const res = await loadScript(
+      'https://checkout.razorpay.com/v1/checkout.js'
     );
 
+    if (!res) {
+      alert('Razorpay SDK failed to load. Are you online?');
+      return;
+    }
+
+    dispatch(createOrder(amount));
+
     setIsSlideModalOpen(false);
-    setIsSoldModalOpen(true);
+  };
+
+  useEffect(() => {
+    if (order.order_id !== '') {
+      console.log('____________________________');
+
+      const { amount, order_id, currency } = order;
+      console.log(order_id);
+      const options = {
+        key: 'rzp_live_DskevSh84kfZ5L',
+        amount: amount,
+        currency: currency,
+        name: 'Soumya Corp.',
+        description: 'Test Transaction',
+        order_id: order_id,
+        handler: async function (response) {
+          const data = {
+            orderCreationId: order_id,
+            razorpayPaymentId: response.razorpay_payment_id,
+            razorpayOrderId: response.razorpay_order_id,
+            razorpaySignature: response.razorpay_signature,
+          };
+
+          console.log(data);
+
+          const result = await axios.post(
+            `${import.meta.env.VITE_BACKEND_URL}/api/payment/success`,
+            data
+          );
+
+          dispatch(
+            setAlert({ alertType: 'success', content: result.data.msg })
+          );
+        },
+        prefill: {
+          name: 'John Doe',
+          email: 'johndoe@example.com',
+          contact: '9999999999',
+        },
+        notes: {
+          address: 'Alpha Hospice',
+        },
+        theme: {
+          color: '#61dafb',
+        },
+      };
+
+      const paymentObject = new window.Razorpay(options);
+      paymentObject.open();
+    }
+  }, [order, dispatch]);
+
+  const loadScript = (src) => {
+    return new Promise((resolve) => {
+      const script = document.createElement('script');
+      script.src = src;
+      script.onload = () => {
+        resolve(true);
+      };
+      script.onerror = () => {
+        resolve(false);
+      };
+      document.body.appendChild(script);
+    });
   };
 
   const handleLogout = () => {

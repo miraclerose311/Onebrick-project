@@ -1,9 +1,5 @@
 import api from '../utils/api';
-import {
-  setBricks,
-  soldBrick,
-  setSoldAmount,
-} from '../features/brick/brickSlice';
+import { setBricks, setSoldAmount } from '../features/brick/brickSlice';
 
 export const getBricks = () => async (dispatch) => {
   try {
@@ -15,9 +11,11 @@ export const getBricks = () => async (dispatch) => {
   }
 };
 
-export const initialBricks = () => async (dispatch) => {
+export const initialBricks = async () => {
   try {
-    await api.post('/brick/initial').then((res) => {});
+    await api.post('/brick/initial').then(() => {
+      console.log('Successfully initialized');
+    });
   } catch (e) {
     console.log(e);
   }
@@ -34,18 +32,14 @@ export const getSoldAmount = () => async (dispatch) => {
 };
 
 export const buyBrick = (brick_id, user, amount, index) => async (dispatch) => {
-  try {
-    await api
-      .post('/brick/buy', { brick_id, user, amount })
-      .then((res) => {
-        dispatch(soldBrick({ todo: res.data, index }));
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  } catch (e) {
-    console.log(e);
-  }
+  await api
+    .post('/brick/order', { amount })
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
 
 // export const addDedication = async (dedication) => {

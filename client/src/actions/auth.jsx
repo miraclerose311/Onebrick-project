@@ -7,7 +7,7 @@ export const googleRegister = (access_token) => async (dispatch) => {
     await api
       .post('/auth/google-register', JSON.stringify({ access_token }))
       .then((res) => {
-        console.log('Google Register payload => ', res.data);
+        dispatch(login(res.data));
       });
   } catch (e) {
     if (e.response.data['Error'] == 'This user already exists') {
@@ -33,7 +33,6 @@ export const googleLogin = (access_token) => async (dispatch) => {
       '/auth/google-login',
       JSON.stringify({ access_token })
     );
-    console.log(res);
     dispatch(login(res.data));
   } catch (e) {
     if (e.response.data['Error'] == 'This user does not exists') {

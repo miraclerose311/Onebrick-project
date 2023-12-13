@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const Razorpay = require('razorpay');
 const auth = require('../../middleware/auth');
 
 const Brick = require('../../models/Brick');
@@ -35,27 +36,46 @@ router.get('/all', async (req, res) => {
     });
 });
 
-router.post('/buy', async (req, res) => {
-  const { brick_id, user, amount } = req.body;
-  await Brick.updateOne(
-    { brick_id },
-    {
-      $set: {
-        user: user,
-        amount: amount,
-        sold: true,
-      },
-    }
-  );
-  await Brick.findOne({ brick_id })
-    .populate('user')
-    .then((result) => {
-      res.json(result);
-      console.log(result);
-    })
-    .catch((e) => {
-      console.log(e);
-    });
+router.post('/order', async (req, res) => {
+  const { amount } = req.body;
+
+  const rzp = new Razorpay({
+    key_id: process.env.RAZORPAY_KEY_ID,
+    key_secret: process.env.RAZORPAY_KEY_SECRET,
+  });
+
+  const options = {
+    amount: amount, // amount in the smallest currency unit
+    currency: 'INR',
+  };
+
+  const order = await rzp.orders.create(options);
+
+  if (!order) {
+    return res.status(500).send('Some error ocurred');
+  }
+
+  res.json(order);
+
+  // await Brick.updateOne(
+  //   { brick_id },
+  //   {
+  //     $set: {
+  //       user: user,
+  //       amount: amount,
+  //       sold: true,
+  //     },
+  //   }
+  // );
+  // await Brick.findOne({ brick_id })
+  //   .populate('user')
+  //   .then((result) => {
+  //     res.json(result);
+  //     console.log(result);
+  //   })
+  //   .catch((e) => {
+  //     console.log(e);
+  //   });
 });
 
 router.post('/add-dedication', async (req, res) => {

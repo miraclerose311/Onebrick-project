@@ -20,8 +20,6 @@ function App() {
   const alert = useSelector((state) => state.alert);
 
   useEffect(() => {
-    console.log(alert);
-
     if (alert.alertType)
       switch (alert.alertType) {
         case 'success':
