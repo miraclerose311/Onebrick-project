@@ -3,6 +3,8 @@ const router = express.Router();
 const Razorpay = require('razorpay');
 const crypto = require('crypto');
 
+const PaymentDetails = require('../../models/Payment');
+
 router.post('/order', async (req, res) => {
   const { amount } = req.body;
   console.log(amount);
@@ -27,25 +29,26 @@ router.post('/order', async (req, res) => {
 
   res.json(order);
 
-  // await Brick.updateOne(
-  //   { brick_id },
-  //   {
-  //     $set: {
-  //       user: user,
-  //       amount: amount,
-  //       sold: true,
-  //     },
-  //   }
-  // );
-  // await Brick.findOne({ brick_id })
-  //   .populate('user')
-  //   .then((result) => {
-  //     res.json(result);
-  //     console.log(result);
-  //   })
-  //   .catch((e) => {
-  //     console.log(e);
-  //   });
+  
+  await Brick.updateOne(
+    { brick_id },
+    {
+      $set: {
+        user: user,
+        amount: amount,
+        sold: true,
+      },
+    }
+  );
+  await Brick.findOne({ brick_id })
+    .populate('user')
+    .then((result) => {
+      res.json(result);
+      console.log(result);
+    })
+    .catch((e) => {
+      console.log(e);
+    });
 });
 
 router.post('/success', async (req, res) => {
@@ -57,9 +60,12 @@ router.post('/success', async (req, res) => {
       razorpaySignature,
     } = req.body;
 
+    console.log(req.body);
+
     const shasum = crypto.createHmac('sha256', process.env.RAZORPAY_KEY_SECRET);
     shasum.update(`${orderCreationId}|${razorpayPaymentId}`);
     const digest = shasum.digest('hex');
+    console.log('digest => ', digest);
 
     if (digest !== razorpaySignature)
       return res.status(400).json({ msg: 'Transaction not legit!' });
@@ -73,10 +79,12 @@ router.post('/success', async (req, res) => {
       success: true,
     });
 
+    console.log('newPayment => ', newPayment);
+
     await newPayment.save();
 
     res.json({
-      msg: 'success',
+      msg: 'Payment success',
       orderId: razorpayOrderId,
       paymentId: razorpayPaymentId,
     });
