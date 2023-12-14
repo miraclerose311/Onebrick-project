@@ -233,12 +233,10 @@ const Buybrick = () => {
 
   useEffect(() => {
     if (order.order_id !== '') {
-      console.log('____________________________');
-
       const { amount, order_id, currency } = order;
       console.log(order_id);
       const options = {
-        key: 'rzp_live_DskevSh84kfZ5L',
+        key: `${import.meta.env.VITE_RAZORPAY_KEY_ID}`,
         amount: amount,
         currency: currency,
         name: 'Soumya Corp.',
@@ -252,8 +250,6 @@ const Buybrick = () => {
             razorpaySignature: response.razorpay_signature,
           };
 
-          console.log(data);
-
           const result = await axios.post(
             `${import.meta.env.VITE_BACKEND_URL}/api/payment/success`,
             data
@@ -262,6 +258,9 @@ const Buybrick = () => {
           dispatch(
             setAlert({ alertType: 'success', content: result.data.msg })
           );
+          
+          
+
         },
         prefill: {
           name: 'John Doe',

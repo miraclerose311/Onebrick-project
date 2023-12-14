@@ -36,6 +36,4 @@ const BrickSchema = new mongoose.Schema({
   },
 });
 
-// BrickSchema.index({brick_id: 1}, {user: 1}, {amount: 1}, {sold: true})
-
 module.exports = mongoose.model('bricks', BrickSchema);
