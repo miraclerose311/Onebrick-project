@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { add_donor_info } from '../../features/brick/brickSlice';
+import { addDonorInfo } from '../../features/donor/donorSlice';
 import { FaAnglesRight } from 'react-icons/fa6';
 import { setAlertWithTimeout } from '../../features/alert/alertSlice';
 
@@ -12,7 +12,7 @@ const DonorInformationModal = ({ handleNextModal }) => {
   const [pan, setPan] = useState('');
   const [aadhaar, setAadhaar] = useState('');
 
-  const { donor } = useSelector((state) => state.brick);
+  const donor = useSelector((state) => state.donor);
   const dispatch = useDispatch();
   useEffect(() => {
     setName(donor.fullName);
@@ -37,7 +37,7 @@ const DonorInformationModal = ({ handleNextModal }) => {
         pan,
         aadhaar,
       };
-      dispatch(add_donor_info(infoData));
+      dispatch(addDonorInfo(infoData));
       handleNextModal();
     }
   };

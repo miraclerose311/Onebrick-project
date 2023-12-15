@@ -1,10 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import { jwtDecode } from 'jwt-decode';
 import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
-import { add_donor_info } from '../../features/brick/brickSlice';
-import { addProfile } from '../../actions/donor';
+import { addDonorInfo } from '../../features/donor/donorSlice';
 import { FaAnglesRight } from 'react-icons/fa6';
 
 const DonorAddressModal = ({ handleNextModal }) => {
@@ -12,20 +10,10 @@ const DonorAddressModal = ({ handleNextModal }) => {
   const [address, setAddress] = useState('');
   const [pin, setPin] = useState('');
   const [country, setCountry] = useState('');
-  const [region, setState] = useState(''); // region means state
-
-  const [userId, setUserId] = useState(null);
+  const [state, setState] = useState('');
 
   // Get Donor Address from Redux for display when redirect
-  const { donor } = useSelector((state) => state.brick);
-  const { token } = useSelector((state) => state.auth);
-
-  useEffect(() => {
-    if (token) {
-      const { id } = jwtDecode(token);
-      setUserId(id);
-    }
-  }, [token]);
+  const donor = useSelector((state) => state.donor);
 
   useEffect(() => {
     setAddress(donor.address);
@@ -40,24 +28,10 @@ const DonorAddressModal = ({ handleNextModal }) => {
       const addressData = {
         address,
         country,
-        state: region,
+        state,
         pin,
       };
-      dispatch(add_donor_info(addressData));
-      dispatch(
-        addProfile({
-          user_id: userId,
-          fullName: donor.fullName,
-          email: donor.email,
-          mobile: donor.mobile,
-          pan: donor.pan,
-          aadhaar: donor.aadhaar,
-          address,
-          country,
-          region,
-          pin,
-        })
-      );
+      dispatch(addDonorInfo(addressData));
       handleNextModal();
     }
   };
@@ -83,7 +57,7 @@ const DonorAddressModal = ({ handleNextModal }) => {
       <RegionDropdown
         className='border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2'
         country={country}
-        value={region}
+        value={state}
         onChange={(val) => setState(val)}
       />
       <input

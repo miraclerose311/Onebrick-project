@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { addDedication } from '../../features/brick/brickSlice';
 
 import { FaAnglesRight } from 'react-icons/fa6';
-import user from '../../assets/img/user.png';
+import userImg from '../../assets/img/user.png';
 
 const DedicationFormModal = ({ handleNextModal, brick_id }) => {
   // Declear States for Dedication Form
@@ -89,7 +89,7 @@ const DedicationFormModal = ({ handleNextModal, brick_id }) => {
             />
             <img
               className='w-20 h-20 rounded-full'
-              src={user}
+              src={userImg}
               alt='dedication image'
             ></img>
           </div>

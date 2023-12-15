@@ -17,10 +17,9 @@ const Login = () => {
       dispatch(googleLogin(access_token));
     },
     onError: (error) => {
-      console.log(error);
       const errorAlert = {
         alertType: 'error',
-        content: 'Google Login is failed',
+        content: error,
       };
       dispatch(setAlertWithTimeout(errorAlert));
     },

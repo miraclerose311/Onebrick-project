@@ -3,6 +3,8 @@ import authReducer from '../features/auth/authSlice';
 import brickReducer from '../features/brick/brickSlice';
 import alertSlice from '../features/alert/alertSlice';
 import paymentSlice from '../features/payment/paymentSlice';
+import loadingSlice from '../features/loading/loadingSlice';
+import donorSlice from '../features/donor/donorSlice';
 
 const store = configureStore({
   reducer: {
@@ -10,6 +12,8 @@ const store = configureStore({
     brick: brickReducer,
     alert: alertSlice,
     payment: paymentSlice,
+    loading: loadingSlice,
+    donor: donorSlice,
   },
 });
 

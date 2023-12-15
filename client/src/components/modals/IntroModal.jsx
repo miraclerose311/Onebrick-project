@@ -4,19 +4,19 @@ import PropTypes from 'prop-types';
 import {
   increaseAmount,
   decreaseAmount,
-  changeLocation,
+  setLocation,
 } from '../../features/brick/brickSlice';
 import { FaAnglesRight } from 'react-icons/fa6';
 
 const IntroModal = ({ handleSkipModal }) => {
   const { amount } = useSelector((state) => state.brick.current);
-  const { profile } = useSelector((state) => state.auth);
+  const donor = useSelector((state) => state.donor);
   const [skipIndex, setSkipIndex] = useState(1);
 
   useEffect(() => {
-    if (Object.keys(profile).length == 0) setSkipIndex(2);
+    if (donor.fullName === '') setSkipIndex(2);
     else setSkipIndex(4);
-  }, [profile]);
+  }, [donor]);
 
   const dispatch = useDispatch();
 
@@ -27,7 +27,11 @@ const IntroModal = ({ handleSkipModal }) => {
     amount > 1 && dispatch(decreaseAmount());
   };
   const handleChangeLocation = (e) => {
-    dispatch(changeLocation(e.target.value));
+    if (e.target.value == 'I am a Non-Resident Indian')
+      dispatch(setLocation(0));
+    else {
+      dispatch(setLocation(1));
+    }
   };
 
   return (
@@ -62,8 +66,8 @@ const IntroModal = ({ handleSkipModal }) => {
         className='border px-2 py-2 my-6 cursor-pointer border-gray-400'
         onChange={handleChangeLocation}
       >
-        <option>I am a Non-Resident Indian</option>
-        <option>I am a Foreign National</option>
+        <option key={0}>I am a Non-Resident Indian</option>
+        <option key={1}>I am a Foreign National</option>
       </select>
       <button
         className='text-gray-100 bg-red-700 px-4 py-2 rounded-md'

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { FaAnglesRight } from 'react-icons/fa6';
-import user from '../../assets/img/user.png';
+import userImg from '../../assets/img/user.png';
 
 const DedicationConfirmModal = ({ handleBuyBrick }) => {
   //Declear States for Dedication Form
@@ -51,7 +51,7 @@ const DedicationConfirmModal = ({ handleBuyBrick }) => {
             <div className='flex flex-col w-full items-center justify-between gap-y-3'>
               <img
                 className='w-20 h-20 rounded-full'
-                src={user}
+                src={userImg}
                 alt='dedication image'
               ></img>
             </div>

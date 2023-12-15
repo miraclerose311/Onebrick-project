@@ -10,14 +10,18 @@ const Register = () => {
   const navigate = useNavigate();
   const { isAuthenticated } = useSelector((state) => state.auth);
 
-  console.log(isAuthenticated);
-
   const onRegister = useGoogleLogin({
     onSuccess: (codeResponse) => {
       const { access_token } = codeResponse;
       dispatch(googleRegister(access_token));
     },
-    onError: (error) => console.log('Login failed: ', error),
+    onError: (error) => {
+      const errorAlert = {
+        alertType: 'error',
+        content: error,
+      };
+      dispatch(setAlertWithTimeout(errorAlert));
+    },
   });
 
   useEffect(() => {

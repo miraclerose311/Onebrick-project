@@ -27,7 +27,6 @@ router.get('/sold-amount', async (req, res) => {
 
 router.get('/all', async (req, res) => {
   await Brick.find()
-    .populate('user')
     .then((result) => {
       res.json(result);
     })
@@ -37,25 +36,20 @@ router.get('/all', async (req, res) => {
 });
 
 router.post('/buy', async (req, res) => {
+  const { brick_id, user, amount, dedication } = req.body;
   await Brick.updateOne(
     { brick_id },
     {
       $set: {
-        user: user,
-        amount: amount,
+        user,
+        amount,
         sold: true,
+        dedication,
       },
     }
-  );
-  await Brick.findOne({ brick_id })
-    .populate('user')
-    .then((result) => {
-      res.json(result);
-      console.log(result);
-    })
-    .catch((e) => {
-      console.log(e);
-    });
+  )
+    .then(() => res.json(req.body))
+    .catch((e) => res.status(400).json(e));
 });
 
 router.post('/add-dedication', async (req, res) => {

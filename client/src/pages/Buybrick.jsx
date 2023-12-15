@@ -10,12 +10,14 @@ import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
+import { jwtDecode } from 'jwt-decode';
 
-import { getBricks } from '../actions/brick';
+import { buyBrick, getBricks } from '../actions/brick';
 import { createOrder } from '../actions/payment';
 import { setAlertWithTimeout } from '../features/alert/alertSlice';
 import { logout } from '../features/auth/authSlice';
-import { setAlert } from '../features/alert/alertSlice';
+import { clearOrder } from '../features/payment/paymentSlice';
+import { clearAmount, clearCurrent } from '../features/brick/brickSlice';
 
 // Import modal components
 import IntroModal from '../components/modals/IntroModal';
@@ -27,6 +29,7 @@ import DedicationConfirmModal from '../components/modals/DedicationConfirmModal'
 import BuyBrickModal from '../components/modals/BuyBrickModal';
 import BrickInformationModal from '../components/modals/BrickInformationModal';
 import SoldModal from '../components/modals/SoldModal';
+import ProgressBar from '../components/ProgressBar';
 
 // Import assets
 import UserImg from '../assets/img/user.png';
@@ -35,24 +38,30 @@ import './Modal.css';
 import { TiArrowLeftThick } from 'react-icons/ti';
 import { MdCancel } from 'react-icons/md';
 import { FcMenu } from 'react-icons/fc';
-import { Oval } from 'react-loader-spinner';
-import ProgressBar from '../components/ProgressBar';
-import { selectAmount } from '../features/brick/brickSlice';
 import { Menu, Transition } from '@headlessui/react';
 
 const Buybrick = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { isAuthenticated } = useSelector((state) => state.auth);
+  const { isAuthenticated, token } = useSelector((state) => state.auth);
 
   // Initialize bircks states
   useEffect(() => {
     dispatch(getBricks());
   }, [dispatch]);
 
+  // Initialize userId
+  const [userId, setUserId] = useState(null);
+  useEffect(() => {
+    if (token) {
+      const { id } = jwtDecode(token);
+      setUserId(id);
+    }
+  }, [token]);
+
   // Fetch brick states
-  const { bricks, loading } = useSelector((state) => state.brick);
-  const { amount } = useSelector((state) => state.brick.current);
+  const { bricks } = useSelector((state) => state.brick);
+  const { amount, dedication } = useSelector((state) => state.brick.current);
   const [clickedIndex, setClickedIndex] = useState(null);
   const [search, setSearch] = useState('');
   const [filtered, setFiltered] = useState([]);
@@ -126,10 +135,12 @@ const Buybrick = () => {
   };
 
   useEffect(() => {
-    const image = new Image();
-    image.onload = () => handleImageOnLoad(image);
-    image.src = src;
-  }, [src]);
+    if (bricks.length !== 0) {
+      const image = new Image();
+      image.onload = () => handleImageOnLoad(image);
+      image.src = src;
+    }
+  }, [src, bricks]);
   // ----------------------- Handle resize operations : End ------------------------------------
 
   // Initialize modal variables
@@ -143,25 +154,27 @@ const Buybrick = () => {
   const [hovered, setHovered] = useState('');
 
   const handleBrickClick = (index) => {
-    if (!bricks[index].sold) {
+    if (!bricks[index].sold && !isSoldModalOpen && !isBuyBrickModalOpen) {
       setIsBrickInfoModalOpen(false);
       setIsSoldModalOpen(false);
-      setClickedIndex(index);
       setIsBuyBrickModalOpen(true);
+      setClickedIndex(index);
     } else {
       setIsBuyBrickModalOpen(false);
     }
   };
 
   const handlePanClick = (e) => {
-    // Get the position of the clicked point
-    const x = e.clientX;
-    const y = e.clientY;
+    if (!isSoldModalOpen && !isBrickInfoModalOpen && !isBuyBrickModalOpen) {
+      // Get the position of the clicked point
+      const x = e.clientX;
+      const y = e.clientY;
 
-    // Set the position of the modal relative to the clicked point
-    setModalPosition({ x: x + 10, y: y + 10 });
-    if (x > 1000) setModalPosition({ x: x - 220, y: y });
-    if (y > 600) setModalPosition({ x: x, y: y - 300 });
+      // Set the position of the modal relative to the clicked point
+      setModalPosition({ x: x + 10, y: y + 10 });
+      if (x > 1000) setModalPosition({ x: x - 220, y: y });
+      if (y > 600) setModalPosition({ x: x, y: y - 300 });
+    }
   };
 
   const handleRightClick = (e) => {
@@ -172,22 +185,35 @@ const Buybrick = () => {
     setClickedIndex(null);
   };
 
-  const handleMouseOver = (e) => {
-    if (bricks[e.target.id].sold && !isBuyBrickModalOpen && !isSoldModalOpen) {
-      // Get the position of the clicked point
-      const x = e.clientX;
-      const y = e.clientY;
+  let hoverTimer;
 
-      // Set the position of the modal relative to the clicked point
-      setModalPosition({ x: x + 10, y: y + 10 });
-      if (x > 1000) setModalPosition({ x: x - 300, y: y });
-      if (y > 600) setModalPosition({ x: x, y: y - 220 });
-      setHovered(bricks[e.target.id]);
-      setIsBrickInfoModalOpen(true);
-    } else {
-      setHovered(bricks[e.target.id]);
-      setIsBrickInfoModalOpen(false);
-    }
+  const handleMouseOver = (e) => {
+    hoverTimer = setTimeout(() => {
+      if (
+        bricks[e.target.id].sold &&
+        !isBuyBrickModalOpen &&
+        !isSoldModalOpen
+      ) {
+        // Get the position of the clicked point
+        const x = e.clientX;
+        const y = e.clientY;
+
+        // Set the position of the modal relative to the clicked point
+        setModalPosition({ x: x + 10, y: y + 10 });
+        if (x > 1000) setModalPosition({ x: x - 300, y: y });
+        if (y > 600) setModalPosition({ x: x, y: y - 220 });
+        setHovered(bricks[e.target.id]);
+        setIsBrickInfoModalOpen(true);
+        setClickedIndex(null);
+      } else {
+        setHovered(bricks[e.target.id]);
+        setIsBrickInfoModalOpen(false);
+      }
+    }, 1000);
+  };
+
+  const handleMouseOut = () => {
+    clearTimeout(hoverTimer);
   };
 
   const handleBuyBrickButtonClick = () => {
@@ -256,11 +282,21 @@ const Buybrick = () => {
           );
 
           dispatch(
-            setAlert({ alertType: 'success', content: result.data.msg })
+            setAlertWithTimeout({
+              alertType: 'success',
+              content: result.data.msg,
+            })
           );
-          
-          
-
+          const brickData = {
+            brick_id: bricks[clickedIndex].brick_id,
+            user: userId,
+            amount: amount,
+            dedication: dedication,
+          };
+          dispatch(buyBrick(brickData));
+          setIsSoldModalOpen(true);
+          dispatch(clearOrder());
+          dispatch(clearCurrent());
         },
         prefill: {
           name: 'John Doe',
@@ -278,7 +314,7 @@ const Buybrick = () => {
       const paymentObject = new window.Razorpay(options);
       paymentObject.open();
     }
-  }, [order, dispatch]);
+  }, [order, bricks, clickedIndex, dedication, userId, dispatch]);
 
   const loadScript = (src) => {
     return new Promise((resolve) => {
@@ -295,7 +331,7 @@ const Buybrick = () => {
   };
 
   const handleLogout = () => {
-    dispatch(selectAmount(1));
+    dispatch(clearAmount());
     dispatch(logout());
     const successAlert = {
       alertType: 'success',
@@ -345,15 +381,21 @@ const Buybrick = () => {
                 id={index}
                 className={classNames(
                   'border-2 border-white rounded-md w-5 h-5',
-                  index === clickedIndex ? 'bg-yellow-400' : 'bg-gray-100',
+                  index === clickedIndex ? 'bg-yellow-400 z-50' : 'bg-gray-100',
                   !filtered.includes(bricks[index]) &&
                     bricks[index].sold &&
+                    bricks[index].brick_id !== hovered.brick_id &&
                     'opacity-0',
+                  !filtered.includes(bricks[index]) &&
+                    bricks[index].sold &&
+                    bricks[index].brick_id === hovered.brick_id &&
+                    'bg-transparent border-red-600',
                   isSoldModalOpen && clickedIndex == index && 'bg-white',
                   filtered.includes(bricks[index]) && 'bg-red-400 custom-shadow'
                 )}
                 onClick={() => handleBrickClick(index)}
                 onMouseOver={handleMouseOver}
+                onMouseOut={handleMouseOut}
               />
             );
           })}
@@ -503,6 +545,7 @@ const Buybrick = () => {
           modalPosition={modalPosition}
           clickedIndex={bricks[clickedIndex].brick_id}
           handleBuyBrickButtonClick={handleBuyBrickButtonClick}
+          hideModal={() => setIsBuyBrickModalOpen(false)}
         />
       )}
       {isBrickInfoModalOpen && (
@@ -524,7 +567,6 @@ const Buybrick = () => {
               className='modal-previous-button text-2xl hover:cursor-pointer'
               onClick={handlePreviousModal}
             />
-
             <MdCancel
               className='modal-close-button text-2xl hover:cursor-pointer'
               onClick={handleCloseModal}
@@ -576,25 +618,7 @@ const Buybrick = () => {
             >
               <div className='relative' onClick={handlePanClick}>
                 <div className='absolute top-0 left-0 w-full h-full flex flex-col'>
-                  {loading ? (
-                    <div className='flex left-0 top-0 w-full h-full bg-gray-300 opacity-95 justify-center items-center absolute z-1000'>
-                      <Oval
-                        height={80}
-                        width={80}
-                        color='#0369a1'
-                        wrapperStyle={{}}
-                        wrapperClass=''
-                        visible={true}
-                        ariaLabel='oval-loading'
-                        secondaryColor='#0369a1'
-                        strokeWidth={2}
-                        strokeWidthSecondary={2}
-                      />
-                    </div>
-                  ) : (
-                    renderBricks()
-                  )}
-                  {/* {<CircularProgress disableShrink />} */}
+                  {bricks.length !== 0 && renderBricks()}
                 </div>
                 <img
                   src={brickImage}

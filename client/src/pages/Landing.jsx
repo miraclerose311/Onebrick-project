@@ -1,28 +1,29 @@
+import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
-
-import DonationMark from '../assets/img/DonationMark.png';
-import Ellipse11 from '../assets/img/Ellipse11.png';
-import Ellipse9 from '../assets/img/Ellipse9.png';
-import Rectangle from '../assets/img/Rectangle.png';
-import TestImg from '../assets/img/auth-back.png';
-import Video1 from '../assets/img/video1.png';
-import Image1 from '../assets/img/image1.png';
-import Image2 from '../assets/img/image2.png';
-import Image3 from '../assets/img/image3.png';
-import Image4 from '../assets/img/image4.png';
-import AvatarImg from '../assets/img/AvatarImg.jpg';
 import Collapse from '../components/Collapse';
 
-import Video from '../assets/1.mp4';
+// Import assests
+import Image1 from '../assets/img/home/home1.jpg';
+import Image2 from '../assets/img/home/home2.jpg';
+import Image3 from '../assets/img/home/home3.jpg';
+import Image4 from '../assets/img/home/home4.jpg';
+import Image5 from '../assets/img/home/home5.jpg';
+import Image6 from '../assets/img/home/home6.png';
+import DonationMark from '../assets/img/home/DonationMark.png';
+import Ellipse1 from '../assets/img/home/Ellipse1.png';
+import Ellipse2 from '../assets/img/home/Ellipse2.png';
+import Rectangle from '../assets/img/home/Rectangle.png';
+
+import AvatarImg from '../assets/img/AvatarImg.jpg';
 
 const Landing = () => {
   return (
     <div className=''>
       <Navbar />
-      <div className='flex flex-wrap-reverse lg:flex-wrap-reverse bg-gray-100 w-full pt-28 px-8 sm:px-16 md:px-24 lg:px-24 xl:px-40 2xl:px-56 lg:pr-0 xl:pr-0 2xl:pr-0 relative'>
-        <div className=' xl:py-24 lg:w-1/3 w-full'>
-          <div className='flex flex-col gap-10 items-center lg:items-start py-8'>
+      <div className='flex flex-wrap-reverse lg:flex-wrap-reverse bg-gray-100 w-full pt-28 px-8 sm:px-16 md:px-24 lg:px-24 xl:px-48 2xl:px-56 lg:pr-0 xl:pr-0 2xl:pr-0 relative'>
+        <div className='lg:w-1/3 w-full'>
+          <div className='flex flex-col gap-10 items-center lg:items-start py-12'>
             <p className='text-4xl sm:text-5xl md:text-6xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-bold text-sky-700 leading-none text-center lg:text-start font-montserrat z-20'>
               Building Compassion
             </p>
@@ -41,32 +42,25 @@ const Landing = () => {
             </button>
           </div>
         </div>
-        <div className='py-12 lg:pt-0 lg:pl-12 xl:pl-16 2xl:pl-24 z-10 lg:w-2/3 relative'>
-          {/* <video
-						autoPlay
-						muted
-						loop
-					>
-						<source src={VIDEO_PATH} />
-					</video> */}
-          <img src={Video1} className='object-cover w-full h-full' />
+        <div className='py-12 lg:pt-0 xl:pl-8 lg:pr-24 lg:pl-8 xl:pr-44 2xl:pr-56 z-10 lg:w-2/3 relative'>
+          <img src={Image1} className='object-cover w-full h-full' />
           <img
             src={DonationMark}
             className='hidden lg:flex w-36 xl:flex absolute left-0 bottom-0 z-20'
           />
         </div>
 
-        <img src={Ellipse11} className='absolute right-0 top-0 z-0' />
-        <img src={Ellipse9} className='absolute left-0 top-96' />
+        <img src={Ellipse1} className='absolute right-0 top-0 z-0' />
+        <img src={Ellipse2} className='absolute left-0 top-96' />
       </div>
 
-      <div className='flex flex-wrap w-full px-8 sm:px-16 md:px-24 lg:px-24 xl:px-40 2xl:px-64 lg:py-24 relative'>
+      <div className='flex flex-wrap w-full px-8 sm:px-16 md:px-24 lg:px-24 xl:px-48 2xl:px-64 lg:py-24 relative'>
         <img
           src={Rectangle}
           className='absolute hidden lg:flex left-0 top-48 z-0'
         />
-        <div className='mt-12 justify-center items-center w-full lg:w-1/3 z-10'>
-          <img className='object-cover w-full h-80' src={Image1} />
+        <div className='flex mt-12 justify-center items-center w-full lg:w-1/3 z-10'>
+          <img className='object-cover w-full' src={Image2} />
         </div>
         <div className='lg:pl-12 xl:pl-20 py-24 lg:py-0 lg:w-2/3 w-full'>
           <div className='flex flex-col items-center lg:items-start gap-10'>
@@ -86,8 +80,8 @@ const Landing = () => {
               Each brick symbolizes not just a building block but a pledge of
               hope, healing, and community support Your involvement is pivotal
               in turning this vision into a reality, as we strive together
-              towards a collective goal of enhancing palliative care
-              services and facilities
+              towards a collective goal of enhancing palliative care services
+              and facilities
             </p>
             <button className='py-4 w-[200px] rounded-lg border-2 border-red-700 hover:bg-red-800 max-w-sm hover:text-white font-montserrat text-center'>
               READ MORE
@@ -96,8 +90,8 @@ const Landing = () => {
         </div>
       </div>
 
-      <div className='flex flex-col w-full px-8 sm:px-16 md:px-24 lg:px-24 xl:px-40 2xl:px-64 bg-gray-300 justify-center items-center'>
-        <p className='text-4xl md:text-5xl xl:text-6xl 2xl:text-7xl text-center text-sky-700 pt-16 lg:pt-24 font-montserrat z-10'>
+      <div className='flex flex-col w-full px-8 sm:px-16 md:px-24 lg:px-24 xl:px-48 2xl:px-64 bg-gray-300 justify-center items-center py-12'>
+        <p className='text-4xl md:text-5xl xl:text-6xl 2xl:text-7xl text-center text-sky-700 font-montserrat z-10'>
           3 Ways you can help make a difference
         </p>
         <p className='text-2xl text-center py-3 font-raleway'>
@@ -105,9 +99,9 @@ const Landing = () => {
           goals and make a meaningful difference in the lives of those we serve.
           Each action you take brings us closer to realizing our shared vision
         </p>
-        <div className='flex flex-wrap justify-center h-full'>
-          <div className='p-5 w-full md:w-3/4 lg:w-1/3 object-cover h-full'>
-            <div className=' bg-gray-800 text-white flex flex-col gap-5 items-center p-12 lg:p-5 lg:px-8 xl:py-12'>
+        <div className='flex flex-wrap justify-center w-full'>
+          <div className='p-5 w-full md:w-3/4 lg:w-1/3'>
+            <div className=' bg-gray-800 text-white flex flex-col gap-5 items-center p-5 lg:p-5 lg:px-8 xl:py-12 h-full'>
               <div className='w-12 sm:w-14 md:w-16 lg:w-20 xl:w-24 h-12 sm:h-14 md:h-16 lg:h-20 xl:h-24 bg-red-800 rounded-full'></div>
               <p className='text-md sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl font-bold text-center font-montserra'>
                 1. Buy A Brick By Click
@@ -122,22 +116,22 @@ const Landing = () => {
             </div>
           </div>
           <div className='p-5 w-full md:w-3/4 lg:w-1/3'>
-            <div className=' bg-white  flex flex-col gap-5 items-center p-12 lg:p-5 lg:px-8 xl:py-12'>
-              <div className='w-12 sm:w-14 md:w-16 lg:w-20 xl:w-24 h-12 sm:h-14 md:h-16 lg:h-20 xl:h-24 bg-red-800 rounded-full'></div>
-              <p className=' overflow-clip w-64 text-md sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl font-bold text-center font-montserra text-sky-700'>
+            <div className='bg-white flex flex-col gap-5 items-center p-5 lg:p-5 lg:px-8 xl:py-12 h-full'>
+              <div className='w-12 sm:w-14 md:w-16 lg:w-20 xl:w-24 h-12 sm:h-14 md:h-16 lg:h-20 xl:h-24 bg-red-800 rounded-full '></div>
+              <p className='overflow-clip text-md sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl font-bold text-center font-montserra text-sky-700'>
                 2. Share Our Stories
               </p>
               <p className='text-xl text-center font-raleway'>
                 Contribute directly to our hospice by purchasing a symbolic
                 brick. Each brick lays the foundation for a haven of care
               </p>
-              <button className='overflow-clip w-56 py-2 px-4 rounded-lg border-2 border-red-700 hover:bg-red-800 hover:text-white max-w-sm font-montserrat text-center'>
+              <button className='overflow-clip py-2 px-2 rounded-lg border-2 border-red-700 hover:bg-red-800 hover:text-white max-w-sm font-montserrat text-center'>
                 SPREAD THE WORD
               </button>
             </div>
           </div>
           <div className='p-5 w-full md:w-3/4 lg:w-1/3'>
-            <div className=' bg-white  flex flex-col gap-5 items-center p-12 lg:p-5 lg:px-8 xl:py-12'>
+            <div className=' bg-white  flex flex-col gap-5 items-center p-5 lg:p-5 lg:px-8 xl:py-12 h-full'>
               <div className='w-12 sm:w-14 md:w-16 lg:w-20 xl:w-24 h-12 sm:h-14 md:h-16 lg:h-20 xl:h-24 bg-red-800 rounded-full'></div>
               <p className='text-md sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl font-bold text-center font-montserra text-sky-700'>
                 3. Volunteer With Us
@@ -146,7 +140,7 @@ const Landing = () => {
                 Contribute directly to our hospice by purchasing a symbolic
                 brick. Each brick lays the foundation for a haven of care
               </p>
-              <button className='overflow-clip w-56 py-2 px-2 rounded-lg border-2 border-red-700 hover:bg-red-800 hover:text-white max-w-sm font-montserrat text-center'>
+              <button className='overflow-clip py-2 px-2 rounded-lg border-2 border-red-700 hover:bg-red-800 hover:text-white max-w-sm font-montserrat text-center'>
                 BECOME A VOLUNTEER
               </button>
             </div>
@@ -154,7 +148,7 @@ const Landing = () => {
         </div>
       </div>
 
-      <div className='flex flex-col w-full lg:py-28 px-8 sm:px-16 md:px-24 lg:px-24 xl:px-40 2xl:px-64 py-16 md:py-24 bg-white justify-center items-center'>
+      <div className='flex flex-col w-full lg:py-28 px-8 sm:px-16 md:px-24 lg:px-24 xl:px-48 2xl:px-64 py-16 md:py-24 bg-white justify-center items-center'>
         <p className='font-bold text-4xl md:text-5xl xl:text-6xl 2xl:text-7xl text-center text-sky-700 lg:pt-0 font-montserrat z-10'>
           Moments of Compassion
         </p>
@@ -165,32 +159,24 @@ const Landing = () => {
           beneficiaries.
         </p>
         <div className='flex flex-wrap justify-center mb-32'>
-          <div className='w-full lg:w-2/3 p-2 drop-shadow-md'>
-            <video controls muted loop>
-              <source src={Video} />
-            </video>
-          </div>
-          <div className='w-full lg:w-1/3 p-2 mt-auto drop-shadow-md'>
-            <img src={TestImg} className='object-cover w-full' />
-          </div>
-          <div className='w-full lg:w-1/3 p-2 drop-shadow-md'>
+          <div className='w-full lg:w-1/2 p-2 drop-shadow-md'>
             <img src={Image3} className='object-cover w-full' />
           </div>
-          <div className='w-full lg:w-2/3 p-2 drop-shadow-md relative'>
+          <div className='w-full lg:w-1/2 p-2 mt-auto drop-shadow-md'>
+            <img src={Image6} className='object-cover w-full' />
+          </div>
+          <div className='w-full lg:w-1/2 p-2 drop-shadow-md'>
             <img src={Image4} className='object-cover w-full' />
-            <div className='flex flex-col items-center justify-center w-5/12 h-1/4 bg-white absolute bottom-2 left-2 drop-shadow-sm'>
-              <p className='underline underline-offset-4 text-xs md:text-sm xl:text-xl'>
-                Happy Child Group
-              </p>
-              <p className='text-xs'>Carity Fund</p>
-            </div>
+          </div>
+          <div className='w-full lg:w-1/2 p-2 drop-shadow-md relative'>
+            <img src={Image5} className='object-cover w-full' />
           </div>
         </div>
       </div>
 
-      <div className='flex flex-col w-full px-8 sm:px-16 md:px-24 lg:px-24 xl:px-40 2xl:px-64 bg-neutral-700 justify-center items-center relative'>
-        <div className='w-full flex flex-wrap bg-stone-300 absolute xl:top-[-160px] md:top-[-100px] top-[-80px]  px-8 sm:px-16 md:px-24 lg:px-24 xl:px-40 2xl:px-64 py-5 md:py-10 xl:py-16'>
-          <div className='flex flex-col justify-center items-center w-1/4'>
+      <div className='flex flex-col w-full px-8 sm:px-16 md:px-24 lg:px-24 xl:px-48 2xl:px-64 bg-neutral-700 justify-center items-center relative'>
+        <div className='w-full sm:w-4/5 md:w-3/4 lg:w-2/3 flex flex-wrap px-5 bg-stone-300 absolute top-[-100px] py-5 md:py-10 xl:py-16'>
+          <div className='flex flex-col justify-start items-center w-1/4 text-center'>
             <div className='w-12 sm:w-14 md:w-16 lg:w-20 xl:w-24 h-12 sm:h-14 md:h-16 lg:h-20 xl:h-24 bg-red-800 rounded-full'></div>
             <p className='mt-3 underline text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl text-center font-raleway'>
               13258
@@ -199,7 +185,7 @@ const Landing = () => {
               Brick purchased
             </p>
           </div>
-          <div className='flex flex-col justify-center items-center w-1/4'>
+          <div className='flex flex-col justify-start items-center w-1/4 text-center'>
             <div className='w-12 sm:w-14 md:w-16 lg:w-20 xl:w-24 h-12 sm:h-14 md:h-16 lg:h-20 xl:h-24 bg-red-800 rounded-full'></div>
             <p className='mt-3 underline text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl text-center font-raleway'>
               $7.3 Cr
@@ -208,7 +194,7 @@ const Landing = () => {
               Donations received
             </p>
           </div>
-          <div className='flex flex-col justify-center items-center w-1/4'>
+          <div className='flex flex-col justify-start items-center w-1/4 text-center'>
             <div className='w-12 sm:w-14 md:w-16 lg:w-20 xl:w-24 h-12 sm:h-14 md:h-16 lg:h-20 xl:h-24 bg-red-800 rounded-full'></div>
             <p className='mt-3 underline text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl text-center font-raleway'>
               6325
@@ -217,7 +203,7 @@ const Landing = () => {
               Donors
             </p>
           </div>
-          <div className='flex flex-col justify-center items-center w-1/4'>
+          <div className='flex flex-col justify-start items-center w-1/4 text-center'>
             <div className='w-12 sm:w-14 md:w-16 lg:w-20 xl:w-24 h-12 sm:h-14 md:h-16 lg:h-20 xl:h-24 bg-red-800 rounded-full'></div>
             <p className='mt-3 underline text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl text-center font-raleway'>
               23%
@@ -381,17 +367,30 @@ const Landing = () => {
         </button>
       </div>
 
-      <div className='flex flex-col w-full px-16 sm:px-20 md:px-24 lg:px-24 xl:px-40 2xl:px-64 bg-gray-100 py-12 sm:py-20 md:py-24 lg:py-28 xl:py-32 2xl:py-36 justify-center items-center'>
+      <div className='flex flex-col w-full px-8 sm:px-20 md:px-24 lg:px-24 xl:px-48 2xl:px-64 bg-gray-100 py-12 sm:py-20 md:py-24 lg:py-28 xl:py-32 2xl:py-36 justify-center items-center'>
         <p className='text-4xl text-sky-700 font-bold md:text-5xl xl:text-6xl 2xl:text-7xl text-center font-montserrat z-10'>
           Some of our recent donors
         </p>
         <div className='w-full flex flex-wrap py-8 md:py-12 xl:py-16'>
           <div className='w-full  md:w-1/2 xl:w-1/3 flex flex-wrap p-1 md:p-2 xl:p-3'>
             <div className='w-full flex bg-sky-600 rounded-lg p-4 sm:p-3 md:p-2 lg:p-4 xl:p-2 2xl:p-5'>
-              <div className='flex justify-center items-center w-1/3 sm:w-1/4 md:w-2/5 md:p-2'>
+              <div className='flex justify-center items-center w-1/2 xs:1/3 sm:w-1/4 md:w-2/5 md:p-2'>
                 <img src={AvatarImg} className='rounded-lg' />
               </div>
-              <div className='flex flex-col md:w-3/5 justify-center lg:justify-around text-white text-xl sm:text-xl md:text-lg lg:text-xl xl:text-lg 2xl:text-2xl pl-3 sm:pl-5 md:px-3 lg:pl-8 xl:pl-3 2xl:pl-6 font-medium'>
+              <div className='flex flex-col md:w-3/5 justify-center lg:justify-around text-white text-sm sm:text-xl md:text-lg lg:text-xl xl:text-lg 2xl:text-2xl pl-3 sm:pl-5 md:px-3 lg:pl-8 xl:pl-3 2xl:pl-6 font-medium'>
+                <p>LG Kuttukaran</p>
+                <p>L123-456-7890</p>
+                <p>5 Bricks: $50,0000</p>
+              </div>
+              <div></div>
+            </div>
+          </div>
+          <div className='w-full md:w-1/2 xl:w-1/3 flex flex-wrap p-1 md:p-2 xl:p-3'>
+            <div className='w-full flex bg-sky-600 rounded-lg p-4 sm:p-3 md:p-2 lg:p-4 xl:p-2 2xl:p-5'>
+              <div className='flex justify-center items-center w-1/2 xs:1/3 sm:w-1/4 md:w-2/5 md:p-2'>
+                <img src={AvatarImg} className='rounded-lg' />
+              </div>
+              <div className='flex flex-col md:w-3/5 justify-center lg:justify-around text-white text-sm sm:text-xl md:text-lg lg:text-xl xl:text-lg 2xl:text-2xl pl-3 sm:pl-5 md:px-3 lg:pl-8 xl:pl-3 2xl:pl-6 font-medium'>
                 <p>LG Kuttukaran</p>
                 <p>L123-456-7890</p>
                 <p>5 Bricks: $50,0000</p>
@@ -401,10 +400,10 @@ const Landing = () => {
           </div>
           <div className='w-full  md:w-1/2 xl:w-1/3 flex flex-wrap p-1 md:p-2 xl:p-3'>
             <div className='w-full flex bg-sky-600 rounded-lg p-4 sm:p-3 md:p-2 lg:p-4 xl:p-2 2xl:p-5'>
-              <div className='flex justify-center items-center w-1/3 sm:w-1/4 md:w-2/5 md:p-2'>
+              <div className='flex justify-center items-center w-1/2 xs:1/3 sm:w-1/4 md:w-2/5 md:p-2'>
                 <img src={AvatarImg} className='rounded-lg' />
               </div>
-              <div className='flex flex-col md:w-3/5 justify-center lg:justify-around text-white text-xl sm:text-xl md:text-lg lg:text-xl xl:text-lg 2xl:text-2xl pl-3 sm:pl-5 md:px-3 lg:pl-8 xl:pl-3 2xl:pl-6 font-medium'>
+              <div className='flex flex-col md:w-3/5 justify-center lg:justify-around text-white text-sm sm:text-xl md:text-lg lg:text-xl xl:text-lg 2xl:text-2xl pl-3 sm:pl-5 md:px-3 lg:pl-8 xl:pl-3 2xl:pl-6 font-medium'>
                 <p>LG Kuttukaran</p>
                 <p>L123-456-7890</p>
                 <p>5 Bricks: $50,0000</p>
@@ -414,10 +413,10 @@ const Landing = () => {
           </div>
           <div className='w-full  md:w-1/2 xl:w-1/3 flex flex-wrap p-1 md:p-2 xl:p-3'>
             <div className='w-full flex bg-sky-600 rounded-lg p-4 sm:p-3 md:p-2 lg:p-4 xl:p-2 2xl:p-5'>
-              <div className='flex justify-center items-center w-1/3 sm:w-1/4 md:w-2/5 md:p-2'>
+              <div className='flex justify-center items-center w-1/2 xs:1/3 sm:w-1/4 md:w-2/5 md:p-2'>
                 <img src={AvatarImg} className='rounded-lg' />
               </div>
-              <div className='flex flex-col md:w-3/5 justify-center lg:justify-around text-white text-xx sm:text-xl md:text-lg lg:text-xl xl:text-lg 2xl:text-2xl pl-3 sm:pl-5 md:px-3 lg:pl-8 xl:pl-3 2xl:pl-6 font-medium'>
+              <div className='flex flex-col md:w-3/5 justify-center lg:justify-around text-white text-sm sm:text-xl md:text-lg lg:text-xl xl:text-lg 2xl:text-2xl pl-3 sm:pl-5 md:px-3 lg:pl-8 xl:pl-3 2xl:pl-6 font-medium'>
                 <p>LG Kuttukaran</p>
                 <p>L123-456-7890</p>
                 <p>5 Bricks: $50,0000</p>
@@ -427,10 +426,10 @@ const Landing = () => {
           </div>
           <div className='w-full  md:w-1/2 xl:w-1/3 flex flex-wrap p-1 md:p-2 xl:p-3'>
             <div className='w-full flex bg-sky-600 rounded-lg p-4 sm:p-3 md:p-2 lg:p-4 xl:p-2 2xl:p-5'>
-              <div className='flex justify-center items-center w-1/3 sm:w-1/4 md:w-2/5 md:p-2'>
+              <div className='flex justify-center items-center w-1/2 xs:1/3 sm:w-1/4 md:w-2/5 md:p-2'>
                 <img src={AvatarImg} className='rounded-lg' />
               </div>
-              <div className='flex flex-col md:w-3/5 justify-center lg:justify-around text-white text-xl sm:text-xl md:text-lg lg:text-xl xl:text-lg 2xl:text-2xl pl-3 sm:pl-5 md:px-3 lg:pl-8 xl:pl-3 2xl:pl-6 font-medium'>
+              <div className='flex flex-col md:w-3/5 justify-center lg:justify-around text-white text-sm sm:text-xl md:text-lg lg:text-xl xl:text-lg 2xl:text-2xl pl-3 sm:pl-5 md:px-3 lg:pl-8 xl:pl-3 2xl:pl-6 font-medium'>
                 <p>LG Kuttukaran</p>
                 <p>L123-456-7890</p>
                 <p>5 Bricks: $50,0000</p>
@@ -440,23 +439,10 @@ const Landing = () => {
           </div>
           <div className='w-full  md:w-1/2 xl:w-1/3 flex flex-wrap p-1 md:p-2 xl:p-3'>
             <div className='w-full flex bg-sky-600 rounded-lg p-4 sm:p-3 md:p-2 lg:p-4 xl:p-2 2xl:p-5'>
-              <div className='flex justify-center items-center w-1/3 sm:w-1/4 md:w-2/5 md:p-2'>
+              <div className='flex justify-center items-center w-1/2 xs:1/3 sm:w-1/4 md:w-2/5 md:p-2'>
                 <img src={AvatarImg} className='rounded-lg' />
               </div>
-              <div className='flex flex-col md:w-3/5 justify-center lg:justify-around text-white text-xl sm:text-xl md:text-lg lg:text-xl xl:text-lg 2xl:text-2xl pl-3 sm:pl-5 md:px-3 lg:pl-8 xl:pl-3 2xl:pl-6 font-medium'>
-                <p>LG Kuttukaran</p>
-                <p>L123-456-7890</p>
-                <p>5 Bricks: $50,0000</p>
-              </div>
-              <div></div>
-            </div>
-          </div>
-          <div className='w-full  md:w-1/2 xl:w-1/3 flex flex-wrap p-1 md:p-2 xl:p-3'>
-            <div className='w-full flex bg-sky-600 rounded-lg p-4 sm:p-3 md:p-2 lg:p-4 xl:p-2 2xl:p-5'>
-              <div className='flex justify-center items-center w-1/3 sm:w-1/4 md:w-2/5 md:p-2'>
-                <img src={AvatarImg} className='rounded-lg' />
-              </div>
-              <div className='flex flex-col md:w-3/5 justify-center lg:justify-around text-white text-xl sm:text-xl md:text-lg lg:text-xl xl:text-lg 2xl:text-2xl pl-3 sm:pl-5 md:px-3 lg:pl-8 xl:pl-3 2xl:pl-6 font-medium'>
+              <div className='flex flex-col md:w-3/5 justify-center lg:justify-around text-white text-sm sm:text-xl md:text-lg lg:text-xl xl:text-lg 2xl:text-2xl pl-3 sm:pl-5 md:px-3 lg:pl-8 xl:pl-3 2xl:pl-6 font-medium'>
                 <p>LG Kuttukaran</p>
                 <p>L123-456-7890</p>
                 <p>5 Bricks: $50,0000</p>
@@ -470,13 +456,9 @@ const Landing = () => {
         </button>
       </div>
 
-      <div className='flex flex-wrap w-full bg-gray-200  px-8 sm:px-16 md:px-20 lg:px-24 xl:px-40 2xl:px-64 pt-12 relative justify-center'>
-        <div className='absolute mt-12 xl:w-5/6 w-full lg:h-5/6 bg-gray-200 right-0'></div>
-        <div className='lg:w-1/3 w-full z-10'>
-          <img
-            src={Image2}
-            className='w-full xl:object-cover object-fill h-56 md:h-72 lg:h-auto'
-          />
+      <div className='flex flex-wrap w-full bg-gray-200  px-8 sm:px-16 md:px-20 lg:px-24 xl:px-48 2xl:px-64 pt-12 relative justify-center'>
+        <div className='lg:w-1/3 xs:w-full md:w-2/3 z-10 flex items-center'>
+          <img src={Image2} className='w-full xl:object-cover object-fill' />
         </div>
         <div className='w-full lg:w-2/3 py-8 md:py-12 z-10 flex flex-col items-center lg:items-start lg:pl-16 xl:pl-24'>
           <p className='text-lg sm:text-xl md:text-2xl lg:text-xl xl:text-2xl 2xl:text-3xl text-center lg:text-left'>
@@ -513,7 +495,7 @@ const Landing = () => {
           </div>
         </div>
       </div>
-      <div className='flex flex-wrap px-8 sm:px-16 md:px-24 lg:px-24 xl:px-40 2xl:px-64 items-center bg-slate-600 p-8'>
+      <div className='flex flex-wrap px-8 sm:px-16 md:px-24 lg:px-24 xl:px-48 2xl:px-64 items-center bg-slate-600 p-8'>
         <div className='flex flex-col w-full lg:w-1/3 p-5'>
           <p className='text-center lg:text-left mx-auto text-3xl sm:text-4xl md:text-5xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-bold text-white'>
             7634 Bricks
@@ -533,9 +515,12 @@ const Landing = () => {
         </div>
         <div className='w-full h-1 lg:w-1 lg:h-20 bg-white'></div>
         <div className='w-full ml-auto lg:w-auto flex justify-center p-5'>
-          <button className='bg-red-700 text-white hover:bg-red-800 px-12 py-3 text-center lg:text-left text-sm sm:text-md md:text-lg lg:text-xl'>
+          <Link
+            to='/buybrick'
+            className='bg-red-700 text-white hover:bg-red-800 px-12 py-3 text-center lg:text-left text-sm sm:text-md md:text-lg lg:text-xl'
+          >
             BUY A BRICK
-          </button>
+          </Link>
         </div>
       </div>
       <Footer />

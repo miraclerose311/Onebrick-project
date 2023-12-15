@@ -5,7 +5,7 @@ import { setAlert } from '../features/alert/alertSlice';
 export const createOrder = (amount) => async (dispatch) => {
   const res = await api.post(
     '/payment/order',
-    JSON.stringify({ amount: amount * 1000 })
+    JSON.stringify({ amount: amount * 1000000 })
   );
 
   if (!res) {

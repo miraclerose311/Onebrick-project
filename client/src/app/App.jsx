@@ -11,6 +11,7 @@ import Buybrick from '../pages/Buybrick';
 import Donors from '../pages/Donors';
 import Landing from '../pages/Landing';
 import Contact from '../pages/Contact';
+import Loading from '../components/Loading';
 
 // Import React toast for Alert
 import { toast, ToastContainer } from 'react-toastify';
@@ -18,6 +19,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const alert = useSelector((state) => state.alert);
+  const { loading } = useSelector((state) => state.loading);
 
   useEffect(() => {
     if (alert.alertType)
@@ -38,6 +40,7 @@ function App() {
 
   return (
     <>
+      <Loading loading={loading} />
       <ToastContainer />
       <Router>
         <Routes>

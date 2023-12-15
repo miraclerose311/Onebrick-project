@@ -1,15 +1,6 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { getSoldAmount } from '../actions/brick';
+import { useSelector } from 'react-redux';
 
 const ProgressBar = () => {
-  const dispatch = useDispatch();
-  const bricks = useSelector((state) => state.brick);
-
-  useEffect(() => {
-    dispatch(getSoldAmount());
-  }, [bricks, dispatch]);
-
   const { soldAmount } = useSelector((state) => state.brick);
 
   return (
