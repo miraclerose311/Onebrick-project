@@ -1,33 +1,38 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  token: localStorage.getItem('token'),
-  isAuthenticated: !!localStorage.getItem('token'),
-  profile: {},
+	token: localStorage.getItem("token"),
+	isAuthenticated: !!localStorage.getItem("token"),
+	profile: {},
+	avatar: localStorage.getItem("avatar")
+		? localStorage.getItem("avatar")
+		: null,
 };
 
 export const authSlice = createSlice({
-  name: 'auth',
-  initialState,
-  reducers: {
-    login: (state, action) => {
-      console.log(action.payload);
-      localStorage.setItem('token', action.payload);
-      state.isAuthenticated = true;
-      state.token = action.payload;
-    },
-    logout: (state) => {
-      localStorage.clear();
-      state.token = null;
-      state.isAuthenticated = false;
-    },
-    setProfile: (state, action) => {
-      state.profile = action.payload;
-    },
-    clearProfile: (state) => {
-      state.profile = {};
-    },
-  },
+	name: "auth",
+	initialState,
+	reducers: {
+		login: (state, action) => {
+			localStorage.setItem("token", action.payload.token);
+			localStorage.setItem("avatar", action.payload.picture);
+			state.isAuthenticated = true;
+			state.token = action.payload.token;
+			state.avatar = action.payload.picture;
+		},
+		logout: (state) => {
+			localStorage.clear();
+			state.token = null;
+			state.isAuthenticated = false;
+			state.avatar = "";
+		},
+		setProfile: (state, action) => {
+			state.profile = action.payload;
+		},
+		clearProfile: (state) => {
+			state.profile = {};
+		},
+	},
 });
 
 // Action creators are generated for each case reducer function

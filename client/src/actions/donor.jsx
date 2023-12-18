@@ -1,12 +1,29 @@
-import api from '../utils/api';
-import { clearDonor } from '../features/brick/brickSlice';
+import api from "../utils/api";
+import { setDonorInfo } from "../features/donor/donorSlice";
+import { clearLoading, setLoading } from "../features/loading/loadingSlice";
 
-export const addProfile = (data) => async (dispatch) => {
-  try {
-    await api.post('/users/add-profile', data).then(() => {
-      dispatch(clearDonor());
-    });
-  } catch (e) {
-    console.log(e);
-  }
+export const insertDonor = (donoData) => async (dispatch) => {
+	try {
+		dispatch(setLoading());
+		await api.post("/donor/insert", donoData).then((res) => {
+			dispatch(clearLoading());
+		});
+	} catch (e) {
+		console.log(e);
+	}
+};
+
+export const getDonor = (user) => async (dispatch) => {
+	try {
+		dispatch(setLoading());
+		await api
+			.post("/donor/get-donor", user)
+			.then((res) => {
+				dispatch(setDonorInfo(res.data));
+				dispatch(clearLoading());
+			})
+			.catch((e) => console.log(e));
+	} catch (e) {
+		console.log(e);
+	}
 };

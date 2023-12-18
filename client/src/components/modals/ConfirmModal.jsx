@@ -1,109 +1,46 @@
-import { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import PropTypes from 'prop-types';
-import { add_dedication } from '../../features/brick/brickSlice';
-import user from '../../assets/img/user.png';
+import PropTypes from "prop-types";
+import { jwtDecode } from "jwt-decode";
 
-const ConfirmModal = ({ handleSold }) => {
-  //Declear States for Dedication Form
-  const [name, setName] = useState('');
-  const [relationship, setRelationship] = useState('');
-  const [message, setMessage] = useState('');
-  const [image, setImage] = useState(null);
+const ConfirmModal = ({ filtered }) => {
+	const imgSrc = localStorage.getItem("avatar");
+	const token = localStorage.getItem("token");
 
-  //Get Dedication data from Redux for display when redirect
-  const { dedication } = useSelector((state) => state.brick.current);
+	const user = jwtDecode(token);
 
-  useEffect(() => {
-    setName(dedication.name);
-    setRelationship(dedication.relationship);
-    setMessage(dedication.message);
-    setImage(dedication.image);
-  }, [
-    dedication.name,
-    dedication.relationship,
-    dedication.message,
-    dedication.image,
-  ]);
+	const brickIdArray = [];
+	filtered.map((item) => {
+		brickIdArray.push(
+			<p className="w-full text-xl border-b-2 border-gray-800 font-raleway my-2">
+				{item.brick_id}
+			</p>
+		);
+	});
 
-  const dispatch = useDispatch();
-  const handleSubmit = () => {
-    const dedicationData = {
-      name,
-      relationship,
-      message,
-      image,
-      // : JSON.stringify(image)
-    };
-    dispatch(add_dedication(dedicationData));
-    handleSold();
-  };
-
-  return (
-    <>
-      <p className='text-4xl font-montserrat px-8'>Just one more step!</p>
-      <p className='font-raleway text-xl my-4'>Why we need this?</p>
-      <p className='font-raleway text-xl my-4'>
-        You have taken a step towards making a significant difference!
-      </p>
-      <input
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        className='border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2'
-        placeholder='I dedicate this brick to(name)'
-      />
-      <input
-        value={relationship}
-        onChange={(e) => setRelationship(e.target.value)}
-        className='border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2'
-        placeholder='who is my'
-      />
-      <textarea
-        value={message}
-        onChange={(e) => setMessage(e.target.value)}
-        className='border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2 h-36'
-        placeholder='Dedication Message'
-      />
-      <div className='border border-gray-400 w-2/3 rounded-lg my-2 px-4 py-2'>
-        {image ? (
-          <div className='flex flex-col w-full items-center justify-between gap-y-3'>
-            <img
-              alt='not found'
-              className='w-20 h-20 rounded-full'
-              src={URL.createObjectURL(image)}
-            />
-            <button onClick={() => setImage(null)}>Remove</button>
-          </div>
-        ) : (
-          <div className='flex flex-col w-full items-center justify-between gap-y-3'>
-            <input
-              className='w-full'
-              type='file'
-              name='myImage'
-              onChange={(event) => {
-                setImage(event.target.files[0]);
-              }}
-            />
-            <img
-              className='w-20 h-20 rounded-full'
-              src={user}
-              alt='dedication image'
-            ></img>
-          </div>
-        )}
-      </div>
-      <button
-        className='text-gray-100 bg-red-700 px-4 py-2 my-4 rounded-md'
-        onClick={handleSubmit}
-      >
-        MAKE PAYMENT
-      </button>
-    </>
-  );
+	return (
+		<div className="flex flex-col items-center justify-center gap-6 px-12">
+			<div className="flex flex-col items-end gap-4">
+				<img
+					src={imgSrc ? imgSrc : user}
+					className="w-48 h-48 rounded-full mx-auto"
+				/>
+				<p className="text-2xl font-medium font-raleway">{user.fullName}</p>
+			</div>
+			<p className="text-3xl font-raleway font-medium">BRICKS DONATED</p>
+			<div className="w-full h-1/4 overflow-y-scroll">{brickIdArray}</div>
+			<div className="bg-[#FBF8BE] shadow-lg shadow-yellow-300/50 rounded-xl w-full flex flex-col gap-6 p-4 mt-8">
+				<p className="text-xl font-medium font-raleway">
+					What to buy more bricks?
+				</p>
+				<p className="text-lg font-raleway">
+					It’s simple. Just mouseover a brick and click to buy!
+				</p>
+			</div>
+		</div>
+	);
 };
 
 ConfirmModal.propTypes = {
-  handleSold: PropTypes.func.isRequired,
+	filtered: PropTypes.array.isRequired,
 };
 
 export default ConfirmModal;

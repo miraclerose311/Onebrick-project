@@ -1,11 +1,12 @@
-import axios from 'axios';
+import axios from "axios";
 
 // Create an instance of axios
+
 const api = axios.create({
-  baseURL: `${import.meta.env.VITE_BACKEND_URL}/api`,
-  headers: {
-    'Content-Type': 'application/json',
-  },
+	baseURL: `${import.meta.env.VITE_BACKEND_URL}/api`,
+	headers: {
+		"Content-Type": "application/json",
+	},
 });
 /*
   NOTE: intercept any error responses from the api

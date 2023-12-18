@@ -1,38 +1,41 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  fullName: '',
-  mobile: '',
-  email: '',
-  pan: '',
-  aadhaar: '',
-  address: '',
-  country: '',
-  state: '',
-  pin: '',
+	fullName: "",
+	mobile: "",
+	email: "",
+	pan: "",
+	aadhaar: "",
+	address: "",
+	country: "",
+	state: "",
+	pin: "",
 };
 
 export const donorSlice = createSlice({
-  name: 'donor',
-  initialState,
-  reducers: {
-    addDonorInfo: (state, action) => {
-      state = Object.assign(state, action.payload);
-    },
-    clearDonor: (state) => {
-      state.fullName = '';
-      state.mobile = '';
-      state.email = '';
-      state.pan = '';
-      state.aadhaar = '';
-      state.address = '';
-      state.country = '';
-      state.state = '';
-      state.pin = '';
-    },
-  },
+	name: "donor",
+	initialState,
+	reducers: {
+		addDonorInfo: (state, action) => {
+			state = Object.assign(state, action.payload);
+		},
+		clearDonor: (state) => {
+			state.fullName = "";
+			state.mobile = "";
+			state.email = "";
+			state.pan = "";
+			state.aadhaar = "";
+			state.address = "";
+			state.country = "";
+			state.state = "";
+			state.pin = "";
+		},
+		setDonorInfo: (state, action) => {
+			state = action.payload;
+		},
+	},
 });
 
-export const { addDonorInfo, clearDonor } = donorSlice.actions;
+export const { addDonorInfo, setDonorInfo, clearDonor } = donorSlice.actions;
 
 export default donorSlice.reducer;
