@@ -17,15 +17,3 @@
   box-shadow: 0 0 20px 10px  rgb(233, 40, 14);
   z-index: 1000
 }
-
-.scrollbar-hidden::-webkit-scrollbar {
-  display: none;
-  /* For Webkit (Chrome, Safari) */
-}
-
-.scrollbar-hidden {
-  -ms-overflow-style: none;
-  /* For Internet Explorer and Edge */
-  scrollbar-width: none;
-  /* For Firefox */
-}

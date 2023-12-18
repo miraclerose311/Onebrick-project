@@ -13,6 +13,11 @@ const DonorAddressModal = ({ handleBuyBrick }) => {
 	const [pin, setPin] = useState("");
 	const [country, setCountry] = useState("");
 	const [state, setState] = useState("");
+	const [errors, setErrors] = useState({
+		address: "",
+		country: "",
+		pin: "",
+	});
 
 	//Get user Id from token
 	const { token } = useSelector((state) => state.auth);
@@ -34,10 +39,22 @@ const DonorAddressModal = ({ handleBuyBrick }) => {
 		setCountry(donor.country);
 		setState(donor.state);
 		setPin(donor.pin);
-	}, [donor.address, donor.country, donor.state, donor.pin]);
+	}, [donor]);
 
 	const handleSubmit = () => {
-		if (address && country && pin) {
+		// Initialize an errors object
+		let newErrors = {};
+
+		// Validate Full Name
+		if (!address.trim()) {
+			newErrors.address = "Address is required";
+		}
+		// Validate PIN
+		if (!pin.trim()) {
+			newErrors.pin = "PIN is required";
+		}
+
+		if (Object.keys(newErrors).length === 0) {
 			const addressData = {
 				address,
 				country,
@@ -63,6 +80,15 @@ const DonorAddressModal = ({ handleBuyBrick }) => {
 		}
 	};
 
+	const handleFocus = (e) => {
+		console.log(e.target.name);
+		setErrors({ ...errors, [e.target.name]: "" });
+	};
+
+	function classNames(...classes) {
+		return classes.filter(Boolean).join(" ");
+	}
+
 	return (
 		<>
 			<p className="text-4xl font-montserrat px-8">Just one more step!</p>
@@ -73,14 +99,27 @@ const DonorAddressModal = ({ handleBuyBrick }) => {
 			<textarea
 				value={address}
 				onChange={(e) => setAddress(e.target.value)}
-				className="border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2 h-36"
+				onFocus={handleFocus}
+				className={classNames(
+					"border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2 h-36",
+					errors.fullName !== "" && "border-red-400"
+				)}
 				placeholder="Address"
 			/>
+			{errors.address && (
+				<p className="text-red-400 text-xs text-left w-2/3">{errors.address}</p>
+			)}
 			<CountryDropdown
-				className="border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2"
+				className={classNames(
+					"border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2 h-36",
+					errors.pin !== "" && "border-red-400"
+				)}
 				value={country}
 				onChange={(val) => setCountry(val)}
 			/>
+			{errors.pin && (
+				<p className="text-red-400 text-xs text-left w-2/3">{errors.pin}</p>
+			)}
 			<RegionDropdown
 				className="border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2"
 				country={country}

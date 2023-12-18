@@ -21,12 +21,12 @@ const ConfirmModal = ({ filtered }) => {
 			<div className="flex flex-col items-end gap-4">
 				<img
 					src={imgSrc ? imgSrc : user}
-					className="w-48 h-48 rounded-full mx-auto"
+					className="w-32 h-32 rounded-full mx-auto"
 				/>
 				<p className="text-2xl font-medium font-raleway">{user.fullName}</p>
 			</div>
 			<p className="text-3xl font-raleway font-medium">BRICKS DONATED</p>
-			<div className="w-full h-1/4 overflow-y-scroll">{brickIdArray}</div>
+			<div className="w-full h-1/6 overflow-y-auto">{brickIdArray}</div>
 			<div className="bg-[#FBF8BE] shadow-lg shadow-yellow-300/50 rounded-xl w-full flex flex-col gap-6 p-4 mt-8">
 				<p className="text-xl font-medium font-raleway">
 					What to buy more bricks?
