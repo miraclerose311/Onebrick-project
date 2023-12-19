@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const multer = require("multer");
 const Razorpay = require("razorpay");
 const auth = require("../../middleware/auth");
 
@@ -8,7 +9,6 @@ const Donor = require("../../models/Donor");
 const User = require("../../models/User");
 
 const initialData = require("./initialValue");
-
 router.get("/test", (req, res) => {
 	res.json("test!");
 });
@@ -52,13 +52,44 @@ router.post("/buy", async (req, res) => {
 		.catch((e) => res.status(400).json(e));
 });
 
-router.post("/add-dedication", async (req, res) => {
+const storage = multer.diskStorage({
+	destination: function (req, file, cb) {
+		cb(null, "uploads/"); // The folder where the uploaded files will be stored
+	},
+	filename: function (req, file, cb) {
+		cb(null, Date.now() + "-" + file.originalname);
+	},
+});
+
+const upload = multer({ storage: storage });
+
+// Express route handler for adding a new Brick with a dedication
+
+router.post("/add-dedication", upload.single("image"), async (req, res) => {
+	console.log("backend file information => ", req.file.filename, req.file.path);
+
+	if (!req.file) {
+		// Check if the image file was received
+		return res.status(400).send("No image file uploaded.");
+	}
+
+	// Deconstruct fields from the body
 	const { brick_id, name, relationship, message } = req.body;
 
-	const newDedication = { name, relationship, message };
+	// Create the dedication object including image information
+	const dedication = {
+		name,
+		relationship,
+		message,
+		image: {
+			imageName: req.file.filename, // filename set by multer's disk storage configuration
+			imagePath: req.file.path, // path where multer saved the file
+		},
+	};
+
 	try {
 		// update brick by id
-		Brick.updateOne({ brick_id }, { $set: { dedication: newDedication } })
+		Brick.updateOne({ brick_id }, { $set: { dedication: dedication } })
 			.then(() => res.status(200).send(req.body))
 			.catch((e) => console.log(e));
 	} catch (error) {

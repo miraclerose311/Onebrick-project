@@ -55,9 +55,8 @@ router.post("/insert", async (req, res) => {
 
 router.post("/get-donor", async (req, res) => {
 	try {
-		Donor.find({ user_id: req.body.user }).then((response) => {
-			res.json(response.data);
-			console.log(response.data);
+		Donor.findOne({ user_id: req.body.userId }).then((response) => {
+			res.json(response);
 		});
 	} catch {
 		(e) => {

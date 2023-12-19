@@ -1,4 +1,5 @@
 import api from "../utils/api";
+import api1 from "../utils/api1";
 import {
 	setBricks,
 	setBrick,
@@ -56,7 +57,7 @@ export const buyBrick = (brickData) => async (dispatch) => {
 export const addDedication = (dedicationData) => async (dispatch) => {
 	try {
 		dispatch(setLoading());
-		await api.post("/brick/add-dedication", dedicationData).then((res) => {
+		await api1.post("/brick/add-dedication", dedicationData).then((res) => {
 			dispatch(setDedication(res.data));
 			dispatch(clearLoading());
 		});

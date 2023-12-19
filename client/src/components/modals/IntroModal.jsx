@@ -14,7 +14,7 @@ const IntroModal = ({ handleSkipModal }) => {
 	const [skipIndex, setSkipIndex] = useState(1);
 
 	useEffect(() => {
-		if (donor.fullName === "") setSkipIndex(2);
+		if (!donor.fullName && !donor.email) setSkipIndex(2);
 		else setSkipIndex(4);
 	}, [donor]);
 

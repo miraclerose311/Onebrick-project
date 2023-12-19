@@ -73,8 +73,13 @@ const Buybrick = () => {
 
 	//Fetch donor state
 	useEffect(() => {
-		dispatch(getDonor({ user: userId }));
+		dispatch(getDonor({ userId }));
 	}, [dispatch, userId]);
+
+	const donor = useSelector((state) => state.donor);
+	useEffect(() => {
+		console.log("donor", donor);
+	}, [donor]);
 
 	// Fetch payment states
 	const { order } = useSelector((state) => state.payment);
