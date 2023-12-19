@@ -45,7 +45,7 @@ const DonorAddressModal = ({ handleBuyBrick }) => {
 		// Initialize an errors object
 		let newErrors = {};
 
-		// Validate Full Name
+		// Address Full Name
 		if (!address.trim()) {
 			newErrors.address = "Address is required";
 		}
@@ -53,6 +53,9 @@ const DonorAddressModal = ({ handleBuyBrick }) => {
 		if (!pin.trim()) {
 			newErrors.pin = "PIN is required";
 		}
+
+		// Update the errors state
+		setErrors(newErrors);
 
 		if (Object.keys(newErrors).length === 0) {
 			const addressData = {
@@ -97,12 +100,13 @@ const DonorAddressModal = ({ handleBuyBrick }) => {
 				You have taken a step towards making a significant difference!
 			</p>
 			<textarea
+				name="address"
 				value={address}
 				onChange={(e) => setAddress(e.target.value)}
 				onFocus={handleFocus}
 				className={classNames(
 					"border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2 h-36",
-					errors.fullName !== "" && "border-red-400"
+					errors.address !== "" && "border-red-400"
 				)}
 				placeholder="Address"
 			/>
@@ -111,27 +115,36 @@ const DonorAddressModal = ({ handleBuyBrick }) => {
 			)}
 			<CountryDropdown
 				className={classNames(
-					"border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2 h-36",
-					errors.pin !== "" && "border-red-400"
+					"border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2"
 				)}
+				name="country"
 				value={country}
 				onChange={(val) => setCountry(val)}
 			/>
-			{errors.pin && (
-				<p className="text-red-400 text-xs text-left w-2/3">{errors.pin}</p>
+			{errors.country && (
+				<p className="text-red-400 text-xs text-left w-2/3">{errors.country}</p>
 			)}
 			<RegionDropdown
 				className="border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2"
 				country={country}
+				name="state"
 				value={state}
 				onChange={(val) => setState(val)}
 			/>
 			<input
+				name="pin"
 				value={pin}
 				onChange={(e) => setPin(e.target.value)}
-				className="border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2"
+				onFocus={handleFocus}
+				className={classNames(
+					"border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2",
+					errors.pin !== "" && "border-red-400"
+				)}
 				placeholder="PIN"
 			/>
+			{errors.pin && (
+				<p className="text-red-400 text-xs text-left w-2/3">{errors.pin}</p>
+			)}
 			<button
 				className="text-gray-100 bg-red-700 px-4 py-2 my-4 rounded-md"
 				onClick={handleSubmit}

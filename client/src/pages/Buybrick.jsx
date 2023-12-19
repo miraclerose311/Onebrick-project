@@ -62,7 +62,7 @@ const Buybrick = () => {
 			const { id } = jwtDecode(token);
 			setUserId(id);
 		}
-	}, [token]);
+	}, [token, dispatch]);
 
 	// Fetch brick states
 	const { bricks } = useSelector((state) => state.brick);
@@ -399,18 +399,12 @@ const Buybrick = () => {
 	useEffect(() => {
 		if (search !== "") {
 			const temp = bricks.filter((item) => {
-				if (item.user) {
-					return (
-						(item.sold && item.user.profile.fullName.includes(search)) ||
-						item.brick_id.includes(search)
-					);
-				} else {
-					return item.sold && item.brick_id.includes(search);
-				}
+				return item.sold && item.brick_id.includes(search);
 			});
 			setFiltered(temp);
 		}
 	}, [search, bricks]);
+
 	const renderBricks = () => {
 		const colBricks = [];
 		Array.from(Array(140).keys()).map((col) => {
@@ -427,7 +421,9 @@ const Buybrick = () => {
 								id={index}
 								className={classNames(
 									"border-2 border-white rounded-md w-5 h-5",
-									index === clickedIndex ? "bg-yellow-400 z-50" : "bg-gray-100",
+									index === clickedIndex && !bricks[index].sold
+										? "bg-yellow-400 z-50"
+										: "bg-gray-100",
 									!filtered.includes(bricks[index]) &&
 										bricks[index].sold &&
 										bricks[index].brick_id !== hovered.brick_id &&

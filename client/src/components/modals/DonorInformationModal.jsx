@@ -14,6 +14,7 @@ const DonorInformationModal = ({ handleNextModal }) => {
 		fullName: "",
 		email: "",
 		mobile: "",
+		pan: "",
 	});
 
 	const donor = useSelector((state) => state.donor);
@@ -25,6 +26,21 @@ const DonorInformationModal = ({ handleNextModal }) => {
 		setPan(donor.pan);
 		setAadhaar(donor.aadhaar);
 	}, [donor]);
+
+	function isValidMobileNumber(mobile) {
+		const regex = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+		return regex.test(mobile);
+	}
+	// Make sure validateEmail function is defined
+	function isValidEmail(email) {
+		const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+		return regex.test(email);
+	}
+
+	function isValidPAN(pan) {
+		const regex = /^[A-Z]{5}[0-9]{4}[A-Z]$/;
+		return regex.test(pan);
+	}
 
 	const handleSubmit = () => {
 		// Initialize an errors object
@@ -38,15 +54,24 @@ const DonorInformationModal = ({ handleNextModal }) => {
 		// Validate Email
 		if (!email.trim()) {
 			newErrors.email = "Email is required";
-		} else if (!validateEmail(email)) {
+		} else if (!isValidEmail(email)) {
 			newErrors.email = "Please enter a valid email address";
 		}
 
 		// Validate Mobile Number
 		if (!mobile.trim()) {
 			newErrors.mobile = "Mobile number is required";
+		} else if (!isValidMobileNumber(mobile)) {
+			console.log("wer");
+			newErrors.mobile = "Please enter a valid phone number";
 		}
 
+		//Validate PAN Number
+		if (!pan.trim()) {
+			newErrors.pan = "PAN number is required";
+		} else if (!isValidPAN(pan)) {
+			newErrors.pan = "Please enter a valid PAN number";
+		}
 		// Update the errors state
 		setErrors(newErrors);
 
@@ -64,14 +89,11 @@ const DonorInformationModal = ({ handleNextModal }) => {
 		}
 	};
 
-	// Make sure validateEmail function is defined
-	function validateEmail(email) {
-		const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-		return regex.test(email);
-	}
+	useEffect(() => {
+		console.log(errors);
+	}, [errors]);
 
 	const handleFocus = (e) => {
-		console.log(e.target.name);
 		setErrors({ ...errors, [e.target.name]: "" });
 	};
 
@@ -86,6 +108,7 @@ const DonorInformationModal = ({ handleNextModal }) => {
 			<p className="font-raleway text-xl my-4">
 				You have taken a step towards making a significant difference!
 			</p>
+
 			<input
 				type="text"
 				name="fullName"
@@ -94,7 +117,7 @@ const DonorInformationModal = ({ handleNextModal }) => {
 				onFocus={handleFocus}
 				className={classNames(
 					"border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2",
-					errors.fullName !== "" && "border-red-400"
+					errors.fullName && "border-red-400"
 				)}
 				placeholder="Full Name"
 			/>
@@ -103,6 +126,7 @@ const DonorInformationModal = ({ handleNextModal }) => {
 					{errors.fullName}
 				</p>
 			)}
+
 			<input
 				type="email"
 				name="email"
@@ -111,13 +135,14 @@ const DonorInformationModal = ({ handleNextModal }) => {
 				onChange={(e) => setEmail(e.target.value)}
 				className={classNames(
 					"border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2",
-					errors.email !== "" && "border-red-400"
+					errors.email && "border-red-400"
 				)}
 				placeholder="Email ID"
 			/>
 			{errors.email && (
 				<p className="text-red-400 text-xs text-left w-2/3">{errors.email}</p>
 			)}
+
 			<input
 				type="text"
 				name="mobile"
@@ -126,20 +151,30 @@ const DonorInformationModal = ({ handleNextModal }) => {
 				onChange={(e) => setMobile(e.target.value)}
 				className={classNames(
 					"border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2",
-					errors.mobile !== "" && "border-red-400"
+					errors.mobile && "border-red-400"
 				)}
 				placeholder="Mobile"
 			/>
 			{errors.mobile && (
-				<p className="text-red-400 text-xs text-left w-2/3">{errors.email}</p>
+				<p className="text-red-400 text-xs text-left w-2/3">{errors.mobile}</p>
 			)}
+
 			<input
 				type="text"
+				name="pan"
 				value={pan}
+				onFocus={handleFocus}
 				onChange={(e) => setPan(e.target.value)}
-				className="border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2"
+				className={classNames(
+					"border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2",
+					errors.pan && "border-red-400"
+				)}
 				placeholder="PAN (if available)"
 			/>
+			{errors.pan && (
+				<p className="text-red-400 text-xs text-left w-2/3">{errors.pan}</p>
+			)}
+
 			<input
 				type="text"
 				value={aadhaar}

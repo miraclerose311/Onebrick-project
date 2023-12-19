@@ -39,12 +39,12 @@ const Contact = () => {
 						</p>
 						<p className="text-lg sm:text-xl md:text-2xl lg:text-xl xl:text-2xl 2xl:text-3xl text-justify font-raleway text-gray-600 pt-5 lg:pb-0 pb-12">
 							Welcome to Alpha Hospice. We are here to assist you with any
-							questions, guidance, or support you may need. Whether you're
+							questions, guidance, or support you may need. Whether you&rquot;re
 							seeking information about our services, interested in
 							volunteering, or need details about our Link Centers, our team is
-							ready to help. Reach out to us, and we'll ensure you receive the
-							assistance and information you're looking for. Your journey
-							towards compassion and care starts here.
+							ready to help. Reach out to us, and we&rquot;ll ensure you receive
+							the assistance and information you&rquot;re looking for. Your
+							journey towards compassion and care starts here.
 						</p>
 					</div>
 				</div>
@@ -58,22 +58,22 @@ const Contact = () => {
 						<div className="flex gap-6 sm:gap-8 md:gap-12 lg:gap-6 xl:gap-8 2xl:gap-12 items-center">
 							<img
 								src={Phone}
-								className="w-10 sm:w-14 lg:w-10 xl:w-14 2xl:w-16  h-10 sm:h-14 lg:h-10 xl:h-14 2xl:h-16"
+								className="w-8 sm:w-10 lg:w-8 xl:w-10 2xl:w-12  h-8 sm:h-10 lg:h-8 xl:h-10 2xl:h-12"
 							/>
-							<p className="text-sky-700 text-2xl sm:text-3xl lg:text-2xl xl:text-3xl 2xl:text-4xl text-justify font-bold w-full">
+							<p className="text-sky-700 text-xl sm:text-2xl lg:text-xl xl:text-2xl 2xl:text-3xl text-justify font-montserrat font-medium w-full">
 								+91 94977 13923
 							</p>
 						</div>
 						<div className="flex gap-6 sm:gap-8 md:gap-12 lg:gap-6 xl:gap-8 2xl:gap-12 items-center">
 							<img
 								src={Position}
-								className="w-10 sm:w-14 lg:w-10 xl:w-14 2xl:w-16  h-10 sm:h-14 lg:h-10 xl:h-14 2xl:h-16"
+								className="w-8 sm:w-10 lg:w-8 xl:w-10 2xl:w-12  h-8 sm:h-10 lg:h-8 xl:h-10 2xl:h-12"
 							/>
 							<div className="flex flex-col">
-								<p className="text-sky-700 text-2xl sm:text-3xl lg:text-2xl xl:text-3xl 2xl:text-4xl text-justify font-bold w-full">
+								<p className="text-sky-700 text-xl sm:text-2xl lg:text-xl xl:text-2xl 2xl:text-3xl text-justify font-montserrat font-medium w-full">
 									click here for directions
 								</p>
-								<p className="text-sky-700 text-sm sm:text-xl md:text-3xl lg:text-sm xl:text-xl 2xl:text-3xl text-justify w-full">
+								<p className="text-sky-700 text-sm sm:text-xl lg:text-sm xl:text-md 2xl:text-lg text-justify w-full">
 									IX/627, Edamuttam, Palappetty, India
 								</p>
 							</div>
@@ -81,13 +81,13 @@ const Contact = () => {
 						<div className="flex gap-6 sm:gap-8 md:gap-12 lg:gap-6 xl:gap-8 2xl:gap-12 items-center">
 							<img
 								src={Message}
-								className="w-10 sm:w-14 lg:w-10 xl:w-14 2xl:w-16  h-10 sm:h-14 lg:h-10 xl:h-14 2xl:h-16"
+								className="w-8 sm:w-10 lg:w-8 xl:w-10 2xl:w-12  h-8 sm:h-10 lg:h-8 xl:h-10 2xl:h-12"
 							/>
 							<div className="flex-col">
-								<p className="text-sky-700 text-2xl sm:text-3xl lg:text-2xl xl:text-3xl 2xl:text-4xl text-justify font-bold w-full">
+								<p className="text-sky-700 text-xl sm:text-2xl lg:text-xl xl:text-2xl 2xl:text-3xl text-justify font-montserrat font-medium w-full">
 									communications
 								</p>
-								<p className="text-sky-700 text-2xl sm:text-3xl lg:text-2xl xl:text-3xl 2xl:text-4xl text-justify font-bold w-full">
+								<p className="text-sky-700 text-xl sm:text-2xl lg:text-xl xl:text-2xl 2xl:text-3xl text-justify font-montserrat font-medium w-full">
 									@alphapalliativecare.org
 								</p>
 							</div>
@@ -95,24 +95,24 @@ const Contact = () => {
 						<div className="flex gap-6 sm:gap-8 md:gap-12 lg:gap-6 xl:gap-8 2xl:gap-12 items-center">
 							<img
 								src={Address}
-								className="w-10 sm:w-14 lg:w-10 xl:w-14 2xl:w-16  h-10 sm:h-14 lg:h-10 xl:h-14 2xl:h-16"
+								className="w-8 sm:w-10 lg:w-8 xl:w-10 2xl:w-12  h-8 sm:h-10 lg:h-8 xl:h-10 2xl:h-12"
 							/>
 							<div className="flex gap-4">
 								<img
 									src={FaceBookIcon}
-									className="w-10 sm:w-14 md:w-16 lg:w-10 xl:w-14 2xl:w-16  h-10 sm:h-14 md:h-16 lg:h-10 xl:h-14 2xl:h-16"
+									className="w-8 sm:w-10 lg:w-8 xl:w-10 2xl:w-12  h-8 sm:h-10 lg:h-8 xl:h-10 2xl:h-12"
 								/>
 								<img
 									src={TwitterIcon}
-									className="w-10 sm:w-14 md:w-16 lg:w-10 xl:w-14 2xl:w-16  h-10 sm:h-14 md:h-16 lg:h-10 xl:h-14 2xl:h-16 ml-4"
+									className="w-8 sm:w-10 lg:w-8 xl:w-10 2xl:w-12  h-8 sm:h-10 lg:h-8 xl:h-10 2xl:h-12 ml-4"
 								/>
 								<img
 									src={NewIcon}
-									className="w-10 sm:w-14 md:w-16 lg:w-10 xl:w-14 2xl:w-16  h-10 sm:h-14 md:h-16 lg:h-10 xl:h-14 2xl:h-16 ml-4"
+									className="w-8 sm:w-10 lg:w-8 xl:w-10 2xl:w-12  h-8 sm:h-10 lg:h-8 xl:h-10 2xl:h-12 ml-4"
 								/>
 								<img
 									src={QIcon}
-									className="w-10 sm:w-14 md:w-16 lg:w-10 xl:w-14 2xl:w-16  h-10 sm:h-14 md:h-16 lg:h-10 xl:h-14 2xl:h-16 ml-4"
+									className="w-8 sm:w-10 lg:w-8 xl:w-10 2xl:w-12  h-8 sm:h-10 lg:h-8 xl:h-10 2xl:h-12 ml-4"
 								/>
 							</div>
 						</div>
