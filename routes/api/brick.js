@@ -75,11 +75,18 @@ router.get("/all", async (req, res) => {
 
 router.get("/current_page", async (req, res) => {
 	try {
-		let { page, limit, sold, fake } = req.query;
+		let { brick_id, date, page, limit, sold, fake } = req.query;
 		let filter_query = {};
+		let sort_query = {};
+
+		brick_id = parseInt(brick_id);
+		date = parseInt(date);
 
 		if (sold !== "all") filter_query.sold = sold === "true";
 		if (fake !== "all") filter_query.fake = fake === "true";
+
+		if (brick_id !== 0) sort_query.brick_id = brick_id;
+		if (date !== 0) sort_query.date = date;
 
 		// Parse 'page' and 'limit' as integers
 		page = parseInt(page, 10) || 1;
@@ -95,26 +102,28 @@ router.get("/current_page", async (req, res) => {
 		// Execute the count pipeline to get the total number of documents
 		const totalCountResult = await Brick.aggregate(countPipeline).exec();
 		const totalDocuments =
-			totalCountResult.length > 0 ? totalCountResult[0].total : 0;
-
+			totalCountResult.length > 0
+				? Math.ceil(totalCountResult[0].total / limit)
+				: 0;
+		console.log(sort_query);
 		// Now define the pipeline to fetch the documents
 		const dataPipeline = [
 			...(Object.keys(filter_query).length ? [{ $match: filter_query }] : []),
+			...(Object.keys(sort_query).length ? [{ $sort: sort_query }] : []),
 			{ $skip: (page - 1) * limit },
 			{ $limit: limit },
 			{
 				$lookup: {
-					from: "users",
-					localField: "_id",
+					from: "donors",
+					localField: "user",
 					foreignField: "user",
-					as: "user",
+					as: "donor",
 				},
 			},
 		];
 
 		// Fetch the documents based on the query and pagination options
 		const documents = await Brick.aggregate(dataPipeline).exec();
-		console.log(totalDocuments, documents, page, limit);
 		// Send back the total count along with the documents
 		res.json({
 			totalDocuments,

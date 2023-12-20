@@ -36,7 +36,8 @@
     "path": "^0.12.7",
     "react-icons": "^4.12.0",
     "react-images-upload": "^1.2.8",
-    "react-radio-group": "^3.0.3"
+    "react-radio-group": "^3.0.3",
+    "vite": "^5.0.10"
   },
   "repository": {
     "type": "git",

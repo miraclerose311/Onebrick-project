@@ -14,7 +14,7 @@ router.post("/initial", async (req, res) => {
 	console.log(users[0]);
 	for (let i = 0; i < count; i++) {
 		fakeDonors.push({
-			user_id: users[i]._id,
+			user: users[i]._id,
 			fullName: faker.name.findName(),
 			email: faker.internet.email(),
 			mobile: faker.phone.phoneNumber(),
