@@ -1,10 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const multer = require("multer");
-<<<<<<< HEAD
-=======
-// const { faker } = require("@faker-js/faker");
->>>>>>> e209f749789ad245f02d8b629f185af0b8bc126f
 const faker = require("faker");
 const auth = require("../../middleware/auth");
 
