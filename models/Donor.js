@@ -1,8 +1,9 @@
 const mongoose = require("mongoose");
 
 const DonorSchema = new mongoose.Schema({
-	user_id: {
-		type: String,
+	user: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: "user",
 	},
 	fullName: {
 		type: String,
