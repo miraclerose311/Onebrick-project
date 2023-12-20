@@ -13,6 +13,10 @@ const BrickSchema = new mongoose.Schema({
 	amount: {
 		type: Number,
 	},
+	date: {
+		type: Date,
+		// required: true,
+	},
 	location: {
 		type: String,
 	},
@@ -27,11 +31,15 @@ const BrickSchema = new mongoose.Schema({
 			type: String,
 		},
 		image: {
-			imageName: { type: String, required: true },
-			imagePath: { type: String, required: true },
+			imageName: { type: String },
+			imagePath: { type: String },
 		},
 	},
 	sold: {
+		type: Boolean,
+		default: false,
+	},
+	fake: {
 		type: Boolean,
 		default: false,
 	},
