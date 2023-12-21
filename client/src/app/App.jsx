@@ -16,7 +16,7 @@ import Loading from "../components/Loading";
 // Import React toast for Alert
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import DataTable from "../components/DataTable";
+import Admin from "../pages/Admin";
 
 function App() {
 	const alert = useSelector((state) => state.alert);
@@ -46,41 +46,41 @@ function App() {
 			<Router>
 				<Routes>
 					<Route
-						path="/"
+						path='/'
 						exact
 						element={<Landing />}
 					/>
 					<Route
-						path="/admin"
+						path='/admin'
 						exact
-						element={<DataTable />}
+						element={<Admin />}
 					/>
 					<Route
-						path="/about"
+						path='/about'
 						element={<About />}
 					/>
 					<Route
-						path="/login"
+						path='/login'
 						element={<Login />}
 					/>
 					<Route
-						path="/register"
+						path='/register'
 						element={<Register />}
 					/>
 					<Route
-						path="/beneficiaries"
+						path='/beneficiaries'
 						element={<Beneficiaries />}
 					/>
 					<Route
-						path="/buybrick"
+						path='/buybrick'
 						element={<Buybrick />}
 					/>
 					<Route
-						path="/donors"
+						path='/donors'
 						element={<Donors />}
 					/>
 					<Route
-						path="/contact"
+						path='/contact'
 						element={<Contact />}
 					/>
 				</Routes>

@@ -36,4 +36,6 @@ const DonorSchema = new mongoose.Schema({
 	},
 });
 
+DonorSchema.index({ "$**": "text" });
+
 module.exports = mongoose.model("donor", DonorSchema);

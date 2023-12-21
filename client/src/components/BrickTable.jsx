@@ -10,10 +10,13 @@ import { FaSortAmountUp } from "react-icons/fa";
 import { FaSortAmountDownAlt } from "react-icons/fa";
 import { TbArrowsSort } from "react-icons/tb";
 
-const DataTable = () => {
+const BrickTable = () => {
 	const [data, setData] = useState({});
 	const [currentPage, setCurrentPage] = useState(1);
 	const [limit, setLimit] = useState(10);
+	const [search, setSearch] = useState("");
+	const [term, setTerm] = useState("");
+
 	const [filter, setFilter] = useState({
 		sold: { modal: false, value: "all" },
 		fake: { modal: false, value: "all" },
@@ -31,7 +34,7 @@ const DataTable = () => {
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const query = `page=${currentPage}&limit=${limit}&sold=${filter.sold.value}&fake=${filter.fake.value}&brick_id=${sorts.brick_id}&date=${sorts.date}`;
+				const query = `page=${currentPage}&limit=${limit}&sold=${filter.sold.value}&fake=${filter.fake.value}&brick_id=${sorts.brick_id}&date=${sorts.date}&term=${term}`;
 				const response = await axios.get(
 					`http://localhost:5000/api/brick/current_page?${query}`
 				);
@@ -41,9 +44,10 @@ const DataTable = () => {
 				console.error(error);
 			}
 		};
-
+		console.log(term);
 		fetchData();
-	}, [currentPage, limit, filter, sorts]);
+	}, [currentPage, limit, filter, sorts, term]);
+
 	const handleFilter = (e) => {
 		const { name, value } = e.target;
 		setFilter((prevFilters) => ({
@@ -56,10 +60,33 @@ const DataTable = () => {
 		}));
 	};
 
+	useEffect(() => {
+		// Setting up the delay
+		const timerId = setTimeout(() => {
+			setTerm(search);
+		}, 1000); // Adjust the delay as needed
+
+		return () => {
+			clearTimeout(timerId); // Clear the timeout if the component unmounts or the term changes
+		};
+	}, [search]);
+
 	return (
-		<div className='w-full px-8 sm:px-16 md:px-24 lg:px-24 xl:px-48 2xl:px-64 mt-24'>
+		<div className='bricktable w-full px-8 sm:px-16 md:px-24 lg:px-24 xl:px-48 2xl:px-64 mt-24'>
+			<div className='w-full flex flex-col py-1'>
+				<p className='font-montserrat font-bold text-2xl text-center'>
+					All Brick Data
+				</p>
+				<input
+					name='search'
+					value={search}
+					placeholder='Search for all fields..'
+					className='border border-gray-400 p-2 rounded-md ml-auto'
+					onChange={(e) => setSearch(e.target.value)}
+				/>
+			</div>
 			<table className='w-full'>
-				<thead>
+				<thead className='bg-gray-800 text-white opacity-800'>
 					<tr className='font-montserrat font-normal'>
 						<th rowSpan='2'>
 							<div className='w-full h-full flex justify-around items-center'>
@@ -122,8 +149,8 @@ const DataTable = () => {
 									id='filter'
 									name='sold'
 									value={filter.sold.value}
-									className='absolute top-12 right-0 p-1 border-2 border-sky-300 shadow-md shadow-gray-600/50 rounded-sm z-10'
 									onChange={handleFilter}
+									className='absolute top-16 right-0 p-1 bg-gray-200 text-black border-2 shadow-md shadow-gray-800/30 rounded-sm z-10'
 								>
 									<option value='all'>All</option>
 									<option value='true'>True</option>
@@ -152,6 +179,7 @@ const DataTable = () => {
 												},
 											})
 										}
+										className='text-sky-500 font-bold'
 									/>
 								</div>
 							</div>
@@ -160,7 +188,7 @@ const DataTable = () => {
 									id='filter'
 									name='fake'
 									value={filter.fake.value}
-									className='absolute top-12 right-0 p-1 border-2 border-sky-500 shadow-md shadow-gray-600/50 rounded-sm z-10'
+									className='absolute top-16 right-0 p-1 bg-gray-200 text-black border-2 shadow-md shadow-white/30 rounded-sm z-10'
 									onChange={handleFilter}
 								>
 									<option value='all'>All</option>
@@ -214,8 +242,8 @@ const DataTable = () => {
 					</tr>
 					<tr>
 						<th>Name</th>
-						<th>Message</th>
-						<th>Amount</th>
+						<th>Relationship</th>
+						<th>message</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -224,7 +252,7 @@ const DataTable = () => {
 							<tr
 								key={index}
 								className={classNames(
-									"font-raleway text-center",
+									"font-raleway text-center cursor-pointer hover:bg-sky-100",
 									item.sold && "bg-gray-200"
 								)}
 							>
@@ -244,10 +272,10 @@ const DataTable = () => {
 						))}
 				</tbody>
 			</table>
-			<div className='flex gap-20 p-2 justify-center text-lg'>
+			<div className='flex gap-20 p-5 justify-center text-lg'>
 				<select
 					onChange={(e) => setLimit(e.target.value)}
-					className='bg-white border border-gray-400 rounded-md'
+					className='bg-gray-800 opacity-800 text-white rounded-md'
 				>
 					<option value={10}>10</option>
 					<option value={20}>20</option>
@@ -286,7 +314,7 @@ const DataTable = () => {
 					<input
 						name='movePage'
 						value={currentPage}
-						className='w-12 border border-gray-400 rounded-sm'
+						className='w-12 border border-gray-400 rounded-sm text-center'
 						onChange={(e) => {
 							const pageNumber = parseInt(e.target.value, 10);
 							if (
@@ -304,4 +332,4 @@ const DataTable = () => {
 	);
 };
 
-export default DataTable;
+export default BrickTable;

@@ -24,7 +24,7 @@ router.post("/initial", async (req, res) => {
 			fakeBricks.push({
 				user: users[j]._id,
 				brick_id: bricksID[i],
-				amount: faker.finance.amount(),
+				amount: faker.number({ max: 10 }),
 				date: faker.date.past(1),
 				dedication: {
 					name: faker.name.findName(),
@@ -74,13 +74,17 @@ router.get("/all", async (req, res) => {
 
 router.get("/current_page", async (req, res) => {
 	try {
-		let { brick_id, date, page, limit, sold, fake } = req.query;
+		let { brick_id, date, page, limit, sold, fake, term } = req.query;
 		let filter_query = {};
 		let sort_query = {};
 
 		brick_id = parseInt(brick_id);
 		date = parseInt(date);
 
+		// Add text search to filter_query if term is provided
+		if (term && term !== "") {
+			filter_query.$text = { $search: term };
+		}
 		if (sold !== "all") filter_query.sold = sold === "true";
 		if (fake !== "all") filter_query.fake = fake === "true";
 
@@ -104,7 +108,6 @@ router.get("/current_page", async (req, res) => {
 			totalCountResult.length > 0
 				? Math.ceil(totalCountResult[0].total / limit)
 				: 0;
-		console.log(sort_query);
 		// Now define the pipeline to fetch the documents
 		const dataPipeline = [
 			...(Object.keys(filter_query).length ? [{ $match: filter_query }] : []),
@@ -166,7 +169,7 @@ const upload = multer({ storage: storage });
 
 // Express route handler for adding a new Brick with a dedication
 
-router.post("/add-dedication", upload.single("image"), async (req, res) => {
+router.post("/add-dedication", async (req, res) => {
 	if (!req.file) {
 		// Check if the image file was received
 		return res.status(400).send("No image file uploaded.");
@@ -180,10 +183,10 @@ router.post("/add-dedication", upload.single("image"), async (req, res) => {
 		name,
 		relationship,
 		message,
-		image: {
-			imageName: req.file.filename, // filename set by multer's disk storage configuration
-			imagePath: req.file.path, // path where multer saved the file
-		},
+		// image: {
+		// 	imageName: req.file.filename, // filename set by multer's disk storage configuration
+		// 	imagePath: req.file.path, // path where multer saved the file
+		// },
 	};
 
 	try {

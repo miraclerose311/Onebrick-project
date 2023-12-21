@@ -45,4 +45,6 @@ const BrickSchema = new mongoose.Schema({
 	},
 });
 
+BrickSchema.index({ "$**": "text" });
+
 module.exports = mongoose.model("bricks", BrickSchema);

@@ -76,11 +76,6 @@ const Buybrick = () => {
 		dispatch(getDonor({ userId }));
 	}, [dispatch, userId]);
 
-	const donor = useSelector((state) => state.donor);
-	useEffect(() => {
-		console.log("donor", donor);
-	}, [donor]);
-
 	// Fetch payment states
 	const { order } = useSelector((state) => state.payment);
 
@@ -416,7 +411,7 @@ const Buybrick = () => {
 			const colBrick = (
 				<div
 					key={col}
-					className="flex flex-row w-full"
+					className='flex flex-row w-full'
 				>
 					{Array.from(Array(250).keys()).map((row) => {
 						const index = col * 250 + row;
@@ -455,30 +450,30 @@ const Buybrick = () => {
 	};
 
 	return (
-		<div className="text-center items-center h-screen min-w-[500px] bg-gray-600 w-full flex itmes-center sm:justify-center">
-			<div className="fixed top-12 sm:right-16 md:right-20 lg:right-24 xl:right-36 flex justify-around p-3 itmes-center min-w-[400px] z-10">
+		<div className='text-center items-center h-screen min-w-[500px] bg-gray-600 w-full flex itmes-center sm:justify-center'>
+			<div className='fixed top-12 sm:right-16 md:right-20 lg:right-24 xl:right-36 flex justify-around p-3 itmes-center min-w-[400px] z-10'>
 				<Menu
-					as="div"
-					className="relative flex justify-center itmes-center"
+					as='div'
+					className='relative flex justify-center itmes-center'
 				>
-					<Menu.Button className="btn btn-change px-3 rounded-lg hover:border-2 hover:border-sky-700">
-						<FcMenu className="text-4xl" />
+					<Menu.Button className='btn btn-change px-3 rounded-lg hover:border-2 hover:border-sky-700'>
+						<FcMenu className='text-4xl' />
 					</Menu.Button>
 
 					<Transition
 						as={Fragment}
-						enter="transition ease-out duration-100"
-						enterFrom="transform opacity-0 scale-95"
-						enterTo="transform opacity-100 scale-100"
-						leave="transition ease-in duration-75"
-						leaveFrom="transform opacity-100 scale-100"
-						leaveTo="transform opacity-0 scale-95"
+						enter='transition ease-out duration-100'
+						enterFrom='transform opacity-0 scale-95'
+						enterTo='transform opacity-100 scale-100'
+						leave='transition ease-in duration-75'
+						leaveFrom='transform opacity-100 scale-100'
+						leaveTo='transform opacity-0 scale-95'
 					>
-						<Menu.Items className="absolute left-0 top-12 z-10 mt-2 w-36 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+						<Menu.Items className='absolute left-0 top-12 z-10 mt-2 w-36 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'>
 							<Menu.Item>
 								{({ active }) => (
 									<Link
-										to="/"
+										to='/'
 										className={classNames(
 											active ? "bg-gray-100 text-gray-900" : "text-gray-700",
 											"block px-4 py-2 text-left text-sm"
@@ -491,7 +486,7 @@ const Buybrick = () => {
 							<Menu.Item>
 								{({ active }) => (
 									<Link
-										to="/about"
+										to='/about'
 										className={classNames(
 											active ? "bg-gray-100 text-gray-900" : "text-gray-700",
 											"block px-4 py-2 text-left text-sm"
@@ -504,7 +499,7 @@ const Buybrick = () => {
 							<Menu.Item>
 								{({ active }) => (
 									<Link
-										to="/beneficiaries"
+										to='/beneficiaries'
 										className={classNames(
 											active ? "bg-gray-100 text-gray-900" : "text-gray-700",
 											"block px-4 py-2 text-left text-sm"
@@ -517,7 +512,7 @@ const Buybrick = () => {
 							<Menu.Item>
 								{({ active }) => (
 									<Link
-										to="/contact"
+										to='/contact'
 										className={classNames(
 											active ? "bg-gray-100 text-gray-900" : "text-gray-700",
 											"block px-4 py-2 text-left text-sm"
@@ -530,62 +525,56 @@ const Buybrick = () => {
 						</Menu.Items>
 					</Transition>
 				</Menu>
-				<div className="flex items-center mx-4">
+				<div className='flex items-center mx-4'>
 					<input
-						type="search"
-						className="border-2 border-gray-400 rounded-full w-[240px] h-10 px-4 py-2 bg-gray-200 outline-none focus-visible:border-sky-700"
-						placeholder="Search the Wall of Hope"
+						type='search'
+						className='border-2 border-gray-400 rounded-full w-[240px] h-10 px-4 py-2 bg-gray-200 outline-none focus-visible:border-sky-700'
+						placeholder='Search the Wall of Hope'
 						onChange={onChangeSearchInput}
 					/>
 				</div>
 				<Menu
-					as="div"
-					className="relative flex justify-center itmes-center"
+					as='div'
+					className='relative flex justify-center itmes-center'
 				>
-					<Menu.Button className="btn rounded-full">
+					<Menu.Button className='btn rounded-full'>
 						<img
 							src={userAvatar}
-							className="h-10 hover:border-2 border-sky-700 rounded-full"
+							className='h-10 hover:border-2 border-sky-700 rounded-full'
 						/>
 					</Menu.Button>
 					<Transition
 						as={Fragment}
-						enter="transition ease-out duration-100"
-						enterFrom="transform opacity-0 scale-95"
-						enterTo="transform opacity-100 scale-100"
-						leave="transition ease-in duration-75"
-						leaveFrom="transform opacity-100 scale-100"
-						leaveTo="transform opacity-0 scale-95"
+						enter='transition ease-out duration-100'
+						enterFrom='transform opacity-0 scale-95'
+						enterTo='transform opacity-100 scale-100'
+						leave='transition ease-in duration-75'
+						leaveFrom='transform opacity-100 scale-100'
+						leaveTo='transform opacity-0 scale-95'
 					>
-						<Menu.Items className="absolute right-0 top-12 z-10 mt-2 w-24 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+						<Menu.Items className='absolute right-0 top-12 z-10 mt-2 w-24 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'>
 							<Menu.Item>
-								{isAuthenticated
-									? ({ active }) => (
-											<button
-												className={classNames(
-													active
-														? "bg-gray-100 text-gray-900"
-														: "text-gray-700",
-													"block px-4 py-2 text-sm w-full rounded-md"
-												)}
-												onClick={handleLogout}
-											>
-												Sign out
-											</button>
-									  )
-									: ({ active }) => (
-											<button
-												className={classNames(
-													active
-														? "bg-gray-100 text-gray-900"
-														: "text-gray-700",
-													"block px-4 py-2 text-sm w-full rounded-md"
-												)}
-												onClick={handleLogin}
-											>
-												Sign In
-											</button>
-									  )}
+								{isAuthenticated ? (
+									<button
+										className={classNames(
+											"bg-gray-100 text-gray-900",
+											"block px-4 py-2 text-sm w-full rounded-md"
+										)}
+										onClick={handleLogout}
+									>
+										Sign out
+									</button>
+								) : (
+									<button
+										className={classNames(
+											"text-gray-700",
+											"block px-4 py-2 text-sm w-full rounded-md"
+										)}
+										onClick={handleLogin}
+									>
+										Sign In
+									</button>
+								)}
 							</Menu.Item>
 						</Menu.Items>
 					</Transition>
@@ -615,14 +604,14 @@ const Buybrick = () => {
 				/>
 			)}
 			{isSlideModalOpen && modalContent !== 0 && (
-				<div className="modal">
-					<div className="modal-content flex-col flex justify-center items-center relative">
+				<div className='modal'>
+					<div className='modal-content flex-col flex justify-center items-center relative'>
 						<TiArrowLeftThick
-							className="modal-previous-button text-2xl hover:cursor-pointer"
+							className='modal-previous-button text-2xl hover:cursor-pointer'
 							onClick={handlePreviousModal}
 						/>
 						<MdCancel
-							className="modal-close-button text-2xl hover:cursor-pointer"
+							className='modal-close-button text-2xl hover:cursor-pointer'
 							onClick={handleCloseModal}
 						/>
 						{modalContent === 1 && (
@@ -654,7 +643,7 @@ const Buybrick = () => {
 				</div>
 			)}
 			<div
-				className="w-full h-full bg-gray-400 flex justify-center items-center relative"
+				className='w-full h-full bg-gray-400 flex justify-center items-center relative'
 				ref={containerRef}
 				onClick={handlePanClick}
 				onContextMenu={handleRightClick}
@@ -675,15 +664,15 @@ const Buybrick = () => {
 							}}
 						>
 							<div
-								className="relative"
+								className='relative'
 								onClick={handlePanClick}
 							>
-								<div className="absolute top-0 left-0 w-full h-full flex flex-col">
+								<div className='absolute top-0 left-0 w-full h-full flex flex-col'>
 									{bricks.length !== 0 && renderBricks()}
 								</div>
 								<img
 									src={brickImage}
-									className="absoulte top-0 left-0 max-w-none"
+									className='absoulte top-0 left-0 max-w-none'
 									style={{
 										width: `5000px`,
 										height: `2800px`,

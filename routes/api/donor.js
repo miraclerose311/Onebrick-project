@@ -89,13 +89,72 @@ router.post("/insert", async (req, res) => {
 
 router.post("/get-donor", async (req, res) => {
 	try {
-		Donor.findOne({ user_id: req.body.userId }).then((response) => {
+		Donor.findOne({ user: req.body.userId }).then((response) => {
 			res.json(response);
 		});
 	} catch {
 		(e) => {
 			console.logo(e);
 		};
+	}
+});
+
+router.get("/current_page", async (req, res) => {
+	try {
+		let { page, limit, term, mobile, country, state, address, pin, pan } =
+			req.query;
+		let sort_query = {};
+		let filter_query = {};
+
+		// Add text search to filter_query if term is provided
+		if (term && term !== "") {
+			filter_query.$text = { $search: term };
+		}
+
+		if (mobile != 0) sort_query.mobile = parseInt(mobile);
+		if (country != 0) sort_query.country = parseInt(country);
+		if (state != 0) sort_query.state = parseInt(state);
+		if (address != 0) sort_query.address = parseInt(address);
+		if (pin != 0) sort_query.pin = parseInt(pin);
+		if (pan != 0) sort_query.pan = parseInt(pan);
+
+		// Parse 'page' and 'limit' as integers
+		page = parseInt(page, 10) || 1;
+		limit = parseInt(limit, 10) || 10;
+
+		// Define the pipeline to get the total count
+		const countPipeline = [
+			{ $group: { _id: null, total: { $sum: 1 } } },
+			{ $project: { _id: 0, total: 1 } },
+		];
+
+		// Execute the count pipeline to get the total number of documents
+		const totalCountResult = await Donor.aggregate(countPipeline).exec();
+		const totalDocuments =
+			totalCountResult.length > 0
+				? Math.ceil(totalCountResult[0].total / limit)
+				: 0;
+		// Now define the pipeline to fetch the documents
+		console.log("query", sort_query);
+		const dataPipeline = [
+			...(Object.keys(filter_query).length ? [{ $match: filter_query }] : []),
+			...(Object.keys(sort_query).length ? [{ $sort: sort_query }] : []),
+			{ $skip: (page - 1) * limit },
+			{ $limit: limit },
+		];
+
+		// Fetch the documents based on the query and pagination options
+		const documents = await Donor.aggregate(dataPipeline).exec();
+		// Send back the total count along with the documents
+		res.json({
+			totalDocuments,
+			documents,
+			page,
+			limit,
+		});
+	} catch (err) {
+		console.error(err);
+		res.status(500).send("Server Error");
 	}
 });
 
