@@ -57,7 +57,7 @@ export const buyBrick = (brickData) => async (dispatch) => {
 export const addDedication = (dedicationData) => async (dispatch) => {
 	try {
 		dispatch(setLoading());
-		await api1.post("/brick/add-dedication", dedicationData).then((res) => {
+		await api.post("/brick/add-dedication", dedicationData).then((res) => {
 			dispatch(setDedication(res.data));
 			dispatch(clearLoading());
 		});

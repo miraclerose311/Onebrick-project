@@ -290,8 +290,8 @@ const Buybrick = () => {
 	};
 
 	const handleConfirm = () => {
+		setIsSlideModalOpen(false);
 		clearCurrent();
-		setClickedIndex(null);
 		setIsSoldModalOpen(true);
 	};
 

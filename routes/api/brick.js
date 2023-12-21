@@ -170,26 +170,14 @@ const upload = multer({ storage: storage });
 // Express route handler for adding a new Brick with a dedication
 
 router.post("/add-dedication", async (req, res) => {
-	if (!req.file) {
-		// Check if the image file was received
-		return res.status(400).send("No image file uploaded.");
-	}
-
-	// Deconstruct fields from the body
-	const { brick_id, name, relationship, message } = req.body;
-
-	// Create the dedication object including image information
-	const dedication = {
-		name,
-		relationship,
-		message,
-		// image: {
-		// 	imageName: req.file.filename, // filename set by multer's disk storage configuration
-		// 	imagePath: req.file.path, // path where multer saved the file
-		// },
-	};
-
 	try {
+		const { brick_id, name, relationship, message } = req.body;
+
+		const dedication = {
+			name,
+			relationship,
+			message,
+		};
 		// update brick by id
 		Brick.updateOne({ brick_id }, { $set: { dedication: dedication } })
 			.then(() => res.status(200).send(req.body))

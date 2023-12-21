@@ -6,7 +6,7 @@ import { addDedication } from "../../actions/brick";
 import { FaAnglesRight } from "react-icons/fa6";
 import userImg from "../../assets/img/user.png";
 
-const DedicationFormModal = ({ handleConfirm, brick_id }) => {
+const DedicationFormModal = ({ handleNextModal, brick_id }) => {
 	// Declear States for Dedication Form
 	const [name, setName] = useState("");
 	const [relationship, setRelationship] = useState("");
@@ -40,7 +40,7 @@ const DedicationFormModal = ({ handleConfirm, brick_id }) => {
 		};
 		// dispatch(setDedication(dedicationData));
 		dispatch(addDedication(dedicationData));
-		handleConfirm();
+		handleNextModal();
 	};
 
 	return (
@@ -110,7 +110,7 @@ const DedicationFormModal = ({ handleConfirm, brick_id }) => {
 };
 
 DedicationFormModal.propTypes = {
-	handleConfirm: PropTypes.func.isRequired,
+	handleNextModal: PropTypes.func.isRequired,
 	brick_id: PropTypes.string.isRequired,
 };
 
