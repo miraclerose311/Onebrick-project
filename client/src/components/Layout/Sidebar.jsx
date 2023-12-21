@@ -14,7 +14,7 @@ const Sidebar = () => {
 				ALPHA HOSPISE
 			</Link>
 			<hr className='w-full border-gray-500' />
-			<div className='w-full flex flex-col gap-4 py-8 px-16 text-white'>
+			<div className='w-full flex flex-col gap-4 py-8 px-8 text-white'>
 				<Link
 					to='/admin'
 					className='flex items-center gap-3 cursor-pointer hover:text-sky-500'

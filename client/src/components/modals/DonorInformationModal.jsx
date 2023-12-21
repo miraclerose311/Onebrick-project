@@ -48,8 +48,8 @@ const DonorInformationModal = ({ handleNextModal }) => {
 	}
 
 	function isValidPAN(pan) {
-		const regex = /^[A-Z]{5}[0-9]{4}[A-Z]$/;
-		return regex.test(pan);
+		const regex = /^[A-Z, a-z]{5}[0-9]{4}[A-Z]$/;
+		return regex.test(pan.toUpperCase());
 	}
 
 	const handleSubmit = () => {
@@ -90,7 +90,7 @@ const DonorInformationModal = ({ handleNextModal }) => {
 				fullName,
 				mobile,
 				email,
-				pan,
+				pan: pan.toUpperCase(),
 				aadhaar,
 			};
 			dispatch(addDonorInfo(infoData));
