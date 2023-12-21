@@ -11,7 +11,6 @@ router.post("/initial", async (req, res) => {
 	const users = await User.find();
 	const count = 10000;
 	const fakeDonors = [];
-	console.log(users[0]);
 	for (let i = 0; i < count; i++) {
 		fakeDonors.push({
 			user: users[i]._id,
@@ -53,34 +52,29 @@ router.post("/insert", async (req, res) => {
 		pin,
 	} = req.body;
 
+	newDonor = new Donor({
+		user_id: userId,
+		fullName,
+		email,
+		mobile,
+		pan,
+		aadhaar,
+		address,
+		country,
+		state,
+		pin,
+	});
+
 	try {
-		// if user exists
-		let donor = await Donor.findOne({ email });
-		if (donor) {
-			return res
-				.status(400)
-				.json({ errors: [{ msg: "Donor already exists" }] });
-		}
-
-		// create donor
-		newDonor = new Donor({
-			user_id: userId,
-			fullName,
-			email,
-			mobile,
-			pan,
-			aadhaar,
-			address,
-			country,
-			state,
-			pin,
-		});
-		// save user to database
-		await newDonor.save().then((donor) => {
-			// res.json(donor._id)
-		});
-
-		res.status(200).send("Successfully registerd");
+		await Donor.updateOne(
+			{ user: userId },
+			{
+				$set: newDonor,
+			},
+			{ upsert: true, new: true }
+		)
+			.then((result) => console.log(result))
+			.catch((e) => res.status(400).json(e));
 	} catch (error) {
 		console.log(error.message);
 		res.status(500).send("Server error");
@@ -91,6 +85,7 @@ router.post("/get-donor", async (req, res) => {
 	try {
 		Donor.findOne({ user: req.body.userId }).then((response) => {
 			res.json(response);
+			console.log(response);
 		});
 	} catch {
 		(e) => {
@@ -135,7 +130,6 @@ router.get("/current_page", async (req, res) => {
 				? Math.ceil(totalCountResult[0].total / limit)
 				: 0;
 		// Now define the pipeline to fetch the documents
-		console.log("query", sort_query);
 		const dataPipeline = [
 			...(Object.keys(filter_query).length ? [{ $match: filter_query }] : []),
 			...(Object.keys(sort_query).length ? [{ $sort: sort_query }] : []),

@@ -33,7 +33,6 @@ export const brickSlice = createSlice({
 			};
 		},
 		setDedication: (state, action) => {
-			console.log("action.payload", action.payload);
 			const { name, relationship, message } = action.payload;
 			const dedicationData = { name, relationship, message };
 			return {

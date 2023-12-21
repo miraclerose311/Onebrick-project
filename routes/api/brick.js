@@ -183,7 +183,6 @@ router.post("/add-dedication", async (req, res) => {
 			.then(() => res.status(200).send(req.body))
 			.catch((e) => console.log(e));
 	} catch (error) {
-		console.log(error.message);
 		res.status(500).send("Server error");
 	}
 });

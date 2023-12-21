@@ -6,14 +6,12 @@ const crypto = require("crypto");
 const PaymentDetails = require("../../models/Payment");
 
 router.post("/order", async (req, res) => {
-	console.log("payment.");
 	const { amount } = req.body;
 
 	const rzp = new Razorpay({
 		key_id: process.env.RAZORPAY_KEY_ID,
 		key_secret: process.env.RAZORPAY_KEY_SECRET,
 	});
-	console.log("amount");
 	const options = {
 		amount: amount, // amount in the smallest currency unit
 		currency: "INR",

@@ -117,8 +117,6 @@ router.post("/google-login", async (req, res) => {
 			config.get("jwtSecret"),
 			{ expiresIn: 3600 },
 			(err, token) => {
-				console.log(token);
-
 				if (err) throw err;
 				res.status(200).json({ token, picture });
 			}
@@ -187,7 +185,6 @@ router.post(
 				}
 			);
 		} catch (error) {
-			console.log(error.message);
 			res.status(500).send("Server error");
 		}
 	}
@@ -231,7 +228,6 @@ router.post(
 
 			res.status(200).send("Successfully registerd");
 		} catch (error) {
-			console.log(error.message);
 			res.status(500).send("Server error");
 		}
 	}
@@ -250,7 +246,6 @@ router.get("/me", auth, async (req, res) => {
 
 		res.json(user);
 	} catch (error) {
-		console.log(error.message);
 		res.status(500).send("Server Error");
 	}
 });

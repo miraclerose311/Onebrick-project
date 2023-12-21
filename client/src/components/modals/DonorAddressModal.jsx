@@ -57,7 +57,6 @@ const DonorAddressModal = ({ handleBuyBrick }) => {
 		} else if (!isValidNumber(pin)) {
 			newErrors.pin = "Please enter a valid PIN number";
 		}
-		console.log(errors);
 
 		// Update the errors state
 		setErrors(newErrors);
@@ -82,14 +81,12 @@ const DonorAddressModal = ({ handleBuyBrick }) => {
 				state,
 				pin,
 			};
-			console.log("-------", newDonorData);
 			dispatch(insertDonor(newDonorData));
 			handleBuyBrick();
 		}
 	};
 
 	const handleFocus = (e) => {
-		console.log(e.target.name);
 		setErrors({ ...errors, [e.target.name]: "" });
 	};
 

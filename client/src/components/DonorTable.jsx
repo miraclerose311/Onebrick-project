@@ -33,12 +33,10 @@ const DonorTable = () => {
 					`http://localhost:5000/api/donor/current_page?${query}`
 				);
 				setData(response.data);
-				console.log(response.data);
 			} catch (error) {
 				console.error(error);
 			}
 		};
-		console.log(term);
 		fetchData();
 	}, [currentPage, limit, sorts, term]);
 

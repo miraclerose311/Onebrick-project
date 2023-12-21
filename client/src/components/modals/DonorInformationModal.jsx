@@ -29,13 +29,6 @@ const DonorInformationModal = ({ handleNextModal }) => {
 	}, [donor]);
 
 	const dispatch = useDispatch();
-	useEffect(() => {
-		setName(donor.fullName);
-		setMobile(donor.mobile);
-		setEmail(donor.email);
-		setPan(donor.pan);
-		setAadhaar(donor.aadhaar);
-	}, [donor]);
 
 	function isValidNumber(mobile) {
 		const regex = /^[0-9]{8,}$/;

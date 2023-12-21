@@ -40,12 +40,10 @@ const BrickTable = () => {
 					`http://localhost:5000/api/brick/current_page?${query}`
 				);
 				setData(response.data);
-				console.log(response.data);
 			} catch (error) {
 				console.error(error);
 			}
 		};
-		console.log(term);
 		fetchData();
 	}, [currentPage, limit, filter, sorts, term]);
 

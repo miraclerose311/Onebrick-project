@@ -20,7 +20,6 @@ const DedicationConfirmModal = ({ handleConfirm }) => {
 	}, [dedication.name, dedication.relationship, dedication.image]);
 
 	const handleSubmit = () => {
-		console.log("kjhgfdfghj");
 		handleConfirm();
 	};
 

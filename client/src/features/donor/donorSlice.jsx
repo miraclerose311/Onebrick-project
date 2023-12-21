@@ -31,9 +31,8 @@ export const donorSlice = createSlice({
 			state.pin = "";
 		},
 		setDonorInfo: (state, action) => {
-			console.log("action.payload", action.payload);
-			const { fullName, email, pan, country, address } = action.payload;
-			const DonorData = { fullName, email, pan, country, address };
+			const { fullName, email, pan, mobile, country, address } = action.payload;
+			const DonorData = { fullName, email, pan, mobile, country, address };
 			return {
 				...state,
 				...DonorData,
