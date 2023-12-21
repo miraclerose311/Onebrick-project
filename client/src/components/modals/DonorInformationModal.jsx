@@ -37,7 +37,7 @@ const DonorInformationModal = ({ handleNextModal }) => {
 		setAadhaar(donor.aadhaar);
 	}, [donor]);
 
-	function isValidMobileNumber(mobile) {
+	function isValidNumber(mobile) {
 		const regex = /^[0-9]{8,}$/;
 		return regex.test(mobile);
 	}
@@ -71,8 +71,7 @@ const DonorInformationModal = ({ handleNextModal }) => {
 		// Validate Mobile Number
 		if (!mobile.trim()) {
 			newErrors.mobile = "Mobile number is required";
-		} else if (!isValidMobileNumber(mobile)) {
-			console.log("wer");
+		} else if (!isValidNumber(mobile)) {
 			newErrors.mobile = "Please enter a valid phone number";
 		}
 

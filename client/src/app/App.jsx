@@ -53,7 +53,6 @@ function App() {
 						path='/admin'
 						element={<AdminLayout />}
 					>
-						{/* Nested routes within "/admin" */}
 						<Route
 							index
 							element={<Dashboard />}

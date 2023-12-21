@@ -41,6 +41,10 @@ const DonorAddressModal = ({ handleBuyBrick }) => {
 		setPin(donor.pin);
 	}, [donor]);
 
+	function isValidNumber(mobile) {
+		const regex = /^[0-9]{8,}$/;
+		return regex.test(mobile);
+	}
 	const handleSubmit = () => {
 		// Initialize an errors object
 		let newErrors = {};
@@ -52,6 +56,8 @@ const DonorAddressModal = ({ handleBuyBrick }) => {
 		// Validate PIN
 		if (!pin.trim()) {
 			newErrors.pin = "PIN is required";
+		} else if (!isValidNumber(pin)) {
+			newErrors.mobile = "Please enter a valid PIN number";
 		}
 
 		// Update the errors state
@@ -94,13 +100,13 @@ const DonorAddressModal = ({ handleBuyBrick }) => {
 
 	return (
 		<>
-			<p className="text-4xl font-montserrat px-8">Just one more step!</p>
-			<p className="font-raleway text-xl my-4">Why we need this?</p>
-			<p className="font-raleway text-xl my-4">
+			<p className='text-4xl font-montserrat px-8'>Just one more step!</p>
+			<p className='font-raleway text-xl my-4'>Why we need this?</p>
+			<p className='font-raleway text-xl my-4'>
 				You have taken a step towards making a significant difference!
 			</p>
 			<textarea
-				name="address"
+				name='address'
 				value={address}
 				onChange={(e) => setAddress(e.target.value)}
 				onFocus={handleFocus}
@@ -108,31 +114,31 @@ const DonorAddressModal = ({ handleBuyBrick }) => {
 					"border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2 h-36",
 					errors.address && "border-red-400"
 				)}
-				placeholder="Address"
+				placeholder='Address'
 			/>
 			{errors.address && (
-				<p className="text-red-400 text-xs text-left w-2/3">{errors.address}</p>
+				<p className='text-red-400 text-xs text-left w-2/3'>{errors.address}</p>
 			)}
 			<CountryDropdown
 				className={classNames(
 					"border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2"
 				)}
-				name="country"
+				name='country'
 				value={country}
 				onChange={(val) => setCountry(val)}
 			/>
 			{errors.country && (
-				<p className="text-red-400 text-xs text-left w-2/3">{errors.country}</p>
+				<p className='text-red-400 text-xs text-left w-2/3'>{errors.country}</p>
 			)}
 			<RegionDropdown
-				className="border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2"
+				className='border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2'
 				country={country}
-				name="state"
+				name='state'
 				value={state}
 				onChange={(val) => setState(val)}
 			/>
 			<input
-				name="pin"
+				name='pin'
 				value={pin}
 				onChange={(e) => setPin(e.target.value)}
 				onFocus={handleFocus}
@@ -140,16 +146,16 @@ const DonorAddressModal = ({ handleBuyBrick }) => {
 					"border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2",
 					errors.pin && "border-red-400"
 				)}
-				placeholder="PIN"
+				placeholder='PIN'
 			/>
 			{errors.pin && (
-				<p className="text-red-400 text-xs text-left w-2/3">{errors.pin}</p>
+				<p className='text-red-400 text-xs text-left w-2/3'>{errors.pin}</p>
 			)}
 			<button
-				className="text-gray-100 bg-red-700 px-4 py-2 my-4 rounded-md"
+				className='text-gray-100 bg-red-700 px-4 py-2 my-4 rounded-md'
 				onClick={handleSubmit}
 			>
-				<span className="flex flex-row items-center justify-between gap-x-3">
+				<span className='flex flex-row items-center justify-between gap-x-3'>
 					MAKE PAYMENT <FaAnglesRight />
 				</span>
 			</button>
