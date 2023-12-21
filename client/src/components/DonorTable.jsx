@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { clearLoading, setLoading } from "../features/loading/loadingSlice";
 
 import { HiChevronDoubleLeft } from "react-icons/hi";
 import { HiChevronDoubleRight } from "react-icons/hi";
@@ -24,15 +26,18 @@ const DonorTable = () => {
 		pan: 0,
 		address: 0,
 	});
-
+	const dispatch = useDispatch();
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
+				dispatch(setLoading());
+
 				const query = `page=${currentPage}&limit=${limit}&term=${term}&mobile=${sorts.mobile}&country=${sorts.country}&state=${sorts.state}&address=${sorts.address}&pan=${sorts.pan}&pin=${sorts.pin}`;
 				const response = await axios.get(
 					`http://localhost:5000/api/donor/current_page?${query}`
 				);
 				setData(response.data);
+				dispatch(clearLoading());
 			} catch (error) {
 				console.error(error);
 			}

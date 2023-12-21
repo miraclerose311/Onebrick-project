@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useDispatch } from "react-redux";
 
 import { IoLogOutOutline } from "react-icons/io5";
 import { HiChevronDoubleLeft } from "react-icons/hi";
@@ -10,6 +11,7 @@ import { CiFilter } from "react-icons/ci";
 import { FaSortAmountUp } from "react-icons/fa";
 import { FaSortAmountDownAlt } from "react-icons/fa";
 import { TbArrowsSort } from "react-icons/tb";
+import { clearLoading, setLoading } from "../features/loading/loadingSlice";
 
 const BrickTable = () => {
 	const [data, setData] = useState({});
@@ -17,6 +19,8 @@ const BrickTable = () => {
 	const [limit, setLimit] = useState(10);
 	const [search, setSearch] = useState("");
 	const [term, setTerm] = useState("");
+
+	const dispatch = useDispatch();
 
 	const [filter, setFilter] = useState({
 		sold: { modal: false, value: "all" },
@@ -35,11 +39,13 @@ const BrickTable = () => {
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
+				dispatch(setLoading());
 				const query = `page=${currentPage}&limit=${limit}&sold=${filter.sold.value}&fake=${filter.fake.value}&brick_id=${sorts.brick_id}&date=${sorts.date}&term=${term}`;
 				const response = await axios.get(
 					`http://localhost:5000/api/brick/current_page?${query}`
 				);
 				setData(response.data);
+				dispatch(clearLoading());
 			} catch (error) {
 				console.error(error);
 			}
