@@ -104,7 +104,7 @@ router.get("/current_page", async (req, res) => {
 
 		// Execute the count pipeline to get the total number of documents
 		const totalCountResult = await Brick.aggregate(countPipeline).exec();
-		const totalDocuments =
+		const totalPages =
 			totalCountResult.length > 0
 				? Math.ceil(totalCountResult[0].total / limit)
 				: 0;
@@ -128,7 +128,7 @@ router.get("/current_page", async (req, res) => {
 		const documents = await Brick.aggregate(dataPipeline).exec();
 		// Send back the total count along with the documents
 		res.json({
-			totalDocuments,
+			totalPages,
 			documents,
 			page,
 			limit,

@@ -6,7 +6,7 @@ import { LuLayoutDashboard } from "react-icons/lu";
 
 const Sidebar = () => {
 	return (
-		<div className='hidden lg:flex lg:flex-col lg:w-1/6 bg-[#32363f] text-white items-center'>
+		<div className='hidden lg:flex lg:flex-col lg:w-1/6 bg-[#32363f] shadow-xl shadow-gray-900 text-white items-center'>
 			<Link
 				to='/'
 				className='font-bold font-raleway text-3xl pt-24 py-6'

@@ -68,7 +68,7 @@ const DonorTable = () => {
 				/>
 			</div>
 			<table className='w-full'>
-				<thead className='bg-gray-800 text-white opacity-800'>
+				<thead className=''>
 					<tr className='font-montserrat font-normal'>
 						<th>
 							<div className='w-full h-full flex justify-around items-center'>
@@ -106,7 +106,7 @@ const DonorTable = () => {
 									{sorts.mobile === -1 && (
 										<FaSortAmountUp
 											onClick={() =>
-												setSorts((prevSort) => ({ ...prevSort, mobile: 1 }))
+												setSorts((prevSort) => ({ ...prevSort, mobile: 0 }))
 											}
 											className='text-sky-500'
 										/>
@@ -140,7 +140,7 @@ const DonorTable = () => {
 									{sorts.country === -1 && (
 										<FaSortAmountUp
 											onClick={() =>
-												setSorts((prevSort) => ({ ...prevSort, country: 1 }))
+												setSorts((prevSort) => ({ ...prevSort, country: 0 }))
 											}
 											className='text-sky-500'
 										/>
@@ -174,7 +174,7 @@ const DonorTable = () => {
 									{sorts.state === -1 && (
 										<FaSortAmountUp
 											onClick={() =>
-												setSorts((prevSort) => ({ ...prevSort, state: 1 }))
+												setSorts((prevSort) => ({ ...prevSort, state: 0 }))
 											}
 											className='text-sky-500'
 										/>
@@ -208,7 +208,7 @@ const DonorTable = () => {
 									{sorts.address === -1 && (
 										<FaSortAmountUp
 											onClick={() =>
-												setSorts((prevSort) => ({ ...prevSort, address: 1 }))
+												setSorts((prevSort) => ({ ...prevSort, address: 0 }))
 											}
 											className='text-sky-500'
 										/>
@@ -242,7 +242,7 @@ const DonorTable = () => {
 									{sorts.pin === -1 && (
 										<FaSortAmountUp
 											onClick={() =>
-												setSorts((prevSort) => ({ ...prevSort, pin: 1 }))
+												setSorts((prevSort) => ({ ...prevSort, pin: 0 }))
 											}
 											className='text-sky-500'
 										/>
@@ -276,7 +276,7 @@ const DonorTable = () => {
 									{sorts.pan === -1 && (
 										<FaSortAmountUp
 											onClick={() =>
-												setSorts((prevSort) => ({ ...prevSort, pan: 1 }))
+												setSorts((prevSort) => ({ ...prevSort, pan: 0 }))
 											}
 											className='text-sky-500'
 										/>

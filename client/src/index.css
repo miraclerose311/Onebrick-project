@@ -29,11 +29,11 @@
 
 td{
   font-size: 12px;
-  padding-top: 10px;
-  border-bottom: 1px solid;
+  padding: 10px;
+  border: 1px solid;
 }
 th{
-  border-top: 2px solid;
+  border: 1px solid;
   border-bottom : 2px solid;
   padding-top: 10px;
   padding-bottom: 10px;

@@ -4,8 +4,8 @@ const initialState = {
 	token: sessionStorage.getItem("token"),
 	isAuthenticated: !!sessionStorage.getItem("token"),
 	profile: {},
-	avatar: localStorage.getItem("avatar")
-		? localStorage.getItem("avatar")
+	avatar: sessionStorage.getItem("avatar")
+		? sessionStorage.getItem("avatar")
 		: null,
 };
 
@@ -15,7 +15,7 @@ export const authSlice = createSlice({
 	reducers: {
 		login: (state, action) => {
 			sessionStorage.setItem("token", action.payload.token);
-			localStorage.setItem("avatar", action.payload.picture);
+			sessionStorage.setItem("avatar", action.payload.picture);
 			state.isAuthenticated = true;
 			state.token = action.payload.token;
 			state.avatar = action.payload.picture;
