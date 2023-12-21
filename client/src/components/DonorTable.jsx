@@ -25,10 +25,6 @@ const DonorTable = () => {
 		address: 0,
 	});
 
-	function classNames(...classes) {
-		return classes.filter(Boolean).join(" ");
-	}
-
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
@@ -58,7 +54,7 @@ const DonorTable = () => {
 	}, [search]);
 
 	return (
-		<div className='bricktable w-full px-8 sm:px-16 md:px-24 lg:px-24 xl:px-48 2xl:px-64 mt-24'>
+		<div className='bricktable w-full lg:w-5/6 px-8 sm:px-16 md:px-24 lg:px-24 xl:px-48 2xl:px-64 mt-24'>
 			<div className='w-full flex flex-col py-1'>
 				<p className='font-montserrat font-bold text-4xl text-center'>
 					Our Donors

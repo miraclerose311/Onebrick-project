@@ -1,5 +1,4 @@
 import api from "../utils/api";
-import api1 from "../utils/api1";
 import {
 	setBricks,
 	setBrick,

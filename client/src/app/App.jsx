@@ -17,6 +17,10 @@ import Loading from "../components/Loading";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Admin from "../pages/Admin";
+import AdminLayout from "../components/Layout/adminLayout";
+import Dashboard from "../components/Layout/Dashboard";
+import BrickTable from "../components/BrickTable";
+import DonorTable from "../components/DonorTable";
 
 function App() {
 	const alert = useSelector((state) => state.alert);
@@ -45,6 +49,24 @@ function App() {
 			<ToastContainer />
 			<Router>
 				<Routes>
+					<Route
+						path='/admin'
+						element={<AdminLayout />}
+					>
+						{/* Nested routes within "/admin" */}
+						<Route
+							index
+							element={<Dashboard />}
+						/>
+						<Route
+							path='bricks'
+							element={<BrickTable />}
+						/>
+						<Route
+							path='donors'
+							element={<DonorTable />}
+						/>
+					</Route>
 					<Route
 						path='/'
 						exact

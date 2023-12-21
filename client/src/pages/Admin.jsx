@@ -5,8 +5,7 @@ import DonorTable from "../components/DonorTable";
 
 import { HiOutlineUsers } from "react-icons/hi2";
 import { BsBricks } from "react-icons/bs";
-
-import logoImg from "../assets/img/logo1.png";
+import { LuLayoutDashboard } from "react-icons/lu";
 
 const Admin = () => {
 	return (
@@ -21,14 +20,27 @@ const Admin = () => {
 					</Link>
 					<hr className='w-full border-gray-500' />
 					<div className='w-full flex flex-col gap-4 py-8 px-16 text-white'>
-						<div className='flex items-center gap-3 cursor-pointer hover:text-sky-500'>
+						<Link
+							to='/admin'
+							className='flex items-center gap-3 cursor-pointer hover:text-sky-500'
+						>
+							<LuLayoutDashboard />
+							<p className='text-lg font-montserrat'>Dashboard</p>
+						</Link>
+						<Link
+							to='/admin/brickTable'
+							className='flex items-center gap-3 cursor-pointer hover:text-sky-500'
+						>
 							<BsBricks />
 							<p className='text-lg font-montserrat'>Bricks</p>
-						</div>
-						<div className='flex items-center gap-3 cursor-pointer hover:text-sky-500'>
+						</Link>
+						<Link
+							to='/admin/donorTable'
+							className='flex items-center gap-3 cursor-pointer hover:text-sky-500'
+						>
 							<HiOutlineUsers />
 							<p className='text-lg font-montserrat'>Donors</p>
-						</div>
+						</Link>
 					</div>
 				</div>
 				<div className='bg-gray-100 w-full lg:w-5/6 h-fll px-6 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 py-12'>
