@@ -261,19 +261,18 @@ const Buybrick = () => {
 		setModalContent(modalContent + 1);
 	};
 
-	const handleSkipModal = (index) => {
-		if (index > 2) {
-			setIsSlideModalOpen(false);
-			handleBuyBrick();
-		}
-		setModalContent(2);
-	};
-
 	const handleSkipDedication = () => {
 		setIsSlideModalOpen(false);
 		setIsSoldModalOpen(true);
 	};
 
+	const handleDedicate = () => {
+		setIsSoldModalOpen(false);
+		setIsSlideModalOpen(true);
+		console.log(hovered.brick_id);
+		setClickedIndex(hovered.brick_id);
+		setModalContent(5);
+	};
 	const handleBuyBrick = async () => {
 		const res = await loadScript(
 			"https://checkout.razorpay.com/v1/checkout.js"
@@ -595,6 +594,7 @@ const Buybrick = () => {
 				<BrickInformationModal
 					brickInfo={hovered}
 					modalPosition={modalPosition}
+					handleDedicate={handleDedicate}
 				/>
 			)}
 			{isSoldModalOpen && (

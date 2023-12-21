@@ -36,8 +36,6 @@ const DonorAddressModal = ({ handleBuyBrick }) => {
 
 	useEffect(() => {
 		setAddress(donor.address);
-		setCountry(donor.country);
-		setState(donor.state);
 		setPin(donor.pin);
 	}, [donor]);
 
@@ -59,10 +57,10 @@ const DonorAddressModal = ({ handleBuyBrick }) => {
 		} else if (!isValidNumber(pin)) {
 			newErrors.mobile = "Please enter a valid PIN number";
 		}
+		console.log(errors);
 
 		// Update the errors state
 		setErrors(newErrors);
-
 		if (Object.keys(newErrors).length === 0) {
 			const addressData = {
 				address,
@@ -84,6 +82,7 @@ const DonorAddressModal = ({ handleBuyBrick }) => {
 				state,
 				pin,
 			};
+			console.log("-------", newDonorData);
 			dispatch(insertDonor(newDonorData));
 			handleBuyBrick();
 		}
