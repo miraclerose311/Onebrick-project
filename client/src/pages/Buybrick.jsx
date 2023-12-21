@@ -61,6 +61,8 @@ const Buybrick = () => {
 		if (token) {
 			const { id } = jwtDecode(token);
 			setUserId(id);
+		} else {
+			setUserId(null);
 		}
 	}, [token, dispatch]);
 
@@ -73,7 +75,7 @@ const Buybrick = () => {
 
 	//Fetch donor state
 	useEffect(() => {
-		dispatch(getDonor({ userId }));
+		if (userId) dispatch(getDonor({ userId }));
 	}, [dispatch, userId]);
 
 	// Fetch payment states
@@ -153,12 +155,14 @@ const Buybrick = () => {
 
 	//set Filtered array
 	useEffect(() => {
-		const temp = bricks.filter((item) => {
-			if (item.user) {
-				return item.sold && item.user == userId;
-			}
-		});
-		setFiltered(temp);
+		if (userId) {
+			const temp = bricks.filter((item) => {
+				if (item.user) {
+					return item.sold && item.user == userId;
+				}
+			});
+			setFiltered(temp);
+		}
 	}, [userId, bricks]);
 	// ----------------------- Handle resize operations : End ------------------------------------
 
@@ -225,6 +229,8 @@ const Buybrick = () => {
 				setModalPosition({ x: x + 10, y: y + 10 });
 				if (x > 1000) setModalPosition({ x: x - 300, y: y });
 				if (y > 600) setModalPosition({ x: x, y: y - 220 });
+
+				setClickedIndex(e.target.id);
 				setHovered(bricks[e.target.id]);
 				setIsBrickInfoModalOpen(true);
 				// setClickedIndex(null);
@@ -234,7 +240,7 @@ const Buybrick = () => {
 			}
 		}, 1000);
 	};
-
+	console.log(hovered, clickedIndex);
 	const handleMouseOut = () => {
 		clearTimeout(hoverTimer);
 	};
@@ -267,12 +273,11 @@ const Buybrick = () => {
 	};
 
 	const handleDedicate = () => {
-		setIsSoldModalOpen(false);
+		setIsBrickInfoModalOpen(false);
 		setIsSlideModalOpen(true);
-		console.log(hovered.brick_id);
-		setClickedIndex(hovered.brick_id);
 		setModalContent(5);
 	};
+
 	const handleBuyBrick = async () => {
 		const res = await loadScript(
 			"https://checkout.razorpay.com/v1/checkout.js"
@@ -376,6 +381,7 @@ const Buybrick = () => {
 	const handleLogout = () => {
 		dispatch(clearAmount());
 		dispatch(logout());
+		setFiltered([]);
 		const successAlert = {
 			alertType: "success",
 			content: "Successfully signed out",
