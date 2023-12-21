@@ -18,6 +18,16 @@ const DonorInformationModal = ({ handleNextModal }) => {
 	});
 
 	const donor = useSelector((state) => state.donor);
+
+	useEffect(() => {
+		const { fullName, mobile, email, pan, aadhaar } = donor;
+		setName(fullName);
+		setMobile(mobile);
+		setEmail(email);
+		setPan(pan);
+		setAadhaar(aadhaar);
+	}, [donor]);
+
 	const dispatch = useDispatch();
 	useEffect(() => {
 		setName(donor.fullName);
@@ -103,15 +113,15 @@ const DonorInformationModal = ({ handleNextModal }) => {
 
 	return (
 		<>
-			<p className="text-4xl font-montserrat px-8">Donor Information</p>
-			<p className="font-raleway text-xl my-4">Why we need this?</p>
-			<p className="font-raleway text-xl my-4">
+			<p className='text-4xl font-montserrat px-8'>Donor Information</p>
+			<p className='font-raleway text-xl my-4'>Why we need this?</p>
+			<p className='font-raleway text-xl my-4'>
 				You have taken a step towards making a significant difference!
 			</p>
 
 			<input
-				type="text"
-				name="fullName"
+				type='text'
+				name='fullName'
 				value={fullName}
 				onChange={(e) => setName(e.target.value)}
 				onFocus={handleFocus}
@@ -119,17 +129,17 @@ const DonorInformationModal = ({ handleNextModal }) => {
 					"border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2",
 					errors.fullName && "border-red-400"
 				)}
-				placeholder="Full Name"
+				placeholder='Full Name'
 			/>
 			{errors.fullName && (
-				<p className="text-red-400 text-xs text-left w-2/3">
+				<p className='text-red-400 text-xs text-left w-2/3'>
 					{errors.fullName}
 				</p>
 			)}
 
 			<input
-				type="email"
-				name="email"
+				type='email'
+				name='email'
 				value={email}
 				onFocus={handleFocus}
 				onChange={(e) => setEmail(e.target.value)}
@@ -137,15 +147,15 @@ const DonorInformationModal = ({ handleNextModal }) => {
 					"border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2",
 					errors.email && "border-red-400"
 				)}
-				placeholder="Email ID"
+				placeholder='Email ID'
 			/>
 			{errors.email && (
-				<p className="text-red-400 text-xs text-left w-2/3">{errors.email}</p>
+				<p className='text-red-400 text-xs text-left w-2/3'>{errors.email}</p>
 			)}
 
 			<input
-				type="text"
-				name="mobile"
+				type='text'
+				name='mobile'
 				value={mobile}
 				onFocus={handleFocus}
 				onChange={(e) => setMobile(e.target.value)}
@@ -153,15 +163,15 @@ const DonorInformationModal = ({ handleNextModal }) => {
 					"border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2",
 					errors.mobile && "border-red-400"
 				)}
-				placeholder="Mobile"
+				placeholder='Mobile'
 			/>
 			{errors.mobile && (
-				<p className="text-red-400 text-xs text-left w-2/3">{errors.mobile}</p>
+				<p className='text-red-400 text-xs text-left w-2/3'>{errors.mobile}</p>
 			)}
 
 			<input
-				type="text"
-				name="pan"
+				type='text'
+				name='pan'
 				value={pan}
 				onFocus={handleFocus}
 				onChange={(e) => setPan(e.target.value)}
@@ -169,24 +179,24 @@ const DonorInformationModal = ({ handleNextModal }) => {
 					"border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2",
 					errors.pan && "border-red-400"
 				)}
-				placeholder="PAN"
+				placeholder='PAN'
 			/>
 			{errors.pan && (
-				<p className="text-red-400 text-xs text-left w-2/3">{errors.pan}</p>
+				<p className='text-red-400 text-xs text-left w-2/3'>{errors.pan}</p>
 			)}
 
 			<input
-				type="text"
+				type='text'
 				value={aadhaar}
 				onChange={(e) => setAadhaar(e.target.value)}
-				className="border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2"
-				placeholder="Aadhaar ID"
+				className='border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2'
+				placeholder='Aadhaar ID'
 			/>
 			<button
-				className="text-gray-100 bg-red-700 px-6 py-2 my-4 rounded-md"
+				className='text-gray-100 bg-red-700 px-6 py-2 my-4 rounded-md'
 				onClick={handleSubmit}
 			>
-				<span className="flex flex-row items-center justify-between gap-x-3">
+				<span className='flex flex-row items-center justify-between gap-x-3'>
 					ADD ADDRESS <FaAnglesRight />
 				</span>
 			</button>

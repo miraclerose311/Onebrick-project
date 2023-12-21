@@ -615,7 +615,7 @@ const Buybrick = () => {
 							onClick={handleCloseModal}
 						/>
 						{modalContent === 1 && (
-							<IntroModal handleSkipModal={handleSkipModal} />
+							<IntroModal handleNextModal={handleNextModal} />
 						)}
 						{modalContent === 2 && (
 							<DonorInformationModal handleNextModal={handleNextModal} />

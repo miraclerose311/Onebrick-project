@@ -8,15 +8,8 @@ import {
 } from "../../features/brick/brickSlice";
 import { FaAnglesRight } from "react-icons/fa6";
 
-const IntroModal = ({ handleSkipModal }) => {
+const IntroModal = ({ handleNextModal }) => {
 	const { amount } = useSelector((state) => state.brick.current);
-	const donor = useSelector((state) => state.donor);
-	const [skipIndex, setSkipIndex] = useState(1);
-
-	useEffect(() => {
-		if (!donor.fullName && !donor.email) setSkipIndex(2);
-		else setSkipIndex(4);
-	}, [donor]);
 
 	const dispatch = useDispatch();
 
@@ -32,34 +25,34 @@ const IntroModal = ({ handleSkipModal }) => {
 
 	return (
 		<>
-			<p className="text-4xl font-montserrat px-8">Congratulations!</p>
-			<p className="font-raleway text-xl my-4">
+			<p className='text-4xl font-montserrat px-8'>Congratulations!</p>
+			<p className='font-raleway text-xl my-4'>
 				You have taken a step towards making a significant difference!
 			</p>
-			<p className="font-raleway text-xl my-4">
+			<p className='font-raleway text-xl my-4'>
 				How many bricks would you like to contribute to our Wall of Hope?
 			</p>
-			<div className="flex flex-row">
+			<div className='flex flex-row'>
 				<button
-					className="border px-4 py-1 text-2xl border-gray-400 w-12"
+					className='border px-4 py-1 text-2xl border-gray-400 w-12'
 					onClick={handleDecreaseAmount}
 				>
 					-
 				</button>
-				<button className="border px-4 py-1 text-2xl border-gray-400 w-12">
+				<button className='border px-4 py-1 text-2xl border-gray-400 w-12'>
 					{amount}
 				</button>
 				<button
-					className="border px-4 py-1 text-2xl border-gray-400 w-12"
+					className='border px-4 py-1 text-2xl border-gray-400 w-12'
 					onClick={handleIncreaseAmount}
 				>
 					+
 				</button>
 			</div>
-			<p className="font-montserrat text-2xl py-2">Contribution</p>
-			<p className="font-raleway text-xl py-2">₹ {10000 * amount}</p>
+			<p className='font-montserrat text-2xl py-2'>Contribution</p>
+			<p className='font-raleway text-xl py-2'>₹ {10000 * amount}</p>
 			<select
-				className="border px-2 py-2 my-6 cursor-pointer border-gray-400"
+				className='border px-2 py-2 my-6 cursor-pointer border-gray-400'
 				onChange={handleChangeLocation}
 			>
 				<option key={0}>I am a Resident Indian</option>
@@ -67,10 +60,10 @@ const IntroModal = ({ handleSkipModal }) => {
 				<option key={2}>I am a Foreign National</option>
 			</select>
 			<button
-				className="text-gray-100 bg-red-700 px-4 py-2 rounded-md"
-				onClick={() => handleSkipModal(skipIndex)}
+				className='text-gray-100 bg-red-700 px-4 py-2 rounded-md'
+				onClick={handleNextModal}
 			>
-				<span className="flex flex-row items-center justify-between gap-x-3">
+				<span className='flex flex-row items-center justify-between gap-x-3'>
 					READY TO PAY <FaAnglesRight />
 				</span>
 			</button>
@@ -79,7 +72,7 @@ const IntroModal = ({ handleSkipModal }) => {
 };
 
 IntroModal.propTypes = {
-	handleSkipModal: PropTypes.func.isRequired,
+	handleNextModal: PropTypes.func.isRequired,
 };
 
 export default IntroModal;
