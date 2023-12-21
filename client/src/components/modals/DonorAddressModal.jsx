@@ -40,7 +40,7 @@ const DonorAddressModal = ({ handleBuyBrick }) => {
 	}, [donor]);
 
 	function isValidNumber(mobile) {
-		const regex = /^[0-9]{8,}$/;
+		const regex = /^[0-9]{4,}$/;
 		return regex.test(mobile);
 	}
 	const handleSubmit = () => {
@@ -55,7 +55,7 @@ const DonorAddressModal = ({ handleBuyBrick }) => {
 		if (!pin.trim()) {
 			newErrors.pin = "PIN is required";
 		} else if (!isValidNumber(pin)) {
-			newErrors.mobile = "Please enter a valid PIN number";
+			newErrors.pin = "Please enter a valid PIN number";
 		}
 		console.log(errors);
 

@@ -240,7 +240,6 @@ const Buybrick = () => {
 			}
 		}, 1000);
 	};
-	console.log(hovered, clickedIndex);
 	const handleMouseOut = () => {
 		clearTimeout(hoverTimer);
 	};
