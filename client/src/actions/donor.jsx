@@ -19,7 +19,6 @@ export const getDonor = (user) => async (dispatch) => {
 		await api
 			.post("/donor/get-donor", user)
 			.then((res) => {
-				console.log("res.data", res.data);
 				dispatch(setDonorInfo(res.data));
 				dispatch(clearLoading());
 			})

@@ -24,7 +24,7 @@ router.post("/initial", async (req, res) => {
 			fakeBricks.push({
 				user: users[j]._id,
 				brick_id: bricksID[i],
-				amount: faker.number({ max: 10 }),
+				amount: faker.datatype.number({ max: 10 }),
 				date: faker.date.past(1),
 				dedication: {
 					name: faker.name.findName(),
@@ -49,6 +49,7 @@ router.post("/initial", async (req, res) => {
 	try {
 		await Brick.insertMany(fakeBricks);
 		console.log(`Successfully added ${count} fake bricks.`);
+		res.json(`Successfully added ${count} fake bricks.`);
 	} catch (error) {
 		console.error("Error inserting fake data:", error);
 	}
@@ -69,6 +70,35 @@ router.get("/all", async (req, res) => {
 		})
 		.catch(function (error) {
 			console.log(error); // Failure
+		});
+});
+
+router.get("/saleInfo", async (req, res) => {
+	await Brick.aggregate([
+		{
+			$match: {
+				date: { $exists: true, $ne: null },
+			},
+		},
+		{
+			$group: {
+				_id: {
+					year: { $year: "$date" },
+					month: { $month: "$date" },
+				},
+				totalSales: { $sum: "$amount" },
+			},
+		},
+		{
+			$sort: { _id: 1 },
+		},
+	])
+		.then((result) => {
+			res.json(result);
+		})
+		.catch(function (error) {
+			console.log(error); // Failure
+			res.json(error.message);
 		});
 });
 

@@ -192,7 +192,7 @@ const Buybrick = () => {
 		}
 	};
 	const handlePanClick = (e) => {
-		if (!isSoldModalOpen && !isBrickInfoModalOpen && !isBuyBrickModalOpen) {
+		if (!isSoldModalOpen) {
 			// Get the position of the clicked point
 			const x = e.clientX;
 			const y = e.clientY;
@@ -229,8 +229,9 @@ const Buybrick = () => {
 				setModalPosition({ x: x + 10, y: y + 10 });
 				if (x > 1000) setModalPosition({ x: x - 300, y: y });
 				if (y > 600) setModalPosition({ x: x, y: y - 220 });
-
-				setClickedIndex(e.target.id);
+				if (bricks[e.target.id].sold) {
+					setClickedIndex(e.target.id);
+				}
 				setHovered(bricks[e.target.id]);
 				setIsBrickInfoModalOpen(true);
 				// setClickedIndex(null);
@@ -240,6 +241,7 @@ const Buybrick = () => {
 			}
 		}, 1000);
 	};
+
 	const handleMouseOut = () => {
 		clearTimeout(hoverTimer);
 	};
@@ -272,7 +274,7 @@ const Buybrick = () => {
 	};
 
 	const handleDedicate = () => {
-		setIsBrickInfoModalOpen(false);
+		setIsSoldModalOpen(false);
 		setIsSlideModalOpen(true);
 		setModalContent(5);
 	};
