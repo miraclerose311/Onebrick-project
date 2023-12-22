@@ -121,6 +121,7 @@ router.get("/current_page", async (req, res) => {
 				$or: [
 					{ $regexMatch: { input: "$fullName", regex: term, options: "i" } },
 					{ $regexMatch: { input: "$email", regex: term, options: "i" } },
+					{ $regexMatch: { input: "$mobile", regex: term, options: "i" } },
 					{ $regexMatch: { input: "$pin", regex: term, options: "i" } },
 					{ $regexMatch: { input: "$pan", regex: term, options: "i" } },
 					{ $regexMatch: { input: "$address", regex: term, options: "i" } },

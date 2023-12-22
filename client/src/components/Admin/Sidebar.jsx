@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { HiOutlineUsers } from "react-icons/hi2";
 import { BsBricks } from "react-icons/bs";
 import { LuLayoutDashboard } from "react-icons/lu";
-import { LuDatabaseBackup } from "react-icons/lu";
 
 const Sidebar = () => {
 	return (
@@ -36,13 +35,6 @@ const Sidebar = () => {
 				>
 					<HiOutlineUsers />
 					<p className='text-md 2xl:text-lg font-montserrat'>Donors</p>
-				</Link>
-				<Link
-					to='/admin/manage'
-					className='flex items-center gap-3 cursor-pointer hover:text-sky-500'
-				>
-					<LuDatabaseBackup />
-					<p className='text-md 2xl:text-lg font-montserrat'>Management</p>
 				</Link>
 			</div>
 		</div>

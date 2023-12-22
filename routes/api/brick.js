@@ -51,7 +51,6 @@ router.post("/initial", async (req, res) => {
 		}
 
 		await Brick.insertMany(fakeBricks);
-		console.log(`Successfully added ${count} fake bricks.`);
 		res.json(`Successfully added ${count} fake bricks.`);
 	} catch (error) {
 		console.error("Error inserting fake data:", error);
@@ -252,8 +251,34 @@ router.get("/current_page", async (req, res) => {
 
 		// Add text search to filter_query if term is provided
 		if (term && term !== "") {
-			filter_query.$text = { $search: term };
+			filter_query.$expr = {
+				$or: [
+					{ $regexMatch: { input: "$brick_id", regex: term, options: "i" } },
+					{
+						$regexMatch: {
+							input: "$dedication.name",
+							regex: term,
+							options: "i",
+						},
+					},
+					{
+						$regexMatch: {
+							input: "$dedication.relationship",
+							regex: term,
+							options: "i",
+						},
+					},
+					{
+						$regexMatch: {
+							input: "$dedication.message",
+							regex: term,
+							options: "i",
+						},
+					},
+				],
+			};
 		}
+
 		if (sold !== "all") filter_query.sold = sold === "true";
 		if (fake !== "all") filter_query.fake = fake === "true";
 
@@ -276,10 +301,6 @@ router.get("/current_page", async (req, res) => {
 				: 0;
 		// Now define the pipeline to fetch the documents
 		const dataPipeline = [
-			...(Object.keys(filter_query).length ? [{ $match: filter_query }] : []),
-			...(Object.keys(sort_query).length ? [{ $sort: sort_query }] : []),
-			{ $skip: (page - 1) * limit },
-			{ $limit: limit },
 			{
 				$lookup: {
 					from: "donors",
@@ -288,6 +309,10 @@ router.get("/current_page", async (req, res) => {
 					as: "donor",
 				},
 			},
+			...(Object.keys(sort_query).length ? [{ $sort: sort_query }] : []),
+			...(Object.keys(filter_query).length ? [{ $match: filter_query }] : []),
+			{ $skip: (page - 1) * limit },
+			{ $limit: limit },
 		];
 
 		// Fetch the documents based on the query and pagination options
