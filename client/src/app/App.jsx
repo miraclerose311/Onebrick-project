@@ -16,11 +16,11 @@ import Loading from "../components/Loading";
 // Import React toast for Alert
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Admin from "../pages/Admin";
-import AdminLayout from "../components/Layout/adminLayout";
-import Dashboard from "../components/Layout/Dashboard";
-import BrickTable from "../components/BrickTable";
-import DonorTable from "../components/DonorTable";
+import AdminLayout from "../components/Admin/AdminLayout";
+import Dashboard from "../components/Admin/Dashboard";
+import BrickTable from "../components/Admin/BrickTable";
+import DonorTable from "../components/Admin/DonorTable";
+import Manage from "../components/Admin/Manage";
 
 function App() {
 	const alert = useSelector((state) => state.alert);
@@ -65,16 +65,15 @@ function App() {
 							path='donors'
 							element={<DonorTable />}
 						/>
+						<Route
+							path='manage'
+							element={<Manage />}
+						/>
 					</Route>
 					<Route
 						path='/'
 						exact
 						element={<Landing />}
-					/>
-					<Route
-						path='/admin'
-						exact
-						element={<Admin />}
 					/>
 					<Route
 						path='/about'

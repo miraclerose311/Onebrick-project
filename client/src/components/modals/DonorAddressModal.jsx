@@ -37,6 +37,8 @@ const DonorAddressModal = ({ handleBuyBrick }) => {
 	useEffect(() => {
 		setAddress(donor.address);
 		setPin(donor.pin);
+		setCountry(donor.country);
+		setState(donor.state);
 	}, [donor]);
 
 	function isValidNumber(mobile) {
@@ -57,7 +59,6 @@ const DonorAddressModal = ({ handleBuyBrick }) => {
 		} else if (!isValidNumber(pin)) {
 			newErrors.pin = "Please enter a valid PIN number";
 		}
-
 		// Update the errors state
 		setErrors(newErrors);
 		if (Object.keys(newErrors).length === 0) {

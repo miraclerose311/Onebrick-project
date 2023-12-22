@@ -27,6 +27,7 @@ export const brickSlice = createSlice({
 			const brickData = { ...action.payload, sold: true };
 			return {
 				...state,
+				current: initialState.current,
 				bricks: state.bricks.map((brick) =>
 					brick.brick_id === action.payload.brick_id ? brickData : brick
 				),

@@ -332,8 +332,9 @@ const Buybrick = () => {
 					const brickData = {
 						brick_id: bricks[clickedIndex].brick_id,
 						user: userId,
-						amount: amount,
+						amount: amount / 1000000,
 					};
+					console.log("brickData", brickData);
 					dispatch(buyBrick(brickData));
 					dispatch(clearOrder());
 					setIsSlideModalOpen(true);

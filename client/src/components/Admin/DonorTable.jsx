@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { clearLoading, setLoading } from "../features/loading/loadingSlice";
+import { clearLoading, setLoading } from "../../features/loading/loadingSlice";
 
 import { HiChevronDoubleLeft } from "react-icons/hi";
 import { HiChevronDoubleRight } from "react-icons/hi";
@@ -43,7 +43,7 @@ const DonorTable = () => {
 			}
 		};
 		fetchData();
-	}, [currentPage, limit, sorts, term]);
+	}, [currentPage, limit, sorts, term, dispatch]);
 
 	useEffect(() => {
 		// Setting up the delay
@@ -57,11 +57,12 @@ const DonorTable = () => {
 	}, [search]);
 
 	return (
-		<div className='bricktable w-full lg:w-5/6 px-8 sm:px-16 md:px-24 lg:px-24 xl:px-48 2xl:px-64 mt-24'>
+		<div className='bg-gray-100 w-full lg:w-4/5 px-6 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 py-12'>
+			<div>
+				<p className='font-raleway font-medium text-4xl py-4'>Our Donors</p>
+				<hr className='w-full' />
+			</div>
 			<div className='w-full flex flex-col py-1'>
-				<p className='font-montserrat font-bold text-4xl text-center'>
-					Our Donors
-				</p>
 				<input
 					name='search'
 					value={search}
@@ -70,7 +71,7 @@ const DonorTable = () => {
 					onChange={(e) => setSearch(e.target.value)}
 				/>
 			</div>
-			<table className='w-full'>
+			<table className='w-full px-6 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24'>
 				<thead className=''>
 					<tr className='font-montserrat font-normal'>
 						<th>

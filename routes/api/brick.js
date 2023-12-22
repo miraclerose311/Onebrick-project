@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const multer = require("multer");
 const faker = require("faker");
 const auth = require("../../middleware/auth");
 
@@ -14,39 +13,43 @@ router.get("/test", (req, res) => {
 });
 
 router.post("/initial", async (req, res) => {
-	// await Brick.insertMany(initialData).then((result) => res.json(result));
-	const fakeBricks = [];
-	const count = 35000;
-	const users = await User.find();
-	let j = 0;
-	for (let i = 0; i < count; i++) {
-		if (Math.random() > 0.85) {
-			fakeBricks.push({
-				user: users[j]._id,
-				brick_id: bricksID[i],
-				amount: faker.datatype.number({ max: 10 }),
-				date: faker.date.past(1),
-				dedication: {
-					name: faker.name.findName(),
-					relationship: faker.lorem.word(),
-					message: faker.lorem.sentence(),
-					image: {
-						imageName: faker.system.fileName(),
-						imagePath: faker.image.imageUrl(),
-					},
-				},
-				sold: true,
-				fake: true,
-			});
-			j++;
-		} else {
-			fakeBricks.push({
-				brick_id: bricksID[i],
-				sold: false,
-			});
-		}
-	}
 	try {
+		const fakeBricks = [];
+		const count = 35000;
+
+		await Brick.deleteMany({});
+
+		const users = await User.find();
+		let j = 0;
+		const percent = req.body.count / count;
+		for (let i = 0; i < count; i++) {
+			if (Math.random() < percent) {
+				fakeBricks.push({
+					user: users[j]._id,
+					brick_id: bricksID[i],
+					amount: faker.datatype.number({ max: 10 }),
+					date: faker.date.past(1),
+					dedication: {
+						name: faker.name.findName(),
+						relationship: faker.lorem.word(),
+						message: faker.lorem.sentence(),
+						image: {
+							imageName: faker.system.fileName(),
+							imagePath: faker.image.imageUrl(),
+						},
+					},
+					sold: true,
+					fake: true,
+				});
+				j++;
+			} else {
+				fakeBricks.push({
+					brick_id: bricksID[i],
+					sold: false,
+				});
+			}
+		}
+
 		await Brick.insertMany(fakeBricks);
 		console.log(`Successfully added ${count} fake bricks.`);
 		res.json(`Successfully added ${count} fake bricks.`);
@@ -63,6 +66,21 @@ router.get("/sold-amount", async (req, res) => {
 		});
 });
 
+router.get("/fake-amount", async (req, res) => {
+	await Brick.find({ fake: true })
+		.count()
+		.then((amount) => {
+			res.json(amount);
+		});
+});
+router.get("/real-sold", async (req, res) => {
+	await Brick.find({ sold: true, fake: false })
+		.count()
+		.then((amount) => {
+			res.json(amount);
+		});
+});
+
 router.get("/all", async (req, res) => {
 	await Brick.find()
 		.then((result) => {
@@ -73,11 +91,41 @@ router.get("/all", async (req, res) => {
 		});
 });
 
+router.post("/buy", async (req, res) => {
+	const { brick_id, user, amount } = req.body;
+	await Brick.updateOne(
+		{ brick_id },
+		{
+			$set: {
+				user,
+				amount,
+				date: new Date(),
+				sold: true,
+			},
+		}
+	)
+		.then(() => res.json(req.body))
+		.catch((e) => res.status(400).json(e));
+});
+
 router.get("/saleInfo", async (req, res) => {
-	await Brick.aggregate([
+	// Parse query parameters safely, providing defaults if they are invalid.
+	const year = parseInt(req.query.year) || new Date().getFullYear();
+	const month = parseInt(req.query.month) || new Date().getMonth() + 1;
+
+	const fake = await Brick.aggregate([
 		{
 			$match: {
 				date: { $exists: true, $ne: null },
+				sold: true,
+				fake: true,
+				$expr: {
+					$and: [
+						// Use $and to add multiple conditions
+						{ $eq: [{ $year: "$date" }, year] },
+						{ $eq: [{ $month: "$date" }, month] },
+					],
+				},
 			},
 		},
 		{
@@ -85,31 +133,66 @@ router.get("/saleInfo", async (req, res) => {
 				_id: {
 					year: { $year: "$date" },
 					month: { $month: "$date" },
+					day: { $dayOfMonth: "$date" },
 				},
 				totalSales: { $sum: "$amount" },
 			},
 		},
 		{
-			$sort: { _id: 1 },
+			$sort: {
+				_id: 1,
+			},
 		},
-	])
-		.then((result) => {
-			res.json(result);
-		})
-		.catch(function (error) {
-			console.log(error); // Failure
-			res.json(error.message);
-		});
+	]);
+
+	const real = await Brick.aggregate([
+		{
+			$match: {
+				date: { $exists: true, $ne: null },
+				sold: true,
+				fake: false,
+				$expr: {
+					$and: [
+						// Use $and to add multiple conditions
+						{ $eq: [{ $year: "$date" }, year] },
+						{ $eq: [{ $month: "$date" }, month] },
+					],
+				},
+			},
+		},
+		{
+			$group: {
+				_id: {
+					year: { $year: "$date" },
+					month: { $month: "$date" },
+					day: { $dayOfMonth: "$date" },
+				},
+				totalSales: { $sum: "$amount" },
+			},
+		},
+		{
+			$sort: {
+				_id: 1,
+			},
+		},
+	]);
+
+	res.json({ fake: fake, real: real });
 });
 
 router.get("/current_page", async (req, res) => {
 	try {
-		let { brick_id, date, page, limit, sold, fake, term } = req.query;
+		let { brick_id, date, amount, page, limit, sold, fake, term } = req.query;
 		let filter_query = {};
 		let sort_query = {};
 
 		brick_id = parseInt(brick_id);
 		date = parseInt(date);
+		amount = parseInt(amount);
+
+		if (brick_id !== 0) sort_query.brick_id = brick_id;
+		if (date !== 0) sort_query.date = date;
+		if (amount !== 0) sort_query.amount = amount;
 
 		// Add text search to filter_query if term is provided
 		if (term && term !== "") {
@@ -117,9 +200,6 @@ router.get("/current_page", async (req, res) => {
 		}
 		if (sold !== "all") filter_query.sold = sold === "true";
 		if (fake !== "all") filter_query.fake = fake === "true";
-
-		if (brick_id !== 0) sort_query.brick_id = brick_id;
-		if (date !== 0) sort_query.date = date;
 
 		// Parse 'page' and 'limit' as integers
 		page = parseInt(page, 10) || 1;
@@ -168,34 +248,6 @@ router.get("/current_page", async (req, res) => {
 		res.status(500).send("Server Error");
 	}
 });
-
-router.post("/buy", async (req, res) => {
-	const { brick_id, user, amount, dedication } = req.body;
-	await Brick.updateOne(
-		{ brick_id },
-		{
-			$set: {
-				user,
-				amount,
-				sold: true,
-				dedication,
-			},
-		}
-	)
-		.then(() => res.json(req.body))
-		.catch((e) => res.status(400).json(e));
-});
-
-const storage = multer.diskStorage({
-	destination: function (req, file, cb) {
-		cb(null, "uploads/"); // The folder where the uploaded files will be stored
-	},
-	filename: function (req, file, cb) {
-		cb(null, Date.now() + "-" + file.originalname);
-	},
-});
-
-const upload = multer({ storage: storage });
 
 // Express route handler for adding a new Brick with a dedication
 

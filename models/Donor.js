@@ -34,6 +34,14 @@ const DonorSchema = new mongoose.Schema({
 	pin: {
 		type: String,
 	},
+	fake: {
+		type: Boolean,
+		default: false,
+	},
+	createdAt: {
+		type: Date,
+		default: Date.now,
+	},
 });
 
 DonorSchema.index({ "$**": "text" });

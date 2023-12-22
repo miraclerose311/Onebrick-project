@@ -8,28 +8,33 @@ const Donor = require("../../models/Donor");
 const User = require("../../models/User");
 
 router.post("/initial", async (req, res) => {
-	const users = await User.find();
-	const count = 10000;
-	const fakeDonors = [];
-	for (let i = 0; i < count; i++) {
-		fakeDonors.push({
-			user: users[i]._id,
-			fullName: faker.name.findName(),
-			email: faker.internet.email(),
-			mobile: faker.phone.phoneNumber(),
-			pan: faker.finance.account(10), // A PAN number typically has 10 characters
-			aadhaar: faker.finance.account(12), // An Aadhaar number typically has 12 digits
-			address: faker.address.streetAddress(),
-			country: faker.address.country(),
-			state: faker.address.state(),
-			pin: faker.datatype
-				.number({ min: 0, max: 9999 })
-				.toString()
-				.padStart(4, "0"), // This gives a ZIP code but could be used as a PIN code
-		});
-	}
-
 	try {
+		const count = req.body.count;
+		const fakeDonors = [];
+
+		await Donor.deleteMany({});
+
+		const users = await User.find();
+
+		for (let i = 0; i < count; i++) {
+			fakeDonors.push({
+				user: users[i]._id,
+				fullName: faker.name.findName(),
+				email: faker.internet.email(),
+				mobile: faker.phone.phoneNumber(),
+				pan: faker.finance.account(10), // A PAN number typically has 10 characters
+				aadhaar: faker.finance.account(12), // An Aadhaar number typically has 12 digits
+				address: faker.address.streetAddress(),
+				country: faker.address.country(),
+				state: faker.address.state(),
+				pin: faker.datatype
+					.number({ min: 0, max: 9999 })
+					.toString()
+					.padStart(4, "0"), // This gives a ZIP code but could be used as a PIN code
+				fake: true,
+			});
+		}
+
 		await Donor.insertMany(fakeDonors);
 		console.log(`Successfully added ${count} fake donors.`);
 		res.send(`Successfully added ${count} fake donors.`);
@@ -64,7 +69,6 @@ router.post("/insert", async (req, res) => {
 		state,
 		pin,
 	});
-
 	try {
 		await Donor.updateOne(
 			{ user: userId },
@@ -75,6 +79,17 @@ router.post("/insert", async (req, res) => {
 		)
 			.then((result) => console.log(result))
 			.catch((e) => res.status(400).json(e));
+	} catch (error) {
+		console.log(error.message);
+		res.status(500).send("Server error");
+	}
+});
+
+router.get("/count-donor", async (req, res) => {
+	try {
+		const all = await Donor.find().count();
+		const fake = await Donor.find({ fake: true }).count();
+		res.json({ all, fake });
 	} catch (error) {
 		console.log(error.message);
 		res.status(500).send("Server error");
