@@ -36,7 +36,6 @@ router.post("/initial", async (req, res) => {
 		}
 
 		await Donor.insertMany(fakeDonors);
-		console.log(`Successfully added ${count} fake donors.`);
 		res.send(`Successfully added ${count} fake donors.`);
 	} catch (error) {
 		console.error("Error inserting fake data:", error);
@@ -118,7 +117,17 @@ router.get("/current_page", async (req, res) => {
 
 		// Add text search to filter_query if term is provided
 		if (term && term !== "") {
-			filter_query.$text = { $search: term };
+			filter_query.$expr = {
+				$or: [
+					{ $regexMatch: { input: "$fullName", regex: term, options: "i" } },
+					{ $regexMatch: { input: "$email", regex: term, options: "i" } },
+					{ $regexMatch: { input: "$pin", regex: term, options: "i" } },
+					{ $regexMatch: { input: "$pan", regex: term, options: "i" } },
+					{ $regexMatch: { input: "$address", regex: term, options: "i" } },
+					{ $regexMatch: { input: "$country", regex: term, options: "i" } },
+					{ $regexMatch: { input: "$state", regex: term, options: "i" } },
+				],
+			};
 		}
 
 		if (mobile != 0) sort_query.mobile = parseInt(mobile);
