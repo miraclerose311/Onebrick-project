@@ -1,6 +1,15 @@
 import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
-import { Line } from "react-chartjs-2";
+import {
+	LineChart,
+	Line,
+	XAxis,
+	YAxis,
+	CartesianGrid,
+	Tooltip,
+	Legend,
+	ResponsiveContainer,
+} from "recharts";
 import axios from "axios";
 
 import { clearLoading, setLoading } from "../../features/loading/loadingSlice";
@@ -10,27 +19,6 @@ import { initialDonors } from "../../actions/donor";
 import BrickResetModal from "./BrickResetModal";
 
 const TotalBrickAmount = 35000;
-
-import {
-	Chart as ChartJS,
-	CategoryScale,
-	LinearScale,
-	PointElement,
-	LineElement,
-	Title,
-	Tooltip,
-	Legend,
-} from "chart.js";
-
-ChartJS.register(
-	CategoryScale,
-	LinearScale,
-	PointElement,
-	LineElement,
-	Title,
-	Tooltip,
-	Legend
-);
 
 const Dashboard = () => {
 	const base_URL = "http://localhost:5000/api";
@@ -54,7 +42,50 @@ const Dashboard = () => {
 		labels: [],
 		datasets: [],
 	});
-
+	const data = [
+		{
+			name: "Page A",
+			uv: 4000,
+			pv: 2400,
+			amt: 2400,
+		},
+		{
+			name: "Page B",
+			uv: 3000,
+			pv: 1398,
+			amt: 2210,
+		},
+		{
+			name: "Page C",
+			uv: 2000,
+			pv: 9800,
+			amt: 2290,
+		},
+		{
+			name: "Page D",
+			uv: 2780,
+			pv: 3908,
+			amt: 2000,
+		},
+		{
+			name: "Page E",
+			uv: 1890,
+			pv: 4800,
+			amt: 2181,
+		},
+		{
+			name: "Page F",
+			uv: 2390,
+			pv: 3800,
+			amt: 2500,
+		},
+		{
+			name: "Page G",
+			uv: 3490,
+			pv: 4300,
+			amt: 2100,
+		},
+	];
 	const [realChartData, setRealChartData] = useState({
 		labels: [],
 		datasets: [],
@@ -177,7 +208,7 @@ const Dashboard = () => {
 		}
 		setCount(0);
 	};
-
+	console.log(fakeData);
 	return (
 		<div className='bg-gray-100 w-full lg:w-4/5 px-6 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 py-12'>
 			<div>
@@ -251,10 +282,23 @@ const Dashboard = () => {
 			<div className='w-full flex flex-wrap justify-center items-center px-6 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24'>
 				<div className='w-full xl:w-5/6'>
 					{displayFakeData ? (
-						<Line
-							options={options}
-							data={fakeChartData}
-						/>
+						<LineChart
+							width={730}
+							height={250}
+							data={fakeData}
+							margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+						>
+							<CartesianGrid strokeDasharray='1 1' />
+							<XAxis dataKey='_id.day' />
+							<YAxis />
+							<Tooltip />
+							<Legend />
+							<Line
+								type='monotone'
+								dataKey='totalSales'
+								stroke='#8884d8'
+							/>
+						</LineChart>
 					) : (
 						<Line
 							options={options}
