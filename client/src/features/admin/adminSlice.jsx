@@ -20,7 +20,6 @@ export const adminSlice = createSlice({
 			};
 		},
 		setDonorAmount: (state, action) => {
-			console.log("3333333333333", action.payload);
 			const { donor, fakedonor } = action.payload;
 			return {
 				...state,

@@ -46,7 +46,6 @@ export const initialBricks = (count) => async (dispatch) => {
 		dispatch(setLoading());
 		await api.post("/brick/initial", { count }).then(() => {
 			dispatch(clearLoading());
-			console.log("Successfully initialized");
 		});
 	} catch (e) {
 		console.log(e);

@@ -334,7 +334,6 @@ const Buybrick = () => {
 						user: userId,
 						amount: amount / 1000000,
 					};
-					console.log("brickData", brickData);
 					dispatch(buyBrick(brickData));
 					dispatch(clearOrder());
 					setIsSlideModalOpen(true);

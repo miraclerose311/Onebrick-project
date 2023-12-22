@@ -9,7 +9,6 @@ export const initialDonors = (count) => async (dispatch) => {
 		await api.post("/donor/initial", { count }).then(() => {
 			dispatch(clearLoading());
 			dispatch(getDonorAmount());
-			console.log("Successfully initialized");
 		});
 	} catch (e) {
 		console.log(e);

@@ -53,7 +53,6 @@ const Dashboard = () => {
 
 	// Fetch fake sales data
 	useEffect(() => {
-		console.log("fetchcharddataeffect");
 		const fetchData = async () => {
 			try {
 				if (byMonth) {
@@ -87,8 +86,6 @@ const Dashboard = () => {
 	}, [year, month, byMonth, dispatch]);
 
 	useEffect(() => {
-		console.log("fetchfakeamountdataeffect");
-
 		const fetchStaticData = async () => {
 			try {
 				dispatch(getBrickSoldAmount());
