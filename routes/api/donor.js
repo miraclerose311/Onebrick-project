@@ -85,11 +85,11 @@ router.post("/insert", async (req, res) => {
 	}
 });
 
-router.get("/count-donor", async (req, res) => {
+router.get("/donorcount", async (req, res) => {
 	try {
-		const all = await Donor.find().count();
-		const fake = await Donor.find({ fake: true }).count();
-		res.json({ all, fake });
+		const donor = await Donor.find().count();
+		const fakedonor = await Donor.find({ fake: true }).count();
+		res.json({ donor, fakedonor });
 	} catch (error) {
 		console.log(error.message);
 		res.status(500).send("Server error");

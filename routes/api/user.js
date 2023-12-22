@@ -26,7 +26,6 @@ router.post("/initial", async (req, res) => {
 
 	try {
 		await User.insertMany(fakeUsers);
-		console.log(`Successfully added ${count} fake users.`);
 		res.send(`Successfully added ${count} fake users.`);
 	} catch (error) {
 		console.error("Error inserting fake data:", error);

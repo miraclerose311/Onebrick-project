@@ -6,6 +6,7 @@ import {
 	setDedication,
 } from "../features/brick/brickSlice";
 import { clearLoading, setLoading } from "../features/loading/loadingSlice";
+import { setSoldBrickAmount } from "../features/admin/adminSlice";
 
 // getBricks is a Redux Thunk action creator. It returns a function that accepts `dispatch` as its argument.
 export const getBricks = () => (dispatch) => {
@@ -63,6 +64,24 @@ export const buyBrick = (brickData) => async (dispatch) => {
 		.catch((err) => {
 			console.log(err);
 		});
+};
+
+export const getBrickSoldAmount = () => async (dispatch) => {
+	try {
+		dispatch(setLoading());
+		await api
+			.get("/brick/bricksoldamount")
+			.then((res) => {
+				dispatch(setSoldBrickAmount(res.data));
+				dispatch(getBrickSoldAmount());
+				dispatch(clearLoading());
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	} catch (e) {
+		console.log(e);
+	}
 };
 
 export const addDedication = (dedicationData) => async (dispatch) => {

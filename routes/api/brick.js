@@ -58,6 +58,7 @@ router.post("/initial", async (req, res) => {
 	}
 });
 
+//get sold amound for wallofbrick
 router.get("/sold-amount", async (req, res) => {
 	await Brick.find({ sold: true })
 		.count()
@@ -66,19 +67,16 @@ router.get("/sold-amount", async (req, res) => {
 		});
 });
 
-router.get("/fake-amount", async (req, res) => {
-	await Brick.find({ fake: true })
-		.count()
-		.then((amount) => {
-			res.json(amount);
-		});
-});
-router.get("/real-sold", async (req, res) => {
-	await Brick.find({ sold: true, fake: false })
-		.count()
-		.then((amount) => {
-			res.json(amount);
-		});
+//Get data for dashboard page
+router.get("/bricksoldamount", async (req, res) => {
+	try {
+		const sold = await Brick.find({ fake: false, sold: true }).count();
+		const fakesold = await Brick.find({ fake: true, sold: true }).count();
+		res.json({ sold, fakesold });
+	} catch (error) {
+		console.log(error.message);
+		res.status(500).send("Server error");
+	}
 });
 
 router.get("/all", async (req, res) => {
@@ -108,7 +106,7 @@ router.post("/buy", async (req, res) => {
 		.catch((e) => res.status(400).json(e));
 });
 
-router.get("/saleInfo", async (req, res) => {
+router.get("/saleInfo/byday", async (req, res) => {
 	// Parse query parameters safely, providing defaults if they are invalid.
 	const year = parseInt(req.query.year) || new Date().getFullYear();
 	const month = parseInt(req.query.month) || new Date().getMonth() + 1;
@@ -166,6 +164,64 @@ router.get("/saleInfo", async (req, res) => {
 					year: { $year: "$date" },
 					month: { $month: "$date" },
 					day: { $dayOfMonth: "$date" },
+				},
+				totalSales: { $sum: "$amount" },
+			},
+		},
+		{
+			$sort: {
+				_id: 1,
+			},
+		},
+	]);
+
+	res.json({ fake: fake, real: real });
+});
+
+router.get("/saleInfo/bymonth", async (req, res) => {
+	// Parse query parameters safely, providing defaults if they are invalid.
+	const year = parseInt(req.query.year) || new Date().getFullYear();
+	const month = parseInt(req.query.month) || new Date().getMonth();
+
+	const fake = await Brick.aggregate([
+		{
+			$match: {
+				date: { $exists: true, $ne: null },
+				sold: true,
+				fake: true,
+				$expr: { $eq: [{ $year: "$date" }, year] },
+			},
+		},
+		{
+			$group: {
+				_id: {
+					year: { $year: "$date" },
+					month: { $month: "$date" },
+				},
+				totalSales: { $sum: "$amount" },
+			},
+		},
+		{
+			$sort: {
+				_id: 1,
+			},
+		},
+	]);
+
+	const real = await Brick.aggregate([
+		{
+			$match: {
+				date: { $exists: true, $ne: null },
+				sold: true,
+				fake: false,
+				$expr: { $eq: [{ $year: "$date" }, year] },
+			},
+		},
+		{
+			$group: {
+				_id: {
+					year: { $year: "$date" },
+					month: { $month: "$date" },
 				},
 				totalSales: { $sum: "$amount" },
 			},
