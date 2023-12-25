@@ -22,7 +22,7 @@ import BrickResetModal from "./BrickResetModal";
 const TotalBrickAmount = 35000;
 
 const Dashboard = () => {
-	const base_URL = "http://localhost:5000/api";
+	const base_URL = " https://outgoing-mullet-initially.ngrok-free.app";
 	const newDate = new Date();
 
 	const [byMonth, setByMonth] = useState(true);
@@ -58,7 +58,7 @@ const Dashboard = () => {
 				if (byMonth) {
 					const query = `year=${year}&month=${month}`;
 					const response = await axios.get(
-						`${base_URL}/brick/saleInfo/bymonth?${query}`
+						`${base_URL}/api/brick/saleInfo/bymonth?${query}`
 					);
 					const fakeArray = Object.values(response.data.fake);
 					const realArray = Object.values(response.data.real);
@@ -68,7 +68,7 @@ const Dashboard = () => {
 				} else {
 					const query = `year=${year}&month=${month}`;
 					const response = await axios.get(
-						`${base_URL}/brick/saleInfo/byday?${query}`
+						`${base_URL}/api/brick/saleInfo/byday?${query}`
 					);
 					const fakeArray = Object.values(response.data.fake);
 					const realArray = Object.values(response.data.real);

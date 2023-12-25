@@ -11,12 +11,10 @@ const app = express();
 connectDB();
 
 // Init Middleware
-app.use(express.json());
+app.use(bodyParser.json({ limit: "500mb" }));
+app.use(bodyParser.urlencoded({ extended: true }));
 
-// parse application/x-www-form-urlencoded
 app.use(cors());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json({ limit: "50mb" }));
 // app.use(express.static(path.join(__dirname, "dist")));
 
 app.use("/api/auth", require("./routes/api/auth"));
@@ -25,6 +23,7 @@ app.use("/api/users", require("./routes/api/user"));
 app.use("/api/brick", require("./routes/api/brick"));
 app.use("/api/donor", require("./routes/api/donor"));
 app.use("/api/payment", require("./routes/api/payment"));
+app.use("/api/upload", require("./routes/api/fileUpload"));
 
 // Serve static assets in production
 if (process.env.NODE_ENV === "production") {

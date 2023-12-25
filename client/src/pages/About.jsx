@@ -1,30 +1,36 @@
-import Footer from '../components/Footer';
-import Navbar from '../components/Navbar';
+import { useEffect } from "react";
+import ScrollToTop from "react-scroll-to-top";
 
-import Image1 from '../assets/img/about/about1.jpg';
-import Image2 from '../assets/img/about/about2.jpg';
-import Image3 from '../assets/img/about/about3.jpg';
-import Image4 from '../assets/img/about/about4.png';
-import Image5 from '../assets/img/about/about5.jpg';
-import Image6 from '../assets/img/about/about6.jpg';
-import Image7 from '../assets/img/about/about7.jpg';
-import Image8 from '../assets/img/about/about8.png';
+import Footer from "../components/Footer";
+import Navbar from "../components/Navbar";
+
+import Image1 from "../assets/img/about/about1.jpg";
+import Image2 from "../assets/img/about/about2.jpg";
+import Image3 from "../assets/img/about/about3.jpg";
+import Image4 from "../assets/img/about/about4.png";
+import Image5 from "../assets/img/about/about5.jpg";
+import Image6 from "../assets/img/about/about6.jpg";
+import Image7 from "../assets/img/about/about7.jpg";
+import Image8 from "../assets/img/about/about8.png";
 
 const About = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
-    <div className='relative '>
+    <div className="relative ">
       <Navbar />
 
-      <div className=''>
-        <div className='flex flex-wrap bg-gray-300 pt-32 px-8 sm:px-16 md:px-24 lg:px-32 xl:px-44 2xl:px-64'>
-          <div className='w-full lg:w-7/12 lg:px-0'>
-            <img src={Image1} className='w-full h-full object-cover' />
+      <div className="">
+        <div className="flex flex-wrap bg-gray-300 pt-32 px-8 sm:px-16 md:px-24 lg:px-32 xl:px-44 2xl:px-64">
+          <div className="w-full lg:w-7/12 lg:px-0">
+            <img src={Image1} className="w-full h-full object-cover" />
           </div>
-          <div className='w-full lg:w-5/12 flex flex-col mt-12 lg:mt-0 lg:pl-8 xl:pl-12 py-4 md:py-12'>
-            <p className='text-center lg:text-left text-4xl sm:text-5xl md:text-6xl lg:text-5xl xl:text-6xl 2xl:text-7xl text-sky-600 font-montserrat font-bold'>
+          <div className="w-full lg:w-5/12 flex flex-col mt-12 lg:mt-0 lg:pl-8 xl:pl-12 py-4 md:py-12">
+            <p className="text-center lg:text-left text-4xl sm:text-5xl md:text-6xl lg:text-5xl xl:text-6xl 2xl:text-7xl text-sky-600 font-montserrat font-bold">
               Welcome to Alpha Hospice
             </p>
-            <p className='text-lg sm:text-xl md:text-2xl lg:text-lg xl:text-xl 2xl:text-2xl font-raleway text-gray-500 pt-5'>
+            <p className="text-lg sm:text-xl md:text-2xl lg:text-lg xl:text-xl 2xl:text-2xl font-raleway text-gray-500 pt-5">
               A sanctuary of compassion and care at the heart of Alpha
               Palliative Care’s mission. Here, we dedicate ourselves to
               providing comfort and dignity to those facing life’s final
@@ -36,16 +42,16 @@ const About = () => {
           </div>
         </div>
 
-        <div className='flex flex-wrap px-8 sm:px-16 md:px-24 lg:px-32 xl:px-44 2xl:px-64 py-24 mx-auto relative'>
-          <div className='hidden lg:flex bg-gray-100 w-3/4 h-2/3 left-0 bottom-12 z-0 absolute'></div>
-          <div className='w-full lg:w-1/2 flex flex-col lg:mt-0 lg:pr-6 xl:pr-12 z-10'>
-            <p className='text-center lg:text-left text-3xl text-sky-700'>
+        <div className="flex flex-wrap px-8 sm:px-16 md:px-24 lg:px-32 xl:px-44 2xl:px-64 py-24 mx-auto relative">
+          <div className="hidden lg:flex bg-gray-100 w-3/4 h-2/3 left-0 bottom-12 z-0 absolute"></div>
+          <div className="w-full lg:w-1/2 flex flex-col lg:mt-0 lg:pr-6 xl:pr-12 z-10">
+            <p className="text-center lg:text-left text-3xl text-sky-700">
               Our Foundation:
             </p>
-            <p className='text-center lg:text-left text-4xl sm:text-5xl md:text-6xl lg:text-5xl xl:text-5xl 2xl:text-6xl text-sky-700 font-montserrat font-normal'>
+            <p className="text-center lg:text-left text-4xl sm:text-5xl md:text-6xl lg:text-5xl xl:text-5xl 2xl:text-6xl text-sky-700 font-montserrat font-normal">
               The Alpha Charitable Trust
             </p>
-            <p className='text-lg sm:text-xl md:text-2xl lg:text-xl xl:text-xl 2xl:text-2xl font-raleway text-gray-500 pt-5'>
+            <p className="text-lg sm:text-xl md:text-2xl lg:text-xl xl:text-xl 2xl:text-2xl font-raleway text-gray-500 pt-5">
               Founded in 2004 by Mr. K. M. Noordeen and Mrs. Thahira Noordeen.
               The Alpha Charitable Trust is the driving force behind our
               Hospice. It stands on the principle that alleviating suffering and
@@ -57,31 +63,31 @@ const About = () => {
               dignity.
             </p>
           </div>
-          <div className='w-full lg:w-1/2 flex flex-wrap mt-12 lg:nt-0 items-center z-10'>
+          <div className="w-full lg:w-1/2 flex flex-wrap mt-12 lg:nt-0 items-center z-10">
             <img
               src={Image2}
-              className='w-1/2 h-full lg:h-auto object-fill rounded-lg p-3'
+              className="w-1/2 h-full lg:h-auto object-fill rounded-lg p-3"
             />
-            <div className='w-1/2 h-full lg:h-auto relative'>
+            <div className="w-1/2 h-full lg:h-auto relative">
               <img
                 src={Image3}
-                className='w-full h-full object-fill rounded-lg p-3'
+                className="w-full h-full object-fill rounded-lg p-3"
               />
             </div>
           </div>
         </div>
 
         <div
-          className='w-full py-12 px-8 sm:px-16 md:px-24 lg:px-32 xl:px-48 pt-24 xl:pt-32 mx-auto  relative'
+          className="w-full py-12 px-8 sm:px-16 md:px-24 lg:px-32 xl:px-48 pt-24 xl:pt-32 mx-auto  relative"
           style={{
             backgroundImage: `url(${Image8})`,
-            backgroundSize: '2500px, 900px',
+            backgroundSize: "2500px, 900px",
           }}
         >
-          <p className='w-full lg:w-2/3 text-white  text-center mx-auto text-4xl sm:text-5xl md:text-6xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-montserrat font-bold z-10'>
+          <p className="w-full lg:w-2/3 text-white  text-center mx-auto text-4xl sm:text-5xl md:text-6xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-montserrat font-bold z-10">
             The Hub and spoke model of care
           </p>
-          <p className='text-lg sm:text-xl md:text-2xl lg:text-xl xl:text-xl 2xl:text-2xl text-center text-white font-raleway z-10'>
+          <p className="text-lg sm:text-xl md:text-2xl lg:text-xl xl:text-xl 2xl:text-2xl text-center text-white font-raleway z-10">
             At Alpha Hospice, we embrace a unique ‘Hub and spoke’ model.
             designed to extend our reach of palliative care to as many as
             possible. The hospice service as the central hub, providing
@@ -92,27 +98,27 @@ const About = () => {
             this model, we’re able to bring comfort and relief to those in need,
             ensuring no one is beyond the reach of our care.
           </p>
-          <div className='w-full flex justify-center mt-12'>
-            <img src={Image4} className='object-cover lg:w-1/2' />
+          <div className="w-full flex justify-center mt-12">
+            <img src={Image4} className="object-cover lg:w-1/2" />
           </div>
         </div>
 
-        <div className='flex flex-wrap justify-center w-full px-8 sm:px-16 lg:px-24 xl:px-40 2xl:px-64 pt-32 py-12 relative'>
-          <div className='w-full sm:w-3/4 lg:w-1/2 z-10'>
+        <div className="flex flex-wrap justify-center w-full px-8 sm:px-16 lg:px-24 xl:px-40 2xl:px-64 pt-32 py-12 relative">
+          <div className="w-full sm:w-3/4 lg:w-1/2 z-10">
             <img
               src={Image5}
-              className='w-full h-full object-fill rounded-lg p-3'
+              className="w-full h-full object-fill rounded-lg p-3"
             />
           </div>
-          <div className='bg-gray-100 w-3/4 h-3/5 right-0 bottom-12 z-0 absolute'></div>
-          <div className='w-full lg:w-1/2 flex flex-col mt-12 lg:mt-0 lg:pl-6 xl:pl-12 py-12 z-10'>
-            <p className='text-center lg:text-left text:2xl text-xl sm:text-2xl md:text-3xl lg:text-lx xl:text-2xl 2xl:text-3xl text-sky-700 lg:py-8'>
+          <div className="bg-gray-100 w-3/4 h-3/5 right-0 bottom-12 z-0 absolute"></div>
+          <div className="w-full lg:w-1/2 flex flex-col mt-12 lg:mt-0 lg:pl-6 xl:pl-12 py-12 z-10">
+            <p className="text-center lg:text-left text:2xl text-xl sm:text-2xl md:text-3xl lg:text-lx xl:text-2xl 2xl:text-3xl text-sky-700 lg:py-8">
               Our Services:
             </p>
-            <p className='text-center lg:text-left text-4xl sm:text-5xl md:text-6xl lg:text-5xl xl:text-5xl 2xl:text-6xl text-sky-700 font-montserrat font-normal'>
+            <p className="text-center lg:text-left text-4xl sm:text-5xl md:text-6xl lg:text-5xl xl:text-5xl 2xl:text-6xl text-sky-700 font-montserrat font-normal">
               Alpha Hospice and Link Centers
             </p>
-            <p className='text-lg sm:text-xl md:text-2xl lg:text-lg xl:text-xl 2xl:text-2xl font-raleway text-gray-500 pt-5'>
+            <p className="text-lg sm:text-xl md:text-2xl lg:text-lg xl:text-xl 2xl:text-2xl font-raleway text-gray-500 pt-5">
               Alpha Hospice, at the core of our services, offers a haven for
               symptom control and short-term care, operating 24/7 to address the
               immediate needs of those in distress. Our hospice is not just a
@@ -128,15 +134,15 @@ const About = () => {
           </div>
         </div>
 
-        <div className='flex flex-wrap justify-center w-full px-12 sm:px-16 md:px-24 lg:px-24 xl:px-48 2xl:px-64 py-12 relative'>
-          <div className='w-full lg:w-1/2 flex flex-col mt-12 lg:mt-0 lg:pr-12 xl:pr-24 z-10'>
-            <p className='text-center lg:text-left text:2xl text-xl sm:text-2xl md:text-3xl lg:text-lx xl:text-2xl 2xl:text-3xl text-sky-700 lg:py-8'>
+        <div className="flex flex-wrap justify-center w-full px-12 sm:px-16 md:px-24 lg:px-24 xl:px-48 2xl:px-64 py-12 relative">
+          <div className="w-full lg:w-1/2 flex flex-col mt-12 lg:mt-0 lg:pr-12 xl:pr-24 z-10">
+            <p className="text-center lg:text-left text:2xl text-xl sm:text-2xl md:text-3xl lg:text-lx xl:text-2xl 2xl:text-3xl text-sky-700 lg:py-8">
               Our Volunteers:
             </p>
-            <p className='text-center lg:text-left text-4xl sm:text-5xl md:text-6xl lg:text-5xl xl:text-6xl 2xl:text-7xl text-sky-700 font-montserrat font-normal'>
+            <p className="text-center lg:text-left text-4xl sm:text-5xl md:text-6xl lg:text-5xl xl:text-6xl 2xl:text-7xl text-sky-700 font-montserrat font-normal">
               The Heart of Alpha
             </p>
-            <p className='text-lg sm:text-xl md:text-2xl lg:text-lg xl:text-xl 2xl:text-2xl font-raleway text-gray-500 pt-5'>
+            <p className="text-lg sm:text-xl md:text-2xl lg:text-lg xl:text-xl 2xl:text-2xl font-raleway text-gray-500 pt-5">
               Our volunteers are the lifeblood of Alpha Hospice, bringing
               energy, compassion, and dedicated service to every aspect of our
               mission. These selfless individuals come from all walks of life,
@@ -149,76 +155,76 @@ const About = () => {
               difference in the lives we touch.
             </p>
           </div>
-          <div className='w-full lg:w-1/2 flex flex-wrap mt-12 lg:nt-0 items-center z-10'>
+          <div className="w-full lg:w-1/2 flex flex-wrap mt-12 lg:nt-0 items-center z-10">
             <img
               src={Image6}
-              className='w-1/2 h-full lg:h-auto object-fill rounded-lg p-3'
+              className="w-1/2 h-full lg:h-auto object-fill rounded-lg p-3"
             />
-            <div className='w-1/2 h-full lg:h-auto relative'>
+            <div className="w-1/2 h-full lg:h-auto relative">
               <img
                 src={Image7}
-                className='w-full h-full object-fill rounded-lg p-3'
+                className="w-full h-full object-fill rounded-lg p-3"
               />
             </div>
           </div>
         </div>
 
-        <div className='flex flex-wrap justify-center w-full bg-[#A9D18E] py-24 px-12 sm:px-16 md:px-24 lg:px-24 xl:px-48 2xl:px-64 mx-auto'>
-          <div className='w-full lg:w-1/2 flex flex-wrap lg:py-24 xl:py-24 lg:pt-0 z-20'>
-            <p className='w-full text-center lg:text-left text:2xl text-xl sm:text-2xl md:text-3xl lg:text-lx xl:text-2xl 2xl:text-3xl text-white p-2'>
+        <div className="flex flex-wrap justify-center w-full bg-[#A9D18E] py-24 px-12 sm:px-16 md:px-24 lg:px-24 xl:px-48 2xl:px-64 mx-auto">
+          <div className="w-full lg:w-1/2 flex flex-wrap lg:py-24 xl:py-24 lg:pt-0 z-20">
+            <p className="w-full text-center lg:text-left text:2xl text-xl sm:text-2xl md:text-3xl lg:text-lx xl:text-2xl 2xl:text-3xl text-white p-2">
               Join our Mission:
             </p>
 
-            <div className='w-full lg:w-1/2 p-2'>
+            <div className="w-full lg:w-1/2 p-2">
               <input
-                placeholder='First Name'
-                className='w-full p-3 border border-gray-100 drop-shadow-sm'
+                placeholder="First Name"
+                className="w-full p-3 border border-gray-100 drop-shadow-sm"
               />
             </div>
-            <div className='w-full lg:w-1/2 p-2'>
+            <div className="w-full lg:w-1/2 p-2">
               <input
-                placeholder='Last Name'
-                className='w-full p-3 border border-gray-100 drop-shadow-sm'
+                placeholder="Last Name"
+                className="w-full p-3 border border-gray-100 drop-shadow-sm"
               />
             </div>
-            <div className='w-full p-2'>
+            <div className="w-full p-2">
               <input
-                placeholder='Email ID'
-                className='w-full p-3 border border-gray-100 drop-shadow-sm'
+                placeholder="Email ID"
+                className="w-full p-3 border border-gray-100 drop-shadow-sm"
               />
             </div>
-            <div className='w-full p-2'>
+            <div className="w-full p-2">
               <input
-                placeholder='Mobile No'
-                className='w-full p-3 border border-gray-100 drop-shadow-sm'
-              />
-            </div>
-
-            <div className='w-full lg:w-1/2 p-2'>
-              <input
-                placeholder='Date of Birth'
-                className='w-full p-3 border border-gray-100 drop-shadow-sm'
+                placeholder="Mobile No"
+                className="w-full p-3 border border-gray-100 drop-shadow-sm"
               />
             </div>
 
-            <div className='w-full lg:w-1/2 p-2'>
+            <div className="w-full lg:w-1/2 p-2">
               <input
-                placeholder='Occupation'
-                className='w-full p-3 border border-gray-100 drop-shadow-sm'
+                placeholder="Date of Birth"
+                className="w-full p-3 border border-gray-100 drop-shadow-sm"
               />
             </div>
 
-            <div className='w-full p-2'>
-              <button className='w-full py-3 bg-green-700 text-white'>
+            <div className="w-full lg:w-1/2 p-2">
+              <input
+                placeholder="Occupation"
+                className="w-full p-3 border border-gray-100 drop-shadow-sm"
+              />
+            </div>
+
+            <div className="w-full p-2">
+              <button className="w-full py-3 bg-green-700 text-white">
                 I WOULD LIKE TO VOLUNTEER
               </button>
             </div>
           </div>
-          <div className='w-full lg:w-1/2 flex flex-col mt-12 lg:mt-0 lg:pl-12 xl:pl-24 py-12 z-10'>
-            <p className='text-white text-center lg:text-left text-4xl sm:text-5xl md:text-6xl lg:text-5xl xl:text-6xl 2xl:text-7xl text-whitefont-montserrat font-normal'>
+          <div className="w-full lg:w-1/2 flex flex-col mt-12 lg:mt-0 lg:pl-12 xl:pl-24 py-12 z-10">
+            <p className="text-white text-center lg:text-left text-4xl sm:text-5xl md:text-6xl lg:text-5xl xl:text-6xl 2xl:text-7xl text-whitefont-montserrat font-normal">
               Become a volunteer
             </p>
-            <p className='text-lg sm:text-xl md:text-2xl lg:text-lg xl:text-xl 2xl:text-2xl font-raleway text-gray-800  pt-5'>
+            <p className="text-lg sm:text-xl md:text-2xl lg:text-lg xl:text-xl 2xl:text-2xl font-raleway text-gray-800  pt-5">
               Alpha Hospice welcomes you to join our mission of compassion and
               care as a volunteer. Your involvement. whether in providing
               emotional support, assisting with daily operations, or aiding in
@@ -233,8 +239,11 @@ const About = () => {
           </div>
         </div>
       </div>
-
       <Footer />
+      <ScrollToTop
+        className="flex fixed shadow-md shadow-gray-500 justify-center items-center rounded-full z-50 bottom-6 right-6"
+        smooth
+      />
     </div>
   );
 };

@@ -1,5 +1,6 @@
 {
-	"editor.inlineSuggest.showToolbar": "onHover",
-	"editor.formatOnSave": true,
-	"editor.formatOnPaste": true
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  // Optionally, if you only want to format with prettier for certain languages, use:
+  "editor.formatOnSaveMode": "modifications"
 }

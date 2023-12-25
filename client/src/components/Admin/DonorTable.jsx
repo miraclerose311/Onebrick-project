@@ -34,7 +34,7 @@ const DonorTable = () => {
 
 				const query = `page=${currentPage}&limit=${limit}&term=${term}&mobile=${sorts.mobile}&country=${sorts.country}&state=${sorts.state}&address=${sorts.address}&pan=${sorts.pan}&pin=${sorts.pin}`;
 				const response = await axios.get(
-					`http://localhost:5000/api/donor/current_page?${query}`
+					`https://outgoing-mullet-initially.ngrok-free.app/api/donor/current_page?${query}`
 				);
 				setData(response.data);
 				dispatch(clearLoading());

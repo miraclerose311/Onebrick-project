@@ -42,7 +42,7 @@ const BrickTable = () => {
 				dispatch(setLoading());
 				const query = `page=${currentPage}&limit=${limit}&sold=${filter.sold.value}&fake=${filter.fake.value}&brick_id=${sorts.brick_id}&date=${sorts.date}&amount=${sorts.amount}&term=${term}`;
 				const response = await axios.get(
-					`http://localhost:5000/api/brick/current_page?${query}`
+					` https://outgoing-mullet-initially.ngrok-free.app/api/brick/current_page?${query}`
 				);
 				setData(response.data);
 				dispatch(clearLoading());
