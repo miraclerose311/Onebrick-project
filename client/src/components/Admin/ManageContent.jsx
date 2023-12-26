@@ -64,7 +64,6 @@ const ManageContent = () => {
           Upload
         </button>
       </form>
-      <img src={imgSrc} />
     </div>
   );
 };

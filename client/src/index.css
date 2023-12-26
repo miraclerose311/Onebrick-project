@@ -38,3 +38,27 @@ th{
   padding-top: 10px;
   padding-bottom: 10px;
 }
+
+
+.growable-underline {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.growable-underline::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0%;
+  height: 3px;
+  background-color: currentColor; /* Use the text color or pick your own */
+  transition: width 0.2s ease-out;
+}
+
+.growable-underline:hover::after {
+  width: 100%;
+}

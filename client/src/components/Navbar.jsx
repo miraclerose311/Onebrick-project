@@ -1,27 +1,27 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import logoImg from '../assets/img/logo1.png';
+import logoImg from "../assets/img/logo.png";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const DropdownNavbar = () => (
-    <div className='text-center flex flex-col bg-gray-300 absolute p-8 top-12 rounded-md opacity-90 text-gray-700'>
-      <button className='py-2 text-lg hover:font-medium'>
-        <Link to='/'>HOME</Link>
+    <div className="text-center flex flex-col bg-gray-300 absolute p-8 top-12 rounded-md opacity-90 text-gray-700">
+      <button className="py-2 text-lg hover:font-medium">
+        <Link to="/">HOME</Link>
       </button>
-      <button className='py-2 text-lg hover:font-medium'>
-        <Link to='/about'>ABOUT US</Link>
+      <button className="py-2 text-lg hover:font-medium">
+        <Link to="/about">ABOUT US</Link>
       </button>
-      <button className='py-2 text-lg hover:font-medium'>
-        <Link to='/donors'>DONORS</Link>
+      <button className="py-2 text-lg hover:font-medium">
+        <Link to="/donors">DONORS</Link>
       </button>
-      <button className='py-2 text-lg hover:font-medium'>
-        <Link to='/beneficiaries'>BENEFICIARIES</Link>
+      <button className="py-2 text-lg hover:font-medium">
+        <Link to="/beneficiaries">BENEFICIARIES</Link>
       </button>
-      <button className='py-2 text-lg hover:font-medium'>
-        <Link to='/contact'>CONTACT US</Link>
+      <button className="py-2 text-lg hover:font-medium">
+        <Link to="/contact">CONTACT US</Link>
       </button>
     </div>
   );
@@ -41,45 +41,45 @@ export default function Navbar() {
             <li className="flex mr-6">
               <Link
                 to="/"
-                className="block py-2 text-gray-700 hover:decoration-2 hover:underline hover:scale-110"
+                className="block py-2 font-raleway text-gray-700 hover:scale-110 hover:font-bold duration-100 ease-in-out growable-underline"
               >
-                HOME
+                Home
               </Link>
             </li>
             <li className="flex mr-6">
               <Link
                 to="/about"
-                className="block py-2 text-gray-700 hover:decoration-2 hover:underline hover:scale-110"
+                className="block py-2 font-raleway text-gray-700 hover:scale-110 hover:font-bold duration-100 ease-in-out growable-underline"
                 aria-current="page"
               >
-                ABOUT
+                About
               </Link>
             </li>
             <li className="flex mr-6">
               <Link
                 to="/donors"
-                className="block py-2 text-gray-700 hover:decoration-2 hover:underline hover:scale-110"
+                className="block py-2 font-raleway text-gray-700 hover:scale-110 hover:font-bold duration-100 ease-in-out growable-underline"
                 aria-current="page"
               >
-                DONORS
+                Donors
               </Link>
             </li>
             <li className="flex mr-6">
               <Link
                 to="/beneficiaries"
-                className="block py-2 text-gray-700 hover:decoration-2 hover:underline hover:scale-110"
+                className="block py-2 font-raleway text-gray-700 hover:scale-110 hover:font-bold duration-100 ease-in-out growable-underline"
                 aria-current="page"
               >
-                BENEFICIARIES
+                Beneficiaries
               </Link>
             </li>
             <li className="flex mr-6">
               <Link
                 to="/contact"
-                className="block py-2 text-gray-700 hover:decoration-2 hover:underline hover:scale-110"
+                className="block py-2 font-raleway text-gray-700 hover:scale-110 hover:font-bold duration-100 ease-in-out growable-underline"
                 aria-current="page"
               >
-                CONTACT
+                Contact
               </Link>
             </li>
           </ul>

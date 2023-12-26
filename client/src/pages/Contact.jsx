@@ -4,23 +4,23 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Pagination from "../components/Pagination";
 
-import Image5 from "../assets/img/image5.png";
-import Phone from "../assets/img/phone.svg";
-import Position from "../assets/img/position.svg";
-import Message from "../assets/img/message.svg";
-import Address from "../assets/img/address.svg";
+import Phone from "../assets/img/Contact Us/icons/phone.svg";
+import Position from "../assets/img/Contact Us/icons/position.svg";
+import Message from "../assets/img/Contact Us/icons/message.svg";
+import Address from "../assets/img/Contact Us/icons/address.svg";
 
-import FaceBookIcon from "../assets/img/5.svg";
-import TwitterIcon from "../assets/img/6.svg";
-import QIcon from "../assets/img/8.svg";
-import NewIcon from "../assets/img/9.svg";
+import FaceBookIcon from "../assets/img/Contact Us/icons/facebook.svg";
+import TwitterIcon from "../assets/img/Contact Us/icons/twitter.svg";
+import Youtube from "../assets/img/Contact Us/icons/youtube.svg";
+import Instagram from "../assets/img/Contact Us/icons/instagram.svg";
 
 import Ellipse10 from "../assets/img/Ellipse10.png";
 
-import netImage1 from "../assets/img/netImage1.png";
-import netImage2 from "../assets/img/netImage2.png";
-import netImage3 from "../assets/img/netImage3.png";
-import netImage4 from "../assets/img/netImage4.png";
+import contact1 from "../assets/img/Contact Us/contact1.png";
+import contact2 from "../assets/img/Contact Us/contact2.png";
+import contact3 from "../assets/img/Contact Us/contact3.png";
+import contact4 from "../assets/img/Contact Us/contact4.png";
+import contact5 from "../assets/img/Contact Us/contact5.png";
 
 const Contact = () => {
   return (
@@ -30,7 +30,7 @@ const Contact = () => {
       <div className="">
         <div className="flex flex-wrap bg-gray-300 px-12 sm:px-16 md:px-24 lg:px-24 xl:px-48 2xl:px-64 pt-32">
           <div className="w-full lg:w-1/3 h-56 sm:h-64 md:h-80 lg:h-auto justify-center">
-            <img src={Image5} className="h-full w-full object-cover" />
+            <img src={contact1} className="h-full w-full object-cover" />
           </div>
           <div className="w-full lg:w-2/3 flex flex-col mt-12 lg:mt-0 lg:pl-12 xl:pl-24 2xl:pl-32 justify-center">
             <p className="text-4xl sm:text-5xl md:text-6xl lg:text-5xl xl:text-6xl 2xl:text-7xl text-sky-700 font-montserrat font-medium">
@@ -106,11 +106,11 @@ const Contact = () => {
                   className="w-8 sm:w-10 lg:w-8 xl:w-10 2xl:w-12  h-8 sm:h-10 lg:h-8 xl:h-10 2xl:h-12 ml-4"
                 />
                 <img
-                  src={NewIcon}
+                  src={Instagram}
                   className="w-8 sm:w-10 lg:w-8 xl:w-10 2xl:w-12  h-8 sm:h-10 lg:h-8 xl:h-10 2xl:h-12 ml-4"
                 />
                 <img
-                  src={QIcon}
+                  src={Youtube}
                   className="w-8 sm:w-10 lg:w-8 xl:w-10 2xl:w-12  h-8 sm:h-10 lg:h-8 xl:h-10 2xl:h-12 ml-4"
                 />
               </div>
@@ -186,9 +186,9 @@ const Contact = () => {
         <div className="w-full py-24 px-12 sm:px-16 md:px-24 lg:px-24 xl:px-48 2xl:px-64">
           <div className="flex flex-col">
             <div className="flex flex-wrap py-5">
-              <img className="w-full lg:w-1/2 xl:w-1/3" src={netImage1} />
+              <img className="w-full lg:w-1/2 xl:w-1/3" src={contact2} />
               <div className="w-full lg:w-1/2 xl:w-2/3 flex flex-col lg:px-5 xl:px-12 2xl-px-16 px-0 py-5">
-                <p className="text-3xl sm:text-4xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-normal">
+                <p className="text-3xl sm:text-4xl lg:text-2xl xl:text-4xl 2xl:text-5xl font-normal">
                   ALPHA HOSPICE EDAMUTTAM
                 </p>
                 <p className="text-md sm:text-xl md:text-2xl lg:text-md xl:text-xl 2xl:text-2xl">
@@ -214,10 +214,10 @@ const Contact = () => {
             <div className="flex flex-wrap py-5">
               <img
                 className="w-full sm:w-3/4 md:w-2/3 lg:w-1/2 xl:w-1/3"
-                src={netImage2}
+                src={contact3}
               />
               <div className="w-full lg:w-1/2 xl:w-2/3 flex flex-col lg:px-5 xl:px-12 2xl-px-16 px-0 py-5">
-                <p className="text-3xl sm:text-4xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-normal">
+                <p className="text-3xl sm:text-4xl lg:text-2xl xl:text-4xl 2xl:text-5xl font-normal">
                   THRISSUR LINK CENTRE
                 </p>
                 <p className="text-md sm:text-xl md:text-2xl lg:text-md xl:text-xl 2xl:text-2xl">
@@ -250,10 +250,10 @@ const Contact = () => {
             <div className="flex flex-wrap py-5">
               <img
                 className="w-full sm:w-3/4 md:w-2/3 lg:w-1/2 xl:w-1/3"
-                src={netImage3}
+                src={contact4}
               />
               <div className="w-full lg:w-1/2 xl:w-2/3 flex flex-col lg:px-5 xl:px-12 2xl-px-16 px-0 py-5">
-                <p className="text-3xl sm:text-4xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-normal">
+                <p className="text-3xl sm:text-4xl lg:text-2xl xl:text-4xl 2xl:text-5xl font-normal">
                   EDATHIRUTHY LINK CENTRE
                 </p>
                 <p className="text-md sm:text-xl md:text-2xl lg:text-md xl:text-xl 2xl:text-2xl">
@@ -279,10 +279,10 @@ const Contact = () => {
             <div className="flex flex-wrap py-5">
               <img
                 className="w-full sm:w-3/4 md:w-2/3 lg:w-1/2 xl:w-1/3"
-                src={netImage4}
+                src={contact5}
               />
               <div className="w-full lg:w-1/2 xl:w-2/3 flex flex-col lg:px-5 xl:px-12 2xl-px-16 px-0 py-5">
-                <p className="text-3xl sm:text-4xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-normal">
+                <p className="text-3xl sm:text-4xl lg:text-2xl xl:text-4xl 2xl:text-5xl font-normal">
                   MATHILAKAM LINK CENTRE
                 </p>
                 <p className="text-md sm:text-xl md:text-2xl lg:text-md xl:text-xl 2xl:text-2xl">

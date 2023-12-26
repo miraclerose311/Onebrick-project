@@ -37,13 +37,13 @@ const Sidebar = () => {
           <HiOutlineUsers />
           <p className="text-md 2xl:text-lg font-montserrat">Donors</p>
         </Link>
-        {/* <Link
+        <Link
           to="/admin/manage"
           className="flex items-center gap-3 cursor-pointer hover:text-sky-500"
         >
           <GoFileMedia />
           <p className="text-md 2xl:text-lg font-montserrat">Management</p>
-        </Link> */}
+        </Link>
       </div>
     </div>
   );
