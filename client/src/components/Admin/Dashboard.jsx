@@ -22,257 +22,250 @@ import BrickResetModal from "./BrickResetModal";
 const TotalBrickAmount = 35000;
 
 const Dashboard = () => {
-	const base_URL = " https://outgoing-mullet-initially.ngrok-free.app";
-	const newDate = new Date();
+	const base_URL = " http://localhost:5000";
+  const newDate = new Date();
 
-	const [byMonth, setByMonth] = useState(true);
-	const [year, setYear] = useState(newDate.getFullYear());
-	const [month, setMonth] = useState(newDate.getMonth() + 1);
-	const [displayFakeData, setDisplayFakeData] = useState(true);
-	const [fakeData, setFakeData] = useState([]);
-	const [realData, setRealData] = useState([]);
+  const [byMonth, setByMonth] = useState(true);
+  const [year, setYear] = useState(newDate.getFullYear());
+  const [month, setMonth] = useState(newDate.getMonth() + 1);
+  const [displayFakeData, setDisplayFakeData] = useState(true);
+  const [fakeData, setFakeData] = useState([]);
+  const [realData, setRealData] = useState([]);
 
-	const [modalOpen, setModalOpen] = useState(false);
-	const [modalContent, setModalContent] = useState("");
-	const [count, setCount] = useState(0);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalContent, setModalContent] = useState("");
+  const [count, setCount] = useState(0);
 
-	const dispatch = useDispatch();
-	const { sold, fakesold, donor, fakedonor } = useSelector(
-		(state) => state.admin
-	);
+  const dispatch = useDispatch();
+  const { sold, fakesold, donor, fakedonor } = useSelector(
+    (state) => state.admin
+  );
 
-	const handleChangeSelect = (e) => {
-		if (e.target.value === "fake") setDisplayFakeData(true);
-		else setDisplayFakeData(false);
-	};
+  const handleChangeSelect = (e) => {
+    if (e.target.value === "fake") setDisplayFakeData(true);
+    else setDisplayFakeData(false);
+  };
 
-	const handleChangeByMonth = (e) => {
-		if (e.target.value === "bymonth") setByMonth(true);
-		else setByMonth(false);
-	};
+  const handleChangeByMonth = (e) => {
+    if (e.target.value === "bymonth") setByMonth(true);
+    else setByMonth(false);
+  };
 
-	// Fetch fake sales data
-	useEffect(() => {
-		const fetchData = async () => {
-			try {
-				if (byMonth) {
-					const query = `year=${year}&month=${month}`;
-					const response = await axios.get(
-						`${base_URL}/api/brick/saleInfo/bymonth?${query}`
-					);
-					const fakeArray = Object.values(response.data.fake);
-					const realArray = Object.values(response.data.real);
+  // Fetch fake sales data
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (byMonth) {
+          const query = `year=${year}`;
+          const response = await axios.get(
+            `${base_URL}/api/brick/saleInfo/bymonth?${query}`
+          );
+          const fakeArray = Object.values(response.data.fake);
+          const realArray = Object.values(response.data.real);
 
-					setFakeData(fakeArray);
-					setRealData(realArray);
-				} else {
-					const query = `year=${year}&month=${month}`;
-					const response = await axios.get(
-						`${base_URL}/api/brick/saleInfo/byday?${query}`
-					);
-					const fakeArray = Object.values(response.data.fake);
-					const realArray = Object.values(response.data.real);
+          setFakeData(fakeArray);
+          setRealData(realArray);
+        } else {
+          const query = `year=${year}&month=${month}`;
+          const response = await axios.get(
+            `${base_URL}/api/brick/saleInfo/byday?${query}`
+          );
+          const fakeArray = Object.values(response.data.fake);
+          const realArray = Object.values(response.data.real);
 
-					setFakeData(fakeArray);
-					setRealData(realArray);
-				}
-			} catch (error) {
-				console.log(error);
-			}
-		};
-		dispatch(setLoading());
-		fetchData();
-		dispatch(clearLoading());
-	}, [year, month, byMonth, dispatch]);
+          setFakeData(fakeArray);
+          setRealData(realArray);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    dispatch(setLoading());
+    fetchData();
+    dispatch(clearLoading());
+  }, [year, month, byMonth, dispatch]);
 
-	useEffect(() => {
-		const fetchStaticData = async () => {
-			try {
-				dispatch(getBrickSoldAmount());
-				dispatch(getDonorAmount());
-			} catch (error) {
-				console.log(error);
-			}
-		};
-		fetchStaticData();
-	}, [dispatch]);
+  useEffect(() => {
+    const fetchStaticData = async () => {
+      try {
+        dispatch(getBrickSoldAmount());
+        dispatch(getDonorAmount());
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchStaticData();
+  }, [dispatch]);
 
-	const handleModalOpen = (e) => {
-		setModalOpen(true);
-		if (e.target.name === "brickReset") {
-			setModalContent("brick");
-		} else {
-			setModalContent("donor");
-		}
-	};
+  const handleModalOpen = (e) => {
+    setModalOpen(true);
+    if (e.target.name === "brickReset") {
+      setModalContent("brick");
+    } else {
+      setModalContent("donor");
+    }
+  };
 
-	const handleReset = () => {
-		setModalOpen(false);
-		if (modalContent === "brick") {
-			dispatch(initialBricks(count));
-		} else {
-			dispatch(initialDonors(count));
-		}
-		setCount(0);
-	};
+  const handleReset = () => {
+    setModalOpen(false);
+    if (modalContent === "brick") {
+      dispatch(initialBricks(count));
+    } else {
+      dispatch(initialDonors(count));
+    }
+    setCount(0);
+  };
 
-	return (
-		<div className='bg-gray-100 w-full lg:w-4/5 px-6 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 py-12'>
-			<div>
-				<p className='font-raleway font-medium text-4xl py-4'>Dash Board</p>
-				<hr className='w-full' />
-			</div>
-			<div className='w-full flex flex-wrap justify-center'>
-				<div className='w-full lg:w-1/2 xl:w-1/4 p-4'>
-					<div className='flex flex-col item-center bg-white p-4 gap-3 rounded-lg'>
-						<p className='text-center text-xl font-montserrat'>Fake bricks</p>
-						<p className='text-center font-raleway text-2xl font-medium'>
-							{fakesold}/{TotalBrickAmount}
-						</p>
-						<div className='flex justify-around gap-3 items-center'>
-							<span className='bg-green-300/30 rounded-md px-2 py-0.5'>
-								{((fakesold / TotalBrickAmount) * 100).toFixed(2)}%
-							</span>
-							<button
-								name='brickReset'
-								onClick={handleModalOpen}
-								className='bg-red-300 px-4 py-0.5 rounded-md hover:bg-red-500'
-							>
-								Reset
-							</button>
-						</div>
-					</div>
-				</div>
-				<div className='w-full lg:w-1/2 xl:w-1/4 p-4'>
-					<div className='flex flex-col item-center bg-white p-4 gap-3 rounded-lg'>
-						<p className='text-center text-xl font-montserrat'>
-							Real Sold bricks
-						</p>
-						<p className='text-center font-raleway text-2xl font-medium'>
-							{sold}/{TotalBrickAmount}
-						</p>
-						<div className='flex justify-around gap-3 items-center'>
-							<span className='bg-green-300/30 rounded-md px-2 py-0.5'>
-								{((sold / TotalBrickAmount) * 100).toFixed(2)}%
-							</span>
-							{/* <button className="">Reset</button> */}
-						</div>
-					</div>
-				</div>
-				<div className='w-full lg:w-1/2 xl:w-1/4 p-4'>
-					<div className='flex flex-col item-center bg-white p-4 gap-3 rounded-lg'>
-						<p className='text-center text-xl font-montserrat'>Our Donors</p>
-						<p className='text-center font-raleway text-2xl font-medium'>
-							{fakedonor}/{donor}
-						</p>
-						<div className='flex justify-around gap-3 items-center'>
-							<span className='bg-green-300/30 rounded-md px-2 py-0.5'>
-								{((fakedonor / donor) * 100).toFixed(2)}%
-							</span>
-							<button
-								name='donorReset'
-								onClick={handleModalOpen}
-								className='bg-red-300 px-4 py-0.5 rounded-md hover:bg-red-500'
-							>
-								Reset
-							</button>
-						</div>
-					</div>
-				</div>
-				<BrickResetModal
-					isOpen={modalOpen}
-					closeModal={() => setModalOpen(false)}
-					handleReset={handleReset}
-					changeCount={(count) => setCount(count)}
-				/>
-			</div>
-			<div className='w-full flex flex-wrap justify-center items-center px-6 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24'>
-				<div className='w-full'>
-					{displayFakeData ? (
-						<div className='py-12'>
-							<LineChart
-								width={850}
-								height={400}
-								data={fakeData}
-								margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-							>
-								<CartesianGrid strokeDasharray='1 1' />
-								<XAxis dataKey={byMonth ? "_id.month" : "_id.day"} />
-								<YAxis />
-								<Tooltip />
-								<Legend />
-								<Line
-									type='monotone'
-									dataKey='totalSales'
-									stroke='#8884d8'
-								/>
-							</LineChart>
-						</div>
-					) : (
-						<div className='py-12'>
-							<LineChart
-								width={850}
-								height={400}
-								data={realData}
-								margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-							>
-								<CartesianGrid strokeDasharray='3 3' />
-								<XAxis dataKey={byMonth ? "_id.month" : "_id.day"} />
-								<YAxis />
-								<Tooltip />
-								<Legend />
-								<Line
-									type='monotone'
-									dataKey='totalSales'
-									stroke='#8884d8'
-								/>
-							</LineChart>
-						</div>
-					)}
-				</div>
-				<div className='w-full pl-6 flex flex-wrap'>
-					<div className='w-1/4 p-2'>
-						<select
-							className='p-1 px-3 w-full rounded-md bg-white hover:boder-gray-200 cursor-pointer shadow-md shadow-gray-300'
-							onChange={handleChangeSelect}
-						>
-							<option value='fake'>Fake</option>
-							<option value='real'>Real</option>
-						</select>
-					</div>
-					<div className='w-1/4 p-2'>
-						<select
-							className='p-1 px-3 w-full rounded-md bg-white hover:boder-gray-200 cursor-pointer shadow-md shadow-gray-300'
-							onChange={handleChangeByMonth}
-						>
-							<option value='bymonth'>Every Month</option>
-							<option value='byday'>Every Day</option>
-						</select>
-					</div>
-					<div className='w-1/4 p-2'>
-						<input
-							name='year'
-							type='number'
-							value={year}
-							className='p-1 px-3 w-full rounded-md bg-white hover:boder-gray-200 cursor-pointer shadow-md shadow-gray-300'
-							onChange={(e) => setYear(parseInt(e.target.value))}
-						/>
-					</div>
-					<div className='w-1/4 p-2'>
-						<input
-							name='month'
-							type='number'
-							value={month}
-							min={1}
-							max={12}
-							className='p-1 px-3 w-full rounded-md bg-white hover:boder-gray-200 cursor-pointer shadow-md shadow-gray-300'
-							onChange={(e) => setMonth(parseInt(e.target.value))}
-						/>
-					</div>
-				</div>
-			</div>
-		</div>
-	);
+  return (
+    <div className="bg-gray-100 w-full lg:w-4/5">
+      <div>
+        <p className="font-raleway font-medium text-4xl py-4">Dash Board</p>
+        <hr className="w-full" />
+      </div>
+      <div className="w-full flex flex-wrap justify-center">
+        <div className="w-full lg:w-1/2 xl:w-1/4 p-4">
+          <div className="flex flex-col item-center bg-white p-4 gap-3 rounded-lg">
+            <p className="text-center text-xl font-montserrat">Fake bricks</p>
+            <p className="text-center font-raleway text-2xl font-medium">
+              {fakesold}/{TotalBrickAmount}
+            </p>
+            <div className="flex justify-around gap-3 items-center">
+              <span className="bg-green-300/30 rounded-md px-2 py-0.5">
+                {((fakesold / TotalBrickAmount) * 100).toFixed(2)}%
+              </span>
+              <button
+                name="brickReset"
+                onClick={handleModalOpen}
+                className="bg-red-300 px-4 py-0.5 rounded-md hover:bg-red-500"
+              >
+                Reset
+              </button>
+            </div>
+          </div>
+        </div>
+        <div className="w-full lg:w-1/2 xl:w-1/4 p-4">
+          <div className="flex flex-col item-center bg-white p-4 gap-3 rounded-lg">
+            <p className="text-center text-xl font-montserrat">
+              Real Sold bricks
+            </p>
+            <p className="text-center font-raleway text-2xl font-medium">
+              {sold}/{TotalBrickAmount}
+            </p>
+            <div className="flex justify-around gap-3 items-center">
+              <span className="bg-green-300/30 rounded-md px-2 py-0.5">
+                {((sold / TotalBrickAmount) * 100).toFixed(2)}%
+              </span>
+              {/* <button className="">Reset</button> */}
+            </div>
+          </div>
+        </div>
+        <div className="w-full lg:w-1/2 xl:w-1/4 p-4">
+          <div className="flex flex-col item-center bg-white p-4 gap-3 rounded-lg">
+            <p className="text-center text-xl font-montserrat">Our Donors</p>
+            <p className="text-center font-raleway text-2xl font-medium">
+              {fakedonor}/{donor}
+            </p>
+            <div className="flex justify-around gap-3 items-center">
+              <span className="bg-green-300/30 rounded-md px-2 py-0.5">
+                {((fakedonor / donor) * 100).toFixed(2)}%
+              </span>
+              <button
+                name="donorReset"
+                onClick={handleModalOpen}
+                className="bg-red-300 px-4 py-0.5 rounded-md hover:bg-red-500"
+              >
+                Reset
+              </button>
+            </div>
+          </div>
+        </div>
+        <BrickResetModal
+          isOpen={modalOpen}
+          closeModal={() => setModalOpen(false)}
+          count={count}
+          handlReset={handleReset}
+          changeCount={(changedcount) => setCount(changedcount)}
+        />
+      </div>
+      <div className="w-full flex flex-wrap justify-center items-center px-6 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24">
+        <div className="w-full">
+          {displayFakeData ? (
+            <div className="py-12">
+              <LineChart
+                width={850}
+                height={400}
+                data={fakeData}
+                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+              >
+                <CartesianGrid strokeDasharray="1 1" />
+                <XAxis dataKey={byMonth ? "_id.month" : "_id.day"} />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Line type="monotone" dataKey="totalSales" stroke="#8884d8" />
+              </LineChart>
+            </div>
+          ) : (
+            <div className="py-12">
+              <LineChart
+                width={850}
+                height={400}
+                data={realData}
+                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey={byMonth ? "_id.month" : "_id.day"} />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Line type="monotone" dataKey="totalSales" stroke="#8884d8" />
+              </LineChart>
+            </div>
+          )}
+        </div>
+        <div className="w-full pl-6 flex flex-wrap">
+          <div className="w-1/4 p-2">
+            <select
+              className="p-1 px-3 w-full rounded-md bg-white hover:boder-gray-200 cursor-pointer shadow-md shadow-gray-300"
+              onChange={handleChangeSelect}
+            >
+              <option value="fake">Fake</option>
+              <option value="real">Real</option>
+            </select>
+          </div>
+          <div className="w-1/4 p-2">
+            <select
+              className="p-1 px-3 w-full rounded-md bg-white hover:boder-gray-200 cursor-pointer shadow-md shadow-gray-300"
+              onChange={handleChangeByMonth}
+            >
+              <option value="bymonth">Every Month</option>
+              <option value="byday">Every Day</option>
+            </select>
+          </div>
+          <div className="w-1/4 p-2">
+            <input
+              name="year"
+              type="number"
+              value={year}
+              className="p-1 px-3 w-full rounded-md bg-white hover:boder-gray-200 cursor-pointer shadow-md shadow-gray-300"
+              onChange={(e) => setYear(parseInt(e.target.value))}
+            />
+          </div>
+          <div className="w-1/4 p-2">
+            <input
+              name="month"
+              type="number"
+              value={month}
+              min={1}
+              max={12}
+              className="p-1 px-3 w-full rounded-md bg-white hover:boder-gray-200 cursor-pointer shadow-md shadow-gray-300"
+              onChange={(e) => setMonth(parseInt(e.target.value))}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default Dashboard;

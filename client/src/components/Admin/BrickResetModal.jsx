@@ -79,11 +79,11 @@ const BrickResetModal = ({
 };
 
 BrickResetModal.propTypes = {
-	isOpen: PropTypes.bool.isRequired,
-	count: PropTypes.number.isRequired,
-	closeModal: PropTypes.func.isRequired,
-	changeCount: PropTypes.func.isRequired,
-	handleReset: PropTypes.func.isRequired,
+  isOpen: PropTypes.bool.isRequired,
+  count: PropTypes.number.isRequired,
+  closeModal: PropTypes.func.isRequired,
+  changeCount: PropTypes.func.isRequired,
+  // handleReset: PropTypes.func.isRequired,
 };
 
 export default BrickResetModal;

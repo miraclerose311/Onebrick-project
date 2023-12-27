@@ -178,9 +178,9 @@ router.get("/saleInfo/byday", async (req, res) => {
 });
 
 router.get("/saleInfo/bymonth", async (req, res) => {
-	// Parse query parameters safely, providing defaults if they are invalid.
-	const year = parseInt(req.query.year) || new Date().getFullYear();
-	const month = parseInt(req.query.month) || new Date().getMonth();
+	console.log("lasjdflajsklfd;jalk;");
+  // Parse query parameters safely, providing defaults if they are invalid.
+  const year = parseInt(req.query.year) || new Date().getFullYear();
 
 	const fake = await Brick.aggregate([
 		{

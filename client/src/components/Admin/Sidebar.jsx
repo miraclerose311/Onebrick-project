@@ -5,14 +5,16 @@ import { BsBricks } from "react-icons/bs";
 import { LuLayoutDashboard } from "react-icons/lu";
 import { GoFileMedia } from "react-icons/go";
 
+import WhiteLogo from "../../assets/img/logo-white.png";
+
 const Sidebar = () => {
   return (
-    <div className="hidden lg:flex lg:flex-col lg:w-1/5 bg-[#32363f] shadow-xl shadow-gray-900 text-white items-center">
+    <div className="w-full h-full flex flex-col bg-[#32363f] text-white items-center">
       <Link
         to="/"
-        className="font-bold font-raleway text-center  lg:text-2xl 2xl:text-3xl pt-24 py-6"
+        className="font-bold font-raleway text-center lg:text-2xl 2xl:text-3xl py-12"
       >
-        ALPHA HOSPISE
+        <img src={WhiteLogo} className="pr-6" />
       </Link>
       <hr className="w-full border-gray-500" />
       <div className="w-full flex flex-col gap-4 py-8 px-8 text-white">

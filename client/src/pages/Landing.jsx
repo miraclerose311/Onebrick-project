@@ -6,7 +6,6 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import Collapse from "../components/Collapse";
 
 // Import assests
 import Image1 from "../assets/img/home/home1.jpg";
@@ -137,7 +136,7 @@ const Landing = () => {
         </p>
         <div className="flex flex-wrap justify-center w-full">
           <div className="p-5 w-full md:w-3/4 lg:w-1/3">
-            <div className=" bg-gray-800 text-white flex flex-col gap-5 items-center p-5 lg:p-5 lg:px-8 xl:py-12 h-full">
+            <div className=" bg-gray-800 text-white flex flex-col gap-8 rounded-md items-center p-5 lg:p-5 lg:px-8 xl:py-12 h-full">
               <div className="w-12 sm:w-14 md:w-16 lg:w-20 xl:w-24 h-12 sm:h-14 md:h-16 lg:h-20 xl:h-24 border-red-800 rounded-full">
                 <img
                   src={Icon1}
@@ -157,7 +156,7 @@ const Landing = () => {
             </div>
           </div>
           <div className="p-5 w-full md:w-3/4 lg:w-1/3">
-            <div className="bg-white flex flex-col gap-5 items-center p-5 lg:p-5 lg:px-8 xl:py-12 h-full">
+            <div className="bg-white flex flex-col gap-8 rounded-md items-center p-5 lg:p-5 lg:px-8 xl:py-12 h-full">
               <div className="w-12 sm:w-14 md:w-16 lg:w-20 xl:w-24 h-12 sm:h-14 md:h-16 lg:h-20 xl:h-24 border-red-800 rounded-full">
                 <img
                   src={Icon1}
@@ -177,7 +176,7 @@ const Landing = () => {
             </div>
           </div>
           <div className="p-5 w-full md:w-3/4 lg:w-1/3">
-            <div className=" bg-white  flex flex-col gap-5 items-center p-5 lg:p-5 lg:px-8 xl:py-12 h-full">
+            <div className=" bg-white  flex flex-col gap-8 rounded-md items-center p-5 lg:p-5 lg:px-8 xl:py-12 h-full">
               <div className="w-12 sm:w-14 md:w-16 lg:w-20 xl:w-24 h-12 sm:h-14 md:h-16 lg:h-20 xl:h-24 border-red-800 rounded-full">
                 <img
                   src={Icon1}
@@ -199,7 +198,7 @@ const Landing = () => {
         </div>
       </div>
 
-      <div className="flex flex-col w-full  px-8 sm:px-16 md:px-24 lg:px-24 xl:px-48 2xl:px-64 py-24 lg:py-32 mb-12 lg:mb-24 bg-white justify-center items-center">
+      <div className="flex flex-col w-full  px-8 sm:px-16 md:px-24 lg:px-24 xl:px-48 2xl:px-64 py-24 lg:py-32 xl:mb-24 bg-white justify-center items-center">
         <p className="font-bold text-4xl md:text-5xl xl:text-6xl 2xl:text-7xl text-center text-sky-700 lg:pt-0 font-montserrat z-10">
           Moments of Compassion
         </p>

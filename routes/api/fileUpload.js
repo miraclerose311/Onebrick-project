@@ -8,30 +8,33 @@ router.get("/image", (req, res) => {
   res.jsong("File Upload router");
 });
 // Endpoint to receive the image upload
+
+
 router.post("/image", async (req, res) => {
   try {
-    const { fileName, base64String } = req.body;
+    const { formData } = req.body;
+    const files = Object.keys(formData);
 
-    if (!fileName || !base64String) {
-      throw new Error("fileName or base64String is missing");
+    if (files.length === 0) {
+      return res.status(400).json({ message: "There are no files" });
     }
 
-    // Define the file path
-    const filePath = `./uploads/${fileName}.txt`;
+    // Wait for all files to be processed
+    await Promise.all(
+      files.map(async (file) => {
+        if (formData[file] !== "") {
+          const filePath = `./uploads/${file}.txt`;
+          // Write the Base64 string to file asynchronously
+          await fs.writeFile(filePath, formData[file]);
+        }
+      })
+    );
 
-    // Write the Base64 string to file asynchronously
-    await fs.writeFile(filePath, base64String);
-
-    console.log("File saved to", filePath);
-
-    // Read the file back asynchronously
-    const fileContent = await fs.readFile(filePath, "utf8");
-
-    // Send the file content as a response
-    res.json(fileContent);
+    // Send back a success response
+    res.json({ message: "Files saved successfully" });
   } catch (err) {
     console.error("An error occurred:", err);
-    res.status(500).json({ message: "Failed to save the image" });
+    res.status(500).json({ message: "Failed to save the images" });
   }
 });
 

@@ -11,8 +11,8 @@ const app = express();
 connectDB();
 
 // Init Middleware
-app.use(bodyParser.json({ limit: "500mb" }));
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json({ limit: "500mb" }));
+app.use(express.urlencoded({ extended: true }));
 
 app.use(cors());
 // app.use(express.static(path.join(__dirname, "dist")));
@@ -25,7 +25,7 @@ app.use("/api/donor", require("./routes/api/donor"));
 app.use("/api/payment", require("./routes/api/payment"));
 app.use("/api/upload", require("./routes/api/fileUpload"));
 
-app.use("/upload", express.static("/uploads"));
+app.use("/upload", express.static("./uploads"));
 // Serve static assets in production
 if (process.env.NODE_ENV === "production") {
 	// Set static folder
