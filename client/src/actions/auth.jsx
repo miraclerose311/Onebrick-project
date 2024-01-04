@@ -1,7 +1,7 @@
 import api from "../utils/api";
-import { login } from "../features/auth/authSlice";
-import { clearLoading, setLoading } from "../features/loading/loadingSlice";
-import { setAlertWithTimeout, setAlert } from "../features/alert/alertSlice";
+import { login } from "../features/authSlice";
+import { clearLoading, setLoading } from "../features/loadingSlice";
+import { setAlertWithTimeout, setAlert } from "../features/alertSlice";
 
 export const googleRegister = (access_token) => async (dispatch) => {
 	dispatch(setLoading());

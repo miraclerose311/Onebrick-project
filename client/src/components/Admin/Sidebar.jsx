@@ -23,28 +23,36 @@ const Sidebar = () => {
           className="flex items-center gap-3 cursor-pointer hover:text-sky-500"
         >
           <LuLayoutDashboard />
-          <p className="text-md 2xl:text-lg font-montserrat">Dashboard</p>
+          <p className="text-md xl:text-lg 2xl:text-xl font-montserrat">
+            Dashboard
+          </p>
         </Link>
         <Link
           to="/admin/bricks"
           className="flex items-center gap-3 cursor-pointer hover:text-sky-500"
         >
           <BsBricks />
-          <p className="text-md 2xl:text-lg font-montserrat">Bricks</p>
+          <p className="text-md xl:text-lg 2xl:text-xl font-montserrat">
+            Bricks
+          </p>
         </Link>
         <Link
           to="/admin/donors"
           className="flex items-center gap-3 cursor-pointer hover:text-sky-500"
         >
           <HiOutlineUsers />
-          <p className="text-md 2xl:text-lg font-montserrat">Donors</p>
+          <p className="text-md xl:text-lg 2xl:text-xl font-montserrat">
+            Donors
+          </p>
         </Link>
         <Link
           to="/admin/manage"
           className="flex items-center gap-3 cursor-pointer hover:text-sky-500"
         >
           <GoFileMedia />
-          <p className="text-md 2xl:text-lg font-montserrat">Management</p>
+          <p className="text-md xl:text-lg 2xl:text-xl font-montserrat">
+            Management
+          </p>
         </Link>
       </div>
     </div>

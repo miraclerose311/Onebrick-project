@@ -1,24 +1,32 @@
 import api from "../utils/api";
-import { setOrder } from "../features/payment/paymentSlice";
-import { setAlert } from "../features/alert/alertSlice";
-import { clearLoading, setLoading } from "../features/loading/loadingSlice";
+import { setOrder } from "../features/paymentSlice";
+import { setAlert } from "../features/alertSlice";
+import { clearLoading, setLoading } from "../features/loadingSlice";
 
 export const createOrder = (amount) => async (dispatch) => {
-	dispatch(setLoading());
-	const res = await api.post(
-		"/payment/order",
-		JSON.stringify({ amount: amount * 1000000 })
-	);
+  try {
+    // Dispatch setLoading before starting the API call
+    dispatch(setLoading());
 
-	if (!res) {
-		const errorAlert = {
-			alertType: "error",
-			content: "Server error. Are you online?",
-		};
-		dispatch(setAlert(errorAlert));
-		return;
-	}
+    // Convert the amount and send the request to the server
+    const res = await api.post(
+      "/payment/order",
+      JSON.stringify({ amount: amount * 1000000 })
+    );
 
-	dispatch(setOrder(res.data));
-	dispatch(clearLoading());
+    // Assuming res is truthy if the request succeeded, dispatch setOrder with the data received.
+    dispatch(setOrder(res.data));
+  } catch (error) {
+    // If there was an error during the API call or the server response is falsy,
+    // dispatch the error alert.
+    const errorAlert = {
+      alertType: "error",
+      content: "Server error. Are you online?",
+    };
+    dispatch(setAlert(errorAlert));
+  } finally {
+    // Clearing loading state should happen in both success and failure scenarios.
+    dispatch(clearLoading());
+  }
 };
+

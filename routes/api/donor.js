@@ -43,69 +43,87 @@ router.post("/initial", async (req, res) => {
 });
 
 router.post("/insert", async (req, res) => {
-	const {
-		userId,
-		fullName,
-		email,
-		mobile,
-		pan,
-		aadhaar,
-		address,
-		country,
-		state,
-		pin,
-	} = req.body;
+  try {
+    const {
+      userId,
+      fullName,
+      email,
+      mobile,
+      pan,
+      aadhaar,
+      address,
+      country,
+      state,
+      pin,
+    } = req.body;
 
-	newDonor = new Donor({
-		user_id: userId,
-		fullName,
-		email,
-		mobile,
-		pan,
-		aadhaar,
-		address,
-		country,
-		state,
-		pin,
-	});
-	try {
-		await Donor.updateOne(
-			{ user: userId },
-			{
-				$set: newDonor,
-			},
-			{ upsert: true, new: true }
-		)
-			.then((result) => console.log(result))
-			.catch((e) => res.status(400).json(e));
-	} catch (error) {
-		console.log(error.message);
-		res.status(500).send("Server error");
-	}
+    const newDonor = {
+      user: userId,
+      fullName,
+      email,
+      mobile,
+      pan,
+      aadhaar,
+      address,
+      country,
+      state,
+      pin,
+    };
+
+    // Perform the upsert operation
+    const result = await Donor.updateOne(
+      { user: userId },
+      { $set: newDonor },
+      { upsert: true }
+    );
+
+    // Check if a new document was created by inspecting result.upsertedCount
+    if (result.upsertedCount > 0) {
+      // A new document was inserted
+      res.status(201).json({
+        message: "New donor has been added.",
+        donorDetails: newDonor,
+      });
+    } else if (result.nModified > 0) {
+      // An existing document was updated
+      res.status(200).json({
+        message: "Donor details have been updated.",
+        donorDetails: newDonor,
+      });
+    } else {
+      // No changes were made (the donor details were identical)
+      res.status(200).json({
+        message: "No changes were needed for this donor.",
+        donorDetails: newDonor,
+      });
+    }
+  } catch (error) {
+    console.error(`Error during /insert route processing: ${error.message}`);
+    res.status(500).send("Server error");
+  }
 });
 
 router.get("/donorcount", async (req, res) => {
-	try {
-		const donor = await Donor.find().count();
-		const fakedonor = await Donor.find({ fake: true }).count();
-		res.json({ donor, fakedonor });
-	} catch (error) {
-		console.log(error.message);
-		res.status(500).send("Server error");
-	}
+  try {
+    const donor = await Donor.find().count();
+    // const fakedonor = await Donor.find({ fake: true }).count();
+    res.json(donor);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send("Server error");
+  }
 });
 
 router.post("/get-donor", async (req, res) => {
-	try {
-		Donor.findOne({ user: req.body.userId }).then((response) => {
-			res.json(response);
-			console.log(response);
-		});
-	} catch {
-		(e) => {
-			console.logo(e);
-		};
-	}
+  try {
+    Donor.findOne({ user: req.body.userId }).then((response) => {
+      res.json(response);
+    });
+  } catch {
+    (e) => {
+      console.logo(e);
+    };
+  }
 });
 
 router.get("/current_page", async (req, res) => {

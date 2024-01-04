@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
 import { googleRegister } from "../actions/auth";
-import { setAlertWithTimeout } from "../features/alert/alertSlice";
+import { setAlertWithTimeout } from "../features/alertSlice";
 
 const Register = () => {
 	const dispatch = useDispatch();

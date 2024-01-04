@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import axios from "axios";
-import { clearLoading, setLoading } from "../../features/loading/loadingSlice";
+import { clearLoading, setLoading } from "../../features/loadingSlice";
 
 import { HiChevronDoubleLeft } from "react-icons/hi";
 import { HiChevronDoubleRight } from "react-icons/hi";
@@ -13,36 +13,36 @@ import { FaSortAmountDownAlt } from "react-icons/fa";
 import { TbArrowsSort } from "react-icons/tb";
 
 const BrickTable = () => {
-	const [data, setData] = useState({});
-	const [currentPage, setCurrentPage] = useState(1);
-	const [limit, setLimit] = useState(10);
-	const [search, setSearch] = useState("");
-	const [term, setTerm] = useState("");
+  const [data, setData] = useState({});
+  const [currentPage, setCurrentPage] = useState(1);
+  const [limit, setLimit] = useState(10);
+  const [search, setSearch] = useState("");
+  const [term, setTerm] = useState("");
 
-	const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-	const [filter, setFilter] = useState({
-		sold: { modal: false, value: "all" },
-		fake: { modal: false, value: "all" },
-	});
+  const [filter, setFilter] = useState({
+    sold: { modal: false, value: "all" },
+    fake: { modal: false, value: "all" },
+  });
 
-	const [sorts, setSorts] = useState({
-		brick_id: 0,
-		date: 0,
-		amount: 0,
-	});
+  const [sorts, setSorts] = useState({
+    brick_id: 0,
+    date: 0,
+    amount: 0,
+  });
 
-	function classNames(...classes) {
-		return classes.filter(Boolean).join(" ");
-	}
+  function classNames(...classes) {
+    return classes.filter(Boolean).join(" ");
+  }
 
-	useEffect(() => {
+  useEffect(() => {
     const fetchData = async () => {
       try {
         dispatch(setLoading());
         const query = `page=${currentPage}&limit=${limit}&sold=${filter.sold.value}&fake=${filter.fake.value}&brick_id=${sorts.brick_id}&date=${sorts.date}&amount=${sorts.amount}&term=${term}`;
         const response = await axios.get(
-          ` http://localhost:5000/api/brick/current_page?${query}`
+          `${import.meta.env.VITE_BACKEND_URL}/api/brick/current_page?${query}`
         );
         setData(response.data);
         dispatch(clearLoading());
@@ -77,12 +77,12 @@ const BrickTable = () => {
   }, [search]);
 
   return (
-    <div className="w-full lg:w-4/5 py-12">
+    <div className="w-full py-12">
       <div>
         <p className="font-raleway font-medium text-4xl py-4">All Brick Data</p>
         <hr className="w-full" />
       </div>
-      <div className="w-full  px-6 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 pt-12">
+      <div className="w-full pt-12">
         <div className="w-full flex flex-col py-1">
           <input
             name="search"

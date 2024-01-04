@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useGoogleLogin } from '@react-oauth/google';
 import { googleLogin } from '../actions/auth';
-import { setAlertWithTimeout } from '../features/alert/alertSlice';
+import { setAlertWithTimeout } from "../features/alertSlice";
 
 const Login = () => {
   const dispatch = useDispatch();

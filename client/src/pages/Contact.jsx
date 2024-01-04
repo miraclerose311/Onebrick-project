@@ -28,21 +28,21 @@ const Contact = () => {
       <Navbar />
 
       <div className="">
-        <div className="flex flex-wrap bg-gray-300 px-12 sm:px-16 md:px-24 lg:px-24 xl:px-48 2xl:px-64 pt-32">
+        <div className="flex flex-wrap bg-gray-300 px-12 sm:px-16 md:px-24 lg:px-24 xl:px-48 2xl:px-64 pt-32 pb-8">
           <div className="w-full lg:w-1/3 h-56 sm:h-64 md:h-80 lg:h-auto justify-center">
             <img src={contact1} className="h-full w-full object-cover" />
           </div>
-          <div className="w-full lg:w-2/3 flex flex-col mt-12 lg:mt-0 lg:pl-12 xl:pl-24 2xl:pl-32 justify-center">
+          <div className="w-full lg:w-2/3 flex flex-col mt-12 lg:mt-0 lg:pl-12 2xl:pl-24 justify-center">
             <p className="text-4xl sm:text-5xl md:text-6xl lg:text-5xl xl:text-6xl 2xl:text-7xl text-sky-700 font-montserrat font-medium">
               Contact Us
             </p>
             <p className="text-lg sm:text-xl md:text-2xl lg:text-xl xl:text-2xl 2xl:text-3xl text-justify font-raleway text-gray-600 pt-5 lg:pb-0 pb-12">
               Welcome to Alpha Hospice. We are here to assist you with any
-              questions, guidance, or support you may need. Whether you&rquot;re
+              questions, guidance, or support you may need. Whether you are
               seeking information about our services, interested in
               volunteering, or need details about our Link Centers, our team is
-              ready to help. Reach out to us, and we&rquot;ll ensure you receive
-              the assistance and information you&rquot;re looking for. Your
+              ready to help. Reach out to us, and we&rsquo;ll ensure you receive
+              the assistance and information you&rsquo;re looking for. Your
               journey towards compassion and care starts here.
             </p>
           </div>
@@ -120,37 +120,37 @@ const Contact = () => {
             <div className="w-full lg:w-1/2 p-1 2xl:p-2">
               <input
                 placeholder="First Name"
-                className="w-full p-3 xl:p-5 border border-gray-100 drop-shadow-lg"
+                className="w-full p-2 xl:p-4 border-2 border-gray-300 focus:border-sky-700 outline-none focus:border-2 drop-shadow-lg"
               />
             </div>
             <div className="w-full lg:w-1/2 p-1 2xl:p-2">
               <input
                 placeholder="Last Name"
-                className="w-full p-3 xl:p-5 border border-gray-100 drop-shadow-lg"
+                className="w-full p-2 xl:p-4 border-2 border-gray-300 focus:border-sky-700 outline-none focus:border-2 drop-shadow-lg"
               />
             </div>
             <div className="w-full lg:w-1/2 p-1 2xl:p-2">
               <input
                 placeholder="Email ID"
-                className="w-full p-3 xl:p-5 border border-gray-100 drop-shadow-lg"
+                className="w-full p-2 xl:p-4 border-2 border-gray-300 focus:border-sky-700 outline-none focus:border-2 drop-shadow-lg"
               />
             </div>
             <div className="w-full lg:w-1/2 p-1 2xl:p-2">
               <input
                 placeholder="Mobile No"
-                className="w-full p-3 xl:p-5 border border-gray-100 drop-shadow-lg"
+                className="w-full p-2 xl:p-4 border-2 border-gray-300 focus:border-sky-700 outline-none focus:border-2 drop-shadow-lg"
               />
             </div>
 
             <div className="w-full p-1 2xl:p-2">
               <textarea
                 placeholder="Message"
-                className="w-full px-3 2xl:px-5 py-16 2xl:py-24 border border-gray-100 drop-shadow-lg"
+                className="w-full px-2 xl:px-4 pt-2 pb-16 2xl:pb-20 border-2 border-gray-300 focus:border-sky-700 outline-none focus:border-2 drop-shadow-lg"
               />
             </div>
 
             <div className="w-full p-1 2xl:p-2">
-              <button className="w-full p-3 xl:p-5 bg-sky-700 text-white">
+              <button className="w-full p-3 xl:p-5 bg-sky-700 hover:bg-sky-600 text-white">
                 Send Message
               </button>
             </div>
@@ -165,7 +165,7 @@ const Contact = () => {
           <p className="text-sky-700 text-4xl xl:text-6xl 2xl:text-7xl">
             Our Care Network
           </p>
-          <p className="text-gray-500 text-md sm:text-xl md:text-2xl lg:text-md xl:text-xl 2xl:text-2xl">
+          <p className="text-gray-500 text-sm sm:text-md md:text-lg lg:text-sm xl:text-md 2xl:text-lg">
             Search for an Alpha centre in your district. Select the district and
             click on Enter button
           </p>
@@ -178,133 +178,148 @@ const Contact = () => {
 						<option>Alappuzha</option>
 					</select> */}
           <input
-            className="w-full lg:w-3/4 py-3 px-5 rounded-xl border border-gray-500 text-md sm:text-xl md:text-2xl lg:text-md xl:text-xl 2xl:text-2xl"
+            className="w-full lg:w-3/4 py-3 px-5 rounded-xl border border-gray-500 text-sm sm:text-md md:text-lg lg:text-sm xl:text-md 2xl:text-lg"
             placeholder="Search for District"
           />
         </div>
 
         <div className="w-full py-24 px-12 sm:px-16 md:px-24 lg:px-24 xl:px-48 2xl:px-64">
           <div className="flex flex-col">
-            <div className="flex flex-wrap py-5">
-              <img className="w-full lg:w-1/2 xl:w-1/3" src={contact2} />
-              <div className="w-full lg:w-1/2 xl:w-2/3 flex flex-col lg:px-5 xl:px-12 2xl-px-16 px-0 py-5">
-                <p className="text-3xl sm:text-4xl lg:text-2xl xl:text-4xl 2xl:text-5xl font-normal">
+            <div className="flex flex-wrap items-center py-5">
+              <img
+                className="w-3/4 sm:w-2/3 md:w-1/2 lg:w-1/4"
+                src={contact2}
+              />
+              <div className="w-full lg:w-2/3 flex flex-col justify-center lg:px-12 xl:px-16 2xl-px-24 mt-5 lg:mt-0">
+                <p className="text-xl md:text-2xl lg:text-xl xl:text-2xl 2xl:text-3xl font-medium">
                   ALPHA HOSPICE EDAMUTTAM
                 </p>
-                <p className="text-md sm:text-xl md:text-2xl lg:text-md xl:text-xl 2xl:text-2xl">
+                <p className="text-sm sm:text-md md:text-lg lg:text-sm xl:text-md 2xl:text-lg">
                   Alpha Palliative Care, Alpha Hospice Edamuttan, Edamuttam P.O.
                   Thrissur - 680568
                 </p>
-                <p className="mt-5 text-md sm:text-xl md:text-2xl lg:text-md xl:text-xl 2xl:text-2xl">
-                  <b>Present:</b> Mr. Mohanan Painat
+                <p className="mt-2 text-sm sm:text-md md:text-lg lg:text-sm xl:text-md 2xl:text-lg">
+                  <span className="font-medium">Present:</span> Mr. Mohanan
+                  Painat
                 </p>
-                <p className="text-md sm:text-xl md:text-2xl lg:text-md xl:text-xl 2xl:text-2xl">
-                  <b>Contact No:</b> 04802835100, 2835200
+                <p className="text-sm sm:text-md md:text-lg lg:text-sm xl:text-md 2xl:text-lg">
+                  <span className="font-medium">Contact No:</span> 04802835100,
+                  2835200
                 </p>
-                <p className="text-md sm:text-xl md:text-2xl lg:text-md xl:text-xl 2xl:text-2xl">
-                  <b>Emal:</b> <a>alpha.mathilakam@gmail.com</a>
+                <p className="text-sm sm:text-md md:text-lg lg:text-sm xl:text-md 2xl:text-lg">
+                  <span className="font-medium">Email:</span>{" "}
+                  <a>alpha.mathilakam@gmail.com</a>
                 </p>
-                <a className="text-sky-700 text-md sm:text-xl md:text-2xl lg:text-md xl:text-xl 2xl:text-2xl mt-5 cursor-pointer">
+                <a className="text-sky-700 text-sm sm:text-md md:text-lg lg:text-sm xl:text-md 2xl:text-lg mt-2 cursor-pointer">
                   CLICK TO GET DIRECTIONS
                 </a>
               </div>
             </div>
             <hr className="border-t-2 border-gray-500" />
 
-            <div className="flex flex-wrap py-5">
+            <div className="flex flex-wrap items-center py-5">
               <img
-                className="w-full sm:w-3/4 md:w-2/3 lg:w-1/2 xl:w-1/3"
+                className="w-3/4 sm:w-2/3 md:w-1/2 lg:w-1/4"
                 src={contact3}
               />
-              <div className="w-full lg:w-1/2 xl:w-2/3 flex flex-col lg:px-5 xl:px-12 2xl-px-16 px-0 py-5">
-                <p className="text-3xl sm:text-4xl lg:text-2xl xl:text-4xl 2xl:text-5xl font-normal">
+              <div className="w-full lg:w-2/3 flex flex-col justify-center lg:px-12 xl:px-16 2xl-px-24 mt-5 lg:mt-0">
+                <p className="text-xl md:text-2xl lg:text-xl xl:text-2xl 2xl:text-3xl font-medium">
                   THRISSUR LINK CENTRE
                 </p>
-                <p className="text-md sm:text-xl md:text-2xl lg:text-md xl:text-xl 2xl:text-2xl">
+                <p className="text-sm sm:text-md md:text-lg lg:text-sm xl:text-md 2xl:text-lg">
                   Alpha Palliative Care, Thrissur Link Centre, Masjid ROad,
                   Road, Near Congress Bhavan, Kovilakaparambu. ANyyanthole.
                   Thrissure - 04
                 </p>
-                <p className="mt-5 text-md sm:text-xl md:text-2xl lg:text-md xl:text-xl 2xl:text-2xl">
-                  <b>Present:</b> Mr. Sreekumar P
+                <p className="mt-2 text-sm sm:text-md md:text-lg lg:text-sm xl:text-md 2xl:text-lg">
+                  <span className="font-medium">Present:</span> Mr. Sreekumar P
                 </p>
-                <p className="text-md sm:text-xl md:text-2xl lg:text-md xl:text-xl 2xl:text-2xl">
-                  <b>Secretary:</b> P. Mohammedkutty
+                <p className="text-sm sm:text-md md:text-lg lg:text-sm xl:text-md 2xl:text-lg">
+                  <span className="font-medium">Secretary:</span> P.
+                  Mohammedkutty
                 </p>
-                <p className="text-md sm:text-xl md:text-2xl lg:text-md xl:text-xl 2xl:text-2xl">
-                  <b>Treasurer:</b> Mr. C. Venugopalan
+                <p className="text-sm sm:text-md md:text-lg lg:text-sm xl:text-md 2xl:text-lg">
+                  <span className="font-medium">Treasurer:</span> Mr. C.
+                  Venugopalan
                 </p>
-                <p className="text-md sm:text-xl md:text-2xl lg:text-md xl:text-xl 2xl:text-2xl">
-                  <b>Contact No:</b> 9745844552
+                <p className="text-sm sm:text-md md:text-lg lg:text-sm xl:text-md 2xl:text-lg">
+                  <span className="font-medium">Contact No:</span> 9745844552
                 </p>
-                <p className="text-md sm:text-xl md:text-2xl lg:text-md xl:text-xl 2xl:text-2xl">
-                  <b>Emal:</b> <a>edathiruthy.alpha@gmail.com</a>
+                <p className="text-sm sm:text-md md:text-lg lg:text-sm xl:text-md 2xl:text-lg">
+                  <span className="font-medium">Email:</span>{" "}
+                  <a>edathiruthy.alpha@gmail.com</a>
                 </p>
-                <a className="text-sky-700 text-md sm:text-xl md:text-2xl lg:text-md xl:text-xl 2xl:text-2xl mt-5 cursor-pointer">
+                <a className="text-sky-700 text-sm sm:text-md md:text-lg lg:text-sm xl:text-md 2xl:text-lg mt-2 cursor-pointer">
                   CLICK TO GET DIRECTIONS
                 </a>
               </div>
             </div>
             <hr className="border-t-2 border-gray-500" />
 
-            <div className="flex flex-wrap py-5">
+            <div className="flex flex-wrap items-center py-5">
               <img
-                className="w-full sm:w-3/4 md:w-2/3 lg:w-1/2 xl:w-1/3"
+                className="w-3/4 sm:w-2/3 md:w-1/2 lg:w-1/4"
                 src={contact4}
               />
-              <div className="w-full lg:w-1/2 xl:w-2/3 flex flex-col lg:px-5 xl:px-12 2xl-px-16 px-0 py-5">
-                <p className="text-3xl sm:text-4xl lg:text-2xl xl:text-4xl 2xl:text-5xl font-normal">
+              <div className="w-full lg:w-2/3 flex flex-col justify-center lg:px-12 xl:px-16 2xl-px-24 mt-5 lg:mt-0">
+                <p className="text-xl md:text-2xl lg:text-xl xl:text-2xl 2xl:text-3xl font-medium">
                   EDATHIRUTHY LINK CENTRE
                 </p>
-                <p className="text-md sm:text-xl md:text-2xl lg:text-md xl:text-xl 2xl:text-2xl">
+                <p className="text-sm sm:text-md md:text-lg lg:text-sm xl:text-md 2xl:text-lg">
                   Alpha Palliative Care, Edathiruthy Link Center, Halwa Theruvu,
                   High School Road, Chenthrapinni, Thrissur-680687.
                 </p>
-                <p className="mt-5">
-                  <b>Present:</b> Mr. Mohanan Painat
+                <p className="mt-2">
+                  <span className="font-medium">Present:</span> Mr. Mohanan
+                  Painat
                 </p>
-                <p className="text-md sm:text-xl md:text-2xl lg:text-md xl:text-xl 2xl:text-2xl">
-                  <b>Contact No:</b> 04802835100, 2835200
+                <p className="text-sm sm:text-md md:text-lg lg:text-sm xl:text-md 2xl:text-lg">
+                  <span className="font-medium">Contact No:</span> 04802835100,
+                  2835200
                 </p>
-                <p className="text-md sm:text-xl md:text-2xl lg:text-md xl:text-xl 2xl:text-2xl">
-                  <b>Emal:</b> <a>alpha.mathilakam@gmail.com</a>
+                <p className="text-sm sm:text-md md:text-lg lg:text-sm xl:text-md 2xl:text-lg">
+                  <span className="font-medium">Email:</span>{" "}
+                  <a>alpha.mathilakam@gmail.com</a>
                 </p>
-                <a className="text-sky-700 text-md sm:text-xl md:text-2xl lg:text-md xl:text-xl 2xl:text-2xl mt-5 cursor-pointer">
+                <a className="text-sky-700 text-sm sm:text-md md:text-lg lg:text-sm xl:text-md 2xl:text-lg mt-2 cursor-pointer">
                   CLICK TO GET DIRECTIONS
                 </a>
               </div>
             </div>
             <hr className="border-t-2 border-gray-500" />
 
-            <div className="flex flex-wrap py-5">
+            <div className="flex flex-wrap items-center py-5">
               <img
-                className="w-full sm:w-3/4 md:w-2/3 lg:w-1/2 xl:w-1/3"
+                className="w-3/4 sm:w-2/3 md:w-1/2 lg:w-1/4"
                 src={contact5}
               />
-              <div className="w-full lg:w-1/2 xl:w-2/3 flex flex-col lg:px-5 xl:px-12 2xl-px-16 px-0 py-5">
-                <p className="text-3xl sm:text-4xl lg:text-2xl xl:text-4xl 2xl:text-5xl font-normal">
+              <div className="w-full lg:w-2/3 flex flex-col justify-center lg:px-12 xl:px-16 2xl-px-24 mt-5 lg:mt-0">
+                <p className="text-xl md:text-2xl lg:text-xl xl:text-2xl 2xl:text-3xl font-medium">
                   MATHILAKAM LINK CENTRE
                 </p>
-                <p className="text-md sm:text-xl md:text-2xl lg:text-md xl:text-xl 2xl:text-2xl">
+                <p className="text-sm sm:text-md md:text-lg lg:text-sm xl:text-md 2xl:text-lg">
                   Alpha Palliative Care, Edathiruthy Link Center, Halwa Theruvu,
                   High School Road, Chenthrapinni, Thrissur-680687.
                 </p>
-                <p className="mt-5">
-                  <b>Present:</b> Mr. Mohanan Painat
+                <p className="mt-2">
+                  <span className="font-medium">Present:</span> Mr. Mohanan
+                  Painat
                 </p>
-                <p className="text-md sm:text-xl md:text-2xl lg:text-md xl:text-xl 2xl:text-2xl">
-                  <b>Contact No:</b> 04802835100, 2835200
+                <p className="text-sm sm:text-md md:text-lg lg:text-sm xl:text-md 2xl:text-lg">
+                  <span className="font-medium">Contact No:</span> 04802835100,
+                  2835200
                 </p>
-                <p className="text-md sm:text-xl md:text-2xl lg:text-md xl:text-xl 2xl:text-2xl">
-                  <b>Emal:</b> <a>alpha.mathilakam@gmail.com</a>
+                <p className="text-sm sm:text-md md:text-lg lg:text-sm xl:text-md 2xl:text-lg">
+                  <span className="font-medium">Email:</span>{" "}
+                  <a>alpha.mathilakam@gmail.com</a>
                 </p>
-                <a className="text-sky-700 text-md sm:text-xl md:text-2xl lg:text-md xl:text-xl 2xl:text-2xl mt-5 cursor-pointer">
+                <a className="text-sky-700 text-sm sm:text-md md:text-lg lg:text-sm xl:text-md 2xl:text-lg mt-2 cursor-pointer">
                   CLICK TO GET DIRECTIONS
                 </a>
               </div>
             </div>
           </div>
-          <div className="mx-auto w-full sm:w-3/4 md:w-2/3 lg:w-1/3 xl:w-1/4 mt-24">
+          <div className="mx-auto w-3/4 sm:w-2/3 md:w-1/2 lg:w-1/4 xl:w-1/4 mt-24">
             <Pagination />
           </div>
         </div>

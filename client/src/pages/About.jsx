@@ -22,11 +22,11 @@ const About = () => {
       <Navbar />
 
       <div className="">
-        <div className="flex flex-wrap bg-gray-300 pt-32 px-8 sm:px-16 md:px-24 lg:px-32 xl:px-44 2xl:px-64">
-          <div className="w-full lg:w-7/12 lg:px-0">
+        <div className="flex flex-wrap bg-gray-300 pt-32 px-8 sm:px-16 md:px-24 lg:px-32 xl:px-44 2xl:px-64 py-12">
+          <div className="w-full lg:w-1/2 lg:px-0">
             <img src={Image1} className="w-full h-full object-cover" />
           </div>
-          <div className="w-full lg:w-5/12 flex flex-col mt-12 lg:mt-0 lg:pl-8 xl:pl-12 py-4 md:py-12">
+          <div className="w-full lg:w-1/2 flex flex-col mt-12 lg:mt-0 lg:pl-8 xl:pl-12 py-4 md:py-12">
             <p className="text-center lg:text-left text-4xl sm:text-5xl md:text-6xl lg:text-5xl xl:text-6xl 2xl:text-7xl text-sky-600 font-montserrat font-bold">
               Welcome to Alpha Hospice
             </p>
@@ -84,10 +84,10 @@ const About = () => {
             backgroundSize: "2500px, 900px",
           }}
         >
-          <p className="w-full lg:w-2/3 text-white  text-center mx-auto text-4xl sm:text-5xl md:text-6xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-montserrat font-bold z-10">
+          <p className="w-full lg:w-2/3 text-gray-800  text-center mx-auto text-4xl sm:text-5xl md:text-6xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-montserrat font-bold z-10">
             The Hub and spoke model of care
           </p>
-          <p className="text-lg sm:text-xl md:text-2xl lg:text-xl xl:text-xl 2xl:text-2xl text-center text-white font-raleway z-10">
+          <p className="text-lg sm:text-xl md:text-2xl lg:text-xl xl:text-xl 2xl:text-2xl text-center text-gray-700 font-raleway p-5 z-10">
             At Alpha Hospice, we embrace a unique ‘Hub and spoke’ model.
             designed to extend our reach of palliative care to as many as
             possible. The hospice service as the central hub, providing
@@ -103,7 +103,7 @@ const About = () => {
           </div>
         </div>
 
-        <div className="flex flex-wrap justify-center w-full px-8 sm:px-16 lg:px-24 xl:px-40 2xl:px-64 pt-32 py-12 relative">
+        <div className="flex flex-wrap justify-center w-full px-8 sm:px-16 lg:px-24 xl:px-40 2xl:px-64 pt-32 py-24 relative">
           <div className="w-full sm:w-3/4 lg:w-1/2 z-10">
             <img
               src={Image5}

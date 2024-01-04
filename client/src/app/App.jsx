@@ -9,7 +9,7 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import Buybrick from "../pages/Buybrick";
 import Donors from "../pages/Donors";
-import Landing from "../pages/Landing";
+import Home from "../pages/Home";
 import Contact from "../pages/Contact";
 import Loading from "../components/Loading";
 
@@ -56,7 +56,7 @@ function App() {
             <Route path="donors" element={<DonorTable />} />
             <Route path="manage" element={<ManageContent />} />
           </Route>
-          <Route path="/" exact element={<Landing />} />
+          <Route path="/" exact element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />

@@ -1,0 +1,23 @@
+import React from "react";
+
+const AvatarUpload = ({ previewFile, onFileSelect }) => {
+  return (
+    <div className="relativ h-full p-2">
+      <input
+        type="file"
+        id="image-upload"
+        className="hidden"
+        onChange={(e) => onFileSelect(e.target.files[0], e.target.name)}
+      />
+      <label htmlFor="image-upload" className="cursor-pointer">
+        <img
+          src={previewFile}
+          alt="Upload"
+          className="inline-block rounded-full w-32 h-32 object-cover"
+        />
+      </label>
+    </div>
+  );
+};
+
+export default AvatarUpload;

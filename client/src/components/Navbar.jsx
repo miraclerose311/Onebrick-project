@@ -41,7 +41,7 @@ export default function Navbar() {
             <li className="flex mr-6">
               <Link
                 to="/"
-                className="block py-2 font-raleway text-gray-700 hover:scale-110 hover:font-bold duration-100 ease-in-out growable-underline"
+                className="block py-2 font-raleway text-gray-700 hover:scale-110 hover:font-bold growable-underline"
               >
                 Home
               </Link>
@@ -49,7 +49,7 @@ export default function Navbar() {
             <li className="flex mr-6">
               <Link
                 to="/about"
-                className="block py-2 font-raleway text-gray-700 hover:scale-110 hover:font-bold duration-100 ease-in-out growable-underline"
+                className="block py-2 font-raleway text-gray-700 hover:scale-110 hover:font-bold growable-underline"
                 aria-current="page"
               >
                 About
@@ -58,7 +58,7 @@ export default function Navbar() {
             <li className="flex mr-6">
               <Link
                 to="/donors"
-                className="block py-2 font-raleway text-gray-700 hover:scale-110 hover:font-bold duration-100 ease-in-out growable-underline"
+                className="block py-2 font-raleway text-gray-700 hover:scale-110 hover:font-bold growable-underline"
                 aria-current="page"
               >
                 Donors
@@ -67,7 +67,7 @@ export default function Navbar() {
             <li className="flex mr-6">
               <Link
                 to="/beneficiaries"
-                className="block py-2 font-raleway text-gray-700 hover:scale-110 hover:font-bold duration-100 ease-in-out growable-underline"
+                className="block py-2 font-raleway text-gray-700 hover:scale-110 hover:font-bold growable-underline"
                 aria-current="page"
               >
                 Beneficiaries
@@ -76,7 +76,7 @@ export default function Navbar() {
             <li className="flex mr-6">
               <Link
                 to="/contact"
-                className="block py-2 font-raleway text-gray-700 hover:scale-110 hover:font-bold duration-100 ease-in-out growable-underline"
+                className="block py-2 font-raleway text-gray-700 hover:scale-110 hover:font-bold growable-underline"
                 aria-current="page"
               >
                 Contact
@@ -111,7 +111,7 @@ export default function Navbar() {
           <Link
             to="/buybrick"
             type="button"
-            className=" text-white lg:ml-auto text-sm px-4 md:text-md lg:text-md xl:text-lg 2xl:text-xl bg-red-700 hover:bg-red-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-md py-2 lg:px-4 lg:py-2 xl:px-6 xl:py-2 text-center"
+            className=" text-white lg:ml-auto text-md bg-red-700 hover:bg-red-900 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-md py-3 px-4 lg:py-2 xl:px-6 xl:py-2 text-center"
           >
             WALL OF HOPE
           </Link>

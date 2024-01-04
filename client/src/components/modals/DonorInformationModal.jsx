@@ -1,109 +1,109 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
-import { addDonorInfo } from "../../features/donor/donorSlice";
+import { addDonorInfo } from "../../features/donorSlice";
 import { FaAnglesRight } from "react-icons/fa6";
 
 const DonorInformationModal = ({ handleNextModal }) => {
-	const [fullName, setName] = useState("");
-	const [mobile, setMobile] = useState("");
-	const [email, setEmail] = useState("");
-	const [pan, setPan] = useState("");
-	const [aadhaar, setAadhaar] = useState("");
-	const [errors, setErrors] = useState({
-		fullName: "",
-		email: "",
-		mobile: "",
-		pan: "",
-	});
+  const [fullName, setName] = useState("");
+  const [mobile, setMobile] = useState("");
+  const [email, setEmail] = useState("");
+  const [pan, setPan] = useState("");
+  const [aadhaar, setAadhaar] = useState("");
+  const [errors, setErrors] = useState({
+    fullName: "",
+    email: "",
+    mobile: "",
+    pan: "",
+  });
 
-	const donor = useSelector((state) => state.donor);
+  const donor = useSelector((state) => state.donor);
 
-	useEffect(() => {
-		const { fullName, mobile, email, pan, aadhaar } = donor;
-		setName(fullName);
-		setMobile(mobile);
-		setEmail(email);
-		setPan(pan);
-		setAadhaar(aadhaar);
-	}, [donor]);
+  useEffect(() => {
+    const { fullName, mobile, email, pan, aadhaar } = donor;
+    setName(fullName);
+    setMobile(mobile);
+    setEmail(email);
+    setPan(pan);
+    setAadhaar(aadhaar);
+  }, [donor]);
 
-	const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-	function isValidNumber(mobile) {
-		const regex = /^[0-9]{8,}$/;
-		return regex.test(mobile);
-	}
-	// Make sure validateEmail function is defined
-	function isValidEmail(email) {
-		const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-		return regex.test(email);
-	}
+  function isValidNumber(mobile) {
+    const regex = /^[0-9]{8,}$/;
+    return regex.test(mobile);
+  }
+  // Make sure validateEmail function is defined
+  function isValidEmail(email) {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  }
 
-	function isValidPAN(pan) {
-		const regex = /^[A-Z, a-z]{5}[0-9]{4}[A-Z]$/;
-		return regex.test(pan.toUpperCase());
-	}
+  function isValidPAN(pan) {
+    const regex = /^[A-Z, a-z]{5}[0-9]{4}[A-Z]$/;
+    return regex.test(pan.toUpperCase());
+  }
 
-	const handleSubmit = () => {
-		// Initialize an errors object
-		let newErrors = {};
+  const handleSubmit = () => {
+    // Initialize an errors object
+    let newErrors = {};
 
-		// Validate Full Name
-		if (!fullName.trim()) {
-			newErrors.fullName = "Full Name is required";
-		}
+    // Validate Full Name
+    if (!fullName.trim()) {
+      newErrors.fullName = "Full Name is required";
+    }
 
-		// Validate Email
-		if (!email.trim()) {
-			newErrors.email = "Email is required";
-		} else if (!isValidEmail(email)) {
-			newErrors.email = "Please enter a valid email address";
-		}
+    // Validate Email
+    if (!email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!isValidEmail(email)) {
+      newErrors.email = "Please enter a valid email address";
+    }
 
-		// Validate Mobile Number
-		if (!mobile.trim()) {
-			newErrors.mobile = "Mobile number is required";
-		} else if (!isValidNumber(mobile)) {
-			newErrors.mobile = "Please enter a valid phone number";
-		}
+    // Validate Mobile Number
+    if (!mobile.trim()) {
+      newErrors.mobile = "Mobile number is required";
+    } else if (!isValidNumber(mobile)) {
+      newErrors.mobile = "Please enter a valid phone number";
+    }
 
-		//Validate PAN Number
-		if (!pan.trim()) {
-			newErrors.pan = "PAN number is required";
-		} else if (!isValidPAN(pan)) {
-			newErrors.pan = "Please enter a valid PAN number";
-		}
-		// Update the errors state
-		setErrors(newErrors);
+    //Validate PAN Number
+    if (!pan.trim()) {
+      newErrors.pan = "PAN number is required";
+    } else if (!isValidPAN(pan)) {
+      newErrors.pan = "Please enter a valid PAN number";
+    }
+    // Update the errors state
+    setErrors(newErrors);
 
-		// If there are no errors, proceed to dispatch the data and handle the next modal
-		if (Object.keys(newErrors).length === 0) {
-			const infoData = {
-				fullName,
-				mobile,
-				email,
-				pan: pan.toUpperCase(),
-				aadhaar,
-			};
-			dispatch(addDonorInfo(infoData));
-			handleNextModal();
-		}
-	};
+    // If there are no errors, proceed to dispatch the data and handle the next modal
+    if (Object.keys(newErrors).length === 0) {
+      const infoData = {
+        fullName,
+        mobile,
+        email,
+        pan: pan.toUpperCase(),
+        aadhaar,
+      };
+      dispatch(addDonorInfo(infoData));
+      handleNextModal();
+    }
+  };
 
-	useEffect(() => {
-		console.log(errors);
-	}, [errors]);
+  useEffect(() => {
+    console.log(errors);
+  }, [errors]);
 
-	const handleFocus = (e) => {
-		setErrors({ ...errors, [e.target.name]: "" });
-	};
+  const handleFocus = (e) => {
+    setErrors({ ...errors, [e.target.name]: "" });
+  };
 
-	function classNames(...classes) {
-		return classes.filter(Boolean).join(" ");
-	}
+  function classNames(...classes) {
+    return classes.filter(Boolean).join(" ");
+  }
 
-	return (
+  return (
     <>
       <p className="text-4xl font-montserrat px-8">Donor Information</p>
       <p className="font-raleway text-xl my-4">Why we need this?</p>
@@ -151,8 +151,7 @@ const DonorInformationModal = ({ handleNextModal }) => {
         value={mobile}
         onFocus={handleFocus}
         onChange={(e) => {
-          console.log("parseInt(e.target.value)", parseInt(e.target.value));
-          if (parseInt(e.target.value) == number) {
+          if (parseInt(e.target.value) >= 0) {
             setMobile(e.target.value);
           }
         }}

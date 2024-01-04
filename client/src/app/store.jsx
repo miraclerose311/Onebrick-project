@@ -1,11 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
-import authReducer from "../features/auth/authSlice";
-import brickReducer from "../features/brick/brickSlice";
-import alertSlice from "../features/alert/alertSlice";
-import paymentSlice from "../features/payment/paymentSlice";
-import loadingSlice from "../features/loading/loadingSlice";
-import donorSlice from "../features/donor/donorSlice";
-import adminSlice from "../features/admin/adminSlice";
+import authReducer from "../features/authSlice";
+import brickReducer from "../features/brickSlice";
+import alertSlice from "../features/alertSlice";
+import paymentSlice from "../features/paymentSlice";
+import loadingSlice from "../features/loadingSlice";
+import donorSlice from "../features/donorSlice";
+import adminSlice from "../features/adminSlice";
 
 const store = configureStore({
 	reducer: {

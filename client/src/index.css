@@ -56,9 +56,25 @@ th{
   width: 0%;
   height: 3px;
   background-color: currentColor; /* Use the text color or pick your own */
-  transition: width 0.2s ease-out;
+  transition: width 0.1s;
 }
 
 .growable-underline:hover::after {
-  width: 100%;
+  width: 110%;
+}
+
+
+.scroll-hidden {
+  overflow-y: scroll; /* Add the ability to scroll */
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.scroll-hidden::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.scroll-hidden {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }

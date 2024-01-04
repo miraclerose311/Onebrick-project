@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { clearLoading, setLoading } from "../../features/loading/loadingSlice";
+import { clearLoading, setLoading } from "../../features/loadingSlice";
 
 import { HiChevronDoubleLeft } from "react-icons/hi";
 import { HiChevronDoubleRight } from "react-icons/hi";
@@ -12,29 +12,29 @@ import { FaSortAmountDownAlt } from "react-icons/fa";
 import { TbArrowsSort } from "react-icons/tb";
 
 const DonorTable = () => {
-	const [data, setData] = useState({});
-	const [currentPage, setCurrentPage] = useState(1);
-	const [limit, setLimit] = useState(10);
-	const [search, setSearch] = useState("");
-	const [term, setTerm] = useState("");
+  const [data, setData] = useState({});
+  const [currentPage, setCurrentPage] = useState(1);
+  const [limit, setLimit] = useState(10);
+  const [search, setSearch] = useState("");
+  const [term, setTerm] = useState("");
 
-	const [sorts, setSorts] = useState({
-		mobile: 0,
-		country: 0,
-		state: 0,
-		pin: 0,
-		pan: 0,
-		address: 0,
-	});
-	const dispatch = useDispatch();
-	useEffect(() => {
+  const [sorts, setSorts] = useState({
+    mobile: 0,
+    country: 0,
+    state: 0,
+    pin: 0,
+    pan: 0,
+    address: 0,
+  });
+  const dispatch = useDispatch();
+  useEffect(() => {
     const fetchData = async () => {
       try {
         dispatch(setLoading());
 
         const query = `page=${currentPage}&limit=${limit}&term=${term}&mobile=${sorts.mobile}&country=${sorts.country}&state=${sorts.state}&address=${sorts.address}&pan=${sorts.pan}&pin=${sorts.pin}`;
         const response = await axios.get(
-          `http://localhost:5000/api/donor/current_page?${query}`
+          `${import.meta.env.VITE_BACKEND_URL}/api/donor/current_page?${query}`
         );
         setData(response.data);
         dispatch(clearLoading());
@@ -57,7 +57,7 @@ const DonorTable = () => {
   }, [search]);
 
   return (
-    <div className="w-full lg:w-4/5 py-12">
+    <div className="w-full py-12">
       <div>
         <p className="font-raleway font-medium text-4xl py-4">Our Donors</p>
         <hr className="w-full" />

@@ -1,14 +1,15 @@
 import { useSelector, useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import {
-	increaseAmount,
-	decreaseAmount,
-	setLocation,
-} from "../../features/brick/brickSlice";
+  increaseAmount,
+  decreaseAmount,
+  setLocation,
+} from "../../features/brickSlice";
 import { FaAnglesRight } from "react-icons/fa6";
 
 const IntroModal = ({ handleNextModal }) => {
 	const { amount } = useSelector((state) => state.brick.current);
+
 
 	const dispatch = useDispatch();
 

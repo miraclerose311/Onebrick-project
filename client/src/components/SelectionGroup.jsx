@@ -44,7 +44,7 @@ const SelectionGroup = () => {
           <Collapse
             key={index}
             id={index}
-            expand={expand.id === index ? expand.isExpand : false}
+            expand={expand.id === index ? expand.isExpand : undefined}
             title={item.title}
             content={item.content}
             handleClickExpand={handleClickExpand}
