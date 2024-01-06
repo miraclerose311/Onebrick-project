@@ -3,37 +3,33 @@ import ScrollToTop from "react-scroll-to-top";
 import { useDispatch, useSelector } from "react-redux";
 import { getBrickSoldAmount } from "../actions/brick";
 import { useEffect } from "react";
+import { jwtDecode } from "jwt-decode";
 
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
+import axios from "axios";
+
 // Import assests
-import Image1 from "../assets/img/home/home1.jpg";
-import Image2 from "../assets/img/home/home2.jpg";
-import Image4 from "../assets/img/home/home4.jpg";
-import Image5 from "../assets/img/home/home5.jpg";
-import Image6 from "../assets/img/home/home6.png";
 
 import Icon1 from "../assets/img/home/icon1.png";
 import Icon2 from "../assets/img/home/icon2.png";
 import Icon3 from "../assets/img/home/icon3.png";
 import Icon4 from "../assets/img/home/icon4.png";
 
-import Avatar1 from "../assets/img/home/avatar1.jpg";
-import Avatar2 from "../assets/img/home/avatar2.jpg";
-import Avatar3 from "../assets/img/home/avatar3.jpg";
-
-import DonationMark from "../assets/img/home/DonationMark.png";
 import Ellipse1 from "../assets/img/home/Ellipse1.png";
 import Ellipse2 from "../assets/img/home/Ellipse2.png";
-import Rectangle from "../assets/img/home/Rectangle.png";
 
-import AvatarImg from "../assets/img/AvatarImg.jpg";
 import SelectionGroup from "../components/SelectionGroup";
 import { getDonorAmount } from "../actions/donor";
+import ImageUpload from "../components/ImageUpload";
+import EditableParagraph from "../components/EditableParagraph";
 
 const Home = () => {
+  const base_URL = `${import.meta.env.VITE_BACKEND_URL}`;
+  const [imageData, setImageData] = useState({});
+  const { sold, donor } = useSelector((state) => state.admin);
   const [imgSrc, setImageSrc] = useState({
     Home1: "",
     Home2: "",
@@ -41,16 +37,64 @@ const Home = () => {
     Home4: "",
     Home5: "",
     Home6: "",
+    Avatar1: "",
+    Avatar2: "",
+    Avatar3: "",
+    Avatar4: "",
+    Avatar5: "",
+    Avatar6: "",
+    Avatar7: "",
+    Avatar8: "",
+    Avatar9: "",
+    Avatar10: "",
   });
-  const fileList = Object.keys(imgSrc);
-  const dispath = useDispatch();
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    dispath(getBrickSoldAmount());
-    dispath(getDonorAmount());
-  }, [dispath]);
+    dispatch(getBrickSoldAmount());
+    dispatch(getDonorAmount());
+  }, [dispatch]);
 
-  const { sold, donor } = useSelector((state) => state.admin);
+  const fileList = Object.keys(imgSrc);
+
+  const handleFileChange = async (file, fileName) => {
+    console.log("handleFileChange", fileName);
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = async (e) => {
+        const base64String = e.target.result;
+        setImageData({ [fileName]: base64String });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const sendFileData = async () => {
+    try {
+      if (Object.keys(imageData).length === 0) {
+        console.log("No imageData to send");
+        return;
+      }
+      const response = await axios.post(
+        `${base_URL}/api/upload/image`,
+        JSON.stringify({ imageData }),
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log("Image uploaded", response.data);
+      loadImage();
+    } catch (error) {
+      console.error("Image upload failed", error.response || error.message);
+    }
+  };
+
+  useEffect(() => {
+    sendFileData();
+  }, [imageData]);
 
   const loadImage = () => {
     fileList.forEach((name) => {
@@ -71,15 +115,24 @@ const Home = () => {
     loadImage();
   }, []);
 
+  const onBlur = (target) => {
+    console.log("target", target.textContent);
+  };
+
   return (
     <div className="">
       <Navbar />
       <div className="flex flex-wrap-reverse lg:flex-wrap-reverse bg-gray-100 w-full pt-28 px-8 sm:px-16 md:px-24 lg:px-24 xl:px-48 2xl:px-56 lg:pr-0 xl:pr-0 2xl:pr-0 relative">
         <div className="lg:w-1/3 w-full">
           <div className="flex flex-col gap-5 lg:gap-10 items-center lg:items-start py-12">
-            <p className="text-4xl sm:text-5xl md:text-6xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-bold text-sky-700 leading-none text-center lg:text-start font-montserrat z-20">
+            {/* <p className="text-4xl sm:text-5xl md:text-6xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-bold text-sky-700 leading-none text-center lg:text-start font-montserrat z-20">
               Building Compassion
-            </p>
+            </p> */}
+            <EditableParagraph
+              content="Building Compassion"
+              onBlur={onBlur}
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-bold text-sky-700 leading-none text-center lg:text-start font-montserrat cursor-pointer z-20"
+            />
             <p className="text-lg sm:text-xl md:text-2xl lg:text-xl xl:text-2xl 2xl:text-3xl text-center lg:text-left font-montserrat z-20">
               Brick by Brick
             </p>
@@ -99,7 +152,12 @@ const Home = () => {
           </div>
         </div>
         <div className="lg:py-12 lg:pt-0 xl:pl-8 lg:pr-24 lg:pl-8 xl:pr-44 2xl:pr-56 z-10 lg:w-2/3 relative">
-          <img src={imgSrc.Home1} className="object-cover w-full h-full" />
+          {/* <img src={imgSrc.Home1} className="object-cover w-full h-full" /> */}
+          <ImageUpload
+            fileName={fileList[0]}
+            previewFile={imgSrc[fileList[0]]}
+            onFileSelect={handleFileChange}
+          />
           {/* <img
               src={DonationMark}
               className="hidden lg:flex w-36 xl:flex absolute left-0 bottom-0 z-20"
@@ -121,7 +179,12 @@ const Home = () => {
       <div className="flex flex-wrap w-full px-8 sm:px-16 md:px-24 lg:px-24 xl:px-48 2xl:px-64 lg:py-24 relative">
         <div className="w-5/12 bg-gray-200 absolute top-48 h-96 py-40 left-0 hidden lg:flex"></div>
         <div className="flex justify-center items-center w-full lg:w-1/3 z-10">
-          <img className="object-cover w-full" src={imgSrc.Home2} />
+          {/* <img className="object-cover w-full" src={imgSrc.Home2} /> */}
+          <ImageUpload
+            fileName={fileList[1]}
+            previewFile={imgSrc[fileList[1]]}
+            onFileSelect={handleFileChange}
+          />
         </div>
         <div className="lg:pl-12 xl:pl-20 py-12 lg:py-0 lg:w-2/3 w-full">
           <div className="flex flex-col items-center lg:items-start gap-5 lg:gap-10">
@@ -246,14 +309,29 @@ const Home = () => {
               className="object-cover w-full h-full"
             />
           </div>
-          <div className="w-full lg:w-1/3 p-2 mt-auto drop-shadow-md">
-            <img src={imgSrc.Home3} className="object-cover w-full" />
+          <div className="w-full lg:w-1/3 lg:h-5/6 p-2 mt-auto drop-shadow-md">
+            {/* <img src={imgSrc.Home3} className="object-cover w-full" /> */}
+            <ImageUpload
+              fileName={fileList[3]}
+              previewFile={imgSrc[fileList[3]]}
+              onFileSelect={handleFileChange}
+            />
           </div>
-          <div className="w-full lg:w-1/3 p-2 drop-shadow-md">
-            <img src={imgSrc.Home4} className="object-cover w-full" />
+          <div className="w-full lg:w-1/3 lg:h-5/6 p-2 drop-shadow-md">
+            {/* <img src={imgSrc.Home4} className="object-cover w-full" /> */}
+            <ImageUpload
+              fileName={fileList[4]}
+              previewFile={imgSrc[fileList[4]]}
+              onFileSelect={handleFileChange}
+            />
           </div>
           <div className="w-full lg:w-2/3 p-2 drop-shadow-md relative">
-            <img src={imgSrc.Home5} className="object-cover w-full " />
+            {/* <img src={imgSrc.Home5} className="object-cover w-full " /> */}
+            <ImageUpload
+              fileName={fileList[5]}
+              previewFile={imgSrc[fileList[5]]}
+              onFileSelect={handleFileChange}
+            />
           </div>
         </div>
       </div>
@@ -342,7 +420,13 @@ const Home = () => {
               <div className="bg-stone-800 w-full h-1"></div>
               <div className="flex self-start">
                 <div className="bg-white rounded-full w-12 h-12">
-                  <img src={Avatar1} className="w-full h-full rounded-full" />
+                  {/* <img src={Avatar1} className="w-full h-full rounded-full" /> */}
+                  <ImageUpload
+                    fileName={fileList[15]}
+                    previewFile={imgSrc[fileList[15]]}
+                    onFileSelect={handleFileChange}
+                    className="rounded-full"
+                  />
                 </div>
                 <div className="flex-col ml-3">
                   <p className="text-white">Vikram Patel</p>
@@ -389,7 +473,13 @@ const Home = () => {
               <div className="bg-stone-800 w-full h-1"></div>
               <div className="flex self-start">
                 <div className="bg-white rounded-full w-12 h-12">
-                  <img src={Avatar2} className="w-full h-full rounded-full" />
+                  {/* <img src={Avatar2} className="w-full h-full rounded-full" /> */}
+                  <ImageUpload
+                    fileName={fileList[7]}
+                    previewFile={imgSrc[fileList[7]]}
+                    onFileSelect={handleFileChange}
+                    className="rounded-full"
+                  />
                 </div>
                 <div className="flex-col ml-3">
                   <p className="text-white">Vikram Patel</p>
@@ -436,7 +526,13 @@ const Home = () => {
               <div className="bg-stone-800 w-full h-1"></div>
               <div className="flex self-start">
                 <div className="bg-white rounded-full w-12 h-12">
-                  <img src={Avatar3} className="w-full h-full rounded-full" />
+                  {/* <img src={Avatar3} className="w-full h-full rounded-full" /> */}
+                  <ImageUpload
+                    fileName={fileList[8]}
+                    previewFile={imgSrc[fileList[8]]}
+                    onFileSelect={handleFileChange}
+                    className="rounded-full"
+                  />
                 </div>
                 <div className="flex-col ml-3">
                   <p className="text-white">Vikram Patel</p>
@@ -487,7 +583,12 @@ const Home = () => {
           <div className="w-full  md:w-1/2 xl:w-1/3 flex flex-wrap p-1 md:p-2 xl:p-3">
             <div className="w-full flex bg-sky-600 rounded-lg p-4 sm:p-3 md:p-2 lg:p-4 xl:p-2 2xl:p-5">
               <div className="flex justify-center items-center w-1/2 xs:1/3 sm:w-1/4 md:w-2/5 md:p-2">
-                <img src={AvatarImg} className="rounded-lg" />
+                <ImageUpload
+                  fileName={fileList[9]}
+                  previewFile={imgSrc[fileList[9]]}
+                  onFileSelect={handleFileChange}
+                  className="rounded-lg"
+                />
               </div>
               <div className="flex flex-col md:w-3/5 justify-center lg:justify-around text-white text-sm sm:text-xl md:text-lg lg:text-xl xl:text-lg 2xl:text-2xl pl-3 sm:pl-5 md:px-3 lg:pl-8 xl:pl-3 2xl:pl-6 font-medium">
                 <p>LG Kuttukaran</p>
@@ -500,7 +601,13 @@ const Home = () => {
           <div className="w-full md:w-1/2 xl:w-1/3 flex flex-wrap p-1 md:p-2 xl:p-3">
             <div className="w-full flex bg-sky-600 rounded-lg p-4 sm:p-3 md:p-2 lg:p-4 xl:p-2 2xl:p-5">
               <div className="flex justify-center items-center w-1/2 xs:1/3 sm:w-1/4 md:w-2/5 md:p-2">
-                <img src={AvatarImg} className="rounded-lg" />
+                {/* <img src={AvatarImg} className="rounded-lg" /> */}
+                <ImageUpload
+                  fileName={fileList[10]}
+                  previewFile={imgSrc[fileList[10]]}
+                  onFileSelect={handleFileChange}
+                  className="rounded-lg"
+                />
               </div>
               <div className="flex flex-col md:w-3/5 justify-center lg:justify-around text-white text-sm sm:text-xl md:text-lg lg:text-xl xl:text-lg 2xl:text-2xl pl-3 sm:pl-5 md:px-3 lg:pl-8 xl:pl-3 2xl:pl-6 font-medium">
                 <p>LG Kuttukaran</p>
@@ -513,7 +620,12 @@ const Home = () => {
           <div className="w-full  md:w-1/2 xl:w-1/3 flex flex-wrap p-1 md:p-2 xl:p-3">
             <div className="w-full flex bg-sky-600 rounded-lg p-4 sm:p-3 md:p-2 lg:p-4 xl:p-2 2xl:p-5">
               <div className="flex justify-center items-center w-1/2 xs:1/3 sm:w-1/4 md:w-2/5 md:p-2">
-                <img src={AvatarImg} className="rounded-lg" />
+                <ImageUpload
+                  fileName={fileList[11]}
+                  previewFile={imgSrc[fileList[11]]}
+                  onFileSelect={handleFileChange}
+                  className="rounded-lg"
+                />
               </div>
               <div className="flex flex-col md:w-3/5 justify-center lg:justify-around text-white text-sm sm:text-xl md:text-lg lg:text-xl xl:text-lg 2xl:text-2xl pl-3 sm:pl-5 md:px-3 lg:pl-8 xl:pl-3 2xl:pl-6 font-medium">
                 <p>LG Kuttukaran</p>
@@ -526,7 +638,12 @@ const Home = () => {
           <div className="w-full  md:w-1/2 xl:w-1/3 flex flex-wrap p-1 md:p-2 xl:p-3">
             <div className="w-full flex bg-sky-600 rounded-lg p-4 sm:p-3 md:p-2 lg:p-4 xl:p-2 2xl:p-5">
               <div className="flex justify-center items-center w-1/2 xs:1/3 sm:w-1/4 md:w-2/5 md:p-2">
-                <img src={AvatarImg} className="rounded-lg" />
+                <ImageUpload
+                  fileName={fileList[12]}
+                  previewFile={imgSrc[fileList[12]]}
+                  onFileSelect={handleFileChange}
+                  className="rounded-lg"
+                />
               </div>
               <div className="flex flex-col md:w-3/5 justify-center lg:justify-around text-white text-sm sm:text-xl md:text-lg lg:text-xl xl:text-lg 2xl:text-2xl pl-3 sm:pl-5 md:px-3 lg:pl-8 xl:pl-3 2xl:pl-6 font-medium">
                 <p>LG Kuttukaran</p>
@@ -539,7 +656,12 @@ const Home = () => {
           <div className="w-full  md:w-1/2 xl:w-1/3 flex flex-wrap p-1 md:p-2 xl:p-3">
             <div className="w-full flex bg-sky-600 rounded-lg p-4 sm:p-3 md:p-2 lg:p-4 xl:p-2 2xl:p-5">
               <div className="flex justify-center items-center w-1/2 xs:1/3 sm:w-1/4 md:w-2/5 md:p-2">
-                <img src={AvatarImg} className="rounded-lg" />
+                <ImageUpload
+                  fileName={fileList[13]}
+                  previewFile={imgSrc[fileList[13]]}
+                  onFileSelect={handleFileChange}
+                  className="rounded-lg"
+                />
               </div>
               <div className="flex flex-col md:w-3/5 justify-center lg:justify-around text-white text-sm sm:text-xl md:text-lg lg:text-xl xl:text-lg 2xl:text-2xl pl-3 sm:pl-5 md:px-3 lg:pl-8 xl:pl-3 2xl:pl-6 font-medium">
                 <p>LG Kuttukaran</p>
@@ -552,7 +674,12 @@ const Home = () => {
           <div className="w-full  md:w-1/2 xl:w-1/3 flex flex-wrap p-1 md:p-2 xl:p-3">
             <div className="w-full flex bg-sky-600 rounded-lg p-4 sm:p-3 md:p-2 lg:p-4 xl:p-2 2xl:p-5">
               <div className="flex justify-center items-center w-1/2 xs:1/3 sm:w-1/4 md:w-2/5 md:p-2">
-                <img src={AvatarImg} className="rounded-lg" />
+                <ImageUpload
+                  fileName={fileList[14]}
+                  previewFile={imgSrc[fileList[14]]}
+                  onFileSelect={handleFileChange}
+                  className="rounded-lg"
+                />
               </div>
               <div className="flex flex-col md:w-3/5 justify-center lg:justify-around text-white text-sm sm:text-xl md:text-lg lg:text-xl xl:text-lg 2xl:text-2xl pl-3 sm:pl-5 md:px-3 lg:pl-8 xl:pl-3 2xl:pl-6 font-medium">
                 <p>LG Kuttukaran</p>
@@ -570,9 +697,10 @@ const Home = () => {
 
       <div className="flex flex-wrap w-full bg-gray-200  px-8 sm:px-16 md:px-20 lg:px-24 xl:px-48 2xl:px-64 lg:py-12 2xl:py-24 relative justify-center">
         <div className="w-full lg:w-1/3 py-8 lg:py-0 z-10 flex items-center">
-          <img
-            src={imgSrc.Home6}
-            className="w-full xl:object-cover object-fill"
+          <ImageUpload
+            fileName={fileList[6]}
+            previewFile={imgSrc[fileList[6]]}
+            onFileSelect={handleFileChange}
           />
         </div>
         <div className="w-full lg:w-2/3 py-8 md:py-12 z-10 flex flex-col items-center lg:items-start lg:pl-16 xl:pl-24 gap-5">
@@ -588,7 +716,7 @@ const Home = () => {
       <div className="flex flex-wrap px-8 sm:px-16 md:px-24 lg:px-24 xl:px-48 2xl:px-64 items-center bg-slate-600 p-8">
         <div className="flex flex-col w-full lg:w-1/3 p-5">
           <p className="text-center lg:text-left mx-auto text-3xl sm:text-4xl md:text-5xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-bold text-white">
-            {sodl}ricks
+            {sold}Bricks
           </p>
           <p className="text-center lg:text-left mx-auto text-sm sm:text-md md:text-lg lg:text-xl 2xl:text-2xl text-white">
             Bought as on 21 Mar 2023

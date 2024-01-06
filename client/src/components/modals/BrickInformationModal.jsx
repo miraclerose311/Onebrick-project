@@ -7,32 +7,28 @@ const BrickInformationModal = ({
   modalPosition,
   handleDedicate,
 }) => {
-  console.log(brickInfo.user, userId);
   return (
     <div
-      className="border border-gray-600 bg-gray-200 opacity-90 absolute py-2 px-4 h-56 w-72 items-center rounded-md z-10"
+      className="border border-gray-600 bg-gray-200 opacity-90 absolute py-2 px-4 w-72 items-center rounded-md z-10"
       style={{
         left: modalPosition.x,
         top: modalPosition.y,
         boxShadow: "0px 0px 5px rgba(0, 0, 0, 0.7)",
       }}
     >
-      {"dedication" in brickInfo ? (
-        <div className="flex flex-col w-full h-full items-center justify-around py-2">
+      {brickInfo.dedication ? (
+        <div className="flex flex-col gap-1 w-full h-full items-center justify-around py-2">
           <p className="font-raleway">
-            I dedicate this brick to my
-            <span>&nbsp;{brickInfo.dedication.relationship}.</span>
-            <br />
-            <span className="text-xl font-montesrrat font-medium">
-              <b>{brickInfo.dedication.name}</b>
-            </span>
+            Donated by <b>{brickInfo.donor.fullName}</b>.<br /> Dedicated to{" "}
+            <b>{brickInfo.dedication.name}</b> who is my{" "}
+            <b>{brickInfo.dedication.relationship}</b>.
           </p>
           <div className="w-2/3 rounded-lg">
             <div className="flex flex-col w-full items-center justify-between gap-y-3">
               <img
                 className="w-20 h-20 rounded-full"
                 src={
-                  brickInfo.dedication.image
+                  brickInfo.dedication && brickInfo.dedication.image
                     ? brickInfo.dedication.image
                     : userImg
                 }
@@ -43,13 +39,12 @@ const BrickInformationModal = ({
           <p className="font-raleway text-md">{brickInfo.dedication.message}</p>
         </div>
       ) : (
-        <div className="flex flex-col w-full h-full justify-center items-center px-4">
-          <p className="text-xl py-2 font-bold font-montserrat">
+        <div className="flex flex-col gap-3 w-full h-full justify-center items-center px-4 py-6">
+          <p className="text-xl font-bold font-montserrat">
             {brickInfo.brick_id}
           </p>
-          <p className="font-lg py-2 font-bold font-raleway">
-            Dedication information dose <br />
-            not exist.
+          <p className="font-lg font-bold font-raleway">
+            Donated by {brickInfo.donor.fullName}
           </p>
           {brickInfo.user === userId && (
             <button

@@ -104,10 +104,11 @@ router.post("/google-login", async (req, res) => {
 		}
 
 		const payload = {
-			id: user._id,
-			email: user.email,
-			fullName: user.fullName,
-		};
+      id: user._id,
+      email: user.email,
+      fullName: user.fullName,
+      role: user.role,
+    };
 
 		// Create jwt token and return it
 		jwt.sign(

@@ -12,13 +12,13 @@ const Sidebar = () => {
     <div className="w-full h-full flex flex-col bg-[#32363f] text-white items-center">
       <Link
         to="/"
-        className="font-bold font-raleway text-center lg:text-2xl 2xl:text-3xl py-12"
+        className="flex justify-center item font-bold font-raleway text-center lg:text-2xl 2xl:text-3xl"
       >
-        <img src={WhiteLogo} className="pr-6" />
+        <img src={WhiteLogo} className="p-16" />
       </Link>
       <hr className="w-full border-gray-500" />
-      <div className="w-full flex flex-col gap-4 py-8 px-8 text-white">
-        <Link
+      <div className="w-full flex flex-col gap-4 py-8 px-16 text-white">
+        {/* <Link
           to="/admin"
           className="flex items-center gap-3 cursor-pointer hover:text-sky-500"
         >
@@ -26,7 +26,7 @@ const Sidebar = () => {
           <p className="text-md xl:text-lg 2xl:text-xl font-montserrat">
             Dashboard
           </p>
-        </Link>
+        </Link> */}
         <Link
           to="/admin/bricks"
           className="flex items-center gap-3 cursor-pointer hover:text-sky-500"
@@ -45,7 +45,7 @@ const Sidebar = () => {
             Donors
           </p>
         </Link>
-        <Link
+        {/* <Link
           to="/admin/manage"
           className="flex items-center gap-3 cursor-pointer hover:text-sky-500"
         >
@@ -53,7 +53,7 @@ const Sidebar = () => {
           <p className="text-md xl:text-lg 2xl:text-xl font-montserrat">
             Management
           </p>
-        </Link>
+        </Link> */}
       </div>
     </div>
   );

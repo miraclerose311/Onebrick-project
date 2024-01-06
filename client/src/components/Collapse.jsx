@@ -12,7 +12,6 @@ const Collapse = ({ id, expand, title, content, handleClickExpand }) => {
   return (
     <div
       id={id}
-      expand={expand}
       className="bg-white w-full cursor-pointer px-3 py-2 flex-col rounded-lg"
       onClick={() => handleClickExpand(id, expand)}
     >

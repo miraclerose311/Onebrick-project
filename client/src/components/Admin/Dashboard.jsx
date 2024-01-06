@@ -1,23 +1,17 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import {
-	LineChart,
-	Line,
-	XAxis,
-	YAxis,
-	CartesianGrid,
-	Tooltip,
-	Legend,
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
 } from "recharts";
 import axios from "axios";
 
 import { clearLoading, setLoading } from "../../features/loadingSlice";
-import { initialBricks } from "../../actions/brick";
-import { initialDonors } from "../../actions/donor";
-import { getBrickSoldAmount } from "../../actions/brick";
-import { getDonorAmount } from "../../actions/donor";
-
-import BrickResetModal from "./BrickResetModal";
 
 const TotalBrickAmount = 35000;
 
@@ -28,30 +22,15 @@ const Dashboard = () => {
   const [byMonth, setByMonth] = useState(true);
   const [year, setYear] = useState(newDate.getFullYear());
   const [month, setMonth] = useState(newDate.getMonth() + 1);
-  const [displayFakeData, setDisplayFakeData] = useState(true);
-  const [fakeData, setFakeData] = useState([]);
   const [realData, setRealData] = useState([]);
 
-  const [modalOpen, setModalOpen] = useState(false);
-  const [modalContent, setModalContent] = useState("");
-  const [count, setCount] = useState(0);
-
   const dispatch = useDispatch();
-  const { sold, fakesold, donor, fakedonor } = useSelector(
-    (state) => state.admin
-  );
-
-  const handleChangeSelect = (e) => {
-    if (e.target.value === "fake") setDisplayFakeData(true);
-    else setDisplayFakeData(false);
-  };
 
   const handleChangeByMonth = (e) => {
     if (e.target.value === "bymonth") setByMonth(true);
     else setByMonth(false);
   };
 
-  // Fetch fake sales data
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -60,21 +39,19 @@ const Dashboard = () => {
           const response = await axios.get(
             `${base_URL}/api/brick/saleInfo/bymonth?${query}`
           );
-          const fakeArray = Object.values(response.data.fake);
-          const realArray = Object.values(response.data.real);
+          console.log(response);
+          const brickData = Object.values(response.data);
 
-          setFakeData(fakeArray);
-          setRealData(realArray);
+          setRealData(brickData);
         } else {
           const query = `year=${year}&month=${month}`;
           const response = await axios.get(
             `${base_URL}/api/brick/saleInfo/byday?${query}`
           );
-          const fakeArray = Object.values(response.data.fake);
-          const realArray = Object.values(response.data.real);
+          console.log(response);
+          const brickData = Object.values(response.data);
 
-          setFakeData(fakeArray);
-          setRealData(realArray);
+          setRealData(brickData);
         }
       } catch (error) {
         console.log(error);
@@ -85,36 +62,36 @@ const Dashboard = () => {
     dispatch(clearLoading());
   }, [year, month, byMonth, dispatch]);
 
-  useEffect(() => {
-    const fetchStaticData = async () => {
-      try {
-        dispatch(getBrickSoldAmount());
-        dispatch(getDonorAmount());
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchStaticData();
-  }, [dispatch]);
+  // useEffect(() => {
+  //   const fetchStaticData = async () => {
+  //     try {
+  //       dispatch(getBrickSoldAmount());
+  //       dispatch(getDonorAmount());
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+  //   fetchStaticData();
+  // }, [dispatch]);
 
-  const handleModalOpen = (e) => {
-    setModalOpen(true);
-    if (e.target.name === "brickReset") {
-      setModalContent("brick");
-    } else {
-      setModalContent("donor");
-    }
-  };
+  // const handleModalOpen = (e) => {
+  //   setModalOpen(true);
+  //   if (e.target.name === "brickReset") {
+  //     setModalContent("brick");
+  //   } else {
+  //     setModalContent("donor");
+  //   }
+  // };
 
-  const handleReset = () => {
-    setModalOpen(false);
-    if (modalContent === "brick") {
-      dispatch(initialBricks(count));
-    } else {
-      dispatch(initialDonors(count));
-    }
-    setCount(0);
-  };
+  // const handleReset = () => {
+  //   setModalOpen(false);
+  //   if (modalContent === "brick") {
+  //     dispatch(initialBricks(count));
+  //   } else {
+  //     dispatch(initialDonors(count));
+  //   }
+  //   setCount(0);
+  // };
 
   return (
     <div className="bg-gray-100 w-full">
@@ -205,26 +182,17 @@ const Dashboard = () => {
             </LineChart>
           </div>
         </div>
-        <div className="w-full p-2 flex flex-wrap">
-          <div className="w-1/4 p-2">
-            <select
-              className="p-2 px-3 w-full rounded-md bg-white hover:boder-gray-200 cursor-pointer shadow-md shadow-gray-300"
-              onChange={handleChangeSelect}
-            >
-              <option value="fake">Fake</option>
-              <option value="real">Real</option>
-            </select>
-          </div>
-          <div className="w-1/4 p-2">
+        <div className="w-full lg:w-2/3 p-2 flex flex-wrap">
+          <div className="w-1/3 p-2">
             <select
               className="p-2 px-3 w-full rounded-md bg-white hover:boder-gray-200 cursor-pointer shadow-md shadow-gray-300"
               onChange={handleChangeByMonth}
             >
-              <option value="bymonth">Every Month</option>
-              <option value="byday">Every Day</option>
+              <option value="bymonth">By Month</option>
+              <option value="byday">By Day</option>
             </select>
           </div>
-          <div className="w-1/4 p-2">
+          <div className="w-1/3 p-2">
             <input
               name="year"
               type="number"
@@ -233,7 +201,7 @@ const Dashboard = () => {
               onChange={(e) => setYear(parseInt(e.target.value))}
             />
           </div>
-          <div className="w-1/4 p-2">
+          <div className="w-1/3 p-2">
             <input
               name="month"
               type="number"

@@ -84,17 +84,6 @@ router.get("/sold-amount", async (req, res) => {
     });
 });
 
-//Get data for dashboard page
-// router.get("/bricksoldamount", async (req, res) => {
-//   try {
-//     const sold = await Brick.find({ fake: false, sold: true }).count();
-//     const fakesold = await Brick.find({ fake: true, sold: true }).count();
-//     res.json({ sold, fakesold });
-//   } catch (error) {
-//     console.log(error.message);
-//     res.status(500).send("Server error");
-//   }
-// });
 
 router.get("/all", async (req, res) => {
   // await Brick.find()
@@ -119,6 +108,7 @@ router.get("/all", async (req, res) => {
         sold: 1,
         date: 1,
         user: 1,
+        dedication: 1,
         donor: { $arrayElemAt: ["$donor", 0] },
       },
     },
@@ -197,12 +187,11 @@ router.get("/saleInfo/byday", async (req, res) => {
   const year = parseInt(req.query.year) || new Date().getFullYear();
   const month = parseInt(req.query.month) || new Date().getMonth() + 1;
 
-  const fake = await Brick.aggregate([
+  const response = await Brick.aggregate([
     {
       $match: {
         date: { $exists: true, $ne: null },
         sold: true,
-        fake: true,
         $expr: {
           $and: [
             // Use $and to add multiple conditions
@@ -219,7 +208,7 @@ router.get("/saleInfo/byday", async (req, res) => {
           month: { $month: "$date" },
           day: { $dayOfMonth: "$date" },
         },
-        totalSales: { $sum: "$amount" },
+        totalSales: { $sum: 1 },
       },
     },
     {
@@ -229,51 +218,18 @@ router.get("/saleInfo/byday", async (req, res) => {
     },
   ]);
 
-  const real = await Brick.aggregate([
-    {
-      $match: {
-        date: { $exists: true, $ne: null },
-        sold: true,
-        fake: false,
-        $expr: {
-          $and: [
-            // Use $and to add multiple conditions
-            { $eq: [{ $year: "$date" }, year] },
-            { $eq: [{ $month: "$date" }, month] },
-          ],
-        },
-      },
-    },
-    {
-      $group: {
-        _id: {
-          year: { $year: "$date" },
-          month: { $month: "$date" },
-          day: { $dayOfMonth: "$date" },
-        },
-        totalSales: { $sum: "$amount" },
-      },
-    },
-    {
-      $sort: {
-        _id: 1,
-      },
-    },
-  ]);
-
-  res.json({ fake: fake, real: real });
+  res.json(response);
 });
 
 router.get("/saleInfo/bymonth", async (req, res) => {
   // Parse query parameters safely, providing defaults if they are invalid.
   const year = parseInt(req.query.year) || new Date().getFullYear();
 
-  const fake = await Brick.aggregate([
+  const response = await Brick.aggregate([
     {
       $match: {
         date: { $exists: true, $ne: null },
         sold: true,
-        fake: true,
         $expr: { $eq: [{ $year: "$date" }, year] },
       },
     },
@@ -283,7 +239,7 @@ router.get("/saleInfo/bymonth", async (req, res) => {
           year: { $year: "$date" },
           month: { $month: "$date" },
         },
-        totalSales: { $sum: "$amount" },
+        totalSales: { $sum: 1 },
       },
     },
     {
@@ -293,37 +249,12 @@ router.get("/saleInfo/bymonth", async (req, res) => {
     },
   ]);
 
-  const real = await Brick.aggregate([
-    {
-      $match: {
-        date: { $exists: true, $ne: null },
-        sold: true,
-        fake: false,
-        $expr: { $eq: [{ $year: "$date" }, year] },
-      },
-    },
-    {
-      $group: {
-        _id: {
-          year: { $year: "$date" },
-          month: { $month: "$date" },
-        },
-        totalSales: { $sum: "$amount" },
-      },
-    },
-    {
-      $sort: {
-        _id: 1,
-      },
-    },
-  ]);
-
-  res.json({ fake: fake, real: real });
+  res.json(response);
 });
 
 router.get("/current_page", async (req, res) => {
   try {
-    let { brick_id, date, amount, page, limit, sold, fake, term } = req.query;
+    let { brick_id, date, amount, page, limit, term } = req.query;
     let filter_query = {};
     let sort_query = {};
 
@@ -340,6 +271,13 @@ router.get("/current_page", async (req, res) => {
       filter_query.$expr = {
         $or: [
           { $regexMatch: { input: "$brick_id", regex: term, options: "i" } },
+          {
+            $regexMatch: {
+              input: "$donor.fullName",
+              regex: term,
+              options: "i",
+            },
+          },
           {
             $regexMatch: {
               input: "$dedication.name",
@@ -365,8 +303,7 @@ router.get("/current_page", async (req, res) => {
       };
     }
 
-    if (sold !== "all") filter_query.sold = sold === "true";
-    if (fake !== "all") filter_query.fake = fake === "true";
+    filter_query.sold = true;
 
     // Parse 'page' and 'limit' as integers
     page = parseInt(page, 10) || 1;
@@ -395,6 +332,7 @@ router.get("/current_page", async (req, res) => {
           as: "donor",
         },
       },
+      { $unwind: "$donor" },
       ...(Object.keys(sort_query).length ? [{ $sort: sort_query }] : []),
       ...(Object.keys(filter_query).length ? [{ $match: filter_query }] : []),
       { $skip: (page - 1) * limit },

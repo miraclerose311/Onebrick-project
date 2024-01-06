@@ -7,7 +7,6 @@ const PaymentDetails = require("../../models/Payment");
 
 router.post("/order", async (req, res) => {
   const { amount } = req.body;
-  console.log("Razorpay amount => ", amount);
 
   // Create Razorpay instance with credentials from environment variables
   const rzp = new Razorpay({

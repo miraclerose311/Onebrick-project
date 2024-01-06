@@ -68,6 +68,25 @@ const Buybrick = () => {
     }
   }, [token, dispatch]);
 
+  //------------Background Image Fetch-------------
+  const [imgSrc, setImageSrc] = useState("");
+  const fileList = Object.keys(imgSrc);
+
+  const loadImage = () => {
+    fetch(
+      `${import.meta.env.VITE_BACKEND_URL}/upload/BackgroundOfWallofHope.txt`
+    )
+      .then((response) => response.text())
+      .then((base64Text) => {
+        setImageSrc(base64Text);
+      })
+      .catch(console.error);
+  };
+
+  useEffect(() => {
+    loadImage();
+  }, []);
+
   // Fetch brick states
   const { bricks } = useSelector((state) => state.brick);
   const { amount, dedication } = useSelector((state) => state.brick.current);
@@ -94,7 +113,7 @@ const Buybrick = () => {
 
   // Initialize zoom in and out variables
   const scaleUp = true;
-  const src = brickImage;
+  const src = imgSrc;
   const zoomFactor = 8;
 
   function classNames(...classes) {
@@ -142,6 +161,7 @@ const Buybrick = () => {
     imageNaturalWidth,
     imageNaturalHeight,
   ]);
+
   const handleImageOnLoad = (image) => {
     setImageNaturalWidth(image.naturalWidth);
     setImageNaturalHeight(image.naturalHeight);
@@ -307,7 +327,6 @@ const Buybrick = () => {
   const handleConfirm = () => {
     setIsSlideModalOpen(false);
     dispatch(getBrickSoldAmount());
-    setIsSoldModalOpen(true);
   };
 
   useEffect(() => {
@@ -351,7 +370,6 @@ const Buybrick = () => {
           dispatch(clearOrder());
           setIsSlideModalOpen(true);
           setModalContent(4);
-          // setIsSoldModalOpen(true);
         },
         modal: {
           ondismiss: function () {
@@ -406,44 +424,44 @@ const Buybrick = () => {
     navigate("/login");
   };
 
-  const onChangeSearchInput = (e) => {
-    if (e.target.value.length > 2) setSearch(e.target.value.toLowerCase());
-    else if (e.target.value.length == 0) {
-      if (userId) {
-        const temp = bricks.filter((item) => {
-          if (item.user) {
-            return item.sold && item.user == userId;
-          }
-        });
-        setFiltered(temp);
-      }
-    } else {
-      setSearch("");
-      setFiltered([]);
-    }
-  };
+  // const onChangeSearchInput = (e) => {
+  //   if (e.target.value.length > 2) setSearch(e.target.value.toLowerCase());
+  //   else if (e.target.value.length == 0) {
+  //     if (userId) {
+  //       const temp = bricks.filter((item) => {
+  //         if (item.user) {
+  //           return item.sold && item.user == userId;
+  //         }
+  //       });
+  //       setFiltered(temp);
+  //     }
+  //   } else {
+  //     setSearch("");
+  //     setFiltered([]);
+  //   }
+  // };
 
-  useEffect(() => {
-    if (search !== "") {
-      const temp = bricks.filter((item) => {
-        if (item.donor) {
-          // Check if the donor's full name, email, or address includes the search search
-          return (
-            item.donor.fullName.toLowerCase().includes(search.toLowerCase()) ||
-            item.donor.email.toLowerCase().includes(search.toLowerCase()) ||
-            item.donor.address.toLowerCase().includes(search.toLowerCase()) ||
-            item.donor.country.toLowerCase().includes(search.toLowerCase()) ||
-            item.donor.state.toLowerCase().includes(search.toLowerCase()) ||
-            item.brick_id.includes(search)
-          );
-        } else {
-          // If there is no donor, match by brick_id
-          return item.brick_id.includes(search);
-        }
-      });
-      setFiltered(temp);
-    }
-  }, [search, bricks]);
+  // useEffect(() => {
+  //   if (search !== "") {
+  //     const temp = bricks.filter((item) => {
+  //       if (item.donor) {
+  //         // Check if the donor's full name, email, or address includes the search search
+  //         return (
+  //           item.donor.fullName.toLowerCase().includes(search.toLowerCase()) ||
+  //           item.donor.email.toLowerCase().includes(search.toLowerCase()) ||
+  //           item.donor.address.toLowerCase().includes(search.toLowerCase()) ||
+  //           item.donor.country.toLowerCase().includes(search.toLowerCase()) ||
+  //           item.donor.state.toLowerCase().includes(search.toLowerCase()) ||
+  //           item.brick_id.includes(search.toUpperCase())
+  //         );
+  //       } else {
+  //         // If there is no donor, match by brick_id
+  //         return item.brick_id.includes(search.toUpperCase());
+  //       }
+  //     });
+  //     setFiltered(temp);
+  //   }
+  // }, [search, bricks]);
 
   const renderBricks = () => {
     const colBricks = [];
@@ -488,9 +506,9 @@ const Buybrick = () => {
 
   return (
     <div className="text-center items-center h-screen min-w-[500px] bg-gray-600 w-full flex itmes-center sm:justify-center">
-      <div className="fixed top-12 sm:right-16 md:right-20 lg:right-24 xl:right-36 flex justify-around p-3 itmes-center min-w-[400px] z-10">
+      <div className="fixed gap-3 top-12 sm:right-16 md:right-20 lg:right-24 xl:right-36 flex justify-around p-3 itmes-center z-10">
         <Menu as="div" className="relative flex justify-center itmes-center">
-          <Menu.Button className="btn btn-change px-3 rounded-lg hover:border-2 hover:border-sky-700">
+          <Menu.Button className="btn btn-change px-1 rounded-lg hover:border-2 hover:border-sky-700">
             <FcMenu className="text-4xl" />
           </Menu.Button>
 
@@ -559,14 +577,14 @@ const Buybrick = () => {
             </Menu.Items>
           </Transition>
         </Menu>
-        <div className="flex items-center mx-4">
+        {/* <div className="flex items-center mx-4">
           <input
             type="search"
             className="border-2 border-gray-400 rounded-full w-[240px] h-10 px-4 py-2 bg-gray-200 outline-none focus-visible:border-sky-700"
             placeholder="Search the Wall of Hope"
             onChange={onChangeSearchInput}
           />
-        </div>
+        </div> */}
         <Menu as="div" className="relative flex justify-center itmes-center">
           <Menu.Button className="btn rounded-full">
             <img
@@ -706,7 +724,7 @@ const Buybrick = () => {
                   {bricks.length !== 0 && renderBricks()}
                 </div>
                 <img
-                  src={brickImage}
+                  src={imgSrc}
                   className="absoulte top-0 left-0 max-w-none"
                   style={{
                     width: `5000px`,

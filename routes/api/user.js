@@ -6,31 +6,9 @@ const config = require("config");
 const auth = require("../../middleware/auth");
 const { check, validationResult } = require("express-validator");
 const mongoose = require("mongoose");
-const faker = require("faker");
 
 const User = require("../../models/User");
 const Profile = require("../../models/Profile");
-
-router.post("/initial", async (req, res) => {
-	const count = 10000;
-	const fakeUsers = [];
-
-	for (let i = 0; i < count; i++) {
-		fakeUsers.push({
-			fullName: faker.name.findName(),
-			email: faker.internet.email(),
-			role: faker.datatype.number({ max: 2 }),
-			date: faker.date.past(1),
-		});
-	}
-
-	try {
-		await User.insertMany(fakeUsers);
-		res.send(`Successfully added ${count} fake users.`);
-	} catch (error) {
-		console.error("Error inserting fake data:", error);
-	}
-});
 
 // @route    POST api/users/add
 // @desc     Add user
