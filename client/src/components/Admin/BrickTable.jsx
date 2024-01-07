@@ -7,7 +7,6 @@ import { HiChevronDoubleLeft } from "react-icons/hi";
 import { HiChevronDoubleRight } from "react-icons/hi";
 import { HiChevronLeft } from "react-icons/hi";
 import { HiChevronRight } from "react-icons/hi";
-import { CiFilter } from "react-icons/ci";
 import { FaSortAmountUp } from "react-icons/fa";
 import { FaSortAmountDownAlt } from "react-icons/fa";
 import { TbArrowsSort } from "react-icons/tb";
@@ -58,18 +57,6 @@ const BrickTable = () => {
   useEffect(() => {
     setCurrentPage(1);
   }, [search]);
-
-  const handleFilter = (e) => {
-    const { name, value } = e.target;
-    setFilter((prevFilters) => ({
-      ...prevFilters,
-      [name]: {
-        ...prevFilters[name],
-        value: value,
-        modal: false, // closes the modal when a selection is made
-      },
-    }));
-  };
 
   useEffect(() => {
     // Setting up the delay

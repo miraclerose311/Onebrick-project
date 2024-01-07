@@ -1,10 +1,15 @@
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import axios from "axios";
+
 import ImageUpload from "../ImageUpload";
 import EditableParagraph from "../EditableParagraph";
+import { updateContent } from "../../actions/content";
 
 const ManageContent = () => {
   const base_URL = `${import.meta.env.VITE_BACKEND_URL}`;
+
+  const dispatch = useDispatch();
 
   const [imgSrc, setImageSrc] = useState({
     Home1: "",
@@ -56,18 +61,15 @@ const ManageContent = () => {
   }, [imageData]);
 
   const loadImage = () => {
-    fileList.forEach((name) => {
-      // Changed from map to forEach since you don't use the returned array
-      fetch(`${base_URL}/upload/${name}.txt`)
-        .then((response) => response.text())
-        .then((base64Text) => {
-          setImageSrc((prevImgSrc) => ({
-            ...prevImgSrc,
-            [name]: `${base64Text}`, // Assuming [name] is a unique key
-          }));
-        })
-        .catch(console.error);
-    });
+    fetch(`${base_URL}/upload/${name}.txt`)
+      .then((response) => response.text())
+      .then((base64Text) => {
+        setImageSrc((prevImgSrc) => ({
+          ...prevImgSrc,
+          [name]: `${base64Text}`, // Assuming [name] is a unique key
+        }));
+      })
+      .catch(console.error);
   };
 
   useEffect(() => {
@@ -75,7 +77,11 @@ const ManageContent = () => {
   }, []);
 
   const onBlur = (target) => {
-    console.log("target", target.textContent);
+    const contentData = {
+      name: target.name,
+      content: target.textContent,
+    };
+    dispatch(updateContent(contentData));
   };
 
   return (

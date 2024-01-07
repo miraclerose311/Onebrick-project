@@ -1,13 +1,7 @@
 import PropTypes from "prop-types";
 
-const BrickResetModal = ({
-	isOpen,
-	closeModal,
-	count,
-	changeCount,
-	handleReset,
-}) => {
-	return (
+const BrickResetModal = ({ isOpen, closeModal, count, changeCount }) => {
+  return (
     <div
       className={`${
         isOpen ? "fixed" : "hidden"
@@ -62,16 +56,6 @@ const BrickResetModal = ({
               placeholder="Enter a number..."
             />
           </div>
-        </div>
-        {/* Footer */}
-        <div className="flex justify-center items-center p-6 border-t border-solid border-gray-300 rounded-b">
-          <button
-            type="button"
-            className=" bg-gray-300 hover:bg-gray-400 shadow-md shadow-gray-200 rounded-sm uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-            onClick={handleReset}
-          >
-            RESET
-          </button>
         </div>
       </div>
     </div>

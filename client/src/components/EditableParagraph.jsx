@@ -1,16 +1,26 @@
-import React, { useState } from "react";
+import PropTypes from "prop-types";
 
-const EditableParagraph = ({ content, onBlur, className }) => {
+const EditableParagraph = ({ name, content, onBlur, className }) => {
   return (
     <p
-      className={className}
+      name={name}
+      className={`${className} cursor-pointer`}
       contentEditable
       suppressContentEditableWarning={true} // Prevents warning for contentEditable without onChange event
-      onBlur={(e) => onBlur(e.target)}
+      onBlur={(e) =>
+        onBlur(e.target.getAttribute("name"), e.target.textContent)
+      }
     >
       {content}
     </p>
   );
+};
+
+EditableParagraph.propTypes = {
+  name: PropTypes.string.isRequired,
+  content: PropTypes.string,
+  onBlur: PropTypes.func.isRequired,
+  className: PropTypes.string.isRequired,
 };
 
 export default EditableParagraph;

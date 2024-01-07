@@ -6,17 +6,19 @@ import paymentSlice from "../features/paymentSlice";
 import loadingSlice from "../features/loadingSlice";
 import donorSlice from "../features/donorSlice";
 import adminSlice from "../features/adminSlice";
+import contentSlice from "../features/contentSlice";
 
 const store = configureStore({
-	reducer: {
-		auth: authReducer,
-		brick: brickReducer,
-		alert: alertSlice,
-		payment: paymentSlice,
-		loading: loadingSlice,
-		donor: donorSlice,
-		admin: adminSlice,
-	},
+  reducer: {
+    auth: authReducer,
+    brick: brickReducer,
+    alert: alertSlice,
+    payment: paymentSlice,
+    loading: loadingSlice,
+    donor: donorSlice,
+    admin: adminSlice,
+    content: contentSlice,
+  },
 });
 
 export default store;

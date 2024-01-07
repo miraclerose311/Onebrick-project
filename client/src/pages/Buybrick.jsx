@@ -18,7 +18,7 @@ import { getDonor } from "../actions/donor";
 import { setAlertWithTimeout } from "../features/alertSlice";
 import { logout } from "../features/authSlice";
 import { clearOrder } from "../features/paymentSlice";
-import { clearAmount, clearCurrent } from "../features/brickSlice";
+import { clearCurrent } from "../features/brickSlice";
 import { getBrickSoldAmount } from "../actions/brick";
 
 // Import modal components
@@ -35,7 +35,6 @@ import ProgressBar from "../components/ProgressBar";
 
 // Import assets
 import UserImg from "../assets/img/user.png";
-import brickImage from "../assets/img/alpha_building_high_res.jpg";
 import "./Modal.css";
 import { TiArrowLeftThick } from "react-icons/ti";
 import { MdCancel } from "react-icons/md";
@@ -70,7 +69,6 @@ const Buybrick = () => {
 
   //------------Background Image Fetch-------------
   const [imgSrc, setImageSrc] = useState("");
-  const fileList = Object.keys(imgSrc);
 
   const loadImage = () => {
     fetch(
@@ -91,7 +89,6 @@ const Buybrick = () => {
   const { bricks } = useSelector((state) => state.brick);
   const { amount, dedication } = useSelector((state) => state.brick.current);
   const [clickedIndex, setClickedIndex] = useState(null);
-  const [search, setSearch] = useState("");
   const [filtered, setFiltered] = useState([]);
 
   //Fetch donor state
@@ -707,7 +704,7 @@ const Buybrick = () => {
         {imageScale > 0 && (
           <TransformWrapper
             key={`${imageNaturalWidth}x${imageNaturalHeight}`}
-            initialScale={1}
+            initialScale={imageScale}
             minScale={imageScale}
             maxScale={zoomFactor * imageScale}
             centerOnInit

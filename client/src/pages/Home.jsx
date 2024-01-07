@@ -3,7 +3,6 @@ import ScrollToTop from "react-scroll-to-top";
 import { useDispatch, useSelector } from "react-redux";
 import { getBrickSoldAmount } from "../actions/brick";
 import { useEffect } from "react";
-import { jwtDecode } from "jwt-decode";
 
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
@@ -25,11 +24,13 @@ import SelectionGroup from "../components/SelectionGroup";
 import { getDonorAmount } from "../actions/donor";
 import ImageUpload from "../components/ImageUpload";
 import EditableParagraph from "../components/EditableParagraph";
+import { getContents, updateContent } from "../actions/content";
 
 const Home = () => {
   const base_URL = `${import.meta.env.VITE_BACKEND_URL}`;
   const [imageData, setImageData] = useState({});
   const { sold, donor } = useSelector((state) => state.admin);
+
   const [imgSrc, setImageSrc] = useState({
     Home1: "",
     Home2: "",
@@ -59,7 +60,6 @@ const Home = () => {
   const fileList = Object.keys(imgSrc);
 
   const handleFileChange = async (file, fileName) => {
-    console.log("handleFileChange", fileName);
     if (file) {
       const reader = new FileReader();
       reader.onload = async (e) => {
@@ -113,10 +113,18 @@ const Home = () => {
 
   useEffect(() => {
     loadImage();
+    dispatch(getContents());
   }, []);
 
-  const onBlur = (target) => {
-    console.log("target", target.textContent);
+  const { contents } = useSelector((state) => state.content);
+
+  const onBlur = (name, content) => {
+    const contentData = {
+      name,
+      content,
+    };
+    console.log("contentData", contentData);
+    dispatch(updateContent(contentData));
   };
 
   return (
@@ -129,20 +137,20 @@ const Home = () => {
               Building Compassion
             </p> */}
             <EditableParagraph
-              content="Building Compassion"
+              name="HomeTitle1"
+              content={contents.HomeTitle1}
               onBlur={onBlur}
               className="text-4xl sm:text-5xl md:text-6xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-bold text-sky-700 leading-none text-center lg:text-start font-montserrat cursor-pointer z-20"
             />
             <p className="text-lg sm:text-xl md:text-2xl lg:text-xl xl:text-2xl 2xl:text-3xl text-center lg:text-left font-montserrat z-20">
               Brick by Brick
             </p>
-            <p className="w-full text-center lg:text-start text-md sm:text-lg md:text-xl lg:text-md xl:text-xl 2xl:text-2xl font-raleway z-20">
-              Join us in Building Compassion: Brick by brick and make a lasting
-              difference in the lives of those in need of palliative care. Each
-              brick you purchase symbolizes not just your generosity, but also
-              your active participation in creating a sanctuary of comfort and
-              hope.
-            </p>
+            <EditableParagraph
+              name="HomeText1"
+              content={contents.HomeText1}
+              onBlur={onBlur}
+              className="w-full text-center lg:text-start text-md sm:text-lg md:text-xl lg:text-md xl:text-xl 2xl:text-2xl font-raleway z-20"
+            />
             <Link
               to="/buybrick"
               className="py-2 lg:py-3 z-20 w-[200px] rounded-lg bg-red-700 hover:bg-red-800 max-w-sm text-white font-montserrat text-center"
@@ -152,16 +160,11 @@ const Home = () => {
           </div>
         </div>
         <div className="lg:py-12 lg:pt-0 xl:pl-8 lg:pr-24 lg:pl-8 xl:pr-44 2xl:pr-56 z-10 lg:w-2/3 relative">
-          {/* <img src={imgSrc.Home1} className="object-cover w-full h-full" /> */}
           <ImageUpload
             fileName={fileList[0]}
             previewFile={imgSrc[fileList[0]]}
             onFileSelect={handleFileChange}
           />
-          {/* <img
-              src={DonationMark}
-              className="hidden lg:flex w-36 xl:flex absolute left-0 bottom-0 z-20"
-            /> */}
           <div className="hidden lg:flex bg-[#FD8D40] rounded-full w-48 h-48 p-4 absolute left-[-40px] bottom-[-40px] z-20">
             <div className="flex flex-col -rotate-45 justify-center items-center bg-transparent rounded-full border-4 border-[#FEB782] border-r-white w-full h-full">
               <span className="text-3xl font-bold text-white">Donations</span>
@@ -176,10 +179,9 @@ const Home = () => {
         <img src={Ellipse2} className="absolute left-0 top-96" />
       </div>
 
-      <div className="flex flex-wrap w-full px-8 sm:px-16 md:px-24 lg:px-24 xl:px-48 2xl:px-64 lg:py-24 relative">
-        <div className="w-5/12 bg-gray-200 absolute top-48 h-96 py-40 left-0 hidden lg:flex"></div>
+      <div className="flex flex-wrap w-full px-8 sm:px-16 md:px-24 lg:px-24 xl:px-48 2xl:px-56 pt-12 lg:py-24 relative">
+        <div className="w-5/12 bg-gray-200 absolute top-40 h-96 py-56 left-0 hidden lg:flex"></div>
         <div className="flex justify-center items-center w-full lg:w-1/3 z-10">
-          {/* <img className="object-cover w-full" src={imgSrc.Home2} /> */}
           <ImageUpload
             fileName={fileList[1]}
             previewFile={imgSrc[fileList[1]]}
@@ -696,7 +698,7 @@ const Home = () => {
       </div>
 
       <div className="flex flex-wrap w-full bg-gray-200  px-8 sm:px-16 md:px-20 lg:px-24 xl:px-48 2xl:px-64 lg:py-12 2xl:py-24 relative justify-center">
-        <div className="w-full lg:w-1/3 py-8 lg:py-0 z-10 flex items-center">
+        <div className="w-full flex justify-center lg:w-1/3 py-8 lg:py-0 z-10 items-center">
           <ImageUpload
             fileName={fileList[6]}
             previewFile={imgSrc[fileList[6]]}

@@ -13,8 +13,6 @@ import axios from "axios";
 
 import { clearLoading, setLoading } from "../../features/loadingSlice";
 
-const TotalBrickAmount = 35000;
-
 const Dashboard = () => {
   const base_URL = `${import.meta.env.VITE_BACKEND_URL}`;
   const newDate = new Date();

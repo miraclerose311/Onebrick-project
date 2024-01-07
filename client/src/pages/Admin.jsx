@@ -1,8 +1,5 @@
 import { Link } from "react-router-dom";
 
-import DataTable from "../components/BrickTable";
-import DonorTable from "../components/DonorTable";
-
 import { HiOutlineUsers } from "react-icons/hi2";
 import { BsBricks } from "react-icons/bs";
 import { LuLayoutDashboard } from "react-icons/lu";

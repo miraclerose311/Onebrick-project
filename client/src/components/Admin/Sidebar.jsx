@@ -2,8 +2,6 @@ import { Link } from "react-router-dom";
 
 import { HiOutlineUsers } from "react-icons/hi2";
 import { BsBricks } from "react-icons/bs";
-import { LuLayoutDashboard } from "react-icons/lu";
-import { GoFileMedia } from "react-icons/go";
 
 import WhiteLogo from "../../assets/img/logo-white.png";
 

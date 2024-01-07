@@ -1,4 +1,4 @@
-import React from "react";
+import PropTypes from "prop-types";
 
 const AvatarUpload = ({ previewFile, onFileSelect }) => {
   return (
@@ -18,6 +18,11 @@ const AvatarUpload = ({ previewFile, onFileSelect }) => {
       </label>
     </div>
   );
+};
+
+AvatarUpload.propTypes = {
+  previewFile: PropTypes.string.isRequired,
+  onFileSelect: PropTypes.func.isRequired,
 };
 
 export default AvatarUpload;

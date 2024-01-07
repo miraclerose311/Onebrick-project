@@ -36,7 +36,7 @@ const DedicationFormModal = ({ handleNextModal, brick_id }) => {
     dedication.image,
   ]);
 
-  const handleSelect = async (file, fileName) => {
+  const handleSelect = async (file) => {
     if (file) {
       setFilePath(URL.createObjectURL(file));
       const reader = new FileReader();

@@ -70,6 +70,7 @@ const DedicationConfirmModal = ({ handleConfirm, clickedIndex }) => {
 
 DedicationConfirmModal.propTypes = {
   handleConfirm: PropTypes.func.isRequired,
+  clickedIndex: PropTypes.number.isRequired,
 };
 
 export default DedicationConfirmModal;
