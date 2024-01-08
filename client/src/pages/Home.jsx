@@ -16,12 +16,15 @@ import Icon1 from "../assets/img/home/icon1.png";
 import Icon2 from "../assets/img/home/icon2.png";
 import Icon3 from "../assets/img/home/icon3.png";
 import Icon4 from "../assets/img/home/icon4.png";
+import Icon5 from "../assets/img/home/icon5.png";
+import Icon6 from "../assets/img/home/icon6.png";
+import Icon7 from "../assets/img/home/icon7.png";
 
 import Ellipse1 from "../assets/img/home/Ellipse1.png";
 import Ellipse2 from "../assets/img/home/Ellipse2.png";
 
 import SelectionGroup from "../components/SelectionGroup";
-import { getDonorAmount } from "../actions/donor";
+import { getCurrentDonors, getDonorAmount } from "../actions/donor";
 import ImageUpload from "../components/ImageUpload";
 import EditableParagraph from "../components/EditableParagraph";
 import { getContents, updateContent } from "../actions/content";
@@ -55,6 +58,7 @@ const Home = () => {
   useEffect(() => {
     dispatch(getBrickSoldAmount());
     dispatch(getDonorAmount());
+    dispatch(getCurrentDonors());
   }, [dispatch]);
 
   const fileList = Object.keys(imgSrc);
@@ -118,6 +122,10 @@ const Home = () => {
 
   const { contents } = useSelector((state) => state.content);
 
+  const { currentDonors } = useSelector((state) => state.donor);
+
+  console.log("currentDonors", currentDonors);
+
   const onBlur = (name, content) => {
     const contentData = {
       name,
@@ -137,17 +145,23 @@ const Home = () => {
               Building Compassion
             </p> */}
             <EditableParagraph
-              name="HomeTitle1"
-              content={contents.HomeTitle1}
+              name="HomeText1"
+              content={contents.HomeText1 || "Building Compassion"}
               onBlur={onBlur}
               className="text-4xl sm:text-5xl md:text-6xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-bold text-sky-700 leading-none text-center lg:text-start font-montserrat cursor-pointer z-20"
             />
-            <p className="text-lg sm:text-xl md:text-2xl lg:text-xl xl:text-2xl 2xl:text-3xl text-center lg:text-left font-montserrat z-20">
-              Brick by Brick
-            </p>
             <EditableParagraph
-              name="HomeText1"
-              content={contents.HomeText1}
+              name="HomeText2"
+              content={contents.HomeText2 || "Brick by Brick"}
+              onBlur={onBlur}
+              className="text-lg sm:text-xl md:text-2xl lg:text-xl xl:text-2xl 2xl:text-3xl text-center lg:text-left font-montserrat z-20"
+            />
+            <EditableParagraph
+              name="HomeText3"
+              content={
+                contents.HomeText3 ||
+                "Join us in Building Compassion: Brick by brick and make a lasting difference in the lives of those in need of palliative care. Each brick you purchase symbolizes not just your generosity, but also your active participation in creating a sanctuary of comfort and hope."
+              }
               onBlur={onBlur}
               className="w-full text-center lg:text-start text-md sm:text-lg md:text-xl lg:text-md xl:text-xl 2xl:text-2xl font-raleway z-20"
             />
@@ -169,7 +183,7 @@ const Home = () => {
             <div className="flex flex-col -rotate-45 justify-center items-center bg-transparent rounded-full border-4 border-[#FEB782] border-r-white w-full h-full">
               <span className="text-3xl font-bold text-white">Donations</span>
               <span className="text-2xl font-montserrat font-bold text-white">
-                {sold * 10000}Cr
+                ₹ {sold}Cr
               </span>
             </div>
           </div>
@@ -190,25 +204,30 @@ const Home = () => {
         </div>
         <div className="lg:pl-12 xl:pl-20 py-12 lg:py-0 lg:w-2/3 w-full">
           <div className="flex flex-col items-center lg:items-start gap-5 lg:gap-10">
-            <p className="lg:text-left text-4xl md:text-5xl xl:text-6xl 2xl:text-7xl text-sky-700 leading-none text-center font-montserrat font-medium z-10">
-              Empowering Lives brick by brick
-            </p>
-            <p className="text-md sm:text-lg md:text-xl lg:text-md xl:text-xl 2xl:text-2xl text-justify w-full font-raleway z-20">
-              Alpha Hospice&rsquo;s Building Compassion: Brick by Brick campaign
-              embodies our commitment to providing unwavering support and care
-              to those facing life&rsquo;s final journey. Our mission is to
-              extend a hand of comfort, dignity, and compassion to every
-              individual and their families through exceptional palliative care
-            </p>
-            <p className="text-md sm:text-lg md:text-xl lg:text-md xl:text-xl 2xl:text-2xl text-justify w-full turncate font-raleway z-20">
-              This campaign is a significant step towards constructing a new
-              hospice - a haven where warmth, care, and understanding thrive.
-              Each brick symbolizes not just a building block but a pledge of
-              hope, healing, and community support Your involvement is pivotal
-              in turning this vision into a reality, as we strive together
-              towards a collective goal of enhancing palliative care services
-              and facilities
-            </p>
+            <EditableParagraph
+              name="HomeText4"
+              content={contents.HomeText4 || "Empowering Lives brick by brick"}
+              onBlur={onBlur}
+              className="lg:text-left text-4xl md:text-5xl xl:text-6xl 2xl:text-7xl text-sky-700 leading-none text-center font-montserrat font-medium z-10"
+            />
+            <EditableParagraph
+              name="HomeText5"
+              content={
+                contents.HomeText5 ||
+                "Alpha Hospice's Building Compassion: Brick by Brick campaign embodies our commitment to providing unwavering support and care to those facing life's final journey. Our mission is to extend a hand of comfort, dignity, and compassion to every individual and their families through exceptional palliative care."
+              }
+              onBlur={onBlur}
+              className="text-md sm:text-lg md:text-xl lg:text-md xl:text-xl 2xl:text-2xl text-justify w-full font-raleway z-20"
+            />
+            <EditableParagraph
+              name="HomeText6"
+              content={
+                contents.HomeText6 ||
+                "This campaign is a significant step towards constructing a new hospice - a haven where warmth, care, and understanding thrive. Each brick symbolizes not just a building block but a pledge of hope, healing, and community support Your  involvement is pivotal in turning this vision into a reality, as we strive together towards a collective goal of enhancing palliative care services and facilities."
+              }
+              onBlur={onBlur}
+              className="text-md sm:text-lg md:text-xl lg:text-md xl:text-xl 2xl:text-2xl text-justify w-full turncate font-raleway z-20"
+            />
             <Link
               to="/about"
               className="py-2 lg:py-3 w-[200px] rounded-lg border-2 border-red-700 hover:bg-red-800 max-w-sm hover:text-white font-montserrat text-center"
@@ -220,14 +239,23 @@ const Home = () => {
       </div>
 
       <div className="flex flex-col w-full px-8 sm:px-16 md:px-24 lg:px-24 xl:px-48 2xl:px-64 bg-gray-300 justify-center items-center py-12 lg:p-24">
-        <p className="text-4xl md:text-5xl xl:text-6xl 2xl:text-7xl text-center text-sky-700 font-bold font-montserrat z-10">
-          3 Ways you can help make a difference
-        </p>
-        <p className="text-md sm:text-lg md:text-xl lg:text-md xl:text-xl 2xl:text-2xl text-center py-3 lg:py-12 font-raleway">
-          Here are three impactful ways you can help us achieve our financial
-          goals and make a meaningful difference in the lives of those we serve.
-          Each action you take brings us closer to realizing our shared vision
-        </p>
+        <EditableParagraph
+          name="HomeText7"
+          content={
+            contents.HomeText7 || "3 Ways you can help make a difference"
+          }
+          onBlur={onBlur}
+          className="text-4xl md:text-5xl xl:text-6xl 2xl:text-7xl text-center text-sky-700 font-bold font-montserrat z-10"
+        />
+        <EditableParagraph
+          name="HomeText8"
+          content={
+            contents.HomeText8 ||
+            "Here are three impactful ways you can help us achieve our financial goals and make a meaningful difference in the lives of those we serve. Each action you take brings us closer to realizing our shared vision."
+          }
+          onBlur={onBlur}
+          className="text-md sm:text-lg md:text-xl lg:text-md xl:text-xl 2xl:text-2xl py-3 lg:py-12 font-raleway"
+        />
         <div className="flex flex-wrap justify-center w-full">
           <div className="p-5 2xl:p-10 w-full md:w-3/4 lg:w-1/3">
             <div className=" bg-gray-800 text-white flex flex-col gap-8 rounded-md items-center p-5 lg:p-5 lg:px-8 xl:py-12 h-full">
@@ -237,14 +265,21 @@ const Home = () => {
                   className="w-full h-full object-cover rounded-full"
                 />
               </div>
-              <p className="text-md sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl font-bold text-center font-montserra">
-                1. Buy A Brick By Click
-              </p>
-
-              <p className="text-md sm:text-lg md:text-xl lg:text-md xl:text-xl 2xl:text-2xl text-center font-raleway">
-                Contribute directly to our hospice by purchasing a symbolic
-                brick. Each brick lays the foundation for a haven of care
-              </p>
+              <EditableParagraph
+                name="HomeText9"
+                content={contents.HomeText9 || "1. Buy A Brick By Click"}
+                onBlur={onBlur}
+                className="text-md sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl font-bold text-center font-montserra"
+              />
+              <EditableParagraph
+                name="HomeText10"
+                content={
+                  contents.HomeText10 ||
+                  "Contribute directly to our hospice by purchasing a symbolic brick. Each brick lays the foundation for a haven of care."
+                }
+                onBlur={onBlur}
+                className="text-md sm:text-lg md:text-xl lg:text-md xl:text-xl 2xl:text-2xl font-raleway text-center"
+              />
               <button className="py-2 px-6 rounded-lg bg-red-700 hover:bg-red-800 max-w-sm font-montserrat text-center">
                 READ MORE
               </button>
@@ -254,17 +289,25 @@ const Home = () => {
             <div className="bg-white flex flex-col gap-8 rounded-md items-center p-5 lg:p-5 lg:px-8 xl:py-12 h-full">
               <div className="w-12 sm:w-14 md:w-16 lg:w-20 xl:w-24 h-12 sm:h-14 md:h-16 lg:h-20 xl:h-24 border-red-800 rounded-full">
                 <img
-                  src={Icon1}
+                  src={Icon2}
                   className="w-full h-full object-cover rounded-full"
                 />
               </div>
-              <p className="overflow-clip text-md sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl font-bold text-center font-montserra text-sky-700">
-                2. Share Our Stories
-              </p>
-              <p className="text-md sm:text-lg md:text-xl lg:text-md xl:text-xl 2xl:text-2xl text-center font-raleway">
-                Contribute directly to our hospice by purchasing a symbolic
-                brick. Each brick lays the foundation for a haven of care
-              </p>
+              <EditableParagraph
+                name="HomeText11"
+                content={contents.HomeText11 || "2. Share Our Stories"}
+                onBlur={onBlur}
+                className="overflow-clip text-md sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl font-bold text-center font-montserra text-sky-700"
+              />
+              <EditableParagraph
+                name="HomeText12"
+                content={
+                  contents.HomeText12 ||
+                  "Contribute directly to our hospice by purchasing a symbolic brick. Each brick lays the foundation for a haven of care"
+                }
+                onBlur={onBlur}
+                className="text-md sm:text-lg md:text-xl lg:text-md xl:text-xl 2xl:text-2xl font-raleway text-center"
+              />
               <button className="overflow-clip py-2 px-2 rounded-lg border-2 border-red-700 hover:bg-red-800 hover:text-white max-w-sm font-montserrat text-center">
                 SPREAD THE WORD
               </button>
@@ -274,17 +317,25 @@ const Home = () => {
             <div className=" bg-white  flex flex-col gap-8 rounded-md items-center p-5 lg:p-5 lg:px-8 xl:py-12 h-full">
               <div className="w-12 sm:w-14 md:w-16 lg:w-20 xl:w-24 h-12 sm:h-14 md:h-16 lg:h-20 xl:h-24 border-red-800 rounded-full">
                 <img
-                  src={Icon1}
+                  src={Icon3}
                   className="w-full h-full object-cover rounded-full"
                 />
               </div>
-              <p className="text-md sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl font-bold text-center font-montserra text-sky-700">
-                3. Volunteer With Us
-              </p>
-              <p className="text-md sm:text-lg md:text-xl lg:text-md xl:text-xl 2xl:text-2xl text-center font-raleway">
-                Contribute directly to our hospice by purchasing a symbolic
-                brick. Each brick lays the foundation for a haven of care
-              </p>
+              <EditableParagraph
+                name="HomeText13"
+                content={contents.HomeText13 || "3.Volunteer With Us"}
+                onBlur={onBlur}
+                className="overflow-clip text-md sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl font-bold text-center font-montserra text-sky-700"
+              />
+              <EditableParagraph
+                name="HomeText14"
+                content={
+                  contents.HomeText14 ||
+                  "Contribute directly to our hospice by purchasing a symbolic brick. Each brick lays the foundation for a haven of care"
+                }
+                onBlur={onBlur}
+                className="text-md sm:text-lg md:text-xl lg:text-md xl:text-xl 2xl:text-2xl font-raleway text-center"
+              />
               <button className="overflow-clip py-2 px-2 rounded-lg border-2 border-red-700 hover:bg-red-800 hover:text-white max-w-sm font-montserrat text-center">
                 BECOME A VOLUNTEER
               </button>
@@ -294,15 +345,21 @@ const Home = () => {
       </div>
 
       <div className="flex flex-col w-full  px-8 sm:px-16 md:px-24 lg:px-24 xl:px-48 2xl:px-64 py-20 mb-16 md:mb-12 xl:mb-24 bg-white justify-center items-center">
-        <p className="font-bold text-4xl md:text-5xl xl:text-6xl 2xl:text-7xl text-center text-sky-700 lg:pt-0 font-montserrat z-10">
-          Moments of Compassion
-        </p>
-        <p className="text-md sm:text-lg md:text-xl lg:text-md xl:text-xl 2xl:text-2xl text-center text-neutral-600 py-6 lg:py-12 font-raleway">
-          Explore our gallery to witness the profound impact of your support.
-          Each image and video here tells a story - from the tangible progress
-          of our hospice construction to the life- changing narratives of our
-          beneficiaries.
-        </p>
+        <EditableParagraph
+          name="HomeText15"
+          content={contents.HomeText15 || "Moments of Compassion"}
+          onBlur={onBlur}
+          className="font-bold text-4xl md:text-5xl xl:text-6xl 2xl:text-7xl text-center text-sky-700 lg:pt-0 font-montserrat z-10"
+        />
+        <EditableParagraph
+          name="HomeText16"
+          content={
+            contents.HomeText16 ||
+            "Explore our gallery to witness the profound impact of your support. Each image and video here tells a story - from the tangible progress of our hospice construction to the life- changing narratives of our beneficiaries."
+          }
+          onBlur={onBlur}
+          className="text-md text-center sm:text-lg md:text-xl lg:text-md xl:text-xl 2xl:text-2xl text-neutral-600 py-6 lg:py-12 font-raleway"
+        />
         <div className="flex flex-wrap justify-center">
           <div className="w-full lg:w-2/3 p-2 drop-shadow-md">
             <video
@@ -338,13 +395,13 @@ const Home = () => {
         </div>
       </div>
 
-      <div className="flex flex-col w-full px-8 sm:px-16 md:px-24 lg:px-24 xl:px-48 2xl:px-64 bg-neutral-700 justify-center items-center relative">
+      <div className="flex flex-col w-full px-8 sm:px-16 md:px-24 lg:px-24 xl:px-48 2xl:px-64 py-12 bg-neutral-700 justify-center items-center relative">
         <div className="w-full px-8 sm:px-16 md:px-24 lg:px-24 xl:mb-12 xl:px-48 2xl:px-64 absolute -top-12 md:-top-20 lg:-top-24 xl:-top-28 2xl:-top-30">
           <div className="w-full flex flex-wrap bg-stone-300 py-2 lg:py-5">
             <div className="flex flex-col justify-start items-center w-1/4 text-center">
               <div className="flex justify-center items-center w-12 sm:w-14 md:w-16 lg:w-20 xl:w-24 h-12 sm:h-14 md:h-16 lg:h-20 xl:h-24 border-red-800 rounded-full">
                 <img
-                  src={Icon1}
+                  src={Icon4}
                   className="w-5/6 h-5/6 object-cover rounded-full"
                 />
               </div>
@@ -358,12 +415,12 @@ const Home = () => {
             <div className="flex flex-col justify-start items-center w-1/4 text-center">
               <div className="w-12 sm:w-14 md:w-16 lg:w-20 xl:w-24 h-12 sm:h-14 md:h-16 lg:h-20 xl:h-24 border-red-800 rounded-full">
                 <img
-                  src={Icon2}
+                  src={Icon5}
                   className="w-full h-full object-cover rounded-full"
                 />
               </div>
               <p className="md:p-3 underline underline-offset-4 lg:underline-offset-8 text-md sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl text-center font-raleway">
-                ${sold * 10000}Cr
+                ${sold}Cr
               </p>
               <p className="hidden md:flex text-sm md:text-md lg:text-lg xl:text-xl 2xl:text-2xl">
                 Donations received
@@ -372,7 +429,7 @@ const Home = () => {
             <div className="flex flex-col justify-start items-center w-1/4 text-center">
               <div className="w-12 sm:w-14 md:w-16 lg:w-20 xl:w-24 h-12 sm:h-14 md:h-16 lg:h-20 xl:h-24 border-red-800 rounded-full">
                 <img
-                  src={Icon3}
+                  src={Icon6}
                   className="w-full h-full object-cover rounded-full"
                 />
               </div>
@@ -386,7 +443,7 @@ const Home = () => {
             <div className="flex flex-col justify-start items-center w-1/4 text-center">
               <div className="w-12 sm:w-14 md:w-16 lg:w-20 xl:w-24 h-12 sm:h-14 md:h-16 lg:h-20 xl:h-24 border-red-800 rounded-full">
                 <img
-                  src={Icon4}
+                  src={Icon7}
                   className="w-full h-full object-cover rounded-full"
                 />
               </div>
@@ -399,26 +456,40 @@ const Home = () => {
             </div>
           </div>
         </div>
-        <p className="text-4xl text-center text-gray-300 font-raleway pt-20 sm:pt-24 md:pt-28 lg:pt-36 xl:pt-40">
-          Hearts of Generosity
-        </p>
-        <p className="text-4xl text-white font-bold md:text-5xl xl:text-6xl 2xl:text-7xl text-center font-montserrat z-10">
-          Our Donors Speak
-        </p>
-        <p className="text-2xl text-center text-gray-400 py-3 font-raleway">
-          Discover the inspiring voices of our donors whose generosity fuels our
-          mission. Their testimonials reflect the spirit of altruism and the
-          profound impact of every contribution.
-        </p>
+        <EditableParagraph
+          name="HomeText17"
+          content={contents.HomeText17 || "Hearts of Generosity"}
+          onBlur={onBlur}
+          className="text-4xl text-center text-gray-300 font-raleway pt-20 sm:pt-24 md:pt-28 lg:pt-36 xl:pt-40"
+        />
+        <EditableParagraph
+          name="HomeText18"
+          content={contents.HomeText18 || "Our Donors Speak"}
+          onBlur={onBlur}
+          className="text-4xl text-white font-bold md:text-5xl xl:text-6xl 2xl:text-7xl text-center font-montserrat z-10"
+        />
+        <EditableParagraph
+          name="HomeText19"
+          content={
+            contents.HomeText19 ||
+            "Discover the inspiring voices of our donors whose generosity fuels our mission. Their testimonials reflect the spirit of altruism and the profound impact of every contribution."
+          }
+          onBlur={onBlur}
+          className="text-2xl text-center text-gray-400 py-3 font-raleway"
+        />
 
         <div className="flex lg:pt-12 flex-wrap">
           <div className="w-full md:w-1/3 p-5 relative">
             <div className="bg-neutral-900 p-5 xl:p-8 2xl:p-12 flex flex-col gap-3">
-              <p className="xl:text-2xl lg:text-xl ml:text-md text-gray-300 text-justify">
-                Every brick in the hospice symbolizes hope and compassion. As a
-                donor.it’s rewarding to see the real difference my contribution
-                makes in the lives of patients and their families.
-              </p>
+              <EditableParagraph
+                name="HomeText20"
+                content={
+                  contents.HomeText20 ||
+                  "Every brick in the hospice symbolizes hope and compassion. As a donor.it’s rewarding to see the real difference my contribution makes in the lives of patients and their families."
+                }
+                onBlur={onBlur}
+                className="xl:text-2xl lg:text-xl ml:text-md text-gray-300"
+              />
               <div className="bg-stone-800 w-full h-1"></div>
               <div className="flex self-start">
                 <div className="bg-white rounded-full w-12 h-12">
@@ -467,11 +538,15 @@ const Home = () => {
           </div>
           <div className="w-full md:w-1/3 p-5 relative">
             <div className="bg-neutral-900 p-5 xl:p-8 2xl:p-12 flex flex-col gap-3">
-              <p className="xl:text-2xl lg:text-xl ml:text-md text-gray-300 text-justify">
-                Every brick in the hospice symbolizes hope and compassion. As a
-                donor.it’s rewarding to see the real difference my contribution
-                makes in the lives of patients and their families.
-              </p>
+              <EditableParagraph
+                name="HomeText21"
+                content={
+                  contents.HomeText21 ||
+                  "Every brick in the hospice symbolizes hope and compassion. As a donor.it’s rewarding to see the real difference my contribution makes in the lives of patients and their families."
+                }
+                onBlur={onBlur}
+                className="xl:text-2xl lg:text-xl ml:text-md text-gray-300"
+              />
               <div className="bg-stone-800 w-full h-1"></div>
               <div className="flex self-start">
                 <div className="bg-white rounded-full w-12 h-12">
@@ -520,11 +595,15 @@ const Home = () => {
           </div>
           <div className="w-full md:w-1/3 p-5 relative">
             <div className="bg-neutral-900 p-5 xl:p-8 2xl:p-12 flex flex-col gap-3">
-              <p className="xl:text-2xl lg:text-xl ml:text-md text-gray-300 text-justify">
-                Every brick in the hospice symbolizes hope and compassion. As a
-                donor.it’s rewarding to see the real difference my contribution
-                makes in the lives of patients and their families.
-              </p>
+              <EditableParagraph
+                name="HomeText22"
+                content={
+                  contents.HomeText22 ||
+                  "Every brick in the hospice symbolizes hope and compassion. As a donor.it’s rewarding to see the real difference my contribution makes in the lives of patients and their families."
+                }
+                onBlur={onBlur}
+                className="xl:text-2xl lg:text-xl ml:text-md text-gray-300"
+              />
               <div className="bg-stone-800 w-full h-1"></div>
               <div className="flex self-start">
                 <div className="bg-white rounded-full w-12 h-12">
@@ -578,119 +657,33 @@ const Home = () => {
       </div>
 
       <div className="flex flex-col w-full px-8 sm:px-20 md:px-24 lg:px-24 xl:px-48 2xl:px-64 bg-gray-100 py-12 sm:py-20 md:py-24 lg:py-28 xl:py-32 2xl:py-36 justify-center items-center">
-        <p className="text-4xl text-sky-700 font-bold md:text-5xl xl:text-6xl 2xl:text-7xl text-center font-montserrat z-10">
-          Some of our recent donors
-        </p>
+        <EditableParagraph
+          name="HomeText22"
+          content={contents.HomeText22 || "Some of our recent donors"}
+          onBlur={onBlur}
+          className="text-4xl text-sky-700 font-bold md:text-5xl xl:text-6xl 2xl:text-7xl text-center font-montserrat z-10"
+        />
         <div className="w-full flex flex-wrap py-8 md:py-12 xl:py-16">
-          <div className="w-full  md:w-1/2 xl:w-1/3 flex flex-wrap p-1 md:p-2 xl:p-3">
-            <div className="w-full flex bg-sky-600 rounded-lg p-4 sm:p-3 md:p-2 lg:p-4 xl:p-2 2xl:p-5">
-              <div className="flex justify-center items-center w-1/2 xs:1/3 sm:w-1/4 md:w-2/5 md:p-2">
-                <ImageUpload
-                  fileName={fileList[9]}
-                  previewFile={imgSrc[fileList[9]]}
-                  onFileSelect={handleFileChange}
-                  className="rounded-lg"
-                />
+          {currentDonors.map((donorInfo, index) => {
+            <div
+              key={index}
+              className="w-full  md:w-1/2 xl:w-1/3 flex flex-wrap p-1 md:p-2 xl:p-3"
+            >
+              <div className="w-full flex bg-sky-600 rounded-lg p-4 sm:p-3 md:p-2 lg:p-4 xl:p-2 2xl:p-5">
+                <div className="flex justify-center items-center w-1/2 xs:1/3 sm:w-1/4 md:w-2/5 md:p-2">
+                  <img alt="Donor avatar" src={donorInfo.avatar} />
+                </div>
+                <div className="flex flex-col md:w-3/5 justify-center lg:justify-around text-white text-sm sm:text-xl md:text-lg lg:text-xl xl:text-lg 2xl:text-2xl pl-3 sm:pl-5 md:px-3 lg:pl-8 xl:pl-3 2xl:pl-6 font-medium">
+                  <p>{donorInfo.fullName}</p>
+                  <p>
+                    {donorInfo.purchasedBricksCount} Bricks: ₹
+                    {donorInfo.purchasedBricksCount * 10000}
+                  </p>
+                </div>
+                <div></div>
               </div>
-              <div className="flex flex-col md:w-3/5 justify-center lg:justify-around text-white text-sm sm:text-xl md:text-lg lg:text-xl xl:text-lg 2xl:text-2xl pl-3 sm:pl-5 md:px-3 lg:pl-8 xl:pl-3 2xl:pl-6 font-medium">
-                <p>LG Kuttukaran</p>
-                <p>L123-456-7890</p>
-                <p>5 Bricks: $50,0000</p>
-              </div>
-              <div></div>
-            </div>
-          </div>
-          <div className="w-full md:w-1/2 xl:w-1/3 flex flex-wrap p-1 md:p-2 xl:p-3">
-            <div className="w-full flex bg-sky-600 rounded-lg p-4 sm:p-3 md:p-2 lg:p-4 xl:p-2 2xl:p-5">
-              <div className="flex justify-center items-center w-1/2 xs:1/3 sm:w-1/4 md:w-2/5 md:p-2">
-                {/* <img src={AvatarImg} className="rounded-lg" /> */}
-                <ImageUpload
-                  fileName={fileList[10]}
-                  previewFile={imgSrc[fileList[10]]}
-                  onFileSelect={handleFileChange}
-                  className="rounded-lg"
-                />
-              </div>
-              <div className="flex flex-col md:w-3/5 justify-center lg:justify-around text-white text-sm sm:text-xl md:text-lg lg:text-xl xl:text-lg 2xl:text-2xl pl-3 sm:pl-5 md:px-3 lg:pl-8 xl:pl-3 2xl:pl-6 font-medium">
-                <p>LG Kuttukaran</p>
-                <p>L123-456-7890</p>
-                <p>5 Bricks: $50,0000</p>
-              </div>
-              <div></div>
-            </div>
-          </div>
-          <div className="w-full  md:w-1/2 xl:w-1/3 flex flex-wrap p-1 md:p-2 xl:p-3">
-            <div className="w-full flex bg-sky-600 rounded-lg p-4 sm:p-3 md:p-2 lg:p-4 xl:p-2 2xl:p-5">
-              <div className="flex justify-center items-center w-1/2 xs:1/3 sm:w-1/4 md:w-2/5 md:p-2">
-                <ImageUpload
-                  fileName={fileList[11]}
-                  previewFile={imgSrc[fileList[11]]}
-                  onFileSelect={handleFileChange}
-                  className="rounded-lg"
-                />
-              </div>
-              <div className="flex flex-col md:w-3/5 justify-center lg:justify-around text-white text-sm sm:text-xl md:text-lg lg:text-xl xl:text-lg 2xl:text-2xl pl-3 sm:pl-5 md:px-3 lg:pl-8 xl:pl-3 2xl:pl-6 font-medium">
-                <p>LG Kuttukaran</p>
-                <p>L123-456-7890</p>
-                <p>5 Bricks: $50,0000</p>
-              </div>
-              <div></div>
-            </div>
-          </div>
-          <div className="w-full  md:w-1/2 xl:w-1/3 flex flex-wrap p-1 md:p-2 xl:p-3">
-            <div className="w-full flex bg-sky-600 rounded-lg p-4 sm:p-3 md:p-2 lg:p-4 xl:p-2 2xl:p-5">
-              <div className="flex justify-center items-center w-1/2 xs:1/3 sm:w-1/4 md:w-2/5 md:p-2">
-                <ImageUpload
-                  fileName={fileList[12]}
-                  previewFile={imgSrc[fileList[12]]}
-                  onFileSelect={handleFileChange}
-                  className="rounded-lg"
-                />
-              </div>
-              <div className="flex flex-col md:w-3/5 justify-center lg:justify-around text-white text-sm sm:text-xl md:text-lg lg:text-xl xl:text-lg 2xl:text-2xl pl-3 sm:pl-5 md:px-3 lg:pl-8 xl:pl-3 2xl:pl-6 font-medium">
-                <p>LG Kuttukaran</p>
-                <p>L123-456-7890</p>
-                <p>5 Bricks: $50,0000</p>
-              </div>
-              <div></div>
-            </div>
-          </div>
-          <div className="w-full  md:w-1/2 xl:w-1/3 flex flex-wrap p-1 md:p-2 xl:p-3">
-            <div className="w-full flex bg-sky-600 rounded-lg p-4 sm:p-3 md:p-2 lg:p-4 xl:p-2 2xl:p-5">
-              <div className="flex justify-center items-center w-1/2 xs:1/3 sm:w-1/4 md:w-2/5 md:p-2">
-                <ImageUpload
-                  fileName={fileList[13]}
-                  previewFile={imgSrc[fileList[13]]}
-                  onFileSelect={handleFileChange}
-                  className="rounded-lg"
-                />
-              </div>
-              <div className="flex flex-col md:w-3/5 justify-center lg:justify-around text-white text-sm sm:text-xl md:text-lg lg:text-xl xl:text-lg 2xl:text-2xl pl-3 sm:pl-5 md:px-3 lg:pl-8 xl:pl-3 2xl:pl-6 font-medium">
-                <p>LG Kuttukaran</p>
-                <p>L123-456-7890</p>
-                <p>5 Bricks: $50,0000</p>
-              </div>
-              <div></div>
-            </div>
-          </div>
-          <div className="w-full  md:w-1/2 xl:w-1/3 flex flex-wrap p-1 md:p-2 xl:p-3">
-            <div className="w-full flex bg-sky-600 rounded-lg p-4 sm:p-3 md:p-2 lg:p-4 xl:p-2 2xl:p-5">
-              <div className="flex justify-center items-center w-1/2 xs:1/3 sm:w-1/4 md:w-2/5 md:p-2">
-                <ImageUpload
-                  fileName={fileList[14]}
-                  previewFile={imgSrc[fileList[14]]}
-                  onFileSelect={handleFileChange}
-                  className="rounded-lg"
-                />
-              </div>
-              <div className="flex flex-col md:w-3/5 justify-center lg:justify-around text-white text-sm sm:text-xl md:text-lg lg:text-xl xl:text-lg 2xl:text-2xl pl-3 sm:pl-5 md:px-3 lg:pl-8 xl:pl-3 2xl:pl-6 font-medium">
-                <p>LG Kuttukaran</p>
-                <p>L123-456-7890</p>
-                <p>5 Bricks: $50,0000</p>
-              </div>
-              <div></div>
-            </div>
-          </div>
+            </div>;
+          })}
         </div>
         <button className="py-3 px-6 rounded-lg bg-red-700 hover:bg-red-800 text-white max-w-sm font-montserrat text-center">
           SEE ALL DONORS
@@ -727,7 +720,7 @@ const Home = () => {
         <div className="w-full h-1 lg:w-1 lg:h-20 bg-white"></div>
         <div className="flex flex-col w-full lg:w-1/3 p-5">
           <p className="text-center lg:text-left mx-auto text-3xl sm:text-4xl md:text-5xl lg:text-3xl xl:text-4xl 2xl:text-5xl  font-bold text-yellow-400 ">
-            ${sold * 10000}
+            ₹{sold}
           </p>
           <p className="text-center lg:text-left mx-auto text-sm sm:text-md md:text-lg lg:text-xl 2xl:text-2xl text-white">
             Raised until 31 Mar 2023

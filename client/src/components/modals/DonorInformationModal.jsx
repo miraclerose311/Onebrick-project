@@ -20,12 +20,14 @@ const DonorInformationModal = ({ handleNextModal }) => {
   const donor = useSelector((state) => state.donor);
 
   useEffect(() => {
-    const { fullName, mobile, email, pan, aadhaar } = donor;
-    setName(fullName);
-    setMobile(mobile);
-    setEmail(email);
-    setPan(pan);
-    setAadhaar(aadhaar);
+    if (donor.donorInfo) {
+      const { fullName, mobile, email, pan, aadhaar } = donor.donorInfo;
+      setName(fullName);
+      setMobile(mobile);
+      setEmail(email);
+      setPan(pan);
+      setAadhaar(aadhaar);
+    }
   }, [donor]);
 
   const dispatch = useDispatch();

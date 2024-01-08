@@ -32,15 +32,15 @@ const DonorAddressModal = ({ handleBuyBrick }) => {
   }, [token]);
 
   // Get Donor Address from Redux for display when redirect
-  const donor = useSelector((state) => state.donor);
+  const { donorInfo } = useSelector((state) => state.donor);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    setAddress(donor.address);
-    setPin(donor.pin);
-    setCountry(donor.country);
-    setState(donor.state);
-  }, [donor]);
+    setAddress(donorInfo.address);
+    setPin(donorInfo.pin);
+    setCountry(donorInfo.country);
+    setState(donorInfo.state);
+  }, [donorInfo]);
 
   const isValidNumber = (mobile) => {
     const regex = /^[0-9]{4,}$/;
@@ -78,21 +78,23 @@ const DonorAddressModal = ({ handleBuyBrick }) => {
         pin,
       };
       dispatch(addDonorInfo(addressData));
-      const { fullName, mobile, email, pan, aadhaar } = donor;
-      const newDonorData = {
-        userId,
-        fullName,
-        mobile,
-        email,
-        pan,
-        aadhaar,
-        address,
-        country,
-        state,
-        pin,
-      };
-      dispatch(insertDonor(newDonorData));
-      handleBuyBrick();
+      if (donorInfo) {
+        const { fullName, mobile, email, pan, aadhaar } = donorInfo;
+        const newDonorData = {
+          userId,
+          fullName,
+          mobile,
+          email,
+          pan,
+          aadhaar,
+          address,
+          country,
+          state,
+          pin,
+        };
+        dispatch(insertDonor(newDonorData));
+        handleBuyBrick();
+      }
     }
   };
 

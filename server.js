@@ -24,6 +24,7 @@ app.use("/api/brick", require("./routes/api/brick"));
 app.use("/api/donor", require("./routes/api/donor"));
 app.use("/api/payment", require("./routes/api/payment"));
 app.use("/api/upload", require("./routes/api/fileUpload"));
+app.use("/api/content", require("./routes/api/content"));
 
 app.use("/upload", express.static("./uploads"));
 // Serve static assets in production

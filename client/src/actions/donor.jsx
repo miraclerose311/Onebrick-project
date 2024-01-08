@@ -1,5 +1,5 @@
 import api from "../utils/api";
-import { setDonorInfo } from "../features/donorSlice";
+import { setCurrentDonors, setDonorInfo } from "../features/donorSlice";
 import { clearLoading, setLoading } from "../features/loadingSlice";
 import { setDonorAmount } from "../features/adminSlice";
 
@@ -34,33 +34,36 @@ export const insertDonor = (donorData) => async (dispatch) => {
 };
 
 export const getDonor = (user) => async (dispatch) => {
-	try {
-		dispatch(setLoading());
-		await api
-			.post("/donor/get-donor", user)
-			.then((res) => {
-				dispatch(setDonorInfo(res.data));
-				dispatch(clearLoading());
-			})
-			.catch((e) => console.log(e));
-	} catch (e) {
-		console.log(e);
-	}
+  dispatch(setLoading());
+  await api
+    .post("/donor/get-donor", user)
+    .then((res) => {
+      dispatch(setDonorInfo(res.data));
+      dispatch(clearLoading());
+    })
+    .catch((e) => console.log(e));
+};
+
+export const getCurrentDonors = () => async (dispatch) => {
+  dispatch(setLoading());
+  await api
+    .get("/donor/current-donors")
+    .then((res) => {
+      dispatch(setCurrentDonors(res.data));
+    })
+    .catch((e) => console.log(e));
+  dispatch(clearLoading());
 };
 
 export const getDonorAmount = () => async (dispatch) => {
-	try {
-		dispatch(setLoading());
-		await api
-			.get("/donor/donorcount")
-			.then((res) => {
-				dispatch(setDonorAmount(res.data));
-				dispatch(clearLoading());
-			})
-			.catch((err) => {
-				console.log(err);
-			});
-	} catch (e) {
-		console.log(e);
-	}
+  dispatch(setLoading());
+  await api
+    .get("/donor/donorcount")
+    .then((res) => {
+      dispatch(setDonorAmount(res.data));
+      dispatch(clearLoading());
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };

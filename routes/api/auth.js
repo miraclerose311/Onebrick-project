@@ -51,8 +51,8 @@ router.post("/google-register", async (req, res) => {
 		}
 
 		// Create user
-		const newUser = new User({ fullName, email });
-
+		const newUser = new User({ fullName, email, picture });
+		
 		// Save user to database
 		await newUser.save();
 

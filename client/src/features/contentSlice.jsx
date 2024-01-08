@@ -11,7 +11,6 @@ export const contentSlice = createSlice({
     setContents: (state, action) => {
       const res = action.payload;
       const newContents = {};
-      console.log("content slice", action.payload);
       res.forEach((item) => {
         newContents[item.name] = item.content;
       });

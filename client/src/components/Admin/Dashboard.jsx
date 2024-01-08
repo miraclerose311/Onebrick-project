@@ -60,108 +60,12 @@ const Dashboard = () => {
     dispatch(clearLoading());
   }, [year, month, byMonth, dispatch]);
 
-  // useEffect(() => {
-  //   const fetchStaticData = async () => {
-  //     try {
-  //       dispatch(getBrickSoldAmount());
-  //       dispatch(getDonorAmount());
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-  //   fetchStaticData();
-  // }, [dispatch]);
-
-  // const handleModalOpen = (e) => {
-  //   setModalOpen(true);
-  //   if (e.target.name === "brickReset") {
-  //     setModalContent("brick");
-  //   } else {
-  //     setModalContent("donor");
-  //   }
-  // };
-
-  // const handleReset = () => {
-  //   setModalOpen(false);
-  //   if (modalContent === "brick") {
-  //     dispatch(initialBricks(count));
-  //   } else {
-  //     dispatch(initialDonors(count));
-  //   }
-  //   setCount(0);
-  // };
-
   return (
     <div className="bg-gray-100 w-full">
       <div>
         <p className="font-raleway font-medium text-4xl py-4">Dash Board</p>
         <hr className="w-full" />
       </div>
-      {/* <div className="w-full flex flex-wrap justify-center">
-        <div className="w-full sm:w-1/2 xl:w-1/3 p-4">
-          <div className="flex flex-col item-center bg-white p-4 gap-3 rounded-lg shadow-md shadow-bray-600">
-            <p className="text-center text-xl font-montserrat">Fake bricks</p>
-            <p className="text-center font-raleway text-2xl font-medium">
-              {fakesold}/{TotalBrickAmount}
-            </p>
-            <div className="flex justify-around gap-3 items-center">
-              <span className="bg-green-300/30 rounded-md px-2 py-0.5">
-                {((fakesold / TotalBrickAmount) * 100).toFixed(2)}%
-              </span>
-              <button
-                name="brickReset"
-                onClick={handleModalOpen}
-                className="bg-red-300 px-4 py-0.5 rounded-md hover:bg-red-500"
-              >
-                Reset
-              </button>
-            </div>
-          </div>
-        </div>
-        <div className="w-full sm:w-1/2 xl:w-1/3 p-4">
-          <div className="flex flex-col item-center bg-white p-4 gap-3 rounded-lg shadow-md shadow-bray-600">
-            <p className="text-center text-xl font-montserrat">
-              Real Sold bricks
-            </p>
-            <p className="text-center font-raleway text-2xl font-medium">
-              {sold}/{TotalBrickAmount}
-            </p>
-            <div className="flex justify-around gap-3 items-center">
-              <span className="bg-green-300/30 rounded-md px-2 py-0.5">
-                {((sold / TotalBrickAmount) * 100).toFixed(2)}%
-              </span>
-              {/* <button className="">Reset</button>
-            </div>
-          </div>
-        </div>
-        <div className="w-full sm:w-1/2 xl:w-1/3 p-4">
-          <div className="flex flex-col item-center bg-white p-4 gap-3 rounded-lg shadow-md shadow-bray-600">
-            <p className="text-center text-xl font-montserrat">Our Donors</p>
-            <p className="text-center font-raleway text-2xl font-medium">
-              {fakedonor}/{donor}
-            </p>
-            <div className="flex justify-around gap-3 items-center">
-              <span className="bg-green-300/30 rounded-md px-2 py-0.5">
-                {((fakedonor / donor) * 100).toFixed(2)}%
-              </span>
-              <button
-                name="donorReset"
-                onClick={handleModalOpen}
-                className="bg-red-300 px-4 py-0.5 rounded-md hover:bg-red-500"
-              >
-                Reset
-              </button>
-            </div>
-          </div>
-        </div>
-        <BrickResetModal
-          isOpen={modalOpen}
-          closeModal={() => setModalOpen(false)}
-          count={parseInt(count)}
-          handleReset={handleReset}
-          changeCount={(changedcount) => setCount(changedcount)}
-        />
-      </div> */}
       <div className="w-full flex flex-wrap justify-center items-center">
         <div className="w-full p-4 mt-12">
           <div className="pt-12 pb-6 w-full flex justify-center">

@@ -38,7 +38,6 @@ let filePath = "./uploads/myString.txt";
 router.post("/image", async (req, res) => {
   try {
     const { imageData } = req.body;
-    console.log(imageData);
     const files = Object.keys(imageData);
     if (files.length === 0) {
       return res.status(400).json({ message: "There are no files" });
