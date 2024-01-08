@@ -220,9 +220,7 @@ const Buybrick = () => {
       const y = e.clientY;
 
       // Set the position of the modal relative to the clicked point
-      setModalPosition({ x: x + 10, y: y + 10 });
-      if (x > 1000) setModalPosition({ x: x - 220, y: y });
-      if (y > 600) setModalPosition({ x: x, y: y - 300 });
+      setModalPosition({ x, y });
     } else {
       setIsSoldModalOpen(false);
       dispatch(clearCurrent());
@@ -252,9 +250,7 @@ const Buybrick = () => {
         const y = e.clientY;
 
         // Set the position of the modal relative to the clicked point
-        setModalPosition({ x: x + 10, y: y + 10 });
-        if (x > 1000) setModalPosition({ x: x - 300, y: y });
-        if (y > 600) setModalPosition({ x: x, y: y - 220 });
+        setModalPosition({ x, y });
         if (bricks[e.target.id].sold) {
           setClickedIndex(e.target.id);
         }
@@ -265,7 +261,7 @@ const Buybrick = () => {
         setHovered(bricks[e.target.id]);
         setIsBrickInfoModalOpen(false);
       }
-    }, 1000);
+    }, 500);
   };
 
   const handleMouseOut = () => {

@@ -7,8 +7,11 @@ const BuyBrickModal = ({
   handleBuyBrickButtonClick,
   hideModal,
 }) => {
+
   const modalRef = useRef(null);
   const [isFirstClick, setIsFirstClick] = useState(true);
+  const [position, setPosition] = useState(modalPosition);
+  const [visible, setVisible] = useState("hidden");
 
   useEffect(() => {
     const handleOutsideClick = (event) => {
@@ -22,20 +25,40 @@ const BuyBrickModal = ({
       if (isFirstClick) setIsFirstClick(false);
     };
 
-    document.addEventListener('click', handleOutsideClick);
+    document.addEventListener("click", handleOutsideClick);
 
     return () => {
-      document.removeEventListener('click', handleOutsideClick);
+      document.removeEventListener("click", handleOutsideClick);
     };
   }, [hideModal, isFirstClick]);
+
+  // Use effect to calculate the position after the component mounts or updates
+  useEffect(() => {
+    if (modalRef.current) {
+      const modalHeight = modalRef.current.offsetHeight;
+      const modalWidth = modalRef.current.offsetWidth;
+      setPosition({
+        x:
+          window.screen.width - modalPosition.x > modalWidth
+            ? modalPosition.x
+            : modalPosition.x - modalWidth,
+        y:
+          window.screen.height - modalPosition.y > modalHeight
+            ? modalPosition.y
+            : modalPosition.y - modalHeight,
+      });
+      setVisible("visible");
+    }
+  }, [modalPosition, modalRef]);
 
   return (
     <div
       className="border border-gray-600 bg-gray-200 opacity-100 absolute px-6 py-8 w-60 h-auto flex flex-col gap-3 justify-center items-center z-40"
       style={{
-        left: modalPosition.x,
-        top: modalPosition.y,
+        left: position.x,
+        top: position.y,
         boxShadow: "0px 0px 5px rgba(0, 0, 0, 0.7)",
+        visible: visible,
       }}
       ref={modalRef}
     >

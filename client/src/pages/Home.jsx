@@ -131,9 +131,16 @@ const Home = () => {
       name,
       content,
     };
-    console.log("contentData", contentData);
     dispatch(updateContent(contentData));
   };
+
+  const today = new Date();
+
+  const day = today.getDate().toString().padStart(2, "0");
+  const month = today.toLocaleString("default", { month: "short" });
+  const year = today.getFullYear();
+
+  const formattedDate = `${day} ${month} ${year}`;
 
   return (
     <div className="">
@@ -254,7 +261,7 @@ const Home = () => {
             "Here are three impactful ways you can help us achieve our financial goals and make a meaningful difference in the lives of those we serve. Each action you take brings us closer to realizing our shared vision."
           }
           onBlur={onBlur}
-          className="text-md sm:text-lg md:text-xl lg:text-md xl:text-xl 2xl:text-2xl py-3 lg:py-12 font-raleway"
+          className="text-center text-md sm:text-lg md:text-xl lg:text-md xl:text-xl 2xl:text-2xl py-3 lg:py-12 font-raleway"
         />
         <div className="flex flex-wrap justify-center w-full">
           <div className="p-5 2xl:p-10 w-full md:w-3/4 lg:w-1/3">
@@ -658,32 +665,35 @@ const Home = () => {
 
       <div className="flex flex-col w-full px-8 sm:px-20 md:px-24 lg:px-24 xl:px-48 2xl:px-64 bg-gray-100 py-12 sm:py-20 md:py-24 lg:py-28 xl:py-32 2xl:py-36 justify-center items-center">
         <EditableParagraph
-          name="HomeText22"
-          content={contents.HomeText22 || "Some of our recent donors"}
+          name="HomeText23"
+          content={contents.HomeText23 || "Some of our recent donors"}
           onBlur={onBlur}
           className="text-4xl text-sky-700 font-bold md:text-5xl xl:text-6xl 2xl:text-7xl text-center font-montserrat z-10"
         />
         <div className="w-full flex flex-wrap py-8 md:py-12 xl:py-16">
-          {currentDonors.map((donorInfo, index) => {
+          {currentDonors.map((donorInfo, index) => (
             <div
               key={index}
               className="w-full  md:w-1/2 xl:w-1/3 flex flex-wrap p-1 md:p-2 xl:p-3"
             >
               <div className="w-full flex bg-sky-600 rounded-lg p-4 sm:p-3 md:p-2 lg:p-4 xl:p-2 2xl:p-5">
                 <div className="flex justify-center items-center w-1/2 xs:1/3 sm:w-1/4 md:w-2/5 md:p-2">
-                  <img alt="Donor avatar" src={donorInfo.avatar} />
+                  <img
+                    alt="Donor avatar"
+                    src={donorInfo.avatar}
+                    className="rounded-lg"
+                  />
                 </div>
-                <div className="flex flex-col md:w-3/5 justify-center lg:justify-around text-white text-sm sm:text-xl md:text-lg lg:text-xl xl:text-lg 2xl:text-2xl pl-3 sm:pl-5 md:px-3 lg:pl-8 xl:pl-3 2xl:pl-6 font-medium">
+                <div className="flex flex-col gap-2 md:w-3/5 justify-center lg:justify-center text-white text-xl pl-3 sm:pl-5 md:px-3 lg:pl-8 xl:pl-3 2xl:pl-6 font-medium">
                   <p>{donorInfo.fullName}</p>
                   <p>
                     {donorInfo.purchasedBricksCount} Bricks: ₹
                     {donorInfo.purchasedBricksCount * 10000}
                   </p>
                 </div>
-                <div></div>
               </div>
-            </div>;
-          })}
+            </div>
+          ))}
         </div>
         <button className="py-3 px-6 rounded-lg bg-red-700 hover:bg-red-800 text-white max-w-sm font-montserrat text-center">
           SEE ALL DONORS
@@ -699,12 +709,18 @@ const Home = () => {
           />
         </div>
         <div className="w-full lg:w-2/3 py-8 md:py-12 z-10 flex flex-col items-center lg:items-start lg:pl-16 xl:pl-24 gap-5">
-          <p className="text-lg sm:text-xl md:text-2xl lg:text-xl xl:text-2xl 2xl:text-3xl text-center lg:text-left">
-            Frequently Asked Questions
-          </p>
-          <p className="text-sky-700 text-4xl font-bold md:text-5xl xl:text-6xl 2xl:text-7xl text-center lg:text-left pb-5">
-            Undestanding Our Campaign
-          </p>
+          <EditableParagraph
+            name="HomeText24"
+            content={contents.HomeText24 || "Frequently Asked Questions"}
+            onBlur={onBlur}
+            className="text-lg sm:text-xl md:text-2xl lg:text-xl xl:text-2xl 2xl:text-3xl text-center lg:text-left"
+          />
+          <EditableParagraph
+            name="HomeText25"
+            content={contents.HomeText25 || "Undestanding Our Campaign"}
+            onBlur={onBlur}
+            className="text-sky-700 text-4xl font-bold md:text-5xl xl:text-6xl 2xl:text-7xl text-center lg:text-left pb-5"
+          />
           <SelectionGroup />
         </div>
       </div>
@@ -714,7 +730,7 @@ const Home = () => {
             {sold}Bricks
           </p>
           <p className="text-center lg:text-left mx-auto text-sm sm:text-md md:text-lg lg:text-xl 2xl:text-2xl text-white">
-            Bought as on 21 Mar 2023
+            Bought as on {formattedDate}
           </p>
         </div>
         <div className="w-full h-1 lg:w-1 lg:h-20 bg-white"></div>
@@ -723,7 +739,7 @@ const Home = () => {
             ₹{sold}
           </p>
           <p className="text-center lg:text-left mx-auto text-sm sm:text-md md:text-lg lg:text-xl 2xl:text-2xl text-white">
-            Raised until 31 Mar 2023
+            Raised until {formattedDate}
           </p>
         </div>
         <div className="w-full h-1 lg:w-1 lg:h-20 bg-white"></div>

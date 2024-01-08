@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import userImg from "../../assets/img/user.png";
+import { useRef, useEffect, useState } from "react";
 
 const BrickInformationModal = ({
   userId,
@@ -7,14 +8,39 @@ const BrickInformationModal = ({
   modalPosition,
   handleDedicate,
 }) => {
+  const modalRef = useRef(null);
+  const [position, setPosition] = useState(modalPosition);
+  const [visible, setVisible] = useState("hidden");
+
+  // Use effect to calculate the position after the component mounts or updates
+  useEffect(() => {
+    if (modalRef.current) {
+      const modalHeight = modalRef.current.offsetHeight;
+      const modalWidth = modalRef.current.offsetWidth;
+      setPosition({
+        x:
+          window.innerWidth - modalPosition.x > modalWidth
+            ? modalPosition.x
+            : modalPosition.x - modalWidth,
+        y:
+          window.innerHeight - modalPosition.y > modalHeight
+            ? modalPosition.y
+            : modalPosition.y - modalHeight,
+      });
+      setVisible("visible");
+    }
+  }, [modalPosition, modalRef]);
+
   return (
     <div
       className="border border-gray-600 bg-gray-200 opacity-90 absolute py-2 px-4 w-72 items-center rounded-md z-10"
       style={{
-        left: modalPosition.x,
-        top: modalPosition.y,
+        left: position.x,
+        top: position.y,
         boxShadow: "0px 0px 5px rgba(0, 0, 0, 0.7)",
+        visibility: visible,
       }}
+      ref={modalRef}
     >
       {brickInfo.dedication ? (
         <div className="flex flex-col gap-1 w-full h-full items-center justify-around py-2">
