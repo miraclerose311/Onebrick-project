@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 
 import { HiOutlineUsers } from "react-icons/hi2";
 import { BsBricks } from "react-icons/bs";
+import { LuLayoutDashboard } from "react-icons/lu";
+// import { GoFileMedia } from "react-icons/go";
 
 import WhiteLogo from "../../assets/img/logo-white.png";
 
@@ -15,8 +17,8 @@ const Sidebar = () => {
         <img src={WhiteLogo} className="p-16" />
       </Link>
       <hr className="w-full border-gray-500" />
-      <div className="w-full flex flex-col gap-4 py-8 px-16 text-white">
-        {/* <Link
+      <div className="w-full flex flex-col gap-4 py-8 lg:pl-6 xl:pl-10 2xl:pl-16 text-white">
+        <Link
           to="/admin"
           className="flex items-center gap-3 cursor-pointer hover:text-sky-500"
         >
@@ -24,7 +26,7 @@ const Sidebar = () => {
           <p className="text-md xl:text-lg 2xl:text-xl font-montserrat">
             Dashboard
           </p>
-        </Link> */}
+        </Link>
         <Link
           to="/admin/bricks"
           className="flex items-center gap-3 cursor-pointer hover:text-sky-500"
@@ -43,15 +45,6 @@ const Sidebar = () => {
             Donors
           </p>
         </Link>
-        {/* <Link
-          to="/admin/manage"
-          className="flex items-center gap-3 cursor-pointer hover:text-sky-500"
-        >
-          <GoFileMedia />
-          <p className="text-md xl:text-lg 2xl:text-xl font-montserrat">
-            Management
-          </p>
-        </Link> */}
       </div>
     </div>
   );

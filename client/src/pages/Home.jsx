@@ -2,11 +2,13 @@ import { useState } from "react";
 import ScrollToTop from "react-scroll-to-top";
 import { useDispatch, useSelector } from "react-redux";
 import { getBrickSoldAmount } from "../actions/brick";
+import { jwtDecode } from "jwt-decode";
 import { useEffect } from "react";
 
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+// import video  from '../assets/video.mp4'
 
 import axios from "axios";
 
@@ -31,7 +33,11 @@ import { getContents, updateContent } from "../actions/content";
 
 const Home = () => {
   const base_URL = `${import.meta.env.VITE_BACKEND_URL}`;
+
+  const [isVideoUrlModalOpen, setIsVideoUrlModalOpen] = useState(false);
+  const [videoURL, setVideoURL] = useState("");
   const [imageData, setImageData] = useState({});
+
   const { sold, donor } = useSelector((state) => state.admin);
 
   const [imgSrc, setImageSrc] = useState({
@@ -51,9 +57,22 @@ const Home = () => {
     Avatar8: "",
     Avatar9: "",
     Avatar10: "",
+    Video: "",
   });
 
   const dispatch = useDispatch();
+
+  const { token } = useSelector((state) => state.auth);
+  const [userRole, setUserRole] = useState(null);
+
+  useEffect(() => {
+    if (token) {
+      const { role } = jwtDecode(token);
+      setUserRole(role);
+    } else {
+      setUserRole(null);
+    }
+  }, [token]);
 
   useEffect(() => {
     dispatch(getBrickSoldAmount());
@@ -115,16 +134,18 @@ const Home = () => {
     });
   };
 
+  const { currentDonors } = useSelector((state) => state.donor);
+
   useEffect(() => {
     loadImage();
     dispatch(getContents());
-  }, []);
+  }, [dispatch]);
 
   const { contents } = useSelector((state) => state.content);
 
-  const { currentDonors } = useSelector((state) => state.donor);
-
-  console.log("currentDonors", currentDonors);
+  useEffect(() => {
+    setVideoURL(contents.HomeVideo);
+  }, [contents.HomeVideo]);
 
   const onBlur = (name, content) => {
     const contentData = {
@@ -132,6 +153,7 @@ const Home = () => {
       content,
     };
     dispatch(updateContent(contentData));
+    setIsVideoUrlModalOpen(false);
   };
 
   const today = new Date();
@@ -148,14 +170,11 @@ const Home = () => {
       <div className="flex flex-wrap-reverse lg:flex-wrap-reverse bg-gray-100 w-full pt-28 px-8 sm:px-16 md:px-24 lg:px-24 xl:px-48 2xl:px-56 lg:pr-0 xl:pr-0 2xl:pr-0 relative">
         <div className="lg:w-1/3 w-full">
           <div className="flex flex-col gap-5 lg:gap-10 items-center lg:items-start py-12">
-            {/* <p className="text-4xl sm:text-5xl md:text-6xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-bold text-sky-700 leading-none text-center lg:text-start font-montserrat z-20">
-              Building Compassion
-            </p> */}
             <EditableParagraph
               name="HomeText1"
               content={contents.HomeText1 || "Building Compassion"}
               onBlur={onBlur}
-              className="text-4xl sm:text-5xl md:text-6xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-bold text-sky-700 leading-none text-center lg:text-start font-montserrat cursor-pointer z-20"
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-bold text-sky-700 leading-none text-center lg:text-start font-montserrat z-20"
             />
             <EditableParagraph
               name="HomeText2"
@@ -351,7 +370,7 @@ const Home = () => {
         </div>
       </div>
 
-      <div className="flex flex-col w-full  px-8 sm:px-16 md:px-24 lg:px-24 xl:px-48 2xl:px-64 py-20 mb-16 md:mb-12 xl:mb-24 bg-white justify-center items-center">
+      <div className="flex flex-col w-full px-8 sm:px-16 md:px-24 lg:px-24 xl:px-48 2xl:px-64 py-24 mb-16 md:mb-12 xl:mb-24 bg-white justify-center items-center relative">
         <EditableParagraph
           name="HomeText15"
           content={contents.HomeText15 || "Moments of Compassion"}
@@ -367,32 +386,67 @@ const Home = () => {
           onBlur={onBlur}
           className="text-md text-center sm:text-lg md:text-xl lg:text-md xl:text-xl 2xl:text-2xl text-neutral-600 py-6 lg:py-12 font-raleway"
         />
+        {userRole === 2 && (
+          <div className="w-full flex justify-items-start">
+            <button
+              onClick={() => setIsVideoUrlModalOpen(true)}
+              className="px-6 py-2 bg-sky-700 text-white font-xl"
+            >
+              Change Video
+            </button>
+          </div>
+        )}
         <div className="flex flex-wrap justify-center">
-          <div className="w-full lg:w-2/3 p-2 drop-shadow-md">
-            <video
-              src="https://youtu.be/xC1we1BdLDE"
-              controls
-              className="object-cover w-full h-full"
+          <div className="w-full lg:w-2/3 h-[30vh] md:h-[40vh] lg:h-[50vh] p-2 drop-shadow-md">
+            <iframe
+              src={`https://www.youtube.com/embed/${contents.HomeVideo}`}
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              title="Upload"
+              className="inline-block h-full w-full object-cover"
             />
           </div>
-          <div className="w-full lg:w-1/3 lg:h-5/6 p-2 mt-auto drop-shadow-md">
-            {/* <img src={imgSrc.Home3} className="object-cover w-full" /> */}
+          {isVideoUrlModalOpen && (
+            <div className="absolute w-2/3 top-[40vh] z-50">
+              <div className="w-3/4 h-full flex flex-col gap-6 item-center bg-white rounded-lg shadow-md shadow-gray-500 p-12">
+                <input
+                  value={videoURL ? videoURL : ""}
+                  onChange={(e) => setVideoURL(e.target.value)}
+                  className="w-full border border-gray-300 rounded-sm py-2 px-2"
+                />
+                <div className="flex justify-center gap-3">
+                  <button
+                    onClick={() => setIsVideoUrlModalOpen(false)}
+                    className="bg-green-600 hover:bg-green-700 rounded-md text-white text-xl px-6 py-2"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={() => onBlur("HomeVideo", videoURL)}
+                    className="bg-red-700 hover:bg-red-800 rounded-md text-white text-xl px-6 py-2"
+                  >
+                    Update
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+          <div className="w-full lg:w-1/3 h-[30vh] md:h-[40vh] p-2 mt-auto drop-shadow-md">
             <ImageUpload
               fileName={fileList[3]}
               previewFile={imgSrc[fileList[3]]}
               onFileSelect={handleFileChange}
             />
           </div>
-          <div className="w-full lg:w-1/3 lg:h-5/6 p-2 drop-shadow-md">
-            {/* <img src={imgSrc.Home4} className="object-cover w-full" /> */}
+          <div className="w-full lg:w-1/3 h-[30vh] md:h-[40vh] p-2 drop-shadow-md">
             <ImageUpload
               fileName={fileList[4]}
               previewFile={imgSrc[fileList[4]]}
               onFileSelect={handleFileChange}
             />
           </div>
-          <div className="w-full lg:w-2/3 p-2 drop-shadow-md relative">
-            {/* <img src={imgSrc.Home5} className="object-cover w-full " /> */}
+          <div className="w-full lg:w-2/3 h-[30vh] md:h-[40vh] lg:h-[50vh] p-2 drop-shadow-md relative">
             <ImageUpload
               fileName={fileList[5]}
               previewFile={imgSrc[fileList[5]]}
@@ -467,7 +521,7 @@ const Home = () => {
           name="HomeText17"
           content={contents.HomeText17 || "Hearts of Generosity"}
           onBlur={onBlur}
-          className="text-4xl text-center text-gray-300 font-raleway pt-20 sm:pt-24 md:pt-28 lg:pt-36 xl:pt-40"
+          className="text-4xl text-center text-gray-300 font-raleway mt-20 sm:mt-24 md:mt-28 lg:mt-36 xl:mt-40"
         />
         <EditableParagraph
           name="HomeText18"
@@ -488,19 +542,23 @@ const Home = () => {
         <div className="flex lg:pt-12 flex-wrap">
           <div className="w-full md:w-1/3 p-5 relative">
             <div className="bg-neutral-900 p-5 xl:p-8 2xl:p-12 flex flex-col gap-3">
-              <EditableParagraph
+              {/* <EditableParagraph
                 name="HomeText20"
                 content={
                   contents.HomeText20 ||
                   "Every brick in the hospice symbolizes hope and compassion. As a donor.it’s rewarding to see the real difference my contribution makes in the lives of patients and their families."
                 }
                 onBlur={onBlur}
-                className="xl:text-2xl lg:text-xl ml:text-md text-gray-300"
-              />
+                className="lg:text-xl ml:text-md text-gray-300 indent-8"
+              /> */}
+              <p className="lg:text-xl ml:text-md text-gray-300 indent-8">
+                Every brick in the hospice symbolizes hope and compassion. As a
+                donor.it’s rewarding to see the real difference my contribution
+                makes in the lives of patients and their families.
+              </p>
               <div className="bg-stone-800 w-full h-1"></div>
               <div className="flex self-start">
                 <div className="bg-white rounded-full w-12 h-12">
-                  {/* <img src={Avatar1} className="w-full h-full rounded-full" /> */}
                   <ImageUpload
                     fileName={fileList[15]}
                     previewFile={imgSrc[fileList[15]]}
@@ -545,19 +603,23 @@ const Home = () => {
           </div>
           <div className="w-full md:w-1/3 p-5 relative">
             <div className="bg-neutral-900 p-5 xl:p-8 2xl:p-12 flex flex-col gap-3">
-              <EditableParagraph
+              {/* <EditableParagraph
                 name="HomeText21"
                 content={
                   contents.HomeText21 ||
                   "Every brick in the hospice symbolizes hope and compassion. As a donor.it’s rewarding to see the real difference my contribution makes in the lives of patients and their families."
                 }
                 onBlur={onBlur}
-                className="xl:text-2xl lg:text-xl ml:text-md text-gray-300"
-              />
+                className="lg:text-xl ml:text-md text-gray-300 indent-8"
+              /> */}
+              <p className="lg:text-xl ml:text-md text-gray-300 indent-8">
+                Every brick in the hospice symbolizes hope and compassion. As a
+                donor.it’s rewarding to see the real difference my contribution
+                makes in the lives of patients and their families.
+              </p>
               <div className="bg-stone-800 w-full h-1"></div>
               <div className="flex self-start">
                 <div className="bg-white rounded-full w-12 h-12">
-                  {/* <img src={Avatar2} className="w-full h-full rounded-full" /> */}
                   <ImageUpload
                     fileName={fileList[7]}
                     previewFile={imgSrc[fileList[7]]}
@@ -602,15 +664,20 @@ const Home = () => {
           </div>
           <div className="w-full md:w-1/3 p-5 relative">
             <div className="bg-neutral-900 p-5 xl:p-8 2xl:p-12 flex flex-col gap-3">
-              <EditableParagraph
+              {/* <EditableParagraph
                 name="HomeText22"
                 content={
                   contents.HomeText22 ||
                   "Every brick in the hospice symbolizes hope and compassion. As a donor.it’s rewarding to see the real difference my contribution makes in the lives of patients and their families."
                 }
                 onBlur={onBlur}
-                className="xl:text-2xl lg:text-xl ml:text-md text-gray-300"
-              />
+                className="lg:text-xl ml:text-md text-gray-300 indent-8"
+              /> */}
+              <p className="lg:text-xl ml:text-md text-gray-300 indent-8">
+                Every brick in the hospice symbolizes hope and compassion. As a
+                donor.it’s rewarding to see the real difference my contribution
+                makes in the lives of patients and their families.
+              </p>
               <div className="bg-stone-800 w-full h-1"></div>
               <div className="flex self-start">
                 <div className="bg-white rounded-full w-12 h-12">

@@ -1,28 +1,111 @@
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+
 import ScrollToTop from "react-scroll-to-top";
 
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Pagination from "../components/Pagination";
 
-import Phone from "../assets/img/Contact Us/icons/phone.svg";
-import Position from "../assets/img/Contact Us/icons/position.svg";
-import Message from "../assets/img/Contact Us/icons/message.svg";
-import Address from "../assets/img/Contact Us/icons/address.svg";
-
-import FaceBookIcon from "../assets/img/Contact Us/icons/facebook.svg";
-import TwitterIcon from "../assets/img/Contact Us/icons/twitter.svg";
-import Youtube from "../assets/img/Contact Us/icons/youtube.svg";
-import Instagram from "../assets/img/Contact Us/icons/instagram.svg";
-
 import Ellipse10 from "../assets/img/Ellipse10.png";
 
-import contact1 from "../assets/img/Contact Us/contact1.png";
-import contact2 from "../assets/img/Contact Us/contact2.png";
-import contact3 from "../assets/img/Contact Us/contact3.png";
-import contact4 from "../assets/img/Contact Us/contact4.png";
-import contact5 from "../assets/img/Contact Us/contact5.png";
+import ImageUpload from "../components/ImageUpload";
+import EditableParagraph from "../components/EditableParagraph";
+import { getContents, updateContent } from "../actions/content";
 
 const Contact = () => {
+  const base_URL = `${import.meta.env.VITE_BACKEND_URL}`;
+  const [imageData, setImageData] = useState({});
+
+  const [imgSrc, setImageSrc] = useState({
+    contact1: "",
+    contact2: "",
+    contact3: "",
+    contact4: "",
+    contact5: "",
+    Avatar11: "",
+    Avatar12: "",
+    Avatar13: "",
+    Avatar14: "",
+    Avatar15: "",
+    Avatar16: "",
+    Avatar17: "",
+    Avatar18: "",
+    Avatar19: "",
+    Avatar20: "",
+  });
+
+  const dispatch = useDispatch();
+
+  const fileList = Object.keys(imgSrc);
+
+  const handleFileChange = async (file, fileName) => {
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = async (e) => {
+        const base64String = e.target.result;
+        setImageData({ [fileName]: base64String });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const sendFileData = async () => {
+    try {
+      if (Object.keys(imageData).length === 0) {
+        console.log("No imageData to send");
+        return;
+      }
+      const response = await axios.post(
+        `${base_URL}/api/upload/image`,
+        JSON.stringify({ imageData }),
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log("Image uploaded", response.data);
+      loadImage();
+    } catch (error) {
+      console.error("Image upload failed", error.response || error.message);
+    }
+  };
+
+  useEffect(() => {
+    sendFileData();
+  }, [imageData]);
+
+  const loadImage = () => {
+    fileList.forEach((name) => {
+      // Changed from map to forEach since you don't use the returned array
+      fetch(`${import.meta.env.VITE_BACKEND_URL}/upload/${name}.txt`)
+        .then((response) => response.text())
+        .then((base64Text) => {
+          setImageSrc((prevImgSrc) => ({
+            ...prevImgSrc,
+            [name]: `${base64Text}`, // Assuming [name] is a unique key
+          }));
+        })
+        .catch(console.error);
+    });
+  };
+
+  useEffect(() => {
+    loadImage();
+    dispatch(getContents());
+  }, []);
+
+  const { contents } = useSelector((state) => state.content);
+
+  const onBlur = (name, content) => {
+    const contentData = {
+      name,
+      content,
+    };
+    dispatch(updateContent(contentData));
+  };
   return (
     <div className="relative">
       <Navbar />
@@ -30,87 +113,131 @@ const Contact = () => {
       <div className="">
         <div className="flex flex-wrap bg-gray-300 px-12 sm:px-16 md:px-24 lg:px-24 xl:px-48 2xl:px-64 pt-32 pb-8">
           <div className="w-full lg:w-1/3 h-56 sm:h-64 md:h-80 lg:h-auto justify-center">
-            <img src={contact1} className="h-full w-full object-cover" />
+            <ImageUpload
+              fileName={fileList[0]}
+              previewFile={imgSrc[fileList[0]]}
+              onFileSelect={handleFileChange}
+              className="h-full w-full object-cover"
+            />
           </div>
           <div className="w-full lg:w-2/3 flex flex-col mt-12 lg:mt-0 lg:pl-12 2xl:pl-24 justify-center">
-            <p className="text-4xl sm:text-5xl md:text-6xl lg:text-5xl xl:text-6xl 2xl:text-7xl text-sky-700 font-montserrat font-medium">
-              Contact Us
-            </p>
-            <p className="text-lg sm:text-xl md:text-2xl lg:text-xl xl:text-2xl 2xl:text-3xl text-justify font-raleway text-gray-600 pt-5 lg:pb-0 pb-12">
-              Welcome to Alpha Hospice. We are here to assist you with any
-              questions, guidance, or support you may need. Whether you are
-              seeking information about our services, interested in
-              volunteering, or need details about our Link Centers, our team is
-              ready to help. Reach out to us, and we&rsquo;ll ensure you receive
-              the assistance and information you&rsquo;re looking for. Your
-              journey towards compassion and care starts here.
-            </p>
+            <EditableParagraph
+              name="ContactText1"
+              content={contents.ContactText1 || "Contact Us"}
+              onBlur={onBlur}
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-5xl xl:text-6xl 2xl:text-7xl text-sky-700 font-montserrat font-medium"
+            />
+            <EditableParagraph
+              name="ContactText2"
+              content={
+                contents.ContactText2 ||
+                "Welcome to Alpha Hospice. We are here to assist you with any questions, guidance, or support you may need. Whether you are seeking information about our services, interested in volunteering, or need details about our Link Centers, our team is ready to help. Reach out to us, and we'll ensure you receive the assistance and information you're looking for. Your journey towards compassion and care starts here."
+              }
+              onBlur={onBlur}
+              className="text-lg sm:text-xl md:text-2xl lg:text-xl xl:text-2xl 2xl:text-3xl text-justify font-raleway text-gray-600 pt-5 lg:pb-0 pb-12"
+            />
           </div>
         </div>
 
         <div className="flex flex-wrap py-32 justify-center px-12 sm:px-16 md:px-24 lg:px-24 xl:px-48 2xl:px-64 relative">
           <div className="w-5/6 lg:w-1/2 flex flex-col items-start gap-6 z-20 relative">
-            <p className="text-sky-700 text-4xl sm:text-5xl md:text-6xl lg:text-4xl xl:text-5xl font-medium pb-8">
-              Get in touch now!
-            </p>
-            {/* <div className="h-2/3 w-[2px] left-10 bottom-0 bg-neutral-500 absolute"></div> */}
+            <EditableParagraph
+              name="ContactText3"
+              content={contents.ContactText3 || "Get in touch now!"}
+              onBlur={onBlur}
+              className="text-sky-700 text-4xl sm:text-5xl md:text-6xl lg:text-4xl xl:text-5xl font-medium pb-8"
+            />
             <div className="flex gap-6 sm:gap-8 md:gap-12 lg:gap-6 xl:gap-8 2xl:gap-12 items-center">
-              <img
-                src={Phone}
+              <ImageUpload
+                fileName={fileList[5]}
+                previewFile={imgSrc[fileList[5]]}
+                onFileSelect={handleFileChange}
                 className="w-8 sm:w-10 lg:w-8 xl:w-10 2xl:w-12  h-8 sm:h-10 lg:h-8 xl:h-10 2xl:h-12"
               />
-              <p className="text-sky-700 text-xl sm:text-2xl lg:text-xl xl:text-2xl 2xl:text-3xl text-justify font-montserrat font-medium w-full">
-                +91 94977 13923
-              </p>
+              <EditableParagraph
+                name="ContactText4"
+                content={contents.ContactText4 || "+91 94977 13923"}
+                onBlur={onBlur}
+                className="text-sky-700 text-xl sm:text-2xl lg:text-xl xl:text-2xl 2xl:text-3xl text-justify font-montserrat font-medium w-full"
+              />
             </div>
             <div className="flex gap-6 sm:gap-8 md:gap-12 lg:gap-6 xl:gap-8 2xl:gap-12 items-center">
-              <img
-                src={Position}
+              <ImageUpload
+                fileName={fileList[6]}
+                previewFile={imgSrc[fileList[6]]}
+                onFileSelect={handleFileChange}
                 className="w-8 sm:w-10 lg:w-8 xl:w-10 2xl:w-12  h-8 sm:h-10 lg:h-8 xl:h-10 2xl:h-12"
               />
               <div className="flex flex-col">
-                <p className="text-sky-700 text-xl sm:text-2xl lg:text-xl xl:text-2xl 2xl:text-3xl text-justify font-montserrat font-medium w-full">
-                  click here for directions
-                </p>
-                <p className="text-sky-700 text-sm sm:text-xl lg:text-sm xl:text-md 2xl:text-lg text-justify w-full">
-                  IX/627, Edamuttam, Palappetty, India
-                </p>
+                <EditableParagraph
+                  name="ContactText5"
+                  content={contents.ContactText5 || "click here for directions"}
+                  onBlur={onBlur}
+                  className="text-sky-700 text-xl sm:text-2xl lg:text-xl xl:text-2xl 2xl:text-3xl text-justify font-montserrat font-medium w-full"
+                />
+                <EditableParagraph
+                  name="ContactText6"
+                  content={
+                    contents.ContactText6 ||
+                    "IX/627, Edamuttam, Palappetty, India"
+                  }
+                  onBlur={onBlur}
+                  className="text-sky-700 text-sm sm:text-xl lg:text-sm xl:text-md 2xl:text-lg text-justify w-full"
+                />
               </div>
             </div>
             <div className="flex gap-6 sm:gap-8 md:gap-12 lg:gap-6 xl:gap-8 2xl:gap-12 items-center">
-              <img
-                src={Message}
+              <ImageUpload
+                fileName={fileList[7]}
+                previewFile={imgSrc[fileList[7]]}
+                onFileSelect={handleFileChange}
                 className="w-8 sm:w-10 lg:w-8 xl:w-10 2xl:w-12  h-8 sm:h-10 lg:h-8 xl:h-10 2xl:h-12"
               />
               <div className="flex-col">
-                <p className="text-sky-700 text-xl sm:text-2xl lg:text-xl xl:text-2xl 2xl:text-3xl text-justify font-montserrat font-medium w-full">
-                  communications
-                </p>
-                <p className="text-sky-700 text-xl sm:text-2xl lg:text-xl xl:text-2xl 2xl:text-3xl text-justify font-montserrat font-medium w-full">
-                  @alphapalliativecare.org
-                </p>
+                <EditableParagraph
+                  name="ContactText7"
+                  content={contents.ContactText7 || "communications"}
+                  onBlur={onBlur}
+                  className="text-sky-700 text-xl sm:text-2xl lg:text-xl xl:text-2xl 2xl:text-3xl text-justify font-montserrat font-medium w-full"
+                />
+                <EditableParagraph
+                  name="ContactText8"
+                  content={contents.ContactText8 || "@alphapalliativecare.org"}
+                  onBlur={onBlur}
+                  className="text-sky-700 text-xl sm:text-2xl lg:text-xl xl:text-2xl 2xl:text-3xl text-justify font-montserrat font-medium w-full"
+                />
               </div>
             </div>
             <div className="flex gap-6 sm:gap-8 md:gap-12 lg:gap-6 xl:gap-8 2xl:gap-12 items-center">
-              <img
-                src={Address}
+              <ImageUpload
+                fileName={fileList[8]}
+                previewFile={imgSrc[fileList[8]]}
+                onFileSelect={handleFileChange}
                 className="w-8 sm:w-10 lg:w-8 xl:w-10 2xl:w-12  h-8 sm:h-10 lg:h-8 xl:h-10 2xl:h-12"
               />
               <div className="flex gap-4">
-                <img
-                  src={FaceBookIcon}
+                <ImageUpload
+                  fileName={fileList[9]}
+                  previewFile={imgSrc[fileList[9]]}
+                  onFileSelect={handleFileChange}
                   className="w-8 sm:w-10 lg:w-8 xl:w-10 2xl:w-12  h-8 sm:h-10 lg:h-8 xl:h-10 2xl:h-12"
                 />
-                <img
-                  src={TwitterIcon}
-                  className="w-8 sm:w-10 lg:w-8 xl:w-10 2xl:w-12  h-8 sm:h-10 lg:h-8 xl:h-10 2xl:h-12 ml-4"
+                <ImageUpload
+                  fileName={fileList[10]}
+                  previewFile={imgSrc[fileList[10]]}
+                  onFileSelect={handleFileChange}
+                  className="w-8 sm:w-10 lg:w-8 xl:w-10 2xl:w-12  h-8 sm:h-10 lg:h-8 xl:h-10 2xl:h-12"
                 />
-                <img
-                  src={Instagram}
-                  className="w-8 sm:w-10 lg:w-8 xl:w-10 2xl:w-12  h-8 sm:h-10 lg:h-8 xl:h-10 2xl:h-12 ml-4"
+                <ImageUpload
+                  fileName={fileList[11]}
+                  previewFile={imgSrc[fileList[11]]}
+                  onFileSelect={handleFileChange}
+                  className="w-8 sm:w-10 lg:w-8 xl:w-10 2xl:w-12  h-8 sm:h-10 lg:h-8 xl:h-10 2xl:h-12"
                 />
-                <img
-                  src={Youtube}
+                <ImageUpload
+                  fileName={fileList[12]}
+                  previewFile={imgSrc[fileList[12]]}
+                  onFileSelect={handleFileChange}
                   className="w-8 sm:w-10 lg:w-8 xl:w-10 2xl:w-12  h-8 sm:h-10 lg:h-8 xl:h-10 2xl:h-12 ml-4"
                 />
               </div>
@@ -161,35 +288,38 @@ const Contact = () => {
           />
         </div>
 
-        <div className="flex flex-col gap-5 md:gap-8 xl:gap-12 w-full py-12 bg-neutral-200 z-20  px-12 sm:px-16 md:px-24 lg:px-24 xl:px-48 2xl:px-64">
-          <p className="text-sky-700 text-4xl xl:text-6xl 2xl:text-7xl">
-            Our Care Network
-          </p>
-          <p className="text-gray-500 text-sm sm:text-md md:text-lg lg:text-sm xl:text-md 2xl:text-lg">
-            Search for an Alpha centre in your district. Select the district and
-            click on Enter button
-          </p>
-          {/* <select className="w-full lg:w-1/2 py-3 px-2 rounded-t-lg my-6">
-						<option>Thrissur</option>
-						<option>Ernakulam</option>
-						<option>Thiruvananthapuram</option>
-						<option>Kollam</option>
-						<option>Pathanamthitta</option>
-						<option>Alappuzha</option>
-					</select> */}
+        {/* <div className="flex flex-col gap-5 md:gap-8 xl:gap-12 w-full py-12 bg-neutral-200 z-20  px-12 sm:px-16 md:px-24 lg:px-24 xl:px-48 2xl:px-64">
+          <EditableParagraph
+            name="ContactText9"
+            content={contents.ContactText9 || "Our Care Network"}
+            onBlur={onBlur}
+            className="text-sky-700 text-4xl xl:text-6xl 2xl:text-7xl"
+          />
+          <EditableParagraph
+            name="ContactText10"
+            content={
+              contents.ContactText10 ||
+              "Search for an Alpha centre in your district. Select the district and click on Enter button"
+            }
+            onBlur={onBlur}
+            className="text-gray-500 text-sm sm:text-md md:text-lg lg:text-sm xl:text-md 2xl:text-lg"
+          />
           <input
             className="w-full lg:w-3/4 py-3 px-5 rounded-xl border border-gray-500 text-sm sm:text-md md:text-lg lg:text-sm xl:text-md 2xl:text-lg"
             placeholder="Search for District"
           />
-        </div>
+        </div> */}
 
         <div className="w-full py-24 px-12 sm:px-16 md:px-24 lg:px-24 xl:px-48 2xl:px-64">
           <div className="flex flex-col">
             <div className="flex flex-wrap items-center py-5">
-              <img
-                className="w-3/4 sm:w-2/3 md:w-1/2 lg:w-1/4"
-                src={contact2}
-              />
+              <div className="w-3/4 sm:w-2/3 md:w-1/2 lg:w-1/4">
+                <ImageUpload
+                  fileName={fileList[1]}
+                  previewFile={imgSrc[fileList[1]]}
+                  onFileSelect={handleFileChange}
+                />
+              </div>
               <div className="w-full lg:w-2/3 flex flex-col justify-center lg:px-12 xl:px-16 2xl-px-24 mt-5 lg:mt-0">
                 <p className="text-xl md:text-2xl lg:text-xl xl:text-2xl 2xl:text-3xl font-medium">
                   ALPHA HOSPICE EDAMUTTAM
@@ -218,10 +348,13 @@ const Contact = () => {
             <hr className="border-t-2 border-gray-500" />
 
             <div className="flex flex-wrap items-center py-5">
-              <img
-                className="w-3/4 sm:w-2/3 md:w-1/2 lg:w-1/4"
-                src={contact3}
-              />
+              <div className="w-3/4 sm:w-2/3 md:w-1/2 lg:w-1/4">
+                <ImageUpload
+                  fileName={fileList[2]}
+                  previewFile={imgSrc[fileList[2]]}
+                  onFileSelect={handleFileChange}
+                />
+              </div>
               <div className="w-full lg:w-2/3 flex flex-col justify-center lg:px-12 xl:px-16 2xl-px-24 mt-5 lg:mt-0">
                 <p className="text-xl md:text-2xl lg:text-xl xl:text-2xl 2xl:text-3xl font-medium">
                   THRISSUR LINK CENTRE
@@ -257,10 +390,13 @@ const Contact = () => {
             <hr className="border-t-2 border-gray-500" />
 
             <div className="flex flex-wrap items-center py-5">
-              <img
-                className="w-3/4 sm:w-2/3 md:w-1/2 lg:w-1/4"
-                src={contact4}
-              />
+              <div className="w-3/4 sm:w-2/3 md:w-1/2 lg:w-1/4">
+                <ImageUpload
+                  fileName={fileList[3]}
+                  previewFile={imgSrc[fileList[3]]}
+                  onFileSelect={handleFileChange}
+                />
+              </div>
               <div className="w-full lg:w-2/3 flex flex-col justify-center lg:px-12 xl:px-16 2xl-px-24 mt-5 lg:mt-0">
                 <p className="text-xl md:text-2xl lg:text-xl xl:text-2xl 2xl:text-3xl font-medium">
                   EDATHIRUTHY LINK CENTRE
@@ -289,10 +425,13 @@ const Contact = () => {
             <hr className="border-t-2 border-gray-500" />
 
             <div className="flex flex-wrap items-center py-5">
-              <img
-                className="w-3/4 sm:w-2/3 md:w-1/2 lg:w-1/4"
-                src={contact5}
-              />
+              <div className="w-3/4 sm:w-2/3 md:w-1/2 lg:w-1/4">
+                <ImageUpload
+                  fileName={fileList[4]}
+                  previewFile={imgSrc[fileList[4]]}
+                  onFileSelect={handleFileChange}
+                />
+              </div>
               <div className="w-full lg:w-2/3 flex flex-col justify-center lg:px-12 xl:px-16 2xl-px-24 mt-5 lg:mt-0">
                 <p className="text-xl md:text-2xl lg:text-xl xl:text-2xl 2xl:text-3xl font-medium">
                   MATHILAKAM LINK CENTRE

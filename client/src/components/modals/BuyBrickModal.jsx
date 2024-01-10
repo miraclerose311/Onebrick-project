@@ -10,7 +10,7 @@ const BuyBrickModal = ({
 
   const modalRef = useRef(null);
   const [isFirstClick, setIsFirstClick] = useState(true);
-  const [position, setPosition] = useState(modalPosition);
+  const [position, setPosition] = useState({});
   const [visible, setVisible] = useState("hidden");
 
   useEffect(() => {
@@ -47,9 +47,12 @@ const BuyBrickModal = ({
             ? modalPosition.y
             : modalPosition.y - modalHeight,
       });
-      setVisible("visible");
     }
-  }, [modalPosition, modalRef]);
+  }, [modalPosition]);
+
+  useEffect(() => {
+    setVisible("visible");
+  }, [position]);
 
   return (
     <div
@@ -68,7 +71,7 @@ const BuyBrickModal = ({
         support and help us build a sanctuary of care for those in need.
       </p>
       <button
-        className="text-gray-100 bg-red-700 px-4 py-2 rounded-md"
+        className="text-gray-100 bg-red-700 hover:bg-red-800 px-4 py-2 rounded-md"
         onClick={handleBuyBrickButtonClick}
       >
         DONATE THIS BRICK

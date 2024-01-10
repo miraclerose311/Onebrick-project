@@ -2,6 +2,7 @@ import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { FaAnglesRight } from "react-icons/fa6";
 import userImg from "../../assets/img/user.png";
+import Loading from "../Loading";
 
 const DedicationConfirmModal = ({ handleConfirm, clickedIndex }) => {
   const { bricks } = useSelector((state) => state.brick);
@@ -21,7 +22,7 @@ const DedicationConfirmModal = ({ handleConfirm, clickedIndex }) => {
         </p>
       </div>
 
-      {currentBrick.dedication && (
+      {currentBrick.dedication ? (
         <div className="flex flex-col items-center bg-yellow-200 drop-shadow-lg w-4/5 h-auto rounded-lg my-2 px-4 py-6">
           <p className="font-raleway text-md">
             I dedicate this brick to my {currentBrick.dedication.relationship}
@@ -53,10 +54,12 @@ const DedicationConfirmModal = ({ handleConfirm, clickedIndex }) => {
             {currentBrick.dedication.message}
           </p>
         </div>
+      ) : (
+        <Loading loading={true} />
       )}
 
       <button
-        className="text-gray-100 bg-red-700 px-4 py-2 my-4 rounded-md"
+        className="text-gray-100 bg-red-700 hover:bg-red-800 px-4 py-2 my-4 rounded-md"
         onClick={handleSubmit}
       >
         <span className="flex flex-row items-center justify-between gap-x-3">

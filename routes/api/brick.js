@@ -9,6 +9,7 @@ const User = require("../../models/User");
 
 const bricksID = require("./initialValue.js");
 const { randomInt } = require("crypto");
+const { default: mongoose } = require("mongoose");
 router.get("/test", (req, res) => {
   res.json("test!");
 });
@@ -84,7 +85,6 @@ router.get("/sold-amount", async (req, res) => {
     });
 });
 
-
 router.get("/all", async (req, res) => {
   // await Brick.find()
   //   .then((result) => {
@@ -131,11 +131,11 @@ const getRandomBrickId = async (amount) => {
 
 router.post("/buy", async (req, res) => {
   const { brick_id, user, amount } = req.body;
-
+  console.log("user", user);
   // Error handling with try-catch
   try {
-    const donor = await Donor.find({ user: user });
-
+    const donor = await Donor.findOne({ user: user });
+    console.log("donor", donor);
     // Assume that Brick.updateOne() and getRandomBrickId() return Promises
     let purchasedIds = [brick_id];
     let updatePromises = [

@@ -87,7 +87,7 @@ export default function Navbar() {
             data-collapse-toggle="navbar-sticky"
             type="button"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="relative inline-flex items-center  ml-auto p-1 justify-center text text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 mr-6 ml-6 sm:mr-10 md:mr-12 lg:mr-8"
+            className="relative inline-flex items-center p-1 justify-center text text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 mr-6 ml-6 sm:mr-10 md:mr-12 lg:mr-8"
             aria-controls="navbar-sticky"
             aria-expanded="false"
           >
@@ -111,7 +111,7 @@ export default function Navbar() {
           <Link
             to="/buybrick"
             type="button"
-            className=" text-white lg:ml-auto text-md bg-red-700 hover:bg-red-900 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-md py-3 px-4 lg:py-2 xl:px-6 xl:py-2 text-center"
+            className=" text-white text-md bg-red-700 hover:bg-red-900 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-md py-3 px-4 lg:py-2 xl:px-6 xl:py-2 text-center"
           >
             WALL OF HOPE
           </Link>

@@ -25,9 +25,12 @@ const SoldModal = ({ modalPosition, clickedIndex }) => {
             ? modalPosition.y
             : modalPosition.y - modalHeight,
       });
-      setVisible("visible");
     }
   }, [modalPosition, modalRef]);
+
+  useEffect(() => {
+    setVisible("visible");
+  }, [position]);
 
   return (
     <div

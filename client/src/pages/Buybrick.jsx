@@ -299,6 +299,7 @@ const Buybrick = () => {
   const handleDedicate = () => {
     setIsSoldModalOpen(false);
     setIsSlideModalOpen(true);
+    setIsBrickInfoModalOpen(false);
     setModalContent(5);
   };
 

@@ -101,9 +101,9 @@ const DonorInformationModal = ({ handleNextModal }) => {
     setErrors({ ...errors, [e.target.name]: "" });
   };
 
-  function classNames(...classes) {
+  const classNames = (...classes) => {
     return classes.filter(Boolean).join(" ");
-  }
+  };
 
   return (
     <>
@@ -191,7 +191,7 @@ const DonorInformationModal = ({ handleNextModal }) => {
         placeholder="Aadhaar ID"
       />
       <button
-        className="text-gray-100 bg-red-700 px-6 py-2 my-4 rounded-md"
+        className="text-gray-100 bg-red-700 hover:bg-red-800 px-6 py-2 my-4 rounded-md"
         onClick={handleSubmit}
       >
         <span className="flex flex-row items-center justify-between gap-x-3">

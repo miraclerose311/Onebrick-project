@@ -167,7 +167,7 @@ const DonorAddressModal = ({ handleBuyBrick }) => {
         <p className="text-red-400 text-xs text-left w-2/3">{errors.pin}</p>
       )}
       <button
-        className="text-gray-100 bg-red-700 px-4 py-2 my-4 rounded-md"
+        className="text-gray-100 bg-red-700 hover:bg-red-800 px-4 py-2 my-4 rounded-md"
         onClick={handleSubmit}
       >
         <span className="flex flex-row items-center justify-between gap-x-3">

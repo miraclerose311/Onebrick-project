@@ -9,7 +9,7 @@ const BrickInformationModal = ({
   handleDedicate,
 }) => {
   const modalRef = useRef(null);
-  const [position, setPosition] = useState(modalPosition);
+  const [position, setPosition] = useState({});
   const [visible, setVisible] = useState("hidden");
 
   // Use effect to calculate the position after the component mounts or updates
@@ -27,9 +27,12 @@ const BrickInformationModal = ({
             ? modalPosition.y
             : modalPosition.y - modalHeight,
       });
-      setVisible("visible");
     }
-  }, [modalPosition, modalRef]);
+  }, [modalPosition]);
+
+  useEffect(() => {
+    setVisible("visible");
+  }, [position]);
 
   return (
     <div
@@ -65,7 +68,7 @@ const BrickInformationModal = ({
           <p className="font-raleway text-md">{brickInfo.dedication.message}</p>
         </div>
       ) : (
-        <div className="flex flex-col gap-3 w-full h-full justify-center items-center px-4 py-6">
+        <div className="flex flex-col gap-4 w-full h-full justify-center items-center px-4 py-6">
           <p className="text-xl font-bold font-montserrat">
             {brickInfo.brick_id}
           </p>
@@ -74,7 +77,7 @@ const BrickInformationModal = ({
           </p>
           {brickInfo.user === userId && (
             <button
-              className="text-gray-100 bg-red-700 px-4 py-2 rounded-md"
+              className="text-gray-100 bg-red-700 hover:bg-red-800 px-4 py-2 rounded-md"
               onClick={handleDedicate}
             >
               DEDICATE NOW

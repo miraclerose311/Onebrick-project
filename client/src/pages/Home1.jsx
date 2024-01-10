@@ -23,7 +23,6 @@ import Avatar1 from "../assets/img/home/avatar1.jpg";
 import Avatar2 from "../assets/img/home/avatar2.jpg";
 import Avatar3 from "../assets/img/home/avatar3.jpg";
 
-import DonationMark from "../assets/img/home/DonationMark.png";
 import Ellipse1 from "../assets/img/home/Ellipse1.png";
 import Ellipse2 from "../assets/img/home/Ellipse2.png";
 import Rectangle from "../assets/img/home/Rectangle.png";
@@ -568,7 +567,7 @@ const Landing = () => {
         <div className="w-full ml-auto lg:w-auto flex justify-center p-5">
           <Link
             to="/buybrick"
-            className="bg-red-700 rounded-md font-medium text-white hover:bg-red-800 px-12 py-3 text-center lg:text-left text-sm sm:text-md md:text-lg lg:text-xl"
+            className="bg-red-700 hover:bg-red-800 rounded-md font-medium text-white px-12 py-3 text-center lg:text-left text-sm sm:text-md md:text-lg lg:text-xl"
           >
             BUY A BRICK
           </Link>
