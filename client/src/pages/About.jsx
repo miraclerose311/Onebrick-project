@@ -112,7 +112,7 @@ const About = () => {
 
       <div className="">
         <div className="flex flex-wrap bg-gray-300 pt-32 px-8 sm:px-16 md:px-24 lg:px-32 xl:px-44 2xl:px-64 py-12">
-          <div className="w-full lg:w-1/2 lg:px-0">
+          <div className="flex justify-center items-center w-full lg:w-1/2 h-[40vh] xl:h-[50vh] 2xl:h-[60vh] lg:px-0">
             <ImageUpload
               fileName={fileList[0]}
               previewFile={imgSrc[fileList[0]]}
@@ -163,15 +163,15 @@ const About = () => {
               className="text-lg sm:text-xl md:text-2xl lg:text-xl xl:text-xl 2xl:text-2xl font-raleway text-gray-500 pt-5"
             />
           </div>
-          <div className="w-full lg:w-1/2 flex flex-wrap mt-12 lg:nt-0 items-center z-10">
-            <div className="w-1/2 h-full lg:h-auto object-fill rounded-lg p-3">
+          <div className="w-full lg:w-1/2 flex flex-wrap mt-12 lg:mt-0 items-center z-10">
+            <div className="w-1/2  h-[40vh] xl:h-[50vh] 2xl:h-[60vh] object-cover rounded-lg p-3 flex items-center justify-center">
               <ImageUpload
                 fileName={fileList[1]}
                 previewFile={imgSrc[fileList[1]]}
                 onFileSelect={handleFileChange}
               />
             </div>
-            <div className="w-1/2 h-full lg:h-auto object-fill rounded-lg p-3">
+            <div className="w-1/2  h-[40vh] xl:h-[50vh] 2xl:h-[60vh] object-cover rounded-lg p-3 flex items-center justify-center">
               <ImageUpload
                 fileName={fileList[2]}
                 previewFile={imgSrc[fileList[2]]}
@@ -214,7 +214,7 @@ const About = () => {
         </div>
 
         <div className="flex flex-wrap justify-center w-full px-8 sm:px-16 lg:px-24 xl:px-40 2xl:px-64 pt-32 py-24 relative">
-          <div className="w-full sm:w-3/4 lg:w-1/2 z-10">
+          <div className="w-full sm:w-3/4 lg:w-1/2 h-[40vh] xl:h-[50vh] 2xl:h-[60vh] z-10">
             <ImageUpload
               fileName={fileList[4]}
               previewFile={imgSrc[fileList[4]]}
@@ -248,7 +248,7 @@ const About = () => {
           </div>
         </div>
 
-        <div className="flex flex-wrap justify-center w-full px-12 sm:px-16 md:px-24 lg:px-24 xl:px-48 2xl:px-64 py-12 relative">
+        <div className="flex flex-wrap justify-center h-full w-full px-12 sm:px-16 md:px-24 lg:px-24 xl:px-48 2xl:px-64 py-12 relative">
           <div className="w-full lg:w-1/2 flex flex-col mt-12 lg:mt-0 lg:pr-12 xl:pr-24 z-10">
             <EditableParagraph
               name="AboutText11"
@@ -272,21 +272,19 @@ const About = () => {
               className="text-lg sm:text-xl md:text-2xl lg:text-lg xl:text-xl 2xl:text-2xl font-raleway text-gray-500 pt-5"
             />
           </div>
-          <div className="w-full lg:w-1/2 flex flex-wrap mt-12 lg:nt-0 items-center z-10">
-            <div className="w-1/2 h-full lg:h-auto relative">
-              <ImageUpload
-                fileName={fileList[6]}
-                previewFile={imgSrc[fileList[6]]}
-                onFileSelect={handleFileChange}
-                className="w-full h-full object-fill rounded-lg p-3"
-              />
-            </div>
-            <div className="w-1/2 h-full lg:h-auto relative">
+          <div className="w-full lg:w-1/2 flex flex-wrap mt-12 lg:mt-0 items-center z-10">
+            <div className="w-1/2  h-[40vh] xl:h-[50vh] 2xl:h-[60vh] object-cover rounded-lg p-3 flex items-center justify-center">
               <ImageUpload
                 fileName={fileList[5]}
                 previewFile={imgSrc[fileList[5]]}
                 onFileSelect={handleFileChange}
-                className="w-1/2 h-full lg:h-auto object-fill rounded-lg p-3"
+              />
+            </div>
+            <div className="w-1/2  h-[40vh] xl:h-[50vh] 2xl:h-[60vh] object-cover rounded-lg p-3 flex items-center justify-center">
+              <ImageUpload
+                fileName={fileList[6]}
+                previewFile={imgSrc[fileList[6]]}
+                onFileSelect={handleFileChange}
               />
             </div>
           </div>

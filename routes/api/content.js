@@ -17,6 +17,7 @@ router.get("/getContents", async (req, res) => {
 
 router.post("/update", async (req, res) => {
   const contentData = req.body;
+  console.log("contentData", contentData);
 
   if (!contentData || !contentData.name) {
     // Ensure there is content data and a name provided to find the document.

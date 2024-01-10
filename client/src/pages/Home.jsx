@@ -1,18 +1,11 @@
 import { useState } from "react";
-import ScrollToTop from "react-scroll-to-top";
 import { useDispatch, useSelector } from "react-redux";
 import { getBrickSoldAmount } from "../actions/brick";
 import { jwtDecode } from "jwt-decode";
 import { useEffect } from "react";
-
 import { Link } from "react-router-dom";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
-// import video  from '../assets/video.mp4'
-
+import ScrollToTop from "react-scroll-to-top";
 import axios from "axios";
-
-// Import assests
 
 import Icon1 from "../assets/img/home/icon1.png";
 import Icon2 from "../assets/img/home/icon2.png";
@@ -25,17 +18,21 @@ import Icon7 from "../assets/img/home/icon7.png";
 import Ellipse1 from "../assets/img/home/Ellipse1.png";
 import Ellipse2 from "../assets/img/home/Ellipse2.png";
 
-import SelectionGroup from "../components/SelectionGroup";
+import { AiOutlineInteraction } from "react-icons/ai";
+
 import { getCurrentDonors, getDonorAmount } from "../actions/donor";
+import { getContents, updateContent } from "../actions/content";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+import SelectionGroup from "../components/SelectionGroup";
 import ImageUpload from "../components/ImageUpload";
 import EditableParagraph from "../components/EditableParagraph";
-import { getContents, updateContent } from "../actions/content";
+import ContentChangeModal from "../components/modals/ContentChangeModal";
 
 const Home = () => {
   const base_URL = `${import.meta.env.VITE_BACKEND_URL}`;
 
-  const [isVideoUrlModalOpen, setIsVideoUrlModalOpen] = useState(false);
-  const [videoURL, setVideoURL] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [imageData, setImageData] = useState({});
 
   const { sold, donor } = useSelector((state) => state.admin);
@@ -143,17 +140,25 @@ const Home = () => {
 
   const { contents } = useSelector((state) => state.content);
 
-  useEffect(() => {
-    setVideoURL(contents.HomeVideo);
-  }, [contents.HomeVideo]);
-
   const onBlur = (name, content) => {
     const contentData = {
       name,
       content,
     };
     dispatch(updateContent(contentData));
-    setIsVideoUrlModalOpen(false);
+    setIsModalOpen(false);
+  };
+
+  const getYouTubeID = (url) => {
+    const regExp =
+      /^.*(youtu\.be\/|youtube(?:-nocookie)?\.com\/(?:(?:v|e)\/|(?:watch|embed(?:\/popup)?)(?:\.php)?\?v=|\/(?:[a-z]{2}\/)?video\/))([^#&?]*).*/;
+    const match = url.match(regExp);
+
+    if (match && match[2].length === 11) {
+      return match[2];
+    }
+
+    return null;
   };
 
   const today = new Date();
@@ -167,9 +172,9 @@ const Home = () => {
   return (
     <div className="">
       <Navbar />
-      <div className="flex flex-wrap-reverse lg:flex-wrap-reverse bg-gray-100 w-full pt-28 px-8 sm:px-16 md:px-24 lg:px-24 xl:px-48 2xl:px-56 lg:pr-0 xl:pr-0 2xl:pr-0 relative">
-        <div className="lg:w-1/3 w-full">
-          <div className="flex flex-col gap-5 lg:gap-10 items-center lg:items-start py-12">
+      <div className="flex flex-wrap-reverse item-center lg:flex-wrap-reverse bg-gray-100 w-full pt-28 px-8 sm:px-16 md:px-24 lg:px-24 xl:px-48 2xl:px-56 lg:pr-0 xl:pr-0 2xl:pr-0 relative">
+        <div className="w-full lg:w-1/3">
+          <div className="flex flex-col gap-5 lg:gap-10 items-center lg:items-start py-12 z-20">
             <EditableParagraph
               name="HomeText1"
               content={contents.HomeText1 || "Building Compassion"}
@@ -180,7 +185,7 @@ const Home = () => {
               name="HomeText2"
               content={contents.HomeText2 || "Brick by Brick"}
               onBlur={onBlur}
-              className="text-lg sm:text-xl md:text-2xl lg:text-xl xl:text-2xl 2xl:text-3xl text-center lg:text-left font-montserrat z-20"
+              className="w-full text-lg sm:text-xl md:text-2xl lg:text-xl xl:text-2xl 2xl:text-3xl text-center lg:text-left font-montserrat z-20"
             />
             <EditableParagraph
               name="HomeText3"
@@ -199,12 +204,14 @@ const Home = () => {
             </Link>
           </div>
         </div>
-        <div className="lg:py-12 lg:pt-0 xl:pl-8 lg:pr-24 lg:pl-8 xl:pr-44 2xl:pr-56 z-10 lg:w-2/3 relative">
-          <ImageUpload
-            fileName={fileList[0]}
-            previewFile={imgSrc[fileList[0]]}
-            onFileSelect={handleFileChange}
-          />
+        <div className="w-full lg:w-2/3 flex justify-items-center items-center lg:py-12 lg:pt-0 xl:pl-8 lg:pr-24 lg:pl-8 xl:pr-44 2xl:pr-56 z-10  relative">
+          <div className="w-full h-[40vh] xl:h-[60vh] 2xl:h-[70vh]">
+            <ImageUpload
+              fileName={fileList[0]}
+              previewFile={imgSrc[fileList[0]]}
+              onFileSelect={handleFileChange}
+            />
+          </div>
           <div className="hidden lg:flex bg-[#FD8D40] rounded-full w-48 h-48 p-4 absolute left-[-40px] bottom-[-40px] z-20">
             <div className="flex flex-col -rotate-45 justify-center items-center bg-transparent rounded-full border-4 border-[#FEB782] border-r-white w-full h-full">
               <span className="text-3xl font-bold text-white">Donations</span>
@@ -221,14 +228,15 @@ const Home = () => {
 
       <div className="flex flex-wrap w-full px-8 sm:px-16 md:px-24 lg:px-24 xl:px-48 2xl:px-56 pt-12 lg:py-24 relative">
         <div className="w-5/12 bg-gray-200 absolute top-40 h-96 py-56 left-0 hidden lg:flex"></div>
-        <div className="flex justify-center items-center w-full lg:w-1/3 z-10">
+        <div className="w-full lg:w-1/3 flex justify-center items-center h-[40vh] xl:h-[50vh] 2xl:h-[60vh] z-10">
           <ImageUpload
             fileName={fileList[1]}
             previewFile={imgSrc[fileList[1]]}
             onFileSelect={handleFileChange}
+            className="w-full"
           />
         </div>
-        <div className="lg:pl-12 xl:pl-20 py-12 lg:py-0 lg:w-2/3 w-full">
+        <div className="lg:pl-12 xl:pl-20 py-12 lg:py-0 w-full lg:w-2/3">
           <div className="flex flex-col items-center lg:items-start gap-5 lg:gap-10">
             <EditableParagraph
               name="HomeText4"
@@ -280,7 +288,7 @@ const Home = () => {
             "Here are three impactful ways you can help us achieve our financial goals and make a meaningful difference in the lives of those we serve. Each action you take brings us closer to realizing our shared vision."
           }
           onBlur={onBlur}
-          className="text-center text-md sm:text-lg md:text-xl lg:text-md xl:text-xl 2xl:text-2xl py-3 lg:py-12 font-raleway"
+          className="text-center text-md sm:text-lg md:text-xl lg:text-md xl:text-xl 2xl:text-2xl my-3 lg:my-12 font-raleway"
         />
         <div className="flex flex-wrap justify-center w-full">
           <div className="p-5 2xl:p-10 w-full md:w-3/4 lg:w-1/3">
@@ -370,12 +378,12 @@ const Home = () => {
         </div>
       </div>
 
-      <div className="flex flex-col w-full px-8 sm:px-16 md:px-24 lg:px-24 xl:px-48 2xl:px-64 py-24 mb-16 md:mb-12 xl:mb-24 bg-white justify-center items-center relative">
+      <div className="flex flex-col justify-center items-center w-full px-8 sm:px-16 md:px-24 lg:px-24 xl:px-48 2xl:px-64 py-24 mb-16 md:mb-12 xl:mb-24 bg-white relative">
         <EditableParagraph
           name="HomeText15"
           content={contents.HomeText15 || "Moments of Compassion"}
           onBlur={onBlur}
-          className="font-bold text-4xl md:text-5xl xl:text-6xl 2xl:text-7xl text-center text-sky-700 lg:pt-0 font-montserrat z-10"
+          className="w-full font-bold text-4xl md:text-5xl xl:text-6xl 2xl:text-7xl text-center text-sky-700 lg:pt-0 font-montserrat z-10"
         />
         <EditableParagraph
           name="HomeText16"
@@ -384,54 +392,32 @@ const Home = () => {
             "Explore our gallery to witness the profound impact of your support. Each image and video here tells a story - from the tangible progress of our hospice construction to the life- changing narratives of our beneficiaries."
           }
           onBlur={onBlur}
-          className="text-md text-center sm:text-lg md:text-xl lg:text-md xl:text-xl 2xl:text-2xl text-neutral-600 py-6 lg:py-12 font-raleway"
+          className="text-md text-center sm:text-lg md:text-xl lg:text-md xl:text-xl 2xl:text-2xl text-neutral-600 my-6 lg:my-12 font-raleway"
         />
         {userRole === 2 && (
           <div className="w-full flex justify-items-start">
             <button
-              onClick={() => setIsVideoUrlModalOpen(true)}
+              onClick={() => setIsModalOpen(true)}
               className="px-6 py-2 bg-sky-700 text-white font-xl"
             >
-              Change Video
+              <AiOutlineInteraction />
             </button>
           </div>
         )}
         <div className="flex flex-wrap justify-center">
           <div className="w-full lg:w-2/3 h-[30vh] md:h-[40vh] lg:h-[50vh] p-2 drop-shadow-md">
-            <iframe
-              src={`https://www.youtube.com/embed/${contents.HomeVideo}`}
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              title="Upload"
-              className="inline-block h-full w-full object-cover"
-            />
+            {contents.HomeVideo && (
+              <iframe
+                src={`https://www.youtube.com/embed/${getYouTubeID(
+                  contents.HomeVideo
+                )}`}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                title="Upload"
+                className="inline-block h-full w-full object-cover"
+              />
+            )}
           </div>
-          {isVideoUrlModalOpen && (
-            <div className="absolute w-2/3 top-[40vh] z-50">
-              <div className="w-3/4 h-full flex flex-col gap-6 item-center bg-white rounded-lg shadow-md shadow-gray-500 p-12">
-                <input
-                  value={videoURL ? videoURL : ""}
-                  onChange={(e) => setVideoURL(e.target.value)}
-                  className="w-full border border-gray-300 rounded-sm py-2 px-2"
-                />
-                <div className="flex justify-center gap-3">
-                  <button
-                    onClick={() => setIsVideoUrlModalOpen(false)}
-                    className="bg-green-600 hover:bg-green-700 rounded-md text-white text-xl px-6 py-2"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    onClick={() => onBlur("HomeVideo", videoURL)}
-                    className="bg-red-700 hover:bg-red-800 rounded-md text-white text-xl px-6 py-2"
-                  >
-                    Update
-                  </button>
-                </div>
-              </div>
-            </div>
-          )}
           <div className="w-full lg:w-1/3 h-[30vh] md:h-[40vh] p-2 mt-auto drop-shadow-md">
             <ImageUpload
               fileName={fileList[3]}
@@ -454,9 +440,16 @@ const Home = () => {
             />
           </div>
         </div>
+        <ContentChangeModal
+          name="HomeVideo"
+          value={contents.HomeVideo}
+          onBlur={onBlur}
+          isModalOpen={isModalOpen}
+          closeModal={() => setIsModalOpen(false)}
+        />
       </div>
 
-      <div className="flex flex-col w-full px-8 sm:px-16 md:px-24 lg:px-24 xl:px-48 2xl:px-64 py-12 bg-neutral-700 justify-center items-center relative">
+      <div className="flex flex-col w-full px-8 sm:px-16 md:px-24 lg:px-24 xl:px-48 2xl:px-64 py-12 bg-neutral-700 justify-center items-center relative  pt-20 sm:pt-24 md:pt-28 lg:pt-36 xl:pt-40">
         <div className="w-full px-8 sm:px-16 md:px-24 lg:px-24 xl:mb-12 xl:px-48 2xl:px-64 absolute -top-12 md:-top-20 lg:-top-24 xl:-top-28 2xl:-top-30">
           <div className="w-full flex flex-wrap bg-stone-300 py-2 lg:py-5">
             <div className="flex flex-col justify-start items-center w-1/4 text-center">
@@ -521,13 +514,13 @@ const Home = () => {
           name="HomeText17"
           content={contents.HomeText17 || "Hearts of Generosity"}
           onBlur={onBlur}
-          className="text-4xl text-center text-gray-300 font-raleway mt-20 sm:mt-24 md:mt-28 lg:mt-36 xl:mt-40"
+          className="text-4xl text-center text-gray-300 font-raleway w-full"
         />
         <EditableParagraph
           name="HomeText18"
           content={contents.HomeText18 || "Our Donors Speak"}
           onBlur={onBlur}
-          className="text-4xl text-white font-bold md:text-5xl xl:text-6xl 2xl:text-7xl text-center font-montserrat z-10"
+          className="w-full text-4xl text-white font-bold md:text-5xl xl:text-6xl 2xl:text-7xl text-center font-montserrat z-10"
         />
         <EditableParagraph
           name="HomeText19"
@@ -768,7 +761,7 @@ const Home = () => {
       </div>
 
       <div className="flex flex-wrap w-full bg-gray-200  px-8 sm:px-16 md:px-20 lg:px-24 xl:px-48 2xl:px-64 lg:py-12 2xl:py-24 relative justify-center">
-        <div className="w-full flex justify-center lg:w-1/3 py-8 lg:py-0 z-10 items-center">
+        <div className="w-full lg:w-1/3 h-[40vh] xl:h-[50vh] 2xl:h-[60vh] flex justify-center py-8 lg:py-0 z-10 items-center">
           <ImageUpload
             fileName={fileList[6]}
             previewFile={imgSrc[fileList[6]]}

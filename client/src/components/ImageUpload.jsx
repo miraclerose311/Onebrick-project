@@ -23,7 +23,7 @@ const ImageUpload = ({ previewFile, fileName, onFileSelect, className }) => {
 
   return (
     <div className="relativ h-full flex justify-center items-center">
-      {userRole === 1 && (
+      {userRole === 2 && (
         <input
           type="file"
           id={fileName}
@@ -38,8 +38,8 @@ const ImageUpload = ({ previewFile, fileName, onFileSelect, className }) => {
             src={previewFile}
             alt="Upload"
             className={classNames(
-              `inline-block h-full w-full object-cover ${className}`,
-              userRole === 1 && "cursor-pointer"
+              `inline-block object-cover ${className}`,
+              userRole === 2 && "cursor-pointer"
             )}
           />
         ) : (

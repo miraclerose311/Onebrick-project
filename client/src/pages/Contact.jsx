@@ -1,22 +1,28 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
-
+import { Link } from "react-router-dom";
 import ScrollToTop from "react-scroll-to-top";
+import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
-import Pagination from "../components/Pagination";
-
-import Ellipse10 from "../assets/img/Ellipse10.png";
-
+import { getContents, updateContent } from "../actions/content";
 import ImageUpload from "../components/ImageUpload";
 import EditableParagraph from "../components/EditableParagraph";
-import { getContents, updateContent } from "../actions/content";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+
+import { AiOutlineInteraction } from "react-icons/ai";
+
+import Ellipse10 from "../assets/img/Ellipse10.png";
+import ContentChangeModal from "../components/modals/ContentChangeModal";
 
 const Contact = () => {
   const base_URL = `${import.meta.env.VITE_BACKEND_URL}`;
+
+  const { token } = useSelector((state) => state.auth);
   const [imageData, setImageData] = useState({});
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [userRole, setUserRole] = useState(null);
 
   const [imgSrc, setImageSrc] = useState({
     contact1: "",
@@ -97,6 +103,15 @@ const Contact = () => {
     dispatch(getContents());
   }, []);
 
+  useEffect(() => {
+    if (token) {
+      const { role } = jwtDecode(token);
+      setUserRole(role);
+    } else {
+      setUserRole(null);
+    }
+  }, [token]);
+
   const { contents } = useSelector((state) => state.content);
 
   const onBlur = (name, content) => {
@@ -104,6 +119,7 @@ const Contact = () => {
       name,
       content,
     };
+    setIsModalOpen(false);
     dispatch(updateContent(contentData));
   };
   return (
@@ -112,7 +128,7 @@ const Contact = () => {
 
       <div className="">
         <div className="flex flex-wrap bg-gray-300 px-12 sm:px-16 md:px-24 lg:px-24 xl:px-48 2xl:px-64 pt-32 pb-8">
-          <div className="w-full lg:w-1/3 h-56 sm:h-64 md:h-80 lg:h-auto justify-center">
+          <div className="w-full lg:w-1/3 h-[40vh] xl:h-[50vh] justify-center">
             <ImageUpload
               fileName={fileList[0]}
               previewFile={imgSrc[fileList[0]]}
@@ -139,42 +155,63 @@ const Contact = () => {
           </div>
         </div>
 
-        <div className="flex flex-wrap py-32 justify-center px-12 sm:px-16 md:px-24 lg:px-24 xl:px-48 2xl:px-64 relative">
-          <div className="w-5/6 lg:w-1/2 flex flex-col items-start gap-6 z-20 relative">
+        <div className="flex flex-wrap py-32 justify-center items-center px-12 sm:px-16 md:px-24 lg:px-24 xl:px-48 2xl:px-64 relative">
+          <div className="w-full md:w-5/6 lg:w-1/2 flex flex-col items-start gap-2 lg:gap-6 z-20 relative">
             <EditableParagraph
               name="ContactText3"
               content={contents.ContactText3 || "Get in touch now!"}
               onBlur={onBlur}
-              className="text-sky-700 text-4xl sm:text-5xl md:text-6xl lg:text-4xl xl:text-5xl font-medium pb-8"
+              className="w-full text-center md:text-left text-sky-700 text-4xl sm:text-5xl md:text-6xl lg:text-4xl xl:text-5xl font-medium pb-8"
             />
-            <div className="flex gap-6 sm:gap-8 md:gap-12 lg:gap-6 xl:gap-8 2xl:gap-12 items-center">
-              <ImageUpload
-                fileName={fileList[5]}
-                previewFile={imgSrc[fileList[5]]}
-                onFileSelect={handleFileChange}
-                className="w-8 sm:w-10 lg:w-8 xl:w-10 2xl:w-12  h-8 sm:h-10 lg:h-8 xl:h-10 2xl:h-12"
-              />
-              <EditableParagraph
-                name="ContactText4"
-                content={contents.ContactText4 || "+91 94977 13923"}
-                onBlur={onBlur}
-                className="text-sky-700 text-xl sm:text-2xl lg:text-xl xl:text-2xl 2xl:text-3xl text-justify font-montserrat font-medium w-full"
-              />
-            </div>
-            <div className="flex gap-6 sm:gap-8 md:gap-12 lg:gap-6 xl:gap-8 2xl:gap-12 items-center">
-              <ImageUpload
-                fileName={fileList[6]}
-                previewFile={imgSrc[fileList[6]]}
-                onFileSelect={handleFileChange}
-                className="w-8 sm:w-10 lg:w-8 xl:w-10 2xl:w-12  h-8 sm:h-10 lg:h-8 xl:h-10 2xl:h-12"
-              />
-              <div className="flex flex-col">
-                <EditableParagraph
-                  name="ContactText5"
-                  content={contents.ContactText5 || "click here for directions"}
-                  onBlur={onBlur}
-                  className="text-sky-700 text-xl sm:text-2xl lg:text-xl xl:text-2xl 2xl:text-3xl text-justify font-montserrat font-medium w-full"
+            <div className="flex gap-2 sm:gap-4 md:gap-8 lg:gap-4 xl:gap-6 2xl:gap-8 items-center">
+              <div className="flex">
+                <ImageUpload
+                  fileName={fileList[5]}
+                  previewFile={imgSrc[fileList[5]]}
+                  onFileSelect={handleFileChange}
+                  className="p-3 w-4/5 h-4/5"
                 />
+              </div>
+              <div className="flex">
+                <EditableParagraph
+                  name="ContactText4"
+                  content={contents.ContactText4 || "+91 94977 13923"}
+                  onBlur={onBlur}
+                  className="text-sky-700 text-md sm:text-2xl lg:text-xl xl:text-2xl 2xl:text-3xl font-montserrat font-medium"
+                />
+              </div>
+            </div>
+            <div className="flex gap-2 sm:gap-4 md:gap-8 lg:gap-4 xl:gap-6 2xl:gap-8 items-center">
+              <div>
+                <ImageUpload
+                  fileName={fileList[6]}
+                  previewFile={imgSrc[fileList[6]]}
+                  onFileSelect={handleFileChange}
+                  className="p-3 w-4/5 h-4/5"
+                />
+              </div>
+              <div className="flex flex-col">
+                <div className="flex">
+                  <Link to={contents.MapUrl}>
+                    <EditableParagraph
+                      name="ContactText5"
+                      content={
+                        contents.ContactText5 || "click here for directions"
+                      }
+                      onBlur={onBlur}
+                      className="text-sky-700 text-md sm:text-2xl lg:text-xl xl:text-2xl 2xl:text-3xl text-justify font-montserrat font-medium"
+                    />
+                  </Link>
+                  {userRole === 2 && (
+                    <sapn
+                      onClick={() => setIsModalOpen(!isModalOpen)}
+                      className="p-1 lg:p-2 cusor-pointer"
+                    >
+                      <AiOutlineInteraction />
+                    </sapn>
+                  )}
+                </div>
+
                 <EditableParagraph
                   name="ContactText6"
                   content={
@@ -182,102 +219,115 @@ const Contact = () => {
                     "IX/627, Edamuttam, Palappetty, India"
                   }
                   onBlur={onBlur}
-                  className="text-sky-700 text-sm sm:text-xl lg:text-sm xl:text-md 2xl:text-lg text-justify w-full"
+                  className="text-sky-700 text-sm sm:text-xl lg:text-md xl:text-lg 2xl:text-xl text-justify w-full"
                 />
               </div>
             </div>
-            <div className="flex gap-6 sm:gap-8 md:gap-12 lg:gap-6 xl:gap-8 2xl:gap-12 items-center">
-              <ImageUpload
-                fileName={fileList[7]}
-                previewFile={imgSrc[fileList[7]]}
-                onFileSelect={handleFileChange}
-                className="w-8 sm:w-10 lg:w-8 xl:w-10 2xl:w-12  h-8 sm:h-10 lg:h-8 xl:h-10 2xl:h-12"
-              />
+            <div className="flex gap-2 sm:gap-4 md:gap-8 lg:gap-4 xl:gap-6 2xl:gap-8 items-center">
+              <div>
+                <ImageUpload
+                  fileName={fileList[7]}
+                  previewFile={imgSrc[fileList[7]]}
+                  onFileSelect={handleFileChange}
+                  className="p-3 w-4/5 h-4/5"
+                />
+              </div>
               <div className="flex-col">
                 <EditableParagraph
                   name="ContactText7"
                   content={contents.ContactText7 || "communications"}
                   onBlur={onBlur}
-                  className="text-sky-700 text-xl sm:text-2xl lg:text-xl xl:text-2xl 2xl:text-3xl text-justify font-montserrat font-medium w-full"
+                  className="text-sky-700 text-md sm:text-2xl lg:text-xl xl:text-2xl 2xl:text-3xl text-justify font-montserrat font-medium"
                 />
                 <EditableParagraph
                   name="ContactText8"
                   content={contents.ContactText8 || "@alphapalliativecare.org"}
                   onBlur={onBlur}
-                  className="text-sky-700 text-xl sm:text-2xl lg:text-xl xl:text-2xl 2xl:text-3xl text-justify font-montserrat font-medium w-full"
+                  className="text-sky-700 text-md sm:text-2xl lg:text-xl xl:text-2xl 2xl:text-3xl text-justify font-montserrat font-medium"
                 />
               </div>
             </div>
-            <div className="flex gap-6 sm:gap-8 md:gap-12 lg:gap-6 xl:gap-8 2xl:gap-12 items-center">
-              <ImageUpload
-                fileName={fileList[8]}
-                previewFile={imgSrc[fileList[8]]}
-                onFileSelect={handleFileChange}
-                className="w-8 sm:w-10 lg:w-8 xl:w-10 2xl:w-12  h-8 sm:h-10 lg:h-8 xl:h-10 2xl:h-12"
-              />
-              <div className="flex gap-4">
+
+            <div className="flex gap-2 sm:gap-4 md:gap-8 lg:gap-4 xl:gap-6 2xl:gap-8 items-center">
+              <div className="hidden sm:flex">
                 <ImageUpload
-                  fileName={fileList[9]}
-                  previewFile={imgSrc[fileList[9]]}
+                  fileName={fileList[8]}
+                  previewFile={imgSrc[fileList[8]]}
                   onFileSelect={handleFileChange}
-                  className="w-8 sm:w-10 lg:w-8 xl:w-10 2xl:w-12  h-8 sm:h-10 lg:h-8 xl:h-10 2xl:h-12"
+                  className="p-3 w-11/12 h-11/12"
                 />
-                <ImageUpload
-                  fileName={fileList[10]}
-                  previewFile={imgSrc[fileList[10]]}
-                  onFileSelect={handleFileChange}
-                  className="w-8 sm:w-10 lg:w-8 xl:w-10 2xl:w-12  h-8 sm:h-10 lg:h-8 xl:h-10 2xl:h-12"
-                />
-                <ImageUpload
-                  fileName={fileList[11]}
-                  previewFile={imgSrc[fileList[11]]}
-                  onFileSelect={handleFileChange}
-                  className="w-8 sm:w-10 lg:w-8 xl:w-10 2xl:w-12  h-8 sm:h-10 lg:h-8 xl:h-10 2xl:h-12"
-                />
-                <ImageUpload
-                  fileName={fileList[12]}
-                  previewFile={imgSrc[fileList[12]]}
-                  onFileSelect={handleFileChange}
-                  className="w-8 sm:w-10 lg:w-8 xl:w-10 2xl:w-12  h-8 sm:h-10 lg:h-8 xl:h-10 2xl:h-12 ml-4"
-                />
+              </div>
+              <div className="flex items-center">
+                <div className="flex justify-center items-center p-3">
+                  <ImageUpload
+                    fileName={fileList[9]}
+                    previewFile={imgSrc[fileList[9]]}
+                    onFileSelect={handleFileChange}
+                    className="w-10 h-10"
+                  />
+                </div>
+                <div className="flex justify-center items-center p-3">
+                  <ImageUpload
+                    fileName={fileList[10]}
+                    previewFile={imgSrc[fileList[10]]}
+                    onFileSelect={handleFileChange}
+                    className="w-10 h-10"
+                  />
+                </div>
+                <div className="flex justify-center items-center p-3">
+                  <ImageUpload
+                    fileName={fileList[11]}
+                    previewFile={imgSrc[fileList[11]]}
+                    onFileSelect={handleFileChange}
+                    className="w-10 h-10"
+                  />
+                </div>
+                <div className="flex justify-center items-center p-3">
+                  <ImageUpload
+                    fileName={fileList[12]}
+                    previewFile={imgSrc[fileList[12]]}
+                    onFileSelect={handleFileChange}
+                    className="w-10 h-10"
+                  />
+                </div>
               </div>
             </div>
           </div>
           <div className="w-full lg:w-1/2 flex flex-wrap pt-12 lg:pt-0 z-20">
-            <div className="w-full lg:w-1/2 p-1 2xl:p-2">
+            <div className="w-full lg:w-1/2 flex p-1">
               <input
                 placeholder="First Name"
-                className="w-full p-2 xl:p-4 border-2 border-gray-300 focus:border-sky-700 outline-none focus:border-2 drop-shadow-lg"
+                className="w-full px-2 py-3 border-2 border-gray-300 focus:border-sky-700 outline-none focus:border-2 drop-shadow-lg"
               />
             </div>
-            <div className="w-full lg:w-1/2 p-1 2xl:p-2">
+            <div className="w-full lg:w-1/2 flex p-1">
               <input
                 placeholder="Last Name"
-                className="w-full p-2 xl:p-4 border-2 border-gray-300 focus:border-sky-700 outline-none focus:border-2 drop-shadow-lg"
+                className="w-full px-2 py-3 border-2 border-gray-300 focus:border-sky-700 outline-none focus:border-2 drop-shadow-lg"
               />
             </div>
-            <div className="w-full lg:w-1/2 p-1 2xl:p-2">
+            <div className="w-full lg:w-1/2 flex p-1">
               <input
                 placeholder="Email ID"
-                className="w-full p-2 xl:p-4 border-2 border-gray-300 focus:border-sky-700 outline-none focus:border-2 drop-shadow-lg"
+                className="w-full px-2 py-3 border-2 border-gray-300 focus:border-sky-700 outline-none focus:border-2 drop-shadow-lg"
               />
             </div>
-            <div className="w-full lg:w-1/2 p-1 2xl:p-2">
+            <div className="w-full lg:w-1/2 flex p-1">
               <input
                 placeholder="Mobile No"
-                className="w-full p-2 xl:p-4 border-2 border-gray-300 focus:border-sky-700 outline-none focus:border-2 drop-shadow-lg"
+                className="w-full px-2 py-3 border-2 border-gray-300 focus:border-sky-700 outline-none focus:border-2 drop-shadow-lg"
               />
             </div>
 
-            <div className="w-full p-1 2xl:p-2">
+            <div className="w-full flex p-1">
               <textarea
                 placeholder="Message"
                 className="w-full px-2 xl:px-4 pt-2 pb-16 2xl:pb-20 border-2 border-gray-300 focus:border-sky-700 outline-none focus:border-2 drop-shadow-lg"
               />
             </div>
 
-            <div className="w-full p-1 2xl:p-2">
-              <button className="w-full p-3 xl:p-5 bg-sky-700 hover:bg-sky-600 text-white">
+            <div className="w-full p-1">
+              <button className="w-full p-3 bg-sky-700 hover:bg-sky-600 text-white">
                 Send Message
               </button>
             </div>
@@ -285,6 +335,13 @@ const Contact = () => {
           <img
             className="hidden lg:flex absolute right-0 top-0 z-0 object-fill h-full w-2/3"
             src={Ellipse10}
+          />
+          <ContentChangeModal
+            name="MapUrl"
+            value={contents.MapUrl}
+            onBlur={onBlur}
+            isModalOpen={isModalOpen}
+            closeModal={() => setIsModalOpen(false)}
           />
         </div>
 
@@ -310,7 +367,7 @@ const Contact = () => {
           />
         </div> */}
 
-        <div className="w-full py-24 px-12 sm:px-16 md:px-24 lg:px-24 xl:px-48 2xl:px-64">
+        {/* <div className="w-full py-24 px-12 sm:px-16 md:px-24 lg:px-24 xl:px-48 2xl:px-64">
           <div className="flex flex-col">
             <div className="flex flex-wrap items-center py-5">
               <div className="w-3/4 sm:w-2/3 md:w-1/2 lg:w-1/4">
@@ -461,7 +518,7 @@ const Contact = () => {
           <div className="mx-auto w-3/4 sm:w-2/3 md:w-1/2 lg:w-1/4 xl:w-1/4 mt-24">
             <Pagination />
           </div>
-        </div>
+        </div> */}
       </div>
       <Footer />
       <ScrollToTop

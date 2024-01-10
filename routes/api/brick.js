@@ -175,6 +175,9 @@ router.post("/buy", async (req, res) => {
     await Promise.all(updatePromises);
 
     res.json({ purchasedIds, user, date: new Date(), donor });
+
+    const userInfo = await User.findById(user);
+    
   } catch (error) {
     // Handle errors appropriately
     console.error("Failed to buy bricks:", error);
