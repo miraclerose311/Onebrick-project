@@ -395,14 +395,12 @@ const Home = () => {
           className="text-md text-center sm:text-lg md:text-xl lg:text-md xl:text-xl 2xl:text-2xl text-neutral-600 my-6 lg:my-12 font-raleway"
         />
         {userRole === 2 && (
-          <div className="w-full flex justify-items-start">
-            <button
-              onClick={() => setIsModalOpen(true)}
-              className="px-6 py-2 bg-sky-700 text-white font-xl"
-            >
-              <AiOutlineInteraction />
-            </button>
-          </div>
+          <span
+            onClick={() => setIsModalOpen(true)}
+            className="w-full flex justify-start cursor-pointer p-2"
+          >
+            <AiOutlineInteraction />
+          </span>
         )}
         <div className="flex flex-wrap justify-center">
           <div className="w-full lg:w-2/3 h-[30vh] md:h-[40vh] lg:h-[50vh] p-2 drop-shadow-md">
@@ -430,6 +428,7 @@ const Home = () => {
               fileName={fileList[4]}
               previewFile={imgSrc[fileList[4]]}
               onFileSelect={handleFileChange}
+              className="w-full h-full"
             />
           </div>
           <div className="w-full lg:w-2/3 h-[30vh] md:h-[40vh] lg:h-[50vh] p-2 drop-shadow-md relative">
@@ -437,6 +436,7 @@ const Home = () => {
               fileName={fileList[5]}
               previewFile={imgSrc[fileList[5]]}
               onFileSelect={handleFileChange}
+              className="w-full h-full"
             />
           </div>
         </div>

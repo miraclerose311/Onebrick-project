@@ -213,7 +213,7 @@ const About = () => {
           </div>
         </div>
 
-        <div className="flex flex-wrap justify-center w-full px-8 sm:px-16 lg:px-24 xl:px-40 2xl:px-64 pt-32 py-24 relative">
+        <div className="flex flex-wrap justify-center items-center w-full px-8 sm:px-16 lg:px-24 xl:px-40 2xl:px-64 pt-32 py-24 relative">
           <div className="w-full sm:w-3/4 lg:w-1/2 h-[40vh] xl:h-[50vh] 2xl:h-[60vh] z-10">
             <ImageUpload
               fileName={fileList[4]}
