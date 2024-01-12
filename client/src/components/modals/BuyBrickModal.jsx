@@ -37,13 +37,16 @@ const BuyBrickModal = ({
     if (modalRef.current) {
       const modalHeight = modalRef.current.offsetHeight;
       const modalWidth = modalRef.current.offsetWidth;
+      console.log(modalHeight, modalWidth);
+      console.log(modalPosition);
+      console.log(window.screen.width);
       setPosition({
         x:
-          window.screen.width - modalPosition.x > modalWidth
+          window.innerWidth - modalPosition.x > modalWidth
             ? modalPosition.x
             : modalPosition.x - modalWidth,
         y:
-          window.screen.height - modalPosition.y > modalHeight
+          window.innerHeight - modalPosition.y > modalHeight
             ? modalPosition.y
             : modalPosition.y - modalHeight,
       });
@@ -52,6 +55,7 @@ const BuyBrickModal = ({
 
   useEffect(() => {
     setVisible("visible");
+    console.log("change modalposition in modal component");
   }, [position]);
 
   return (

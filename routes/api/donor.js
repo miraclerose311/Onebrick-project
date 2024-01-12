@@ -79,13 +79,16 @@ router.get("/current-donors", async (req, res) => {
     const result = await Brick.aggregate([
       { $match: { sold: true } },
       {
-        $sort: {date: 1}
+        $sort: { date: 1 },
       },
       {
         $group: {
           _id: "$user",
           purchasedBricksCount: { $sum: 1 },
         },
+      },
+      {
+        $limit: 6,
       },
       {
         $lookup: {
@@ -117,9 +120,9 @@ router.get("/current-donors", async (req, res) => {
           localField: "user",
           foreignField: "_id",
           as: "user",
-        }
+        },
       },
-      {$unwind: "$user"},
+      { $unwind: "$user" },
       {
         $project: {
           avatar: "$user.picture",

@@ -27,6 +27,13 @@
   display: none;
 }
 
+.center-vertical {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
+
 td{
   font-size: 14px;
   padding: 10px;
@@ -38,25 +45,41 @@ th{
   padding-bottom: 10px;
 }
 
+.custom-nderline {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 3px;
+  background-color: currentColor; /* Use the text color or pick your own */
+}
 
-.growable-underline {
+.growable-underline,
+.active-underline {
   position: relative;
   display: inline-block;
   cursor: pointer;
   overflow: hidden;
 }
 
-.growable-underline::after {
+.growable-underline::after,
+.active-underline::after {
   content: '';
   position: absolute;
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 0%;
+  width: 0%; /* Default to 0 width */
   height: 3px;
-  background-color: currentColor; /* Use the text color or pick your own */
-  transition: width 0.1s;
+  background-color: currentColor;
+  transition: width 0.3s ease-in-out;
 }
+
+.growable-underline:hover::after,
+.active-underline::after {
+  width: 100%; /* Grow to full width on hover or when active */
+}
+
 
 .growable-underline:hover::after {
   width: 110%;

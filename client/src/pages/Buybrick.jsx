@@ -200,7 +200,6 @@ const Buybrick = () => {
     if (!bricks[index].sold && !isSoldModalOpen && !isBuyBrickModalOpen) {
       setIsBrickInfoModalOpen(false);
       setIsSoldModalOpen(false);
-      setIsBuyBrickModalOpen(true);
       setClickedIndex(index);
       dispatch(clearCurrent());
     } else {
@@ -213,6 +212,14 @@ const Buybrick = () => {
     }
   };
 
+  useEffect(() => {
+    console.log("modalposition", modalPosition);
+  }, [modalPosition]);
+
+  useEffect(() => {
+    console.log("isBuyBrickModalOpen", isBuyBrickModalOpen);
+  }, [isBuyBrickModalOpen]);
+
   const handlePanClick = (e) => {
     if (!isSoldModalOpen) {
       // Get the position of the clicked point
@@ -221,6 +228,7 @@ const Buybrick = () => {
 
       // Set the position of the modal relative to the clicked point
       setModalPosition({ x, y });
+      setIsBuyBrickModalOpen(true);
     } else {
       setIsSoldModalOpen(false);
       dispatch(clearCurrent());

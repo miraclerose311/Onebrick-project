@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import PropTypes from "prop-types";
+import { jwtDecode } from "jwt-decode";
 import { addDonorInfo } from "../../features/donorSlice";
 import { FaAnglesRight } from "react-icons/fa6";
+import PropTypes from "prop-types";
 
 const DonorInformationModal = ({ handleNextModal }) => {
   const [fullName, setName] = useState("");
@@ -17,14 +18,25 @@ const DonorInformationModal = ({ handleNextModal }) => {
     pan: "",
   });
 
+  const { token } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (token) {
+      const { fullName, email } = jwtDecode(token);
+      setName(fullName);
+      setEmail(email);
+    } else {
+      setName(null);
+      setEmail(null);
+    }
+  }, [token]);
+
   const donor = useSelector((state) => state.donor);
 
   useEffect(() => {
     if (donor.donorInfo) {
-      const { fullName, mobile, email, pan, aadhaar } = donor.donorInfo;
-      setName(fullName);
+      const { mobile, pan, aadhaar } = donor.donorInfo;
       setMobile(mobile);
-      setEmail(email);
       setPan(pan);
       setAadhaar(aadhaar);
     }
@@ -120,10 +132,11 @@ const DonorInformationModal = ({ handleNextModal }) => {
         onChange={(e) => setName(e.target.value)}
         onFocus={handleFocus}
         className={classNames(
-          "border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2",
+          "bg-gray-100 border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2",
           errors.fullName && "border-red-400"
         )}
         placeholder="Full Name"
+        disabled
       />
       {errors.fullName && (
         <p className="text-red-400 text-xs text-left w-2/3">
@@ -138,10 +151,11 @@ const DonorInformationModal = ({ handleNextModal }) => {
         onFocus={handleFocus}
         onChange={(e) => setEmail(e.target.value)}
         className={classNames(
-          "border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2",
+          "bg-gray-100 border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2",
           errors.email && "border-red-400"
         )}
         placeholder="Email ID"
+        disabled
       />
       {errors.email && (
         <p className="text-red-400 text-xs text-left w-2/3">{errors.email}</p>

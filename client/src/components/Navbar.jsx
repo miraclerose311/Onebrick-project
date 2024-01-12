@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from "react-router-dom";
 
 import logoImg from "../assets/img/logo.png";
 
@@ -7,80 +7,91 @@ export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const DropdownNavbar = () => (
-    <div className="text-center flex flex-col bg-gray-300 absolute p-8 top-12 rounded-md opacity-90 text-gray-700">
-      <button className="py-2 text-lg hover:font-medium">
-        <Link to="/">HOME</Link>
+    <div className="text-center flex flex-col bg-gray-300 shadow-md shadow-gray-500 absolute py-4 top-12 rounded-md opacity-90 text-gray-700">
+      <button className="px-8 py-2 text-lg hover:font-medium hover:bg-sky-100">
+        <NavLink to="/">HOME</NavLink>
       </button>
-      <button className="py-2 text-lg hover:font-medium">
-        <Link to="/about">ABOUT US</Link>
+      <button className="px-8 py-2 text-lg hover:font-medium hover:bg-sky-100">
+        <NavLink to="/about">ABOUT US</NavLink>
       </button>
-      <button className="py-2 text-lg hover:font-medium">
-        <Link to="/donors">DONORS</Link>
+      <button className="px-8 py-2 text-lg hover:font-medium hover:bg-sky-100">
+        <NavLink to="/donors">DONORS</NavLink>
       </button>
-      <button className="py-2 text-lg hover:font-medium">
-        <Link to="/beneficiaries">BENEFICIARIES</Link>
+      <button className="px-8 py-2 text-lg hover:font-medium hover:bg-sky-100">
+        <NavLink to="/beneficiaries">BENEFICIARIES</NavLink>
       </button>
-      <button className="py-2 text-lg hover:font-medium">
-        <Link to="/contact">CONTACT US</Link>
+      <button className="px-8 py-2 text-lg hover:font-medium hover:bg-sky-100">
+        <NavLink to="/contact">CONTACT US</NavLink>
       </button>
     </div>
   );
 
   return (
-    <nav className="bg-transparent z-20 start-0 px-8 sm:px-16 md:px-24 lg:px-24 xl:px-48 2xl:px-56 text-left absolute w-full">
+    <nav className="bg-transparent z-20 start-0 px-8 sm:px-16 md:px-24 lg:px-32 xl:px-48 2xl:px-64 text-left absolute w-full">
       <div className="flex flex-row justify-between items-center py-4">
-        <Link to="/" className="flex items-center w-32 h-16 xl:h-20 xl:w-36">
+        <NavLink to="/" className="flex items-center w-32 h-16 xl:h-20 xl:w-36">
           <img
             src={logoImg}
             className="object-cover w-full max-w-none"
             alt="Logo"
           />
-        </Link>
+        </NavLink>
         <div className="flex items-center relative">
           <ul className="hidden lg:flex items-center 2xl:pr-4 lg:text-lg xl:text-xl 2xl:text-xl font-medium">
             <li className="flex mr-6">
-              <Link
+              <NavLink
                 to="/"
-                className="block py-2 font-raleway text-gray-700 hover:scale-110 hover:font-bold growable-underline"
+                className={({ isActive }) =>
+                  "block py-2 font-raleway text-gray-700 hover:scale-110 hover:font-bold growable-underline" +
+                  (isActive ? " active-underline" : "")
+                }
               >
                 Home
-              </Link>
+              </NavLink>
             </li>
             <li className="flex mr-6">
-              <Link
+              <NavLink
                 to="/about"
-                className="block py-2 font-raleway text-gray-700 hover:scale-110 hover:font-bold growable-underline"
-                aria-current="page"
+                className={({ isActive }) =>
+                  "block py-2 font-raleway text-gray-700 hover:scale-110 hover:font-bold growable-underline" +
+                  (isActive ? " active-underline" : "")
+                }
               >
                 About
-              </Link>
+              </NavLink>
             </li>
             <li className="flex mr-6">
-              <Link
+              <NavLink
                 to="/donors"
-                className="block py-2 font-raleway text-gray-700 hover:scale-110 hover:font-bold growable-underline"
-                aria-current="page"
+                className={({ isActive }) =>
+                  "block py-2 font-raleway text-gray-700 hover:scale-110 hover:font-bold growable-underline" +
+                  (isActive ? " active-underline" : "")
+                }
               >
                 Donors
-              </Link>
+              </NavLink>
             </li>
             <li className="flex mr-6">
-              <Link
+              <NavLink
                 to="/beneficiaries"
-                className="block py-2 font-raleway text-gray-700 hover:scale-110 hover:font-bold growable-underline"
-                aria-current="page"
+                className={({ isActive }) =>
+                  "block py-2 font-raleway text-gray-700 hover:scale-110 hover:font-bold growable-underline" +
+                  (isActive ? " active-underline" : "")
+                }
               >
                 Beneficiaries
-              </Link>
+              </NavLink>
             </li>
             <li className="flex mr-6">
-              <Link
+              <NavLink
                 to="/contact"
-                className="block py-2 font-raleway text-gray-700 hover:scale-110 hover:font-bold growable-underline"
-                aria-current="page"
+                className={({ isActive }) =>
+                  "block py-2 font-raleway text-gray-700 hover:scale-110 hover:font-bold growable-underline" +
+                  (isActive ? " active-underline" : "")
+                }
               >
                 Contact
-              </Link>
+              </NavLink>
             </li>
           </ul>
           <button
@@ -108,13 +119,13 @@ export default function Navbar() {
             </svg>
             {isMenuOpen && DropdownNavbar()}
           </button>
-          <Link
+          <NavLink
             to="/buybrick"
             type="button"
-            className=" text-white text-md bg-red-700 hover:bg-red-900 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-md py-3 px-4 lg:py-2 xl:px-6 xl:py-2 text-center"
+            className="w-36 overflow-hidden text-white text-md bg-red-700 hover:bg-red-900 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-md px-4 py-2 text-center"
           >
             WALL OF HOPE
-          </Link>
+          </NavLink>
         </div>
       </div>
     </nav>

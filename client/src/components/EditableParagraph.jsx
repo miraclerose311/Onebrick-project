@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import { TbEdit } from "react-icons/tb";
 import { FaRegSave } from "react-icons/fa";
 
-const EditableParagraph = ({ name, content, className, onBlur }) => {
+const EditableParagraph = ({ name, content, className, onBlur, isExpand }) => {
   const { token } = useSelector((state) => state.auth);
   const [userRole, setUserRole] = useState(null);
   const [isEditable, setIsEditable] = useState(false);
@@ -55,7 +55,29 @@ const EditableParagraph = ({ name, content, className, onBlur }) => {
   };
 
   return (
-    <div className="flex items-start w-full h-auto">
+    <div className="flex flex-col items-start w-full h-auto">
+      {userRole === 2 &&
+        (isEditable ? (
+          <div className="w-full flex justify-end items-center z-20">
+            <FaRegSave
+              onClick={handleSave}
+              className={classNames(
+                `cursor-pointer`,
+                isExpand == true && { className }
+              )}
+            />
+          </div>
+        ) : (
+          <div className="w-full flex justify-end items-center z-20">
+            <TbEdit
+              onClick={handleEdit}
+              className={classNames(
+                `cursor-pointer`,
+                isExpand == true && { className }
+              )}
+            />
+          </div>
+        ))}
       {isEditable ? (
         <textarea
           name={name}
@@ -69,22 +91,6 @@ const EditableParagraph = ({ name, content, className, onBlur }) => {
       ) : (
         <p className={className}>{textValue}</p>
       )}
-      {userRole === 2 &&
-        (isEditable ? (
-          <div
-            className="flex justify-center items-center cursor-pointer p-1 lg:p-2 z-20"
-            onClick={handleSave}
-          >
-            <FaRegSave />
-          </div>
-        ) : (
-          <div
-            className="flex justify-center items-center cursor-pointer p-1 lg:p-2 z-20"
-            onClick={handleEdit}
-          >
-            <TbEdit />
-          </div>
-        ))}
     </div>
   );
 };
@@ -94,6 +100,7 @@ EditableParagraph.propTypes = {
   content: PropTypes.string,
   className: PropTypes.string.isRequired,
   onBlur: PropTypes.func.isRequired,
+  isExpand: PropTypes.bool,
 };
 
 export default EditableParagraph;

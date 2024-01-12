@@ -34,20 +34,20 @@ const ImageUpload = ({
   return (
     <>
       <UploadImageLoading loading={loading} />
-      <div className='relativ h-full flex justify-center items-center'>
+      <div className="relativ w-full h-full flex justify-center items-center">
         {userRole === 2 && (
           <input
-            type='file'
+            type="file"
             id={fileName}
-            className='hidden'
+            className="hidden"
             name={fileName}
             onChange={(e) => handleChangeFile(e)}
           />
         )}
-        <label htmlFor={fileName} className='flex justify-center w-full h-full'>
+        <label htmlFor={fileName} className="flex justify-center w-full h-full">
           <img
             src={previewFile}
-            alt='Upload'
+            alt="Upload"
             className={classNames(
               `inline-block object-cover ${className}`,
               userRole === 2 && "cursor-pointer"

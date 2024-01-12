@@ -5,7 +5,7 @@ export default function Footer() {
   return (
     <footer className="relative bg-gray-900 pt-8 pb-6 font-montserrat">
       <div className="flex flex-wrap px-12 sm:px-16 md:px-24 lg:px-24 xl:px-40 2xl:px-64">
-        <div className="w-full xl:w-1/3 pr-5">
+        <div className="w-full xl:w-1/3 lg:pr-8 xl:pr-12 2xl:pr-16">
           <img src={logoWhiteImg} className="h-28" />
           <p className="text-gray-400">
             Alpha Hospice stands as a beacon of compassion, offering palliative

@@ -17,7 +17,6 @@ const Collapse = ({
   const classOfButton = expand
     ? "text-red-800 text-3xl"
     : "text-2xl text-center";
-  const classOfAnswer = expand ? "flex text-xl w-fill" : "hidden";
 
   return (
     <div id={id} className="bg-white w-full px-3 py-2 flex-col rounded-lg">
@@ -35,12 +34,13 @@ const Collapse = ({
           {expand ? "-" : "+"}
         </button>
       </div>
-      <EditableParagraph
-        name={AnswerName}
-        content={answer}
-        onBlur={handleBular}
-        className={classOfAnswer}
-      />
+      {expand && (
+        <EditableParagraph
+          name={AnswerName}
+          content={answer}
+          onBlur={handleBular}
+        />
+      )}
     </div>
   );
 };

@@ -131,11 +131,9 @@ const getRandomBrickId = async (amount) => {
 
 router.post("/buy", async (req, res) => {
   const { brick_id, user, amount } = req.body;
-  console.log("user", user);
   // Error handling with try-catch
   try {
     const donor = await Donor.findOne({ user: user });
-    console.log("donor", donor);
     // Assume that Brick.updateOne() and getRandomBrickId() return Promises
     let purchasedIds = [brick_id];
     let updatePromises = [
@@ -177,7 +175,6 @@ router.post("/buy", async (req, res) => {
     res.json({ purchasedIds, user, date: new Date(), donor });
 
     const userInfo = await User.findById(user);
-    
   } catch (error) {
     // Handle errors appropriately
     console.error("Failed to buy bricks:", error);
