@@ -29,7 +29,7 @@ const EditableParagraph = ({ name, content, className, onBlur, isExpand }) => {
     const textarea = document.getElementById("text");
     if (textarea) {
       textarea.style.height = "auto"; // Temporarily shrink to fit
-      textarea.style.height = `${textarea.scrollHeight + 10}px`; // Set to scroll height
+      textarea.style.height = `${textarea.scrollHeight + 30}px`; // Set to scroll height
       textarea.style.border = "1px solid blue";
       textarea.style.padding = "10px";
     }

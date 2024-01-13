@@ -21,11 +21,11 @@ import { AiOutlineInteraction } from "react-icons/ai";
 
 import { getCurrentDonors, getDonorAmount } from "../actions/donor";
 import { getContents, updateContent } from "../actions/content";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+import Navbar from "../components/Layout/Navbar";
+import Footer from "../components/Layout/Footer";
 import SelectionGroup from "../components/SelectionGroup";
-import ImageUpload from "../components/ImageUpload";
-import EditableParagraph from "../components/EditableParagraph";
+import ImageUpload from "../components/FileUpload/ImageUpload";
+import EditableParagraph from "../components/FileUpload/EditableParagraph";
 import ContentChangeModal from "../components/modals/ContentChangeModal";
 // import ProgressCircle from "../components/ProgressCircle";
 
@@ -838,7 +838,7 @@ const Home = () => {
       </div>
       <Footer />
       <ScrollToTop
-        className="flex fixed shadow-md shadow-gray-500 justify-center items-center rounded-full z-50 bottom-6 right-6"
+        className="flex fixed shadow-md shadow-gray-500 justify-center items-center rounded-full z-100 bottom-6 right-6"
         smooth
       />
     </div>

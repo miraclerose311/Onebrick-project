@@ -90,7 +90,7 @@ const BrickInformationModal = ({
 };
 
 BrickInformationModal.propTypes = {
-  userId: PropTypes.string.isRequired,
+  userId: PropTypes.string,
   brickInfo: PropTypes.object.isRequired,
   modalPosition: PropTypes.object.isRequired,
   handleDedicate: PropTypes.func.isRequired,

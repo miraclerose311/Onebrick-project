@@ -5,7 +5,7 @@ import { addDedication } from "../../actions/brick";
 
 import { FaAnglesRight } from "react-icons/fa6";
 import userImg from "../../assets/img/user.png";
-import AvatarUpload from "../AvatarUpload";
+import AvatarUpload from "../FileUpload/AvatarUpload";
 
 const DedicationFormModal = ({ handleNextModal, brick_id }) => {
   // Declear States for Dedication Form
@@ -141,8 +141,8 @@ const DedicationFormModal = ({ handleNextModal, brick_id }) => {
 };
 
 DedicationFormModal.propTypes = {
-	handleNextModal: PropTypes.func.isRequired,
-	brick_id: PropTypes.string.isRequired,
+  handleNextModal: PropTypes.func.isRequired,
+  brick_id: PropTypes.string.isRequired,
 };
 
 export default DedicationFormModal;

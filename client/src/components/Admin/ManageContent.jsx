@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import EditableParagraph from "../EditableParagraph";
 import { getContents, updateContent } from "../../actions/content";
-import EditableParagraphWithIcon from "../EditableParagraphWithIcon";
+import EditableParagraph from "../FileUpload/EditableParagraph";
+import EditableParagraphWithIcon from "../FileUpload/EditableParagraphWithIcon";
 
 const ManageContent = () => {
   const dispatch = useDispatch();

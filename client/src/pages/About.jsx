@@ -4,11 +4,11 @@ import { getBrickSoldAmount } from "../actions/brick";
 import ScrollToTop from "react-scroll-to-top";
 import axios from "axios";
 
-import Footer from "../components/Footer";
-import Navbar from "../components/Navbar";
-import EditableParagraph from "../components/EditableParagraph";
-import ImageUpload from "../components/ImageUpload";
-import Image8 from "../assets/img/about/about8.png";
+import Footer from "../components/Layout/Footer";
+import Navbar from "../components/Layout/Navbar";
+import EditableParagraph from "../components/FileUpload/EditableParagraph";
+import ImageUpload from "../components/FileUpload/ImageUpload";
+// import Image8 from "../assets/img/about/about8.png";
 
 import { getContents, updateContent } from "../actions/content";
 
@@ -29,6 +29,7 @@ const About = () => {
     About5: "",
     About6: "",
     About7: "",
+    About8: "",
   });
 
   const dispatch = useDispatch();
@@ -184,36 +185,42 @@ const About = () => {
           </div>
         </div>
 
-        <div
-          className="w-full py-12 px-8 sm:px-16 md:px-24 lg:px-32 xl:px-48 pt-24 xl:pt-32 mx-auto  relative"
-          style={{
-            backgroundImage: `url(${Image8})`,
-            backgroundSize: "2500px, 900px",
-          }}
-        >
-          <EditableParagraph
-            name="AboutText6"
-            content={contents.AboutText6 || "The Hub and spoke model of care"}
-            onBlur={onBlur}
-            className="w-full lg:w-2/3 text-gray-800  text-center mx-auto text-4xl sm:text-5xl md:text-6xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-montserrat font-bold z-10"
-          />
-          <EditableParagraph
-            name="AboutText7"
-            content={
-              contents.AboutText7 ||
-              "At Alpha Hospice, we embrace a unique ‘Hub and spoke’ model. designed to extend our reach of palliative care to as many as possible. The hospice service as the central hub, providing intensive symptom control and support, white our Link Centers, the spokers, offer vital ome care services in the community. This innovative approach ensures that comprehensive care is accessible and personalized, meeting patients right where they are. Through this model, we’re able to bring comfort and relief to those in need, ensuring no one is beyond the reach of our care."
-            }
-            onBlur={onBlur}
-            className="text-lg sm:text-xl md:text-2xl lg:text-xl xl:text-xl 2xl:text-2xl text-center text-gray-700 font-raleway p-5 z-10"
-          />
-          <div className="flex justify-center mx-auto">
+        <div className="w-full py-12 px-8 sm:px-16 md:px-24 lg:px-32 xl:px-48 pt-24 xl:pt-32 mx-auto relative">
+          <div className="absolute top-0 left-0 w-full h-full z-5">
             <ImageUpload
-              fileName={fileList[3]}
-              previewFile={imgSrc[fileList[3]]}
+              fileName={fileList[0]}
+              previewFile={imgSrc[fileList[0]]}
               onFileSelect={handleFileChange}
               loading={uploadImageLoading}
-              className="object-cover lg:w-1/2"
+              className="w-full h-full"
             />
+          </div>
+          <div className="absolute top-0 left-0 w-full h-full z-10 bg-gray-700/80"></div>
+          <div className="flex flex-col w-full h-full z-10">
+            <EditableParagraph
+              name="AboutText6"
+              content={contents.AboutText6 || "The Hub and spoke model of care"}
+              onBlur={onBlur}
+              className="w-full lg:w-2/3 text-white text-center mx-auto text-4xl sm:text-5xl md:text-6xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-montserrat font-bold z-10"
+            />
+            <EditableParagraph
+              name="AboutText7"
+              content={
+                contents.AboutText7 ||
+                "At Alpha Hospice, we embrace a unique ‘Hub and spoke’ model. designed to extend our reach of palliative care to as many as possible. The hospice service as the central hub, providing intensive symptom control and support, white our Link Centers, the spokers, offer vital ome care services in the community. This innovative approach ensures that comprehensive care is accessible and personalized, meeting patients right where they are. Through this model, we’re able to bring comfort and relief to those in need, ensuring no one is beyond the reach of our care."
+              }
+              onBlur={onBlur}
+              className="text-lg sm:text-xl md:text-2xl lg:text-xl xl:text-xl 2xl:text-2xl text-center text-gray-200 font-raleway p-5 z-10"
+            />
+            <div className="flex justify-center mx-auto z-20">
+              <ImageUpload
+                fileName={fileList[3]}
+                previewFile={imgSrc[fileList[3]]}
+                onFileSelect={handleFileChange}
+                loading={uploadImageLoading}
+                className="lg:w-1/2"
+              />
+            </div>
           </div>
         </div>
 

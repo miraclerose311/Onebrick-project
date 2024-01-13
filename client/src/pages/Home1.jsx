@@ -4,8 +4,8 @@ import { getBrickSoldAmount } from "../actions/brick";
 import { useEffect } from "react";
 
 import { Link } from "react-router-dom";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+import Navbar from "../components/Layout/Navbar";
+import Footer from "../components/Layout/Footer";
 
 // Import assests
 import Image1 from "../assets/img/home/home1.jpg";

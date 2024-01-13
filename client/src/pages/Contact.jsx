@@ -6,10 +6,10 @@ import ScrollToTop from "react-scroll-to-top";
 import axios from "axios";
 
 import { getContents, updateContent } from "../actions/content";
-import ImageUpload from "../components/ImageUpload";
-import EditableParagraph from "../components/EditableParagraph";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+import ImageUpload from "../components/FileUpload/ImageUpload";
+import EditableParagraph from "../components/FileUpload/EditableParagraph";
+import Navbar from "../components/Layout/Navbar";
+import Footer from "../components/Layout/Footer";
 
 import { AiOutlineInteraction } from "react-icons/ai";
 
@@ -23,6 +23,7 @@ const Contact = () => {
   const [imageData, setImageData] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [userRole, setUserRole] = useState(null);
+  const [uploadImageLoading, setUploadImageLoading] = useState(false);
 
   const [imgSrc, setImageSrc] = useState({
     contact1: "",
@@ -51,6 +52,7 @@ const Contact = () => {
       const reader = new FileReader();
       reader.onload = async (e) => {
         const base64String = e.target.result;
+        setUploadImageLoading(true);
         setImageData({ [fileName]: base64String });
       };
       reader.readAsDataURL(file);
@@ -74,6 +76,7 @@ const Contact = () => {
       );
       console.log("Image uploaded", response.data);
       loadImage();
+      setUploadImageLoading(false);
     } catch (error) {
       console.error("Image upload failed", error.response || error.message);
     }
@@ -134,6 +137,7 @@ const Contact = () => {
                 fileName={fileList[0]}
                 previewFile={imgSrc[fileList[0]]}
                 onFileSelect={handleFileChange}
+                loading={uploadImageLoading}
                 className="w-full h-full object-cover"
               />
             </div>
@@ -173,6 +177,7 @@ const Contact = () => {
                   fileName={fileList[5]}
                   previewFile={imgSrc[fileList[5]]}
                   onFileSelect={handleFileChange}
+                  loading={uploadImageLoading}
                   className="p-3 w-4/5 h-4/5"
                 />
               </div>
@@ -191,6 +196,7 @@ const Contact = () => {
                   fileName={fileList[6]}
                   previewFile={imgSrc[fileList[6]]}
                   onFileSelect={handleFileChange}
+                  loading={uploadImageLoading}
                   className="p-3 w-4/5 h-4/5"
                 />
               </div>
@@ -233,6 +239,7 @@ const Contact = () => {
                   fileName={fileList[7]}
                   previewFile={imgSrc[fileList[7]]}
                   onFileSelect={handleFileChange}
+                  loading={uploadImageLoading}
                   className="p-3 w-4/5 h-4/5"
                 />
               </div>
@@ -258,6 +265,7 @@ const Contact = () => {
                   fileName={fileList[8]}
                   previewFile={imgSrc[fileList[8]]}
                   onFileSelect={handleFileChange}
+                  loading={uploadImageLoading}
                   className="p-3 w-11/12 h-11/12"
                 />
               </div>
@@ -267,6 +275,7 @@ const Contact = () => {
                     fileName={fileList[9]}
                     previewFile={imgSrc[fileList[9]]}
                     onFileSelect={handleFileChange}
+                    loading={uploadImageLoading}
                     className="w-10 h-10"
                   />
                 </div>
@@ -275,6 +284,7 @@ const Contact = () => {
                     fileName={fileList[10]}
                     previewFile={imgSrc[fileList[10]]}
                     onFileSelect={handleFileChange}
+                    loading={uploadImageLoading}
                     className="w-10 h-10"
                   />
                 </div>
@@ -283,6 +293,7 @@ const Contact = () => {
                     fileName={fileList[11]}
                     previewFile={imgSrc[fileList[11]]}
                     onFileSelect={handleFileChange}
+                    loading={uploadImageLoading}
                     className="w-10 h-10"
                   />
                 </div>
@@ -291,6 +302,7 @@ const Contact = () => {
                     fileName={fileList[12]}
                     previewFile={imgSrc[fileList[12]]}
                     onFileSelect={handleFileChange}
+                    loading={uploadImageLoading}
                     className="w-10 h-10"
                   />
                 </div>
@@ -379,6 +391,8 @@ const Contact = () => {
                   fileName={fileList[1]}
                   previewFile={imgSrc[fileList[1]]}
                   onFileSelect={handleFileChange}
+                loading={uploadImageLoading}
+
                 />
               </div>
               <div className="w-full lg:w-2/3 flex flex-col justify-center lg:px-12 xl:px-16 2xl-px-24 mt-5 lg:mt-0">
@@ -414,6 +428,8 @@ const Contact = () => {
                   fileName={fileList[2]}
                   previewFile={imgSrc[fileList[2]]}
                   onFileSelect={handleFileChange}
+                loading={uploadImageLoading}
+
                 />
               </div>
               <div className="w-full lg:w-2/3 flex flex-col justify-center lg:px-12 xl:px-16 2xl-px-24 mt-5 lg:mt-0">
@@ -456,6 +472,8 @@ const Contact = () => {
                   fileName={fileList[3]}
                   previewFile={imgSrc[fileList[3]]}
                   onFileSelect={handleFileChange}
+                loading={uploadImageLoading}
+
                 />
               </div>
               <div className="w-full lg:w-2/3 flex flex-col justify-center lg:px-12 xl:px-16 2xl-px-24 mt-5 lg:mt-0">
@@ -491,6 +509,8 @@ const Contact = () => {
                   fileName={fileList[4]}
                   previewFile={imgSrc[fileList[4]]}
                   onFileSelect={handleFileChange}
+                loading={uploadImageLoading}
+
                 />
               </div>
               <div className="w-full lg:w-2/3 flex flex-col justify-center lg:px-12 xl:px-16 2xl-px-24 mt-5 lg:mt-0">

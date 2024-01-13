@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const faker = require("faker");
 const auth = require("../../middleware/auth");
+const nodemailer = require("nodemailer");
 
 const Brick = require("../../models/Brick");
 const Donor = require("../../models/Donor");
@@ -373,6 +374,56 @@ router.post("/add-dedication", async (req, res) => {
   } catch (error) {
     res.status(500).send("Server error");
   }
+});
+
+router.post("/sendmail", (req, res) => {
+  const htmlEmail = `
+      <h3>Contact Details</h3>
+      <ul>
+          <li>Name: Benjamin Tan</li>
+          <li>Phone: 123456789</li>
+          <li>Email: bentan010918@gmail.com</li>
+      </ul>
+      <h3>Message</h3>
+      <p>Hello, Welcome!</p>
+  `;
+
+  console.log("htmlEmail", htmlEmail);
+
+  let mailerConfig = {
+    // Your mail server configurations
+    host: "smtpout.secureserver.net",
+    secure: true, // use SSL
+    port: 465, // port for secure SMTP
+    auth: {
+      user: process.env.MAIL_USER, // Use environment variable for security reasons
+      pass: process.env.MAIL_PASS, // Use environment variable for security reasons
+    },
+  };
+
+  console.log("mailerConfig", mailerConfig);
+
+  let transporter = nodemailer.createTransport(mailerConfig);
+
+  let mailOptions = {
+    from: "bentan010918@example.com", // Should be the same as mailerConfig.auth.user
+    to: "crystal20010123@example.com",
+    replyTo: "bentan010918@example.com",
+    subject: "Some Subject",
+    text: "Thanks for receiving the email",
+    html: htmlEmail,
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.error("Error sending mail:", error);
+      res.status(500).send("Error sending mail");
+    } else {
+      console.log("Message sent: %s", info.messageId);
+      // nodemailer.getTestMessageUrl() is only available when using createTestAccount()
+      res.status(200).send(`Message sent: ${info.messageId}`);
+    }
+  });
 });
 
 module.exports = router;

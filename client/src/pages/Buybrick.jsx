@@ -22,25 +22,25 @@ import { clearCurrent } from "../features/brickSlice";
 import { getBrickSoldAmount } from "../actions/brick";
 
 // Import modal components
-import IntroModal from "../components/modals/IntroModal";
-import DonorInformationModal from "../components/modals/DonorInformationModal";
-import DonorAddressModal from "../components/modals/DonorAddressModal";
-import VideoModal from "../components/modals/VideoModal";
-import DedicationFormModal from "../components/modals/DedicationFormModal";
-import DedicationConfirmModal from "../components/modals/DedicationConfirmModal";
-import BuyBrickModal from "../components/modals/BuyBrickModal";
-import BrickInformationModal from "../components/modals/BrickInformationModal";
-import SoldModal from "../components/modals/SoldModal";
+import IntroModal from "../components/Modals/IntroModal";
+import DonorInformationModal from "../components/Modals/DonorInformationModal";
+import DonorAddressModal from "../components/Modals/DonorAddressModal";
+import VideoModal from "../components/Modals/VideoModal";
+import DedicationFormModal from "../components/Modals/DedicationFormModal";
+import DedicationConfirmModal from "../components/Modals/DedicationConfirmModal";
+import BuyBrickModal from "../components/Modals/BuyBrickModal";
+import BrickInformationModal from "../components/Modals/BrickInformationModal";
+import SoldModal from "../components/Modals/SoldModal";
 import ProgressBar from "../components/ProgressBar";
 
 // Import assets
 import UserImg from "../assets/img/user.png";
-import "./Modal.css";
+import "../Modal.css";
 import { TiArrowLeftThick } from "react-icons/ti";
 import { MdCancel } from "react-icons/md";
 import { FcMenu } from "react-icons/fc";
 import { Menu, Transition } from "@headlessui/react";
-import ConfirmModal from "../components/modals/ConfirmModal";
+import ConfirmModal from "../components/Modals/ConfirmModal";
 
 const Buybrick = () => {
   const navigate = useNavigate();

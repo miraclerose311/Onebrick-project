@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import EditableParagraph from "./EditableParagraph";
+import EditableParagraph from "./FileUpload/EditableParagraph";
 
 const Collapse = ({
   id,

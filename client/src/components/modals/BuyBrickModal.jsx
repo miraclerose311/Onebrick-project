@@ -1,5 +1,5 @@
-import { useRef, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+import { useRef, useEffect, useState } from "react";
+import PropTypes from "prop-types";
 
 const BuyBrickModal = ({
   modalPosition,
@@ -7,9 +7,8 @@ const BuyBrickModal = ({
   handleBuyBrickButtonClick,
   hideModal,
 }) => {
-
-  const modalRef = useRef(null);
   const [isFirstClick, setIsFirstClick] = useState(true);
+  const modalRef = useRef(null);
   const [position, setPosition] = useState({});
   const [visible, setVisible] = useState("hidden");
 
@@ -34,12 +33,9 @@ const BuyBrickModal = ({
 
   // Use effect to calculate the position after the component mounts or updates
   useEffect(() => {
-    if (modalRef.current) {
+    if (modalRef.current && modalPosition.x && modalPosition.y) {
       const modalHeight = modalRef.current.offsetHeight;
       const modalWidth = modalRef.current.offsetWidth;
-      console.log(modalHeight, modalWidth);
-      console.log(modalPosition);
-      console.log(window.screen.width);
       setPosition({
         x:
           window.innerWidth - modalPosition.x > modalWidth
@@ -54,7 +50,7 @@ const BuyBrickModal = ({
   }, [modalPosition]);
 
   useEffect(() => {
-    setVisible("visible");
+    if (position) setVisible("visible");
     console.log("change modalposition in modal component");
   }, [position]);
 
