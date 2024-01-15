@@ -202,7 +202,7 @@ const Contact = () => {
               </div>
               <div className="flex flex-col">
                 <div className="flex">
-                  <Link to={contents.MapUrl}>
+                  <Link to={contents.MapUrl} target="blank">
                     <EditableParagraph
                       name="ContactText5"
                       content={
@@ -217,7 +217,7 @@ const Contact = () => {
                       onClick={() => setIsModalOpen(!isModalOpen)}
                       className="cursor-pointer"
                     >
-                      <AiOutlineInteraction />
+                      <AiOutlineInteraction className="w-5 h-5" />
                     </span>
                   )}
                 </div>

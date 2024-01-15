@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getBrickSoldAmount } from "../actions/brick";
 import { jwtDecode } from "jwt-decode";
@@ -33,6 +33,9 @@ const Home = () => {
   const base_URL = `${import.meta.env.VITE_BACKEND_URL}`;
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [videoName, setVideoName] = useState("");
+  const [videoFilePath, setVideoFilePath] = useState("");
+  const [scrollY, setScrollY] = useState(0);
 
   const [uploadImageLoading, setUploadImageLoading] = useState(false);
 
@@ -55,7 +58,8 @@ const Home = () => {
     Avatar8: "",
     Avatar9: "",
     Avatar10: "",
-    Video: "",
+    Video0: "",
+    Video1: "",
   });
 
   const dispatch = useDispatch();
@@ -160,6 +164,29 @@ const Home = () => {
     return null;
   };
 
+  const handleClickEditVideo = (name, filePath) => {
+    if (name === "HomeVideo1") {
+      const scrollY = SecondRef.current.offsetTop;
+      console.log("scrollY", scrollY);
+      setScrollY(scrollY);
+      setIsModalOpen(true);
+    } else {
+      setScrollY(10);
+      setIsModalOpen(true);
+    }
+    // setIsModalOpen(true);
+    setVideoName(name);
+    setVideoFilePath(filePath);
+  };
+
+  // useEffect(() => {
+  //   // Only open the modal if scrollY is updated to a non-zero value
+  //   console.log("scrollY", scrollY);
+  //   // if (scrollY !== 0) {
+  //   //   setIsModalOpen(true);
+  //   // }
+  // }, [scrollY]);
+
   const today = new Date();
 
   const day = today.getDate().toString().padStart(2, "0");
@@ -171,10 +198,16 @@ const Home = () => {
   // Assuming 'sold' is defined somewhere in your component or props
   // const percentSold = (sold / 35000) * 100;
 
+  const FirstRef = useRef();
+  const SecondRef = useRef();
+
   return (
-    <div className="">
+    <div className="relative">
       <Navbar />
-      <div className="flex flex-wrap-reverse lg:flex-wrap-reverse items-center bg-gray-100 w-full pt-28 px-8 sm:px-16 md:px-24 lg:px-32 xl:px-48 2xl:px-64 relative">
+      <div
+        ref={FirstRef}
+        className="flex flex-wrap-reverse lg:flex-wrap-reverse items-center bg-gray-100 w-full pt-28 px-8 sm:px-16 md:px-24 lg:px-32 xl:px-48 2xl:px-64 relative"
+      >
         <div className="w-full lg:w-1/3">
           <div className="flex flex-col gap-5 lg:gap-10 items-center lg:items-start py-12 z-20">
             <EditableParagraph
@@ -206,15 +239,30 @@ const Home = () => {
             </Link>
           </div>
         </div>
-        <div className="w-full h-full lg:w-2/3 lg:pl-8 2xl:pl-12 flex justify-items-center items-center z-10 relative">
+
+        <div className="w-full h-full lg:w-2/3 lg:pl-8 2xl:pl-12 flex flex-col justify-items-center items-center z-10 relative">
+          {userRole === 2 && (
+            <span
+              onClick={() =>
+                handleClickEditVideo("HomeVideo0", contents.HomeVideo0)
+              }
+              className="w-full flex justify-start cursor-pointer py-2"
+            >
+              <AiOutlineInteraction className="w-5 h-5" />
+            </span>
+          )}
           <div className="w-full h-[30vh] lg:h-[40vh] xl:h-[60vh] 2xl:h-[70vh]">
-            <ImageUpload
-              fileName={fileList[0]}
-              previewFile={imgSrc[fileList[0]]}
-              onFileSelect={handleFileChange}
-              loading={uploadImageLoading}
-              className="w-full"
-            />
+            {contents.HomeVideo0 && (
+              <iframe
+                src={`https://www.youtube.com/embed/${getYouTubeID(
+                  contents.HomeVideo0
+                )}`}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                title="Upload"
+                className="inline-block h-full w-full object-cover"
+              />
+            )}
           </div>
           <div className="hidden lg:flex bg-[#FD8D40] rounded-full w-48 h-48 p-4 absolute left-[-40px] bottom-[-40px] z-20">
             <div className="flex flex-col -rotate-45 justify-center items-center bg-transparent rounded-full border-4 border-[#FEB782] border-r-white w-full h-full">
@@ -393,7 +441,10 @@ const Home = () => {
         </div>
       </div>
 
-      <div className="flex flex-col justify-center items-center w-full px-8 sm:px-16 md:px-24 lg:px-32 xl:px-48 2xl:px-64 py-24 mb-16 md:mb-12 xl:mb-24 bg-white relative">
+      <div
+        ref={SecondRef}
+        className="flex flex-col justify-center items-center w-full px-8 sm:px-16 md:px-24 lg:px-32 xl:px-48 2xl:px-64 py-24 mb-16 md:mb-12 xl:mb-24 bg-white"
+      >
         <EditableParagraph
           name="HomeText15"
           content={contents.HomeText15 || "Moments of Compassion"}
@@ -411,18 +462,20 @@ const Home = () => {
         />
         {userRole === 2 && (
           <span
-            onClick={() => setIsModalOpen(true)}
+            onClick={() =>
+              handleClickEditVideo("HomeVideo1", contents.HomeVideo1)
+            }
             className="w-full flex justify-start cursor-pointer p-2"
           >
-            <AiOutlineInteraction />
+            <AiOutlineInteraction className="w-5 h-5" />
           </span>
         )}
         <div className="flex flex-wrap justify-center">
           <div className="w-full lg:w-2/3 h-[30vh] md:h-[40vh] lg:h-[50vh] p-2 drop-shadow-md">
-            {contents.HomeVideo && (
+            {contents.HomeVideo1 && (
               <iframe
                 src={`https://www.youtube.com/embed/${getYouTubeID(
-                  contents.HomeVideo
+                  contents.HomeVideo1
                 )}`}
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
@@ -459,13 +512,6 @@ const Home = () => {
             />
           </div>
         </div>
-        <ContentChangeModal
-          name="HomeVideo"
-          value={contents.HomeVideo}
-          onBlur={onBlur}
-          isModalOpen={isModalOpen}
-          closeModal={() => setIsModalOpen(false)}
-        />
       </div>
 
       <div className="flex flex-col w-full px-8 sm:px-16 md:px-24 lg:px-24 xl:px-48 2xl:px-64 py-12 bg-neutral-700 justify-center items-center relative  pt-20 sm:pt-24 md:pt-28 lg:pt-36 xl:pt-40">
@@ -482,7 +528,7 @@ const Home = () => {
                 {sold}
               </p>
               <p className="hidden md:flex text-sm md:text-md lg:text-lg xl:text-xl 2xl:text-2xl">
-                Bricks
+                Bricks Donated
               </p>
             </div>
             <div className="flex flex-col justify-start items-center w-1/4 text-center">
@@ -534,12 +580,14 @@ const Home = () => {
           content={contents.HomeText17 || "Hearts of Generosity"}
           onBlur={onBlur}
           className="text-4xl text-center text-gray-300 font-raleway w-full"
+          iconClassName="text-white"
         />
         <EditableParagraph
           name="HomeText18"
           content={contents.HomeText18 || "Our Donors Speak"}
           onBlur={onBlur}
           className="w-full text-4xl text-white font-bold md:text-5xl xl:text-6xl 2xl:text-7xl text-center font-montserrat z-10"
+          iconClassName="text-white"
         />
         <EditableParagraph
           name="HomeText19"
@@ -549,6 +597,7 @@ const Home = () => {
           }
           onBlur={onBlur}
           className="text-2xl text-center text-gray-400 py-3 font-raleway"
+          iconClassName="text-white"
         />
 
         <div className="flex lg:pt-12 flex-wrap">
@@ -814,7 +863,7 @@ const Home = () => {
             {sold} Bricks
           </p>
           <p className="text-center lg:text-left mx-auto text-sm sm:text-md md:text-lg lg:text-xl 2xl:text-2xl text-white">
-            Bought as on {formattedDate}
+            Donated as on {formattedDate}
           </p>
         </div>
         <div className="w-full h-1 lg:w-1 lg:h-20 bg-white"></div>
@@ -823,7 +872,7 @@ const Home = () => {
             ₹{(sold * 0.1).toFixed(2)}L
           </p>
           <p className="text-center lg:text-left mx-auto text-sm sm:text-md md:text-lg lg:text-xl 2xl:text-2xl text-white">
-            Raised on {formattedDate}
+            Raised as on {formattedDate}
           </p>
         </div>
         <div className="w-full h-1 lg:w-1 lg:h-20 bg-white"></div>
@@ -836,9 +885,17 @@ const Home = () => {
           </Link>
         </div>
       </div>
+      <ContentChangeModal
+        name={videoName}
+        value={videoFilePath}
+        onBlur={onBlur}
+        isModalOpen={isModalOpen}
+        scrollY={scrollY}
+        closeModal={() => setIsModalOpen(false)}
+      />
       <Footer />
       <ScrollToTop
-        className="flex fixed shadow-md shadow-gray-500 justify-center items-center rounded-full z-100 bottom-6 right-6"
+        className="flex fixed shadow-md shadow-gray-500 justify-center items-center rounded-full z-50 bottom-6 right-6"
         smooth
       />
     </div>

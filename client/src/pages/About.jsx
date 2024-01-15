@@ -8,15 +8,9 @@ import Footer from "../components/Layout/Footer";
 import Navbar from "../components/Layout/Navbar";
 import EditableParagraph from "../components/FileUpload/EditableParagraph";
 import ImageUpload from "../components/FileUpload/ImageUpload";
-// import Image8 from "../assets/img/about/about8.png";
-
 import { getContents, updateContent } from "../actions/content";
 
 const About = () => {
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
   const base_URL = `${import.meta.env.VITE_BACKEND_URL}`;
 
   const [uploadImageLoading, setUploadImageLoading] = useState(false);
@@ -202,6 +196,7 @@ const About = () => {
               content={contents.AboutText6 || "The Hub and spoke model of care"}
               onBlur={onBlur}
               className="w-full lg:w-2/3 text-white text-center mx-auto text-4xl sm:text-5xl md:text-6xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-montserrat font-bold z-10"
+              iconClassName="text-white"
             />
             <EditableParagraph
               name="AboutText7"
@@ -211,6 +206,7 @@ const About = () => {
               }
               onBlur={onBlur}
               className="text-lg sm:text-xl md:text-2xl lg:text-xl xl:text-xl 2xl:text-2xl text-center text-gray-200 font-raleway p-5 z-10"
+              iconClassName="text-white"
             />
             <div className="flex justify-center mx-auto z-20">
               <ImageUpload
@@ -310,7 +306,8 @@ const About = () => {
               name="AboutText14"
               content={contents.AboutText14 || "Join our Mission:"}
               onBlur={onBlur}
-              className="w-full text-center lg:text-left text:2xl text-xl sm:text-2xl md:text-3xl lg:text-lx xl:text-2xl 2xl:text-3xl text-white"
+              className="w-full px-2 bg-[#A9D18E] text-center lg:text-left text:2xl text-xl sm:text-2xl md:text-3xl lg:text-lx xl:text-2xl 2xl:text-3xl text-white"
+              iconClassName="text-white"
             />
             <div className="w-full lg:w-1/2 p-2">
               <input
@@ -362,7 +359,8 @@ const About = () => {
               name="AboutText15"
               content={contents.AboutText15 || "Become a volunteer"}
               onBlur={onBlur}
-              className="text-white text-center lg:text-left text-3xl sm:text-4xl md:text-5xl lg:text-3xl xl:text-4xl 2xl:text-5xl text-whitefont-montserrat font-normal"
+              className="bg-[#A9D18E] text-white text-center lg:text-left text-3xl sm:text-4xl md:text-5xl lg:text-3xl xl:text-4xl 2xl:text-5xl text-whitefont-montserrat font-normal"
+              iconClassName="text-white"
             />
             <EditableParagraph
               name="AboutText16"
@@ -372,6 +370,7 @@ const About = () => {
               }
               onBlur={onBlur}
               className="text-lg sm:text-xl md:text-2xl lg:text-lg xl:text-xl 2xl:text-2xl font-raleway text-gray-800  pt-5"
+              iconClassName="text-white"
             />
           </div>
         </div>

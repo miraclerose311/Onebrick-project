@@ -6,7 +6,14 @@ import PropTypes from "prop-types";
 import { TbEdit } from "react-icons/tb";
 import { FaRegSave } from "react-icons/fa";
 
-const EditableParagraph = ({ name, content, className, onBlur, isExpand }) => {
+const EditableParagraph = ({
+  name,
+  content,
+  onBlur,
+  isExpand,
+  className,
+  iconClassName,
+}) => {
   const { token } = useSelector((state) => state.auth);
   const [userRole, setUserRole] = useState(null);
   const [isEditable, setIsEditable] = useState(false);
@@ -29,7 +36,7 @@ const EditableParagraph = ({ name, content, className, onBlur, isExpand }) => {
     const textarea = document.getElementById("text");
     if (textarea) {
       textarea.style.height = "auto"; // Temporarily shrink to fit
-      textarea.style.height = `${textarea.scrollHeight + 30}px`; // Set to scroll height
+      textarea.style.height = `${textarea.scrollHeight}px`; // Set to scroll height
       textarea.style.border = "1px solid blue";
       textarea.style.padding = "10px";
     }
@@ -62,7 +69,8 @@ const EditableParagraph = ({ name, content, className, onBlur, isExpand }) => {
             <FaRegSave
               onClick={handleSave}
               className={classNames(
-                `cursor-pointer`,
+                `cursor-pointer w-5 h-5`,
+                iconClassName,
                 isExpand == true && { className }
               )}
             />
@@ -72,7 +80,8 @@ const EditableParagraph = ({ name, content, className, onBlur, isExpand }) => {
             <TbEdit
               onClick={handleEdit}
               className={classNames(
-                `cursor-pointer`,
+                `cursor-pointer w-5 h-5`,
+                iconClassName,
                 isExpand == true && { className }
               )}
             />
@@ -85,8 +94,9 @@ const EditableParagraph = ({ name, content, className, onBlur, isExpand }) => {
           value={textValue}
           onChange={(e) => setTextValue(e.target.value)}
           className={classNames(
-            `${className} w-full h-auto outline-none focus:p-2`
+            `${className} w-full h-auto outline-none focus:p-2 py-0`
           )}
+          autoFocus
         />
       ) : (
         <p className={className}>{textValue}</p>
@@ -98,9 +108,10 @@ const EditableParagraph = ({ name, content, className, onBlur, isExpand }) => {
 EditableParagraph.propTypes = {
   name: PropTypes.string.isRequired,
   content: PropTypes.string,
-  className: PropTypes.string.isRequired,
   onBlur: PropTypes.func.isRequired,
   isExpand: PropTypes.bool,
+  className: PropTypes.string.isRequired,
+  iconClassName: PropTypes.string,
 };
 
 export default EditableParagraph;

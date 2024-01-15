@@ -202,6 +202,7 @@ const Buybrick = () => {
       setIsSoldModalOpen(false);
       setClickedIndex(index);
       dispatch(clearCurrent());
+      setIsBuyBrickModalOpen(true);
     } else {
       if (filtered.includes(bricks[index])) {
         setClickedIndex(index);
@@ -228,7 +229,6 @@ const Buybrick = () => {
 
       // Set the position of the modal relative to the clicked point
       setModalPosition({ x, y });
-      setIsBuyBrickModalOpen(true);
     } else {
       setIsSoldModalOpen(false);
       dispatch(clearCurrent());

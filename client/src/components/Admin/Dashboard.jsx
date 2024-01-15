@@ -17,7 +17,7 @@ const Dashboard = () => {
   const base_URL = `${import.meta.env.VITE_BACKEND_URL}`;
   const newDate = new Date();
 
-  const [byMonth, setByMonth] = useState(true);
+  const [byMonth, setByMonth] = useState(false);
   const [year, setYear] = useState(newDate.getFullYear());
   const [month, setMonth] = useState(newDate.getMonth() + 1);
   const [realData, setRealData] = useState([]);
@@ -87,11 +87,11 @@ const Dashboard = () => {
         <div className="w-full lg:w-2/3 p-2 flex flex-wrap">
           <div className="w-1/3 p-2">
             <select
-              className="p-2 px-3 w-full rounded-md bg-white hover:boder-gray-200 cursor-pointer shadow-md shadow-gray-300"
+              className="p-2 px-3 w-full rounded-md bg-white border border-gray-300 hover:boder-gray-200 cursor-pointer shadow-md shadow-gray-300"
               onChange={handleChangeByMonth}
             >
-              <option value="bymonth">By Month</option>
               <option value="byday">By Day</option>
+              <option value="bymonth">By Month</option>
             </select>
           </div>
           <div className="w-1/3 p-2">
@@ -99,7 +99,7 @@ const Dashboard = () => {
               name="year"
               type="number"
               value={year}
-              className="p-2 px-3 w-full rounded-md bg-white hover:boder-gray-200 cursor-pointer shadow-md shadow-gray-300"
+              className="p-2 px-3 w-full rounded-md bg-white border border-gray-300 hover:boder-gray-200 cursor-pointer shadow-md shadow-gray-300"
               onChange={(e) => setYear(parseInt(e.target.value))}
             />
           </div>
@@ -110,7 +110,7 @@ const Dashboard = () => {
               value={month}
               min={1}
               max={12}
-              className="p-2 px-3 w-full rounded-md bg-white hover:boder-gray-200 cursor-pointer shadow-md shadow-gray-300"
+              className="p-2 px-3 w-full rounded-md bg-white border border-gray-300 hover:boder-gray-200 cursor-pointer shadow-md shadow-gray-300"
               onChange={(e) => setMonth(parseInt(e.target.value))}
             />
           </div>

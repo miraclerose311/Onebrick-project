@@ -5,13 +5,14 @@ const ContentChangeModal = ({
   isModalOpen,
   name,
   value,
+  scrollY,
   onBlur,
   closeModal,
 }) => {
   const [inputValue, setInputValue] = useState(null);
 
   useEffect(() => {
-    setInputValue(value);
+    setInputValue(value || "");
   }, [value]);
 
   const handleUpdate = (name, value) => {
@@ -23,9 +24,13 @@ const ContentChangeModal = ({
   }
 
   return (
-    <div className="absolute w-2/3 top-[40vh] z-50">
-      <div className="h-full flex flex-col gap-6 item-center bg-white rounded-lg shadow-md shadow-gray-500 p-12">
+    <div
+      style={{ top: scrollY + window.innerHeight / 3 }}
+      className="w-full absolute flex justify-center items-center z-50"
+    >
+      <div className="w-2/3 flex flex-col gap-6 item-center bg-white rounded-lg shadow-md shadow-gray-500 p-12">
         <input
+          name={name}
           value={inputValue ? inputValue : ""}
           onChange={(e) => setInputValue(e.target.value)}
           className="w-full border border-gray-300 rounded-sm py-2 px-2"
@@ -53,6 +58,7 @@ ContentChangeModal.propTypes = {
   isModalOpen: PropTypes.bool.isRequired,
   name: PropTypes.string.isRequired,
   value: PropTypes.string,
+  scrollY: PropTypes.number,
   onBlur: PropTypes.func.isRequired,
   closeModal: PropTypes.func.isRequired,
 };
