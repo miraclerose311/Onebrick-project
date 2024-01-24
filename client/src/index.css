@@ -67,12 +67,11 @@ th{
   content: '';
   position: absolute;
   bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 0%;
   width: 0%; /* Default to 0 width */
   height: 3px;
   background-color: currentColor;
-  transition: width 0.3s ease-in-out;
+  transition: width 0.2s ease-in-out;
 }
 
 .growable-underline:hover::after,
@@ -102,5 +101,19 @@ th{
 }
 
 
+.myModal-content {
+  -webkit-animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+  animation-name: animatetop;
+  animation-duration: 0.5;
+}
 
+@-webkit-keyframes animatetop {
+  from {top:600px; opacity:0} 
+  to {top:200; opacity:1}
+}
 
+@keyframes animatetop {
+  from {top: 600px; opacity: 0}
+  to {top: 200; opacity: 1}
+}

@@ -11,35 +11,34 @@ const Collapse = ({
   handleBular,
   handleClickExpand,
 }) => {
-  const classOfQuestion = expand
-    ? "text-red-800 text-xl underline decoration-red-800"
-    : "text-xl";
-  const classOfButton = expand
-    ? "text-red-800 text-3xl"
-    : "text-2xl text-center";
+
+  const classsOfQuestion = expand ? "text-red-700" : "";
 
   return (
-    <div id={id} className="bg-white w-full px-3 py-2 flex-col rounded-lg">
-      <div className="flex justify-between items-center">
+    <div id={id} className="bg-white w-full px-6 py-4 flex-col rounded-lg">
+      <div
+        className={`flex justify-between items-center text-xl ${classsOfQuestion}`}
+      >
         <EditableParagraph
           name={QuestionName}
           content={question}
           onBlur={handleBular}
-          className={classOfQuestion}
         />
         <button
-          className={classOfButton}
+          className={`flex justify-center items-center bg-gray-300  p-2 mb-2 rounded-full w-8 h-8`}
           onClick={() => handleClickExpand(id, expand)}
         >
-          {expand ? "-" : "+"}
+          <span className="mb-1">{expand ? "-" : "+"}</span>
         </button>
       </div>
       {expand && (
-        <EditableParagraph
-          name={AnswerName}
-          content={answer}
-          onBlur={handleBular}
-        />
+        <div className="py-2 px-6">
+          <EditableParagraph
+            name={AnswerName}
+            content={answer}
+            onBlur={handleBular}
+          />
+        </div>
       )}
     </div>
   );

@@ -1,13 +1,33 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 
 import logoImg from "../../assets/img/logo.png";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  const { token } = useSelector((state) => state.auth);
+
+  const [userRole, setUserRole] = useState(null);
+
+  useEffect(() => {
+    if (token) {
+      const { role } = jwtDecode(token);
+      setUserRole(role);
+    } else {
+      setUserRole(null);
+    }
+  }, [token]);
+
   const DropdownNavbar = () => (
     <div className="text-center flex flex-col bg-gray-300 shadow-md shadow-gray-500 absolute py-4 top-12 rounded-md opacity-90 text-gray-700">
+      {userRole === 2 && (
+        <button className="px-8 py-2 text-lg hover:font-medium hover:bg-sky-100">
+          <NavLink to="/admin">Dashboard</NavLink>
+        </button>
+      )}
       <button className="px-8 py-2 text-lg hover:font-medium hover:bg-sky-100">
         <NavLink to="/">HOME</NavLink>
       </button>
@@ -37,7 +57,20 @@ export default function Navbar() {
           />
         </NavLink>
         <div className="flex items-center relative">
-          <ul className="hidden lg:flex items-center 2xl:pr-4 lg:text-lg xl:text-xl 2xl:text-xl font-medium">
+          <ul className="hidden lg:flex items-center 2xl:pr-4 lg:text-md xl:text-lg 2xl:text-xl font-medium">
+            {userRole === 2 && (
+              <li className="flex mr-6">
+                <NavLink
+                  to="/admin"
+                  className={({ isActive }) =>
+                    "block py-2 font-raleway text-gray-700 hover:scale-110 hover:font-bold growable-underline" +
+                    (isActive ? " active-underline" : "")
+                  }
+                >
+                  Dashboard
+                </NavLink>
+              </li>
+            )}
             <li className="flex mr-6">
               <NavLink
                 to="/"
@@ -122,7 +155,7 @@ export default function Navbar() {
           <NavLink
             to="/buybrick"
             type="button"
-            className="w-36 overflow-hidden text-white text-md bg-red-700 hover:bg-red-900 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-md px-4 py-2 text-center"
+            className="w-36 lg:w-44 overflow-hidden text-white text-md xl:text-lg 2xl:text-xl bg-red-700 hover:bg-red-900 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg px-4 py-2 text-center"
           >
             WALL OF HOPE
           </NavLink>

@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
 import { clearLoading, setLoading } from "../../features/loadingSlice";
+import ScrollToTop from "react-scroll-to-top";
+import axios from "axios";
 
 import { HiChevronDoubleLeft } from "react-icons/hi";
 import { HiChevronDoubleRight } from "react-icons/hi";
@@ -83,7 +84,7 @@ const BrickTable = () => {
         <div className="w-full flex justify-between py-1">
           <p className="text-xl font-montserrat">
             {sold} Bricks donated as on {today.getFullYear()}/
-            {today.getMonth() + 1}/{today.getDay()}
+            {today.getMonth() + 1}/{today.getDate()}
           </p>
           <input
             name="search"
@@ -205,7 +206,7 @@ const BrickTable = () => {
             <div className="w-full md:w-1/4 flex justify-center items-center">
               <select
                 onChange={(e) => setLimit(e.target.value)}
-                className="bg-gray-800 opacity-800 text-white rounded-md w-24 py-1"
+                className="bg-gray-800 opacity-800 text-white rounded-md w-20 py-1"
               >
                 <option value={10}>10</option>
                 <option value={20}>20</option>
@@ -215,13 +216,13 @@ const BrickTable = () => {
             </div>
             <div className="flex w-full md:w-1/2 justify-center items-center gap-6">
               <button onClick={() => setCurrentPage(1)}>
-                <HiChevronDoubleLeft />
+                <HiChevronDoubleLeft className="cursor-pointer hover:scale-150 transform duration-200" />
               </button>
               <button
                 onClick={() => setCurrentPage(currentPage - 1)}
                 disabled={currentPage === 1}
               >
-                <HiChevronLeft />
+                <HiChevronLeft className="cursor-pointer hover:scale-150 transform duration-200" />
               </button>
 
               <span>
@@ -234,10 +235,10 @@ const BrickTable = () => {
                     setCurrentPage(currentPage + 1);
                 }}
               >
-                <HiChevronRight />
+                <HiChevronRight className="cursor-pointer hover:scale-150 transform duration-200" />
               </button>
               <button onClick={() => setCurrentPage(data.totalPages)}>
-                <HiChevronDoubleRight />
+                <HiChevronDoubleRight className="cursor-pointer hover:scale-150 transform duration-200" />
               </button>
             </div>
             <div className="flex justify-center items-center w-full md:w-1/4 gap-2">
@@ -261,6 +262,10 @@ const BrickTable = () => {
           </div>
         </div>
       </div>
+      <ScrollToTop
+        className="flex fixed shadow-md shadow-gray-500 justify-center items-center rounded-full z-50 bottom-6 right-6"
+        smooth
+      />
     </div>
   );
 };

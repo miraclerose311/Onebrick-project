@@ -14,7 +14,7 @@ const About = () => {
   const base_URL = `${import.meta.env.VITE_BACKEND_URL}`;
 
   const [uploadImageLoading, setUploadImageLoading] = useState(false);
-
+  const [currentLoadingComponent, setCurrentLoadingComponent] = useState("");
   const [imgSrc, setImageSrc] = useState({
     About1: "",
     About2: "",
@@ -41,6 +41,7 @@ const About = () => {
       reader.onload = async (e) => {
         const base64String = e.target.result;
         const imageData = { [fileName]: base64String };
+        setCurrentLoadingComponent(fileName);
         setUploadImageLoading(true);
         sendFileData(imageData);
       };
@@ -64,8 +65,12 @@ const About = () => {
         }
       );
       console.log("Image uploaded", response.data);
-      loadImage();
+      setImageSrc((prevImgSrc) => ({
+        ...prevImgSrc,
+        [Object.keys(imageData)]: Object.values(imageData),
+      }));
       setUploadImageLoading(false);
+      setCurrentLoadingComponent("");
     } catch (error) {
       console.error("Image upload failed", error.response || error.message);
     }
@@ -106,12 +111,16 @@ const About = () => {
 
       <div className="">
         <div className="flex flex-wrap items-center bg-gray-300 pt-32 px-8 sm:px-16 md:px-24 lg:px-32 xl:px-48 2xl:px-64 py-12">
-          <div className="flex justify-center items-center w-full lg:w-1/2 h-[40vh] xl:h-[50vh] 2xl:h-[60vh] lg:px-0">
+          <div className="flex justify-center items-center w-full lg:w-1/2 h-[40vh] xl:h-[50vh] 2xl:h-[60vh] lg:px-0 relative">
             <ImageUpload
               fileName={fileList[0]}
               previewFile={imgSrc[fileList[0]]}
               onFileSelect={handleFileChange}
-              loading={uploadImageLoading}
+              loading={
+                currentLoadingComponent === fileList[0]
+                  ? uploadImageLoading
+                  : false
+              }
               className="w-full h-full object-cover"
             />
           </div>
@@ -160,20 +169,30 @@ const About = () => {
             />
           </div>
           <div className="w-full lg:w-1/2 flex flex-wrap mt-12 lg:mt-0 items-center z-10">
-            <div className="w-1/2  h-[40vh] xl:h-[50vh] 2xl:h-[60vh] object-cover rounded-lg p-3 flex items-center justify-center">
+            <div className="w-1/2  h-[40vh] xl:h-[50vh] 2xl:h-[60vh] object-cover rounded-lg p-3 flex items-center justify-center relative">
               <ImageUpload
                 fileName={fileList[1]}
                 previewFile={imgSrc[fileList[1]]}
-                loading={uploadImageLoading}
+                loading={
+                  currentLoadingComponent === fileList[1]
+                    ? uploadImageLoading
+                    : false
+                }
                 onFileSelect={handleFileChange}
+                className="rounded"
               />
             </div>
-            <div className="w-1/2  h-[40vh] xl:h-[50vh] 2xl:h-[60vh] object-cover rounded-lg p-3 flex items-center justify-center">
+            <div className="w-1/2  h-[40vh] xl:h-[50vh] 2xl:h-[60vh] object-cover rounded-lg p-3 flex items-center justify-center relative">
               <ImageUpload
                 fileName={fileList[2]}
                 previewFile={imgSrc[fileList[2]]}
-                loading={uploadImageLoading}
+                loading={
+                  currentLoadingComponent === fileList[2]
+                    ? uploadImageLoading
+                    : false
+                }
                 onFileSelect={handleFileChange}
+                className="rounded"
               />
             </div>
           </div>
@@ -185,7 +204,11 @@ const About = () => {
               fileName={fileList[0]}
               previewFile={imgSrc[fileList[0]]}
               onFileSelect={handleFileChange}
-              loading={uploadImageLoading}
+              loading={
+                currentLoadingComponent === fileList[0]
+                  ? uploadImageLoading
+                  : false
+              }
               className="w-full h-full"
             />
           </div>
@@ -208,12 +231,16 @@ const About = () => {
               className="text-lg sm:text-xl md:text-2xl lg:text-xl xl:text-xl 2xl:text-2xl text-center text-gray-200 font-raleway p-5 z-10"
               iconClassName="text-white"
             />
-            <div className="flex justify-center mx-auto z-20">
+            <div className="flex justify-center mx-auto z-20 relative">
               <ImageUpload
                 fileName={fileList[3]}
                 previewFile={imgSrc[fileList[3]]}
                 onFileSelect={handleFileChange}
-                loading={uploadImageLoading}
+                loading={
+                  currentLoadingComponent === fileList[3]
+                    ? uploadImageLoading
+                    : false
+                }
                 className="lg:w-1/2"
               />
             </div>
@@ -221,12 +248,16 @@ const About = () => {
         </div>
 
         <div className="flex flex-wrap justify-center items-center w-full px-8 sm:px-16 md:px-24 lg:px-32 xl:px-48 2xl:px-64 py-12 relative">
-          <div className="w-full sm:w-3/4 lg:w-1/2 h-[40vh] xl:h-[50vh] 2xl:h-[60vh] z-10">
+          <div className="w-full sm:w-3/4 lg:w-1/2 h-[40vh] xl:h-[50vh] 2xl:h-[60vh] z-10 relative">
             <ImageUpload
               fileName={fileList[4]}
               previewFile={imgSrc[fileList[4]]}
               onFileSelect={handleFileChange}
-              loading={uploadImageLoading}
+              loading={
+                currentLoadingComponent === fileList[4]
+                  ? uploadImageLoading
+                  : false
+              }
               className="w-full h-full rounded-lg p-3"
             />
           </div>
@@ -281,20 +312,30 @@ const About = () => {
             />
           </div>
           <div className="w-full lg:w-1/2 flex flex-wrap mt-12 lg:mt-0 items-center z-10">
-            <div className="w-1/2  h-[40vh] xl:h-[50vh] 2xl:h-[60vh] object-cover rounded-lg p-3 flex items-center justify-center">
+            <div className="w-1/2  h-[40vh] xl:h-[50vh] 2xl:h-[60vh] object-cover rounded-lg p-3 flex items-center justify-center relative">
               <ImageUpload
                 fileName={fileList[5]}
                 previewFile={imgSrc[fileList[5]]}
                 onFileSelect={handleFileChange}
-                loading={uploadImageLoading}
+                loading={
+                  currentLoadingComponent === fileList[5]
+                    ? uploadImageLoading
+                    : false
+                }
+                className="rounded"
               />
             </div>
-            <div className="w-1/2  h-[40vh] xl:h-[50vh] 2xl:h-[60vh] object-cover rounded-lg p-3 flex items-center justify-center">
+            <div className="w-1/2  h-[40vh] xl:h-[50vh] 2xl:h-[60vh] object-cover rounded-lg p-3 flex items-center justify-center relative">
               <ImageUpload
                 fileName={fileList[6]}
                 previewFile={imgSrc[fileList[6]]}
                 onFileSelect={handleFileChange}
-                loading={uploadImageLoading}
+                loading={
+                  currentLoadingComponent === fileList[6]
+                    ? uploadImageLoading
+                    : false
+                }
+                className="rounded"
               />
             </div>
           </div>

@@ -8,49 +8,44 @@ import {
 import { FaAnglesRight } from "react-icons/fa6";
 
 const IntroModal = ({ handleNextModal }) => {
-	const { amount } = useSelector((state) => state.brick.current);
+  const { amount } = useSelector((state) => state.brick.current);
 
+  const dispatch = useDispatch();
 
-	const dispatch = useDispatch();
+  const handleIncreaseAmount = () => {
+    amount <= 35000 && dispatch(increaseAmount());
+  };
+  const handleDecreaseAmount = () => {
+    amount > 1 && dispatch(decreaseAmount());
+  };
+  const handleChangeLocation = (e) => {
+    dispatch(setLocation(e.target.value));
+  };
 
-	const handleIncreaseAmount = () => {
-		amount <= 35000 && dispatch(increaseAmount());
-	};
-	const handleDecreaseAmount = () => {
-		amount > 1 && dispatch(decreaseAmount());
-	};
-	const handleChangeLocation = (e) => {
-		dispatch(setLocation(e.target.value));
-	};
-
-	return (
+  return (
     <>
       <p className="text-4xl font-montserrat px-8">Congratulations!</p>
       <p className="font-raleway text-xl my-4">
         You have taken a step towards making a significant difference!
       </p>
-      <p className="font-raleway text-xl my-4">
+      <p className="font-raleway text-xl mt-4">
         How many bricks would you like to contribute to our Wall of Hope?
       </p>
-      <div className="flex flex-row">
-        <button
-          className="border px-4 py-1 text-2xl border-gray-400 w-12"
-          onClick={handleDecreaseAmount}
-        >
+      <div className="w-40 flex justify-between items-center border border-gray-800 rounded-md px-3 my-6">
+        <button className="text-xl mb-0.5" onClick={handleDecreaseAmount}>
           -
         </button>
-        <button className="border px-4 py-1 text-2xl border-gray-400 w-12">
+        <span className="flex items-center border px-8 py-1 h-2/3 bg-gray-300 text-lg">
           {amount}
-        </button>
-        <button
-          className="border px-4 py-1 text-2xl border-gray-400 w-12"
-          onClick={handleIncreaseAmount}
-        >
+        </span>
+        <button className="text-xl mb-0.5" onClick={handleIncreaseAmount}>
           +
         </button>
       </div>
-      <p className="font-montserrat text-2xl py-2">Contribution</p>
-      <p className="font-raleway text-xl py-2">₹ {10000 * amount}</p>
+      <div className="flex flex-col">
+        <p className="font-montserrat text-2xl">Contribution</p>
+        <p className="font-raleway text-xl">₹ {10000 * amount}</p>
+      </div>
       <select
         className="border px-2 py-2 my-6 cursor-pointer border-gray-400"
         onChange={handleChangeLocation}
@@ -60,7 +55,7 @@ const IntroModal = ({ handleNextModal }) => {
         <option key={2}>I am a Foreign National</option>
       </select>
       <button
-        className="text-gray-100 bg-red-700 hover:bg-red-800 px-4 py-2 rounded-md"
+        className="text-gray-100 bg-red-700 hover:bg-red-800 px-4 py-2 rounded-md mt-4"
         onClick={handleNextModal}
       >
         <span className="flex flex-row items-center justify-between gap-x-3">
@@ -72,7 +67,7 @@ const IntroModal = ({ handleNextModal }) => {
 };
 
 IntroModal.propTypes = {
-	handleNextModal: PropTypes.func.isRequired,
+  handleNextModal: PropTypes.func.isRequired,
 };
 
 export default IntroModal;

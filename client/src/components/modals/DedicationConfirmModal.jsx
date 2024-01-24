@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
-import PropTypes from "prop-types";
 import { FaAnglesRight } from "react-icons/fa6";
+import PropTypes from "prop-types";
 import userImg from "../../assets/img/user.png";
 import Loading from "../Loading";
 

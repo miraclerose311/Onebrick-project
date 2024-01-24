@@ -13,7 +13,7 @@ const AvatarUpload = ({ previewFile, onFileSelect }) => {
         <img
           src={previewFile}
           alt="Upload"
-          className="inline-block rounded-full w-32 h-32 object-cover"
+          className="inline-block rounded-full w-28 h-28 object-cover"
         />
       </label>
     </div>

@@ -14,7 +14,7 @@ import Footer from "../components/Layout/Footer";
 import { AiOutlineInteraction } from "react-icons/ai";
 
 import Ellipse10 from "../assets/img/Ellipse10.png";
-import ContentChangeModal from "../components/modals/ContentChangeModal";
+import UrlChangeModal from "../components/modals/UrlChangeModal";
 
 const Contact = () => {
   const base_URL = `${import.meta.env.VITE_BACKEND_URL}`;
@@ -24,7 +24,7 @@ const Contact = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [userRole, setUserRole] = useState(null);
   const [uploadImageLoading, setUploadImageLoading] = useState(false);
-
+  const [currentLoadingComponent, setCurrentLoadingComponent] = useState("");
   const [imgSrc, setImageSrc] = useState({
     contact1: "",
     contact2: "",
@@ -53,6 +53,7 @@ const Contact = () => {
       reader.onload = async (e) => {
         const base64String = e.target.result;
         setUploadImageLoading(true);
+        setCurrentLoadingComponent(fileName);
         setImageData({ [fileName]: base64String });
       };
       reader.readAsDataURL(file);
@@ -75,8 +76,12 @@ const Contact = () => {
         }
       );
       console.log("Image uploaded", response.data);
-      loadImage();
+      setImageSrc((prevImgSrc) => ({
+        ...prevImgSrc,
+        [Object.keys(imageData)]: Object.values(imageData),
+      }));
       setUploadImageLoading(false);
+      setCurrentLoadingComponent("");
     } catch (error) {
       console.error("Image upload failed", error.response || error.message);
     }
@@ -132,12 +137,14 @@ const Contact = () => {
       <div>
         <div className="bg-gray-300 px-12 sm:px-16 md:px-24 lg:px-32 xl:px-44 2xl:px-64 pt-32">
           <div className="flex flex-wrap pb-24 pt-12">
-            <div className="w-full lg:w-1/3 h-[40vh] xl:h-[50vh] justify-center">
+            <div className="w-full lg:w-1/3 h-[40vh] xl:h-[50vh] justify-center relative">
               <ImageUpload
                 fileName={fileList[0]}
                 previewFile={imgSrc[fileList[0]]}
                 onFileSelect={handleFileChange}
-                loading={uploadImageLoading}
+                loading={
+                  currentLoadingComponent === fileList[0] && uploadImageLoading
+                }
                 className="w-full h-full object-cover"
               />
             </div>
@@ -146,7 +153,7 @@ const Contact = () => {
                 name="ContactText1"
                 content={contents.ContactText1 || "Contact Us"}
                 onBlur={onBlur}
-                className="text-3xl sm:text-4xl md:text-5xl lg:text-4xl xl:text-5xl 2xl:text-6xl text-sky-700 font-montserrat font-medium"
+                className="text-3xl sm:text-4xl md:text-5xl lg:text-4xl xl:text-5xl 2xl:text-6xl text-sky-700 font-montserrat font-bold"
               />
               <EditableParagraph
                 name="ContactText2"
@@ -313,37 +320,37 @@ const Contact = () => {
             <div className="w-full lg:w-1/2 flex p-1.5">
               <input
                 placeholder="First Name"
-                className="w-full px-3 py-3 focus:border-sky-700 outline-none border border-sky-300 focus:border-2 rounded-md drop-shadow-lg"
+                className="w-full px-3 py-3 focus:border-sky-700 outline-none border border-sky-300 focus:border-2 rounded drop-shadow-lg"
               />
             </div>
             <div className="w-full lg:w-1/2 flex p-1.5">
               <input
                 placeholder="Last Name"
-                className="w-full px-3 py-3 focus:border-sky-700 outline-none border border-sky-300 focus:border-2 rounded-md drop-shadow-lg"
+                className="w-full px-3 py-3 focus:border-sky-700 outline-none border border-sky-300 focus:border-2 rounded drop-shadow-lg"
               />
             </div>
             <div className="w-full lg:w-1/2 flex p-1.5">
               <input
                 placeholder="Email ID"
-                className="w-full px-3 py-3 focus:border-sky-700 outline-none border border-sky-300 focus:border-2 rounded-md drop-shadow-lg"
+                className="w-full px-3 py-3 focus:border-sky-700 outline-none border border-sky-300 focus:border-2 rounded drop-shadow-lg"
               />
             </div>
             <div className="w-full lg:w-1/2 flex p-1.5">
               <input
                 placeholder="Mobile No"
-                className="w-full px-3 py-3 focus:border-sky-700 outline-none border border-sky-300 focus:border-2 rounded-md drop-shadow-lg"
+                className="w-full px-3 py-3 focus:border-sky-700 outline-none border border-sky-300 focus:border-2 rounded drop-shadow-lg"
               />
             </div>
 
             <div className="w-full flex p-1.5">
               <textarea
                 placeholder="Message"
-                className="w-full px-3 pt-2 pb-24 focus:border-sky-700 outline-none border border-sky-300 focus:border-2 rounded-md drop-shadow-lg"
+                className="w-full px-3 pt-2 pb-24 focus:border-sky-700 outline-none border border-sky-300 focus:border-2 rounded drop-shadow-lg"
               />
             </div>
 
             <div className="w-full p-1.5">
-              <button className="w-full p-3 bg-sky-600 hover:bg-sky-700 rounded-md text-white">
+              <button className="w-full p-3 bg-sky-600 hover:bg-sky-700 rounded text-white">
                 Send Message
               </button>
             </div>
@@ -352,7 +359,7 @@ const Contact = () => {
             className="hidden lg:flex absolute right-0 top-0 z-0 object-fill h-full w-2/3"
             src={Ellipse10}
           />
-          <ContentChangeModal
+          <UrlChangeModal
             name="MapUrl"
             value={contents.MapUrl}
             onBlur={onBlur}

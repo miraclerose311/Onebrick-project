@@ -83,9 +83,9 @@ const DedicationFormModal = ({ handleNextModal, brick_id }) => {
     <>
       <p className="text-4xl font-montserrat px-8">Just one more step!</p>
       <p className="font-raleway text-xl my-4">Why we need this?</p>
-      <p className="font-raleway text-xl my-4">
+      {/* <p className="font-raleway text-xl my-4">
         You have taken a step towards making a significant difference!
-      </p>
+      </p> */}
       <input
         value={name}
         onChange={(e) => setName(e.target.value)}
@@ -116,7 +116,7 @@ const DedicationFormModal = ({ handleNextModal, brick_id }) => {
         value={message}
         onChange={(e) => setMessage(e.target.value)}
         className={classNames(
-          "border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2 h-36",
+          "border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2 h-24",
           errors.message && "border-red-400"
         )}
         placeholder="Dedication Message"

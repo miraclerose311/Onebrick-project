@@ -87,7 +87,7 @@ const DonorTable = () => {
       <div className="w-full flex justify-between pt-12 pb-1">
         <p className="text-xl">
           {donor} Donors as on {today.getFullYear()}/{today.getMonth() + 1}/
-          {today.getDay()}
+          {today.getDate()}
         </p>
         <input
           name="search"
@@ -102,17 +102,17 @@ const DonorTable = () => {
           <tr>
             <td rowSpan="2">No</td>
             <td>
-              <div className="w-full h-full flex justify-around items-center">
+              <div className="w-full h-full flex justify-around items-center gap-2">
                 <span>Full Name</span>
               </div>
             </td>
             <td>
-              <div className="w-full h-full flex justify-around items-center">
+              <div className="w-full h-full flex justify-around items-center gap-2">
                 <span>Email</span>
               </div>
             </td>
             <td>
-              <div className="w-full h-full flex justify-around items-center">
+              <div className="w-full h-full flex justify-around items-center gap-2">
                 <span>Mobile</span>
                 <div className="border border-sky-500 rounded-full hover:bg-gray-100 p-1">
                   {sorts.mobile === 0 && (
@@ -146,7 +146,7 @@ const DonorTable = () => {
               </div>
             </td>
             <td>
-              <div className="w-full h-full flex justify-around items-center">
+              <div className="w-full h-full flex justify-around items-center gap-2">
                 <span>Country</span>
                 <div className="border border-sky-500 rounded-full hover:bg-gray-100 p-1">
                   {sorts.country === 0 && (
@@ -180,7 +180,7 @@ const DonorTable = () => {
               </div>
             </td>
             <td>
-              <div className="w-full h-full flex justify-around items-center">
+              <div className="w-full h-full flex justify-around items-center gap-2">
                 <span>State</span>
                 <div className="border border-sky-500 rounded-full hover:bg-gray-100 p-1">
                   {sorts.state === 0 && (
@@ -214,7 +214,7 @@ const DonorTable = () => {
               </div>
             </td>
             <td>
-              <div className="w-full h-full flex justify-around items-center">
+              <div className="w-full h-full flex justify-around items-center gap-2">
                 <span>Address</span>
                 <div className="border border-sky-500 rounded-full hover:bg-gray-100 p-1">
                   {sorts.address === 0 && (
@@ -248,7 +248,7 @@ const DonorTable = () => {
               </div>
             </td>
             <td>
-              <div className="w-full h-full flex justify-around items-center">
+              <div className="w-full h-full flex justify-around items-center gap-2">
                 <span>PIN</span>
                 <div className="border border-sky-500 rounded-full hover:bg-gray-100 p-1">
                   {sorts.pin === 0 && (
@@ -282,7 +282,7 @@ const DonorTable = () => {
               </div>
             </td>
             <td>
-              <div className="w-full h-full flex justify-around items-center">
+              <div className="w-full h-full flex justify-around items-center gap-2">
                 <span>PAN</span>
                 <div className="border border-sky-500 rounded-full hover:bg-gray-100 p-1">
                   {sorts.pan === 0 && (
@@ -316,7 +316,7 @@ const DonorTable = () => {
               </div>
             </td>
             <td>
-              <div className="w-full h-full flex justify-around items-center">
+              <div className="w-full h-full flex justify-around items-center gap-2">
                 <span>No. Bricks</span>
                 <div className="border border-sky-500 rounded-full hover:bg-gray-100 p-1">
                   {sorts.purchasedBricks === 0 && (

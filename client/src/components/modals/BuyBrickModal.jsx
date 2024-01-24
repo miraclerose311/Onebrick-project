@@ -7,33 +7,13 @@ const BuyBrickModal = ({
   handleBuyBrickButtonClick,
   hideModal,
 }) => {
-  const [isFirstClick, setIsFirstClick] = useState(true);
+  // const [isFirstClick, setIsFirstClick] = useState(true);
   const modalRef = useRef(null);
-  const [position, setPosition] = useState({});
-  const [visible, setVisible] = useState("hidden");
-
-  useEffect(() => {
-    const handleOutsideClick = (event) => {
-      if (
-        modalRef.current &&
-        !modalRef.current.contains(event.target) &&
-        !isFirstClick
-      ) {
-        hideModal();
-      }
-      if (isFirstClick) setIsFirstClick(false);
-    };
-
-    document.addEventListener("click", handleOutsideClick);
-
-    return () => {
-      document.removeEventListener("click", handleOutsideClick);
-    };
-  }, [hideModal, isFirstClick]);
+  const [position, setPosition] = useState({ x: -400, y: -500 });
 
   // Use effect to calculate the position after the component mounts or updates
   useEffect(() => {
-    if (modalRef.current && modalPosition.x && modalPosition.y) {
+    if (modalRef.current) {
       const modalHeight = modalRef.current.offsetHeight;
       const modalWidth = modalRef.current.offsetWidth;
       setPosition({
@@ -49,33 +29,40 @@ const BuyBrickModal = ({
     }
   }, [modalPosition]);
 
-  useEffect(() => {
-    if (position) setVisible("visible");
-    console.log("change modalposition in modal component");
-  }, [position]);
+  const handleClose = (e) => {
+    e.preventDefault();
+    if (e.target.id === "buybrickmodal-pan") {
+      hideModal();
+    }
+  };
 
   return (
     <div
-      className="border border-gray-600 bg-gray-200 opacity-100 absolute px-6 py-8 w-60 h-auto flex flex-col gap-3 justify-center items-center z-40"
-      style={{
-        left: position.x,
-        top: position.y,
-        boxShadow: "0px 0px 5px rgba(0, 0, 0, 0.7)",
-        visible: visible,
-      }}
-      ref={modalRef}
+      id="buybrickmodal-pan"
+      className="fixed w-[100vw] h-[100vh] bg-gray-800/40 z-50"
+      onClick={handleClose}
     >
-      <p className="text-xl py-2 font-bold font-montserrat">{clickedIndex}</p>
-      <p className="font-raleway pb-2">
-        DONATE this Brick and Save a Life. Click on this box to dedicate your
-        support and help us build a sanctuary of care for those in need.
-      </p>
-      <button
-        className="text-gray-100 bg-red-700 hover:bg-red-800 px-4 py-2 rounded-md"
-        onClick={handleBuyBrickButtonClick}
+      <div
+        className="border border-gray-600 bg-gray-200 rounded-md opacity-100 absolute px-6 py-8 w-60 h-auto flex flex-col gap-3 justify-center items-center"
+        style={{
+          left: position.x,
+          top: position.y,
+          boxShadow: "0px 0px 5px rgba(0, 0, 0, 0.7)",
+        }}
+        ref={modalRef}
       >
-        DONATE THIS BRICK
-      </button>
+        <p className="text-xl py-2 font-bold font-montserrat">{clickedIndex}</p>
+        <p className="font-raleway pb-2">
+          DONATE this Brick and Save a Life. Click on this box to dedicate your
+          support and help us build a sanctuary of care for those in need.
+        </p>
+        <button
+          className="text-gray-100 bg-red-700 hover:bg-red-800 px-4 py-2 rounded-md"
+          onClick={handleBuyBrickButtonClick}
+        >
+          DONATE THIS BRICK
+        </button>
+      </div>
     </div>
   );
 };

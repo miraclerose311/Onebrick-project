@@ -26,8 +26,7 @@ import Footer from "../components/Layout/Footer";
 import SelectionGroup from "../components/SelectionGroup";
 import ImageUpload from "../components/FileUpload/ImageUpload";
 import EditableParagraph from "../components/FileUpload/EditableParagraph";
-import ContentChangeModal from "../components/modals/ContentChangeModal";
-// import ProgressCircle from "../components/ProgressCircle";
+import UrlChangeModal from "../components/modals/UrlChangeModal";
 
 const Home = () => {
   const base_URL = `${import.meta.env.VITE_BACKEND_URL}`;
@@ -38,10 +37,12 @@ const Home = () => {
   const [scrollY, setScrollY] = useState(0);
 
   const [uploadImageLoading, setUploadImageLoading] = useState(false);
+  const [currentLoadingComponent, setCurrentLoadingComponent] = useState("");
 
   const { sold, donor } = useSelector((state) => state.admin);
 
   const [imgSrc, setImageSrc] = useState({
+    Home0: "",
     Home1: "",
     Home2: "",
     Home3: "",
@@ -120,8 +121,12 @@ const Home = () => {
         }
       );
       console.log("Image uploaded", response.data);
-      loadImage();
+      setImageSrc((prevImgSrc) => ({
+        ...prevImgSrc,
+        [Object.keys(imageData)]: Object.values(imageData),
+      }));
       setUploadImageLoading(false);
+      setCurrentLoadingComponent("");
     } catch (error) {
       console.error("Image upload failed", error.response || error.message);
     }
@@ -134,6 +139,7 @@ const Home = () => {
         const base64String = e.target.result;
         const imageData = { [fileName]: base64String };
         setUploadImageLoading(true);
+        setCurrentLoadingComponent(fileName);
         sendFileData(imageData);
       };
       reader.readAsDataURL(file);
@@ -167,7 +173,6 @@ const Home = () => {
   const handleClickEditVideo = (name, filePath) => {
     if (name === "HomeVideo1") {
       const scrollY = SecondRef.current.offsetTop;
-      console.log("scrollY", scrollY);
       setScrollY(scrollY);
       setIsModalOpen(true);
     } else {
@@ -189,11 +194,11 @@ const Home = () => {
 
   const today = new Date();
 
-  const day = today.getDate().toString().padStart(2, "0");
+  const date = today.getDate().toString().padStart(2, "0");
   const month = today.toLocaleString("default", { month: "short" });
   const year = today.getFullYear();
 
-  const formattedDate = `${day} ${month} ${year}`;
+  const formattedDate = `${date} ${month} ${year}`;
 
   // Assuming 'sold' is defined somewhere in your component or props
   // const percentSold = (sold / 35000) * 100;
@@ -206,10 +211,10 @@ const Home = () => {
       <Navbar />
       <div
         ref={FirstRef}
-        className="flex flex-wrap-reverse lg:flex-wrap-reverse items-center bg-gray-100 w-full pt-28 px-8 sm:px-16 md:px-24 lg:px-32 xl:px-48 2xl:px-64 relative"
+        className="flex flex-wrap-reverse lg:flex-wrap-reverse items-center bg-gray-100 w-full pt-28 pb-12 px-8 sm:px-16 md:px-24 lg:px-32 xl:px-48 2xl:px-64 relative"
       >
         <div className="w-full lg:w-1/3">
-          <div className="flex flex-col gap-5 lg:gap-10 items-center lg:items-start py-12 z-20">
+          <div className="flex flex-col gap-5 lg:gap-10 items-center lg:items-start 2xl:py-12 z-20">
             <EditableParagraph
               name="HomeText1"
               content={contents.HomeText1 || "Building Compassion"}
@@ -233,14 +238,14 @@ const Home = () => {
             />
             <Link
               to="/buybrick"
-              className="bg-red-700 hover:bg-red-800 text-white text-center py-2 lg:py-3 z-20 w-[200px] rounded-lg max-w-sm  font-montserrat "
+              className="bg-red-700 hover:bg-red-800  shadow-md shadow-gray-500 text-white text-center py-2 lg:py-3 z-20 w-[200px] rounded-lg max-w-sm  font-montserrat "
             >
               DONATE NOW
             </Link>
           </div>
         </div>
 
-        <div className="w-full h-full lg:w-2/3 lg:pl-8 2xl:pl-12 flex flex-col justify-items-center items-center z-10 relative">
+        <div className="w-full h-full lg:w-2/3 lg:pl-8 2xl:pl-12 py-12 flex flex-col justify-items-center items-center z-10 relative">
           {userRole === 2 && (
             <span
               onClick={() =>
@@ -264,7 +269,7 @@ const Home = () => {
               />
             )}
           </div>
-          <div className="hidden lg:flex bg-[#FD8D40] rounded-full w-48 h-48 p-4 absolute left-[-40px] bottom-[-40px] z-20">
+          <div className="hidden lg:flex bg-[#FD8D40] rounded-full w-48 h-48 p-4 absolute left-[-40px] bottom-[-40px] z-30">
             <div className="flex flex-col -rotate-45 justify-center items-center bg-transparent rounded-full border-4 border-[#FEB782] border-r-white w-full h-full">
               <span className="text-xl font-bold text-white">Donations</span>
               <span className="text-3xl font-montserrat font-bold text-white">
@@ -290,13 +295,15 @@ const Home = () => {
 
       <div className="flex flex-wrap w-full items-center px-8 sm:px-16 md:px-24 lg:px-32 xl:px-48 2xl:px-64 pt-12 lg:py-24 relative">
         <div className="w-5/12 bg-gray-200 absolute center-vertical lg:py-32 2xl:py-56 left-0 hidden lg:flex"></div>
-        <div className="w-full lg:w-1/3 flex justify-center items-center h-[30vh] lg:h-[40vh] xl:h-[60vh] z-10">
+        <div className="w-full lg:w-1/3 flex justify-center items-center h-[30vh] lg:h-[40vh] xl:h-[60vh] relative z-10">
           <ImageUpload
             fileName={fileList[1]}
             previewFile={imgSrc[fileList[1]]}
             onFileSelect={handleFileChange}
-            loading={uploadImageLoading}
-            className="w-full"
+            loading={
+              currentLoadingComponent === fileList[1] && uploadImageLoading
+            }
+            className="w-full h-full"
           />
         </div>
         <div className="lg:pl-12 xl:pl-20 py-12 lg:py-0 w-full lg:w-2/3">
@@ -355,8 +362,8 @@ const Home = () => {
         />
         <div className="flex flex-wrap justify-center w-full">
           <div className="p-5 2xl:p-10 w-full md:w-3/4 lg:w-1/3">
-            <div className=" bg-gray-800 text-white flex flex-col gap-8 rounded-md items-center p-5 lg:p-5 lg:px-8 xl:py-12 h-full">
-              <div className="w-12 sm:w-14 md:w-16 lg:w-20 xl:w-24 h-12 sm:h-14 md:h-16 lg:h-20 xl:h-24 border-red-800 rounded-full">
+            <div className="bg-gray-800 text-white flex flex-col gap-8 rounded-md items-center p-5 lg:p-5 lg:px-8 xl:py-12 h-full hover:scale-105 cursor-pointer transform duration-300">
+              <div className="w-12 sm:w-14 md:w-16 lg:w-20 xl:w-24 h-12 sm:h-14 md:h-16 lg:h-20 xl:h-24  shadow-md shadow-gray-600 border-red-800 rounded-full">
                 <img
                   src={Icon1}
                   className="w-full h-full object-cover rounded-full"
@@ -377,13 +384,13 @@ const Home = () => {
                 onBlur={onBlur}
                 className="text-md sm:text-lg md:text-xl lg:text-md xl:text-xl 2xl:text-2xl font-raleway text-center"
               />
-              <button className="py-2 px-6 rounded-lg bg-red-700 hover:bg-red-800 max-w-sm font-montserrat text-center">
+              <button className="py-2 px-6 rounded-lg bg-red-700 hover:bg-red-800 shadow-md shadow-gray-600 max-w-sm font-montserrat text-center">
                 READ MORE
               </button>
             </div>
           </div>
           <div className="p-5 2xl:p-10 w-full md:w-3/4 lg:w-1/3">
-            <div className="bg-white flex flex-col gap-8 rounded-md items-center p-5 lg:p-5 lg:px-8 xl:py-12 h-full">
+            <div className="bg-white flex flex-col gap-8 rounded-md items-center p-5 lg:p-5 lg:px-8 xl:py-12 h-full  hover:scale-105 cursor-pointer transform duration-300">
               <div className="w-12 sm:w-14 md:w-16 lg:w-20 xl:w-24 h-12 sm:h-14 md:h-16 lg:h-20 xl:h-24 border-red-800 rounded-full">
                 <img
                   src={Icon2}
@@ -411,7 +418,7 @@ const Home = () => {
             </div>
           </div>
           <div className="p-5 2xl:p-10 w-full md:w-3/4 lg:w-1/3">
-            <div className=" bg-white  flex flex-col gap-8 rounded-md items-center p-5 lg:p-5 lg:px-8 xl:py-12 h-full">
+            <div className=" bg-white flex flex-col gap-8 rounded-md items-center p-5 lg:p-5 lg:px-8 xl:py-12 h-full  hover:scale-105 cursor-pointer transform duration-300">
               <div className="w-12 sm:w-14 md:w-16 lg:w-20 xl:w-24 h-12 sm:h-14 md:h-16 lg:h-20 xl:h-24 border-red-800 rounded-full">
                 <img
                   src={Icon3}
@@ -484,21 +491,25 @@ const Home = () => {
               />
             )}
           </div>
-          <div className="w-full lg:w-1/3 h-[30vh] md:h-[40vh] p-2 mt-auto drop-shadow-md">
+          <div className="w-full lg:w-1/3 h-[30vh] md:h-[40vh] p-2 mt-auto drop-shadow-md relative">
             <ImageUpload
               fileName={fileList[3]}
               previewFile={imgSrc[fileList[3]]}
               onFileSelect={handleFileChange}
-              loading={uploadImageLoading}
+              loading={
+                currentLoadingComponent === fileList[3] && uploadImageLoading
+              }
               className="w-full h-full"
             />
           </div>
-          <div className="w-full lg:w-1/3 h-[30vh] md:h-[40vh] p-2 drop-shadow-md">
+          <div className="w-full lg:w-1/3 h-[30vh] md:h-[40vh] p-2 drop-shadow-md relative">
             <ImageUpload
               fileName={fileList[4]}
               previewFile={imgSrc[fileList[4]]}
               onFileSelect={handleFileChange}
-              loading={uploadImageLoading}
+              loading={
+                currentLoadingComponent === fileList[4] && uploadImageLoading
+              }
               className="w-full h-full"
             />
           </div>
@@ -507,7 +518,9 @@ const Home = () => {
               fileName={fileList[5]}
               previewFile={imgSrc[fileList[5]]}
               onFileSelect={handleFileChange}
-              loading={uploadImageLoading}
+              loading={
+                currentLoadingComponent === fileList[5] && uploadImageLoading
+              }
               className="w-full h-full"
             />
           </div>
@@ -516,7 +529,7 @@ const Home = () => {
 
       <div className="flex flex-col w-full px-8 sm:px-16 md:px-24 lg:px-24 xl:px-48 2xl:px-64 py-12 bg-neutral-700 justify-center items-center relative  pt-20 sm:pt-24 md:pt-28 lg:pt-36 xl:pt-40">
         <div className="w-full px-8 sm:px-16 md:px-24 lg:px-24 xl:mb-12 xl:px-48 2xl:px-64 absolute -top-12 md:-top-20 lg:-top-24 xl:-top-28 2xl:-top-30">
-          <div className="w-full flex flex-wrap bg-stone-300 py-2 lg:py-5">
+          <div className="w-full flex flex-wrap bg-stone-200 py-2 lg:py-5 rounded-md">
             <div className="flex flex-col justify-start items-center w-1/4 text-center">
               <div className="flex justify-center items-center w-12 sm:w-14 md:w-16 lg:w-20 xl:w-24 h-12 sm:h-14 md:h-16 lg:h-20 xl:h-24 border-red-800 rounded-full">
                 <img
@@ -600,9 +613,9 @@ const Home = () => {
           iconClassName="text-white"
         />
 
-        <div className="flex lg:pt-12 flex-wrap">
-          <div className="w-full md:w-1/3 p-5 relative">
-            <div className="bg-neutral-900 p-5 xl:p-8 2xl:p-12 flex flex-col gap-3">
+        <div className="flex justify-center lg:pt-12 flex-wrap">
+          <div className="w-full md:w-1/2 lg:w-1/3 p-5 lg:p-2 2xl:p-5 relative">
+            <div className="bg-neutral-800 shadow-md shadow-gray-900 p-5 xl:p-8 2xl:p-12 flex flex-col gap-8 rounded-md">
               {/* <EditableParagraph
                 name="HomeText20"
                 content={
@@ -610,61 +623,64 @@ const Home = () => {
                   "Every brick in the hospice symbolizes hope and compassion. As a donor.it’s rewarding to see the real difference my contribution makes in the lives of patients and their families."
                 }
                 onBlur={onBlur}
-                className="lg:text-xl ml:text-md text-gray-300 indent-8"
+                className="text-xl text-gray-300 indent-8"
               /> */}
-              <p className="lg:text-xl ml:text-md text-gray-300 indent-8">
+              <p className="text-xl text-gray-300 indent-8">
                 Every brick in the hospice symbolizes hope and compassion. As a
                 donor.it’s rewarding to see the real difference my contribution
                 makes in the lives of patients and their families.
               </p>
-              <div className="bg-stone-800 w-full h-1"></div>
-              <div className="flex self-start">
-                <div className="bg-white rounded-full w-12 h-12">
+              <hr className="border-gray-500" />
+              <div className="flex gap-3 items-center">
+                <div className="bg-white rounded-full w-16 h-16 relative">
                   <ImageUpload
                     fileName={fileList[15]}
                     previewFile={imgSrc[fileList[15]]}
                     onFileSelect={handleFileChange}
-                    loading={uploadImageLoading}
+                    loading={
+                      currentLoadingComponent === fileList[15] &&
+                      uploadImageLoading
+                    }
                     className="rounded-full"
                   />
                 </div>
                 <div className="flex-col ml-3">
-                  <p className="text-white">Vikram Patel</p>
-                  <p className="text-white">Professor</p>
+                  <p className="text-white text-xl">Vikram Patel</p>
+                  <p className="text-white text-xl">Professor</p>
                 </div>
               </div>
-              <div className="absolute bottom-[-10px] right-10 flex gap-1">
+              <div className="absolute bottom-[-10px] right-10 flex bg-sky-600 rounded-full w-16 h-16 p-3">
                 <svg
                   id="Layer_1"
                   data-name="Layer 1"
-                  className="xl:w-12 lg:w-8"
+                  className="w-10"
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 90.51 122.88"
                 >
                   <title>comma</title>
                   <path
-                    fill="#0284c7"
+                    fill="#ffffff"
                     d="M46.94,0c18.2-.34,35.67,10.56,41.59,33.31,8.5,32.65-11.38,78-41,89.56H22.58c9.22-10.58,38.62-38.4,34.18-53.4-6.91,7.94-17,11-26.76,9.84C-19.27,73.68-3.79.94,46.94,0Z"
                   />
                 </svg>
                 <svg
                   id="Layer_1"
                   data-name="Layer 1"
-                  className="xl:w-12 lg:w-8"
+                  className="w-10"
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 90.51 122.88"
                 >
                   <title>comma</title>
                   <path
-                    fill="#0284c7"
+                    fill="#ffffff"
                     d="M46.94,0c18.2-.34,35.67,10.56,41.59,33.31,8.5,32.65-11.38,78-41,89.56H22.58c9.22-10.58,38.62-38.4,34.18-53.4-6.91,7.94-17,11-26.76,9.84C-19.27,73.68-3.79.94,46.94,0Z"
                   />
                 </svg>
               </div>
             </div>
           </div>
-          <div className="w-full md:w-1/3 p-5 relative">
-            <div className="bg-neutral-900 p-5 xl:p-8 2xl:p-12 flex flex-col gap-3">
+          <div className="w-full md:w-1/2 lg:w-1/3 p-5 lg:p-2 2xl:p-5 relative">
+            <div className="bg-neutral-800 shadow-md shadow-gray-900 p-5 xl:p-8 2xl:p-12 flex flex-col gap-8 rounded-md">
               {/* <EditableParagraph
                 name="HomeText21"
                 content={
@@ -672,61 +688,64 @@ const Home = () => {
                   "Every brick in the hospice symbolizes hope and compassion. As a donor.it’s rewarding to see the real difference my contribution makes in the lives of patients and their families."
                 }
                 onBlur={onBlur}
-                className="lg:text-xl ml:text-md text-gray-300 indent-8"
+                className="text-xl text-gray-300 indent-8"
               /> */}
-              <p className="lg:text-xl ml:text-md text-gray-300 indent-8">
+              <p className="text-xl text-gray-300 indent-8">
                 Every brick in the hospice symbolizes hope and compassion. As a
                 donor.it’s rewarding to see the real difference my contribution
                 makes in the lives of patients and their families.
               </p>
-              <div className="bg-stone-800 w-full h-1"></div>
-              <div className="flex self-start">
-                <div className="bg-white rounded-full w-12 h-12">
+              <hr className="border-gray-500" />
+              <div className="flex gap-3 items-center">
+                <div className="bg-white rounded-full w-16 h-16 relative">
                   <ImageUpload
                     fileName={fileList[7]}
                     previewFile={imgSrc[fileList[7]]}
                     onFileSelect={handleFileChange}
-                    loading={uploadImageLoading}
+                    loading={
+                      currentLoadingComponent === fileList[7] &&
+                      uploadImageLoading
+                    }
                     className="rounded-full"
                   />
                 </div>
                 <div className="flex-col ml-3">
-                  <p className="text-white">Vikram Patel</p>
-                  <p className="text-white">Professor</p>
+                  <p className="text-white text-xl">Vikram Patel</p>
+                  <p className="text-white text-xl">Professor</p>
                 </div>
               </div>
-              <div className="absolute bottom-[-10px] right-10 flex gap-1">
+              <div className="absolute bottom-[-10px] right-10 flex bg-sky-600 rounded-full w-16 h-16 p-3">
                 <svg
                   id="Layer_1"
                   data-name="Layer 1"
-                  className="xl:w-12 lg:w-8"
+                  className="w-10"
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 90.51 122.88"
                 >
                   <title>comma</title>
                   <path
-                    fill="#0284c7"
+                    fill="#ffffff"
                     d="M46.94,0c18.2-.34,35.67,10.56,41.59,33.31,8.5,32.65-11.38,78-41,89.56H22.58c9.22-10.58,38.62-38.4,34.18-53.4-6.91,7.94-17,11-26.76,9.84C-19.27,73.68-3.79.94,46.94,0Z"
                   />
                 </svg>
                 <svg
                   id="Layer_1"
                   data-name="Layer 1"
-                  className="xl:w-12 lg:w-8"
+                  className="w-10"
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 90.51 122.88"
                 >
                   <title>comma</title>
                   <path
-                    fill="#0284c7"
+                    fill="#ffffff"
                     d="M46.94,0c18.2-.34,35.67,10.56,41.59,33.31,8.5,32.65-11.38,78-41,89.56H22.58c9.22-10.58,38.62-38.4,34.18-53.4-6.91,7.94-17,11-26.76,9.84C-19.27,73.68-3.79.94,46.94,0Z"
                   />
                 </svg>
               </div>
             </div>
           </div>
-          <div className="w-full md:w-1/3 p-5 relative">
-            <div className="bg-neutral-900 p-5 xl:p-8 2xl:p-12 flex flex-col gap-3">
+          <div className="w-full md:w-1/2 lg:w-1/3 p-5 lg:p-2 2xl:p-5 relative">
+            <div className="bg-neutral-800 shadow-md shadow-gray-900 p-5 xl:p-8 2xl:p-12 flex flex-col gap-8 rounded-md">
               {/* <EditableParagraph
                 name="HomeText22"
                 content={
@@ -734,54 +753,57 @@ const Home = () => {
                   "Every brick in the hospice symbolizes hope and compassion. As a donor.it’s rewarding to see the real difference my contribution makes in the lives of patients and their families."
                 }
                 onBlur={onBlur}
-                className="lg:text-xl ml:text-md text-gray-300 indent-8"
+                className="text-xl text-gray-300 indent-8"
               /> */}
-              <p className="lg:text-xl ml:text-md text-gray-300 indent-8">
+              <p className="text-xl text-gray-300 indent-8">
                 Every brick in the hospice symbolizes hope and compassion. As a
                 donor.it’s rewarding to see the real difference my contribution
                 makes in the lives of patients and their families.
               </p>
-              <div className="bg-stone-800 w-full h-1"></div>
-              <div className="flex self-start">
-                <div className="bg-white rounded-full w-12 h-12">
+              <hr className="border-gray-500" />
+              <div className="flex gap-3 items-center">
+                <div className="bg-white rounded-full w-16 h-16 relative">
                   {/* <img src={Avatar3} className="w-full h-full rounded-full" /> */}
                   <ImageUpload
                     fileName={fileList[8]}
                     previewFile={imgSrc[fileList[8]]}
                     onFileSelect={handleFileChange}
-                    loading={uploadImageLoading}
+                    loading={
+                      currentLoadingComponent === fileList[8] &&
+                      uploadImageLoading
+                    }
                     className="rounded-full"
                   />
                 </div>
                 <div className="flex-col ml-3">
-                  <p className="text-white">Vikram Patel</p>
-                  <p className="text-white">Professor</p>
+                  <p className="text-white text-xl">Vikram Patel</p>
+                  <p className="text-white text-xl">Professor</p>
                 </div>
               </div>
-              <div className="absolute bottom-[-10px] right-10 flex gap-1">
+              <div className="absolute bottom-[-10px] right-10 flex bg-sky-600 rounded-full w-16 h-16 p-3">
                 <svg
                   id="Layer_1"
                   data-name="Layer 1"
-                  className="xl:w-12 lg:w-8"
+                  className="w-10"
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 90.51 122.88"
                 >
                   <title>comma</title>
                   <path
-                    fill="#0284c7"
+                    fill="#ffffff"
                     d="M46.94,0c18.2-.34,35.67,10.56,41.59,33.31,8.5,32.65-11.38,78-41,89.56H22.58c9.22-10.58,38.62-38.4,34.18-53.4-6.91,7.94-17,11-26.76,9.84C-19.27,73.68-3.79.94,46.94,0Z"
                   />
                 </svg>
                 <svg
                   id="Layer_1"
                   data-name="Layer 1"
-                  className="xl:w-12 lg:w-8"
+                  className="w-10"
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 90.51 122.88"
                 >
                   <title>comma</title>
                   <path
-                    fill="#0284c7"
+                    fill="#ffffff"
                     d="M46.94,0c18.2-.34,35.67,10.56,41.59,33.31,8.5,32.65-11.38,78-41,89.56H22.58c9.22-10.58,38.62-38.4,34.18-53.4-6.91,7.94-17,11-26.76,9.84C-19.27,73.68-3.79.94,46.94,0Z"
                   />
                 </svg>
@@ -789,7 +811,7 @@ const Home = () => {
             </div>
           </div>
         </div>
-        <button className="py-3 px-6 rounded-lg bg-red-700 hover:bg-red-800 text-white max-w-sm font-montserrat text-center m-12">
+        <button className="py-3 px-6 rounded-lg bg-white shadow-md hover:shadow-white/50 hover:border border-red-700 font-montserrat text-center my-12 lg:mt-24 lg:mb-12">
           SEE ALL TESTIMONIALS
         </button>
       </div>
@@ -802,12 +824,12 @@ const Home = () => {
           className="w-full text-4xl text-sky-700 font-bold md:text-5xl xl:text-6xl 2xl:text-7xl text-center font-montserrat z-10"
         />
         <div className="w-full flex flex-wrap py-8 md:py-12 xl:py-16">
-          {currentDonors.map((donorInfo, index) => (
+          {currentDonors.slice(0, 6).map((donorInfo, index) => (
             <div
               key={index}
-              className="w-full  md:w-1/2 xl:w-1/3 flex flex-wrap p-1 md:p-2 xl:p-3"
+              className="w-full  md:w-1/2 xl:w-1/3 flex flex-wrap p-1 md:p-2"
             >
-              <div className="w-full flex bg-sky-600 rounded-lg p-4 sm:p-3 md:p-2 lg:p-4 xl:p-2 2xl:p-5">
+              <div className="w-full flex bg-sky-500 shadow-sm shadow-gray-500 rounded-lg p-4 sm:p-3 md:p-2 lg:p-4 xl:p-2 2xl:p-5">
                 <div className="flex justify-center items-center w-1/2 xs:1/3 sm:w-1/4 md:w-2/5 md:p-2">
                   <img
                     alt="Donor avatar"
@@ -826,18 +848,20 @@ const Home = () => {
             </div>
           ))}
         </div>
-        <button className="py-3 px-6 rounded-lg bg-red-700 hover:bg-red-800 text-white max-w-sm font-montserrat text-center">
+        <button className="py-3 px-6 rounded-lg bg-red-700 shadow-md shadow-gray-500 hover:bg-red-800 text-white max-w-sm font-montserrat text-center">
           SEE ALL DONORS
         </button>
       </div>
 
       <div className="flex flex-wrap items-center w-full bg-gray-200  px-8 sm:px-16 md:px-24 lg:px-32 xl:px-48 2xl:px-64 lg:py-12 2xl:py-24 relative justify-center">
-        <div className="w-full lg:w-1/3 h-[40vh] xl:h-[50vh] 2xl:h-[60vh] flex justify-center py-8 lg:py-0 z-10 items-center">
+        <div className="w-full lg:w-1/3 h-[40vh] xl:h-[50vh] 2xl:h-[60vh] flex justify-center py-8 lg:py-0 z-10 items-center relative">
           <ImageUpload
             fileName={fileList[6]}
             previewFile={imgSrc[fileList[6]]}
             onFileSelect={handleFileChange}
-            loading={uploadImageLoading}
+            loading={
+              currentLoadingComponent === fileList[6] && uploadImageLoading
+            }
             className="w-full"
           />
         </div>
@@ -885,7 +909,7 @@ const Home = () => {
           </Link>
         </div>
       </div>
-      <ContentChangeModal
+      <UrlChangeModal
         name={videoName}
         value={videoFilePath}
         onBlur={onBlur}
@@ -895,8 +919,9 @@ const Home = () => {
       />
       <Footer />
       <ScrollToTop
-        className="flex fixed shadow-md shadow-gray-500 justify-center items-center rounded-full z-50 bottom-6 right-6"
+        className="flex fixed shadow-md shadow-gray-800 justify-center items-center rounded-full z-50 bottom-6 right-6"
         smooth
+        height={18}
       />
     </div>
   );

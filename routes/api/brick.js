@@ -16,7 +16,7 @@ router.get("/test", (req, res) => {
 });
 
 router.post("/initial", async (req, res) => {
-  let count = 35000;
+  let count = 32000;
   try {
     await Brick.deleteMany({});
     let brickArray = [];
@@ -166,7 +166,6 @@ router.post("/buy", async (req, res) => {
           }
         )
       );
-
       updatePromises.push(...updateRandomBricks);
     }
 
@@ -176,6 +175,8 @@ router.post("/buy", async (req, res) => {
     res.json({ purchasedIds, user, date: new Date(), donor });
 
     const userInfo = await User.findById(user);
+
+    sendMail(userInfo.email);
   } catch (error) {
     // Handle errors appropriately
     console.error("Failed to buy bricks:", error);
@@ -355,8 +356,6 @@ router.get("/current_page", async (req, res) => {
   }
 });
 
-// Express route handler for adding a new Brick with a dedication
-
 router.post("/add-dedication", async (req, res) => {
   try {
     const { brick_id, name, relationship, message, image } = req.body;
@@ -376,7 +375,8 @@ router.post("/add-dedication", async (req, res) => {
   }
 });
 
-router.post("/sendmail", (req, res) => {
+const sendMail = (receiveMail) => {
+  console.log("receiveMail", receiveMail);
   const htmlEmail = `
       <h3>Contact Details</h3>
       <ul>
@@ -388,42 +388,46 @@ router.post("/sendmail", (req, res) => {
       <p>Hello, Welcome!</p>
   `;
 
-  console.log("htmlEmail", htmlEmail);
-
-  let mailerConfig = {
-    // Your mail server configurations
-    host: "smtpout.secureserver.net",
-    secure: true, // use SSL
-    port: 465, // port for secure SMTP
+  const smtpTransport = nodemailer.createTransport({
+    service: "Gmail",
     auth: {
-      user: process.env.MAIL_USER, // Use environment variable for security reasons
-      pass: process.env.MAIL_PASS, // Use environment variable for security reasons
+      // XOAuth2: {
+      //   user: "bentan010918@gmail.com", // Your gmail address.
+      //   clientId:
+      //     "73111663663-4ilal0d51gufeuos3ukjtmn3kd6r8vum.apps.googleusercontent.com",
+      //   clientSecret: "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",
+      //   refreshToken:
+      //     "1//046T_aqawSsOOCgYIARAAGAQSNwF-L9IrHwwlDlTfGMqi9eGptA5rRkwZ3-0krYH4XO0mg2xUTD_JaBPbnT61LPCpSghcCarQQJ8",
+      // },
+      user: "bentan010918@gmail.com",
+      pass: "qoseugjf2750",
     },
-  };
+  });
 
-  console.log("mailerConfig", mailerConfig);
-
-  let transporter = nodemailer.createTransport(mailerConfig);
-
-  let mailOptions = {
-    from: "bentan010918@example.com", // Should be the same as mailerConfig.auth.user
-    to: "crystal20010123@example.com",
-    replyTo: "bentan010918@example.com",
-    subject: "Some Subject",
-    text: "Thanks for receiving the email",
+  const mailOptions = {
+    from: "bentan010918@gmail.com",
+    to: receiveMail,
+    subject: "Hello",
+    generateTextFromHTML: true,
     html: htmlEmail,
   };
 
-  transporter.sendMail(mailOptions, (error, info) => {
+  smtpTransport.sendMail(mailOptions, function (error, response) {
     if (error) {
-      console.error("Error sending mail:", error);
-      res.status(500).send("Error sending mail");
+      console.log(error);
     } else {
-      console.log("Message sent: %s", info.messageId);
-      // nodemailer.getTestMessageUrl() is only available when using createTestAccount()
-      res.status(200).send(`Message sent: ${info.messageId}`);
+      console.log(response);
     }
+    smtpTransport.close();
   });
+};
+
+const sendmail = () => {
+  return "ertyuiop";
+};
+
+router.post("/test", (req, res) => {
+  res.json(sendmail());
 });
 
 module.exports = router;

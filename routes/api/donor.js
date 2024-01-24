@@ -88,9 +88,6 @@ router.get("/current-donors", async (req, res) => {
         },
       },
       {
-        $limit: 6,
-      },
-      {
         $lookup: {
           from: "donors",
           localField: "_id",
