@@ -100,6 +100,8 @@ const Buybrick = () => {
   // Fetch brick states
   const { bricks } = useSelector((state) => state.brick);
   const { amount, dedication } = useSelector((state) => state.brick.current);
+  const { sold } = useSelector((state) => state.admin);
+  const [stage, setStage] = useState("h-3/4");
   const [clickedIndex, setClickedIndex] = useState(null);
   const [filtered, setFiltered] = useState([]);
   const [search, setSearch] = useState(null);
@@ -108,6 +110,17 @@ const Buybrick = () => {
   useEffect(() => {
     if (userId) dispatch(getDonor({ userId }));
   }, [dispatch, userId]);
+
+  useEffect(() => {
+    let soldblas = sold + 1;
+    if (Math.ceil(soldblas / 8000) === 1) {
+      setStage("h-3/4");
+    } else if (Math.ceil(soldblas / 8000) === 2) {
+      setStage("h-1/2");
+    } else if (Math.ceil(soldblas / 8000) === 3) {
+      setStage("h-1/4");
+    } else if (Math.ceil(soldblas / 8000) === 4) setStage("hidden");
+  }, [sold]);
 
   // Fetch payment states
   const { order } = useSelector((state) => state.payment);
@@ -226,6 +239,7 @@ const Buybrick = () => {
       if (filtered.includes(bricks[index])) {
         setClickedIndex(index);
         setIsSlideModalOpen(true);
+        setIsBrickInfoModalOpen(false);
         setModalContent(7);
       }
       setIsBuyBrickModalOpen(false);
@@ -375,6 +389,7 @@ const Buybrick = () => {
             brick_id: bricks[clickedIndex].brick_id,
             user: userId,
             amount: amount / 1000000,
+            stage: Math.ceil(sold + 1 / 8000),
           };
 
           dispatch(buyBrick(brickData));
@@ -627,6 +642,19 @@ const Buybrick = () => {
               <Menu.Item>
                 {({ active }) => (
                   <Link
+                    to="/donor"
+                    className={classNames(
+                      active ? "bg-gray-100 text-gray-900" : "text-gray-700",
+                      "block px-4 py-2 text-left text-sm"
+                    )}
+                  >
+                    Donors
+                  </Link>
+                )}
+              </Menu.Item>
+              <Menu.Item>
+                {({ active }) => (
+                  <Link
                     to="/beneficiaries"
                     className={classNames(
                       active ? "bg-gray-100 text-gray-900" : "text-gray-700",
@@ -728,17 +756,18 @@ const Buybrick = () => {
           clickedIndex={parseInt(clickedIndex)}
           modalPosition={modalPosition}
           filtered={filtered}
+          hideModal={() => setIsSoldModalOpen(false)}
         />
       )}
       {isSlideModalOpen && modalContent !== 0 && (
         <div
           id="slide-modal"
-          className="modal rounded-sm"
+          className="modal"
           onClick={(e) => {
             if (e.target.id == "slide-modal") setIsSlideModalOpen(false);
           }}
         >
-          <div className="modal-content flex-col flex justify-center items-center absolute left-24 top-12">
+          <div className="modal-content absolute flex-col flex justify-center items-center rounded-md left-24 top-12">
             <TiArrowLeftThick
               className="modal-previous-button text-2xl hover:cursor-pointer"
               onClick={handlePreviousModal}
@@ -800,7 +829,9 @@ const Buybrick = () => {
               }}
             >
               <div className="relative w-full h-full" onClick={handlePanClick}>
-                <div className="absolute w-full h-3/4 top-0 left-0 bg-gradient-to-b bg-gray-300 z-50"></div>
+                <div
+                  className={`absolute w-full ${stage} top-0 left-0 bg-gradient-to-b bg-gray-300 z-50`}
+                ></div>
 
                 <div className="absolute top-0 left-0 w-full h-full flex flex-col">
                   {bricks.length !== 0 && renderBricks()}

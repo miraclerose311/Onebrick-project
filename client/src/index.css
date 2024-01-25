@@ -2,6 +2,45 @@
 @tailwind components;
 @tailwind utilities;
 
+
+.scene {
+  width: 200px;
+  height: 300px;
+  perspective: 600px;
+}
+
+.card {
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.8s;
+}
+
+.card__face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+}
+
+.card__face--front {
+  background-color: #fff;
+  color: #333;
+}
+
+.card__face--back {
+  background-color: #333;
+  color: #fff;
+  transform: rotateY(180deg);
+}
+
+.card:hover {
+  transform: rotateY(180deg);
+}
+
+/* Tailwind utility classes like padding, margin, font-size, etc. can go here */
+
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;

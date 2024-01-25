@@ -119,19 +119,21 @@ router.get("/all", async (req, res) => {
   res.json(bricks);
 });
 
-const getRandomBrickId = async (amount) => {
-  let UnpurchasedIds = await Brick.find({ sold: false });
+const getRandomBrickId = async (amount, stage) => {
+  let UnpurchasedBricks = await Brick.aggregate([
+    { $skip: (4 - stage) * 8000 },
+    { $match: { sold: false } },
+  ]);
   let RandomId = [];
   for (let i = 0; i < amount; i++) {
-    RandomId.push(
-      UnpurchasedIds[Math.floor(Math.random() * UnpurchasedIds.length)].brick_id
-    );
+    const randomInt = Math.floor(Math.random() * UnpurchasedBricks.length);
+    RandomId.push(UnpurchasedBricks[randomInt].brick_id);
   }
   return RandomId;
 };
 
 router.post("/buy", async (req, res) => {
-  const { brick_id, user, amount } = req.body;
+  const { brick_id, user, amount, stage } = req.body;
   // Error handling with try-catch
   try {
     const donor = await Donor.findOne({ user: user });
@@ -151,7 +153,7 @@ router.post("/buy", async (req, res) => {
     ];
 
     if (amount > 1) {
-      const randomIDs = await getRandomBrickId(amount - 1);
+      const randomIDs = await getRandomBrickId(amount - 1, stage);
       purchasedIds.push(...randomIDs);
 
       const updateRandomBricks = randomIDs.map((id) =>
@@ -174,9 +176,8 @@ router.post("/buy", async (req, res) => {
 
     res.json({ purchasedIds, user, date: new Date(), donor });
 
-    const userInfo = await User.findById(user);
-
-    sendMail(userInfo.email);
+    // const userInfo = await User.findById(user);
+    // sendMail(userInfo.email);
   } catch (error) {
     // Handle errors appropriately
     console.error("Failed to buy bricks:", error);
@@ -375,59 +376,52 @@ router.post("/add-dedication", async (req, res) => {
   }
 });
 
-const sendMail = (receiveMail) => {
-  console.log("receiveMail", receiveMail);
-  const htmlEmail = `
-      <h3>Contact Details</h3>
-      <ul>
-          <li>Name: Benjamin Tan</li>
-          <li>Phone: 123456789</li>
-          <li>Email: bentan010918@gmail.com</li>
-      </ul>
-      <h3>Message</h3>
-      <p>Hello, Welcome!</p>
-  `;
+// const sendMail = (receiveMail) => {
+//   console.log("receiveMail", receiveMail);
+//   const htmlEmail = `
+//       <h3>Contact Details</h3>
+//       <ul>
+//           <li>Name: Benjamin Tan</li>
+//           <li>Phone: 123456789</li>
+//           <li>Email: bentan010918@gmail.com</li>
+//       </ul>
+//       <h3>Message</h3>
+//       <p>Hello, Welcome!</p>
+//   `;
 
-  const smtpTransport = nodemailer.createTransport({
-    service: "Gmail",
-    auth: {
-      // XOAuth2: {
-      //   user: "bentan010918@gmail.com", // Your gmail address.
-      //   clientId:
-      //     "73111663663-4ilal0d51gufeuos3ukjtmn3kd6r8vum.apps.googleusercontent.com",
-      //   clientSecret: "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",
-      //   refreshToken:
-      //     "1//046T_aqawSsOOCgYIARAAGAQSNwF-L9IrHwwlDlTfGMqi9eGptA5rRkwZ3-0krYH4XO0mg2xUTD_JaBPbnT61LPCpSghcCarQQJ8",
-      // },
-      user: "bentan010918@gmail.com",
-      pass: "qoseugjf2750",
-    },
-  });
+//   const smtpTransport = nodemailer.createTransport({
+//     service: "Gmail",
+//     auth: {
+//       // XOAuth2: {
+//       //   user: "bentan010918@gmail.com", // Your gmail address.
+//       //   clientId:
+//       //     "73111663663-4ilal0d51gufeuos3ukjtmn3kd6r8vum.apps.googleusercontent.com",
+//       //   clientSecret: "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",
+//       //   refreshToken:
+//       //     "1//046T_aqawSsOOCgYIARAAGAQSNwF-L9IrHwwlDlTfGMqi9eGptA5rRkwZ3-0krYH4XO0mg2xUTD_JaBPbnT61LPCpSghcCarQQJ8",
+//       // },
+//       user: "bentan010918@gmail.com",
+//       pass: "qoseugjf2750",
+//     },
+//   });
 
-  const mailOptions = {
-    from: "bentan010918@gmail.com",
-    to: receiveMail,
-    subject: "Hello",
-    generateTextFromHTML: true,
-    html: htmlEmail,
-  };
+//   const mailOptions = {
+//     from: "bentan010918@gmail.com",
+//     to: receiveMail,
+//     subject: "Hello",
+//     generateTextFromHTML: true,
+//     html: htmlEmail,
+//   };
 
-  smtpTransport.sendMail(mailOptions, function (error, response) {
-    if (error) {
-      console.log(error);
-    } else {
-      console.log(response);
-    }
-    smtpTransport.close();
-  });
-};
+//   smtpTransport.sendMail(mailOptions, function (error, response) {
+//     if (error) {
+//       console.log(error);
+//     } else {
+//       console.log(response);
+//     }
+//     smtpTransport.close();
+//   });
+// };
 
-const sendmail = () => {
-  return "ertyuiop";
-};
-
-router.post("/test", (req, res) => {
-  res.json(sendmail());
-});
 
 module.exports = router;

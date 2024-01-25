@@ -18,6 +18,8 @@ import {
 
 import { IoCloseCircleOutline } from "react-icons/io5";
 
+import imageUrl from "../../assets/img/alpha_building_high_res.jpg";
+
 const SharingModal = ({ hideModal }) => {
   const [shareURL, setshareURL] = useState("");
 
@@ -51,7 +53,13 @@ const SharingModal = ({ hideModal }) => {
         </div>
         <div className="flex flex-wrap">
           <div className="w-1/3 flex flex-col justify-center items-center gap-3 py-6">
-            <FacebookShareButton name="facebook" url={shareURL}>
+            <FacebookShareButton
+              name="facebook"
+              url={shareURL}
+              quote="Check out this awesome website!"
+              hashtag="#react"
+              image={imageUrl}
+            >
               <FacebookIcon size={32} round />
             </FacebookShareButton>
             <label htmlFor="facebook">Facebook</label>
@@ -95,7 +103,7 @@ const SharingModal = ({ hideModal }) => {
             name="url-input"
             value={shareURL}
             onChange={(e) => setshareURL(e.target.value)}
-            className="border border-neutral-700 rounded-md p-1.5 w-3/4 outline-none focus:border-sky-500"
+            className="border border-neutral-700 rounded-md p-1.5 w-3/4 outline-none focus:border-sky-500 text-sm"
           />
           <button className="bg-neutral-700 rounded-md text-white px-6 py-1.5">
             <span className="flex items-center">Copy</span>
