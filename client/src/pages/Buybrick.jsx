@@ -13,14 +13,22 @@ import { useDispatch, useSelector } from "react-redux";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import { jwtDecode } from "jwt-decode";
 
-import { buyBrick, getBricks } from "../actions/brick";
+//import actions and reducers
+import { buyBrick, getBricks, resetBricks } from "../actions/brick";
+import { getBrickSoldAmount } from "../actions/brick";
 import { createOrder } from "../actions/payment";
 import { getDonor } from "../actions/donor";
 import { setAlertWithTimeout } from "../features/alertSlice";
-import { logout } from "../features/authSlice";
 import { clearOrder } from "../features/paymentSlice";
 import { clearCurrent } from "../features/brickSlice";
-import { getBrickSoldAmount } from "../actions/brick";
+import { logout } from "../features/authSlice";
+
+//import react icons
+import { HiMiniArrowLeft } from "react-icons/hi2";
+import { IoClose } from "react-icons/io5";
+import { FcMenu } from "react-icons/fc";
+import { FiShare2 } from "react-icons/fi";
+import { GrPowerReset } from "react-icons/gr";
 
 // Import modal components
 import IntroModal from "../components/Modals/IntroModal";
@@ -32,25 +40,15 @@ import DedicationConfirmModal from "../components/Modals/DedicationConfirmModal"
 import BuyBrickModal from "../components/Modals/BuyBrickModal";
 import BrickInformationModal from "../components/Modals/BrickInformationModal";
 import SoldModal from "../components/Modals/SoldModal";
-import ProgressBar from "../components/ProgressBar";
-
-// Import assets
-import UserImg from "../assets/img/user.png";
+import SharingModal from "../components/Modals/SharingModal";
 import ConfirmModal from "../components/Modals/ConfirmModal";
 import ModalOfWall from "../components/Modals/ModalOfWall";
+import ProgressBar from "../components/ProgressBar";
 import "../Modal.css";
 
-import { TiArrowLeftThick } from "react-icons/ti";
-import { MdCancel } from "react-icons/md";
-import { FcMenu } from "react-icons/fc";
-import { FiShare2 } from "react-icons/fi";
-import SharingModal from "../components/Modals/SharingModal";
+import UserImg from "../assets/img/user.png";
 
 const Buybrick = () => {
-  // const [brickContentPosition, setBrickContentPosition] = useState({
-  //   top: 0,
-  //   bottom: window.screenY,
-  // });
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -99,7 +97,7 @@ const Buybrick = () => {
 
   // Fetch brick states
   const { bricks } = useSelector((state) => state.brick);
-  const { amount, dedication } = useSelector((state) => state.brick.current);
+  const { amount } = useSelector((state) => state.brick.current);
   const { sold } = useSelector((state) => state.admin);
   const [stage, setStage] = useState("h-3/4");
   const [clickedIndex, setClickedIndex] = useState(null);
@@ -419,7 +417,7 @@ const Buybrick = () => {
       const paymentObject = new window.Razorpay(options);
       paymentObject.open();
     }
-  }, [order, bricks, clickedIndex, dedication, userId, dispatch]);
+  }, [order]);
 
   const loadScript = (src) => {
     return new Promise((resolve) => {
@@ -575,289 +573,307 @@ const Buybrick = () => {
   };
 
   return (
-    <div className="text-center items-center h-screen min-w-[500px] bg-gray-600 w-full flex itmes-center sm:justify-center">
-      <div className="fixed gap-3 top-12 sm:right-16 md:right-20 lg:right-24 xl:right-36 flex justify-around p-3 itmes-center z-10">
-        <span
-          className="w-12 h-12 hover:border hover:border-sky-700 rounded-full flex justify-center items-center p-2"
-          onClick={() => setIsShareModalOpen(true)}
-        >
-          <FiShare2 className="w-full h-full text-gray-600 mr-1 cursor-pointer" />
-        </span>
-        <Menu as="div" className="relative flex justify-center itmes-center">
-          <Menu.Button className="btn btn-change px-1 rounded-lg hover:border hover:border-sky-700">
-            <FcMenu className="text-4xl" />
-          </Menu.Button>
+		<div className='text-center items-center h-screen min-w-[500px] bg-gray-600 w-full flex itmes-center sm:justify-center'>
+			<div className='fixed gap-3 top-12 sm:right-16 md:right-20 lg:right-24 xl:right-36 flex justify-around p-3 itmes-center z-10'>
+				{userRole === 3 && (
+					<span
+						className='w-12 h-12 hover:border hover:border-red-700 rounded-full flex justify-center items-center p-2'
+						onClick={() => dispatch(resetBricks())}
+					>
+						<GrPowerReset className='w-full h-full text-gray-600 mr-1 cursor-pointer' />
+					</span>
+				)}
+				{userRole === 2 && (
+					<span
+						className='w-12 h-12 hover:border hover:border-sky-700 rounded-full flex justify-center items-center p-2'
+						onClick={() => setIsShareModalOpen(true)}
+					>
+						<FiShare2 className='w-full h-full text-gray-600 mr-1 cursor-pointer' />
+					</span>
+				)}
+				<Menu
+					as='div'
+					className='relative flex justify-center itmes-center'
+				>
+					<Menu.Button className='btn btn-change px-1 rounded-lg hover:border hover:border-sky-700'>
+						<FcMenu className='text-4xl' />
+					</Menu.Button>
+					<Transition
+						as={Fragment}
+						enter='transition ease-out duration-100'
+						enterFrom='transform opacity-0 scale-95'
+						enterTo='transform opacity-100 scale-100'
+						leave='transition ease-in duration-75'
+						leaveFrom='transform opacity-100 scale-100'
+						leaveTo='transform opacity-0 scale-95'
+					>
+						<Menu.Items className='absolute w-44 flex flex-col items-center -left-16 top-12 z-10 mt-2 p-2 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'>
+							{userRole === 2 && (
+								<Menu.Item>
+									{({ active }) => (
+										<Link
+											to='/admin'
+											className={classNames(
+												active ? "bg-gray-100 text-gray-900" : "text-gray-700",
+												"block w-full py-2 text-center text-sm"
+											)}
+										>
+											Dashboard
+										</Link>
+									)}
+								</Menu.Item>
+							)}
+							<Menu.Item>
+								{({ active }) => (
+									<Link
+										to='/'
+										className={classNames(
+											active ? "bg-gray-100 text-gray-900" : "text-gray-700",
+											"block w-full py-2 text-center text-sm"
+										)}
+									>
+										Home
+									</Link>
+								)}
+							</Menu.Item>
+							<Menu.Item>
+								{({ active }) => (
+									<Link
+										to='/about'
+										className={classNames(
+											active ? "bg-gray-100 text-gray-900" : "text-gray-700",
+											"block w-full py-2 text-center text-sm"
+										)}
+									>
+										About Us
+									</Link>
+								)}
+							</Menu.Item>
+							<Menu.Item>
+								{({ active }) => (
+									<Link
+										to='/donor'
+										className={classNames(
+											active ? "bg-gray-100 text-gray-900" : "text-gray-700",
+											"block w-full py-2 text-center text-sm"
+										)}
+									>
+										Donors
+									</Link>
+								)}
+							</Menu.Item>
+							<Menu.Item>
+								{({ active }) => (
+									<Link
+										to='/beneficiaries'
+										className={classNames(
+											active ? "bg-gray-100 text-gray-900" : "text-gray-700",
+											"block w-full py-2 text-center text-sm"
+										)}
+									>
+										Beneficiaries
+									</Link>
+								)}
+							</Menu.Item>
+							<Menu.Item>
+								{({ active }) => (
+									<Link
+										to='/contact'
+										className={classNames(
+											active ? "bg-gray-100 text-gray-900" : "text-gray-700",
+											"block w-full py-2 text-center text-sm"
+										)}
+									>
+										Contact Us
+									</Link>
+								)}
+							</Menu.Item>
+						</Menu.Items>
+					</Transition>
+				</Menu>
+				<div className='flex items-center mx-4'>
+					<input
+						type='search'
+						className='border border-gray-400 rounded-full w-[240px] h-10 px-4 py-2 bg-white outline-none focus-visible:border-sky-700'
+						placeholder='Search the Wall of Hope'
+						onChange={onChangeSearchInput}
+					/>
+				</div>
+				<Menu
+					as='div'
+					className='relative flex justify-center itmes-center'
+				>
+					<Menu.Button className='btn rounded-full'>
+						<img
+							src={userAvatar}
+							className='h-10 hover:border-2 border-sky-700 rounded-full'
+						/>
+					</Menu.Button>
+					<Transition
+						as={Fragment}
+						enter='transition ease-out duration-100'
+						enterFrom='transform opacity-0 scale-95'
+						enterTo='transform opacity-100 scale-100'
+						leave='transition ease-in duration-75'
+						leaveFrom='transform opacity-100 scale-100'
+						leaveTo='transform opacity-0 scale-95'
+					>
+						<Menu.Items className='absolute right-0 top-12 z-10 mt-2 w-24 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'>
+							<Menu.Item>
+								{isAuthenticated ? (
+									<button
+										className={classNames(
+											"bg-gray-100 text-gray-900",
+											"block px-4 py-2 text-sm w-full rounded-md"
+										)}
+										onClick={handleLogout}
+									>
+										Sign out
+									</button>
+								) : (
+									<button
+										className={classNames(
+											"text-gray-700",
+											"block px-4 py-2 text-sm w-full rounded-md"
+										)}
+										onClick={handleLogin}
+									>
+										Sign In
+									</button>
+								)}
+							</Menu.Item>
+						</Menu.Items>
+					</Transition>
+				</Menu>
+			</div>
 
-          <Transition
-            as={Fragment}
-            enter="transition ease-out duration-100"
-            enterFrom="transform opacity-0 scale-95"
-            enterTo="transform opacity-100 scale-100"
-            leave="transition ease-in duration-75"
-            leaveFrom="transform opacity-100 scale-100"
-            leaveTo="transform opacity-0 scale-95"
-          >
-            <Menu.Items className="absolute left-0 top-12 z-10 mt-2 p-2 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-              {userRole === 2 && (
-                <Menu.Item>
-                  {({ active }) => (
-                    <Link
-                      to="/admin"
-                      className={classNames(
-                        active ? "bg-gray-100 text-gray-900" : "text-gray-700",
-                        "block px-4 py-2 text-left text-sm"
-                      )}
-                    >
-                      Dashboard
-                    </Link>
-                  )}
-                </Menu.Item>
-              )}
-              <Menu.Item>
-                {({ active }) => (
-                  <Link
-                    to="/"
-                    className={classNames(
-                      active ? "bg-gray-100 text-gray-900" : "text-gray-700",
-                      "block px-4 py-2 text-left text-sm"
-                    )}
-                  >
-                    Home
-                  </Link>
-                )}
-              </Menu.Item>
-              <Menu.Item>
-                {({ active }) => (
-                  <Link
-                    to="/about"
-                    className={classNames(
-                      active ? "bg-gray-100 text-gray-900" : "text-gray-700",
-                      "block px-4 py-2 text-left text-sm"
-                    )}
-                  >
-                    About Us
-                  </Link>
-                )}
-              </Menu.Item>
-              <Menu.Item>
-                {({ active }) => (
-                  <Link
-                    to="/donor"
-                    className={classNames(
-                      active ? "bg-gray-100 text-gray-900" : "text-gray-700",
-                      "block px-4 py-2 text-left text-sm"
-                    )}
-                  >
-                    Donors
-                  </Link>
-                )}
-              </Menu.Item>
-              <Menu.Item>
-                {({ active }) => (
-                  <Link
-                    to="/beneficiaries"
-                    className={classNames(
-                      active ? "bg-gray-100 text-gray-900" : "text-gray-700",
-                      "block px-4 py-2 text-left text-sm"
-                    )}
-                  >
-                    Beneficiaries
-                  </Link>
-                )}
-              </Menu.Item>
-              <Menu.Item>
-                {({ active }) => (
-                  <Link
-                    to="/contact"
-                    className={classNames(
-                      active ? "bg-gray-100 text-gray-900" : "text-gray-700",
-                      "block px-4 py-2 text-left text-sm"
-                    )}
-                  >
-                    Contact Us
-                  </Link>
-                )}
-              </Menu.Item>
-            </Menu.Items>
-          </Transition>
-        </Menu>
-        <div className="flex items-center mx-4">
-          <input
-            type="search"
-            className="border border-gray-400 rounded-full w-[240px] h-10 px-4 py-2 bg-white outline-none focus-visible:border-sky-700"
-            placeholder="Search the Wall of Hope"
-            onChange={onChangeSearchInput}
-          />
-        </div>
-        <Menu as="div" className="relative flex justify-center itmes-center">
-          <Menu.Button className="btn rounded-full">
-            <img
-              src={userAvatar}
-              className="h-10 hover:border-2 border-sky-700 rounded-full"
-            />
-          </Menu.Button>
-          <Transition
-            as={Fragment}
-            enter="transition ease-out duration-100"
-            enterFrom="transform opacity-0 scale-95"
-            enterTo="transform opacity-100 scale-100"
-            leave="transition ease-in duration-75"
-            leaveFrom="transform opacity-100 scale-100"
-            leaveTo="transform opacity-0 scale-95"
-          >
-            <Menu.Items className="absolute right-0 top-12 z-10 mt-2 w-24 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-              <Menu.Item>
-                {isAuthenticated ? (
-                  <button
-                    className={classNames(
-                      "bg-gray-100 text-gray-900",
-                      "block px-4 py-2 text-sm w-full rounded-md"
-                    )}
-                    onClick={handleLogout}
-                  >
-                    Sign out
-                  </button>
-                ) : (
-                  <button
-                    className={classNames(
-                      "text-gray-700",
-                      "block px-4 py-2 text-sm w-full rounded-md"
-                    )}
-                    onClick={handleLogin}
-                  >
-                    Sign In
-                  </button>
-                )}
-              </Menu.Item>
-            </Menu.Items>
-          </Transition>
-        </Menu>
-      </div>
+			{isBuyBrickModalOpen && (
+				<BuyBrickModal
+					modalPosition={modalPosition}
+					clickedIndex={bricks[clickedIndex].brick_id}
+					handleBuyBrickButtonClick={handleBuyBrickButtonClick}
+					hideModal={() => setIsBuyBrickModalOpen(false)}
+				/>
+			)}
+			{isBrickInfoModalOpen && (
+				<BrickInformationModal
+					userId={userId}
+					brickInfo={hovered}
+					modalPosition={modalPosition}
+					handleDedicate={handleDedicate}
+				/>
+			)}
+			{isSoldModalOpen && (
+				<SoldModal
+					// brick_id={bricks[clickedIndex].brick_id}
+					clickedIndex={parseInt(clickedIndex)}
+					modalPosition={modalPosition}
+					filtered={filtered}
+					hideModal={() => setIsSoldModalOpen(false)}
+				/>
+			)}
+			{isSlideModalOpen && modalContent !== 0 && (
+				<div
+					id='slide-modal'
+					className='modal'
+					onClick={(e) => {
+						if (e.target.id == "slide-modal") setIsSlideModalOpen(false);
+					}}
+				>
+					<div className='modal-content absolute flex-col flex justify-center items-center rounded-md left-24 top-12'>
+						<HiMiniArrowLeft
+							className='modal-previous-button text-xl hover:cursor-pointer'
+							onClick={handlePreviousModal}
+						/>
+						<IoClose
+							className='modal-close-button text-xl font-bold hover:cursor-pointer'
+							onClick={handleCloseModal}
+						/>
+						{modalContent === 1 && (
+							<IntroModal handleNextModal={handleNextModal} />
+						)}
+						{modalContent === 2 && (
+							<DonorInformationModal handleNextModal={handleNextModal} />
+						)}
+						{modalContent === 3 && (
+							<DonorAddressModal handleBuyBrick={handleBuyBrick} />
+						)}
+						{modalContent === 4 && (
+							<VideoModal
+								handleNextModal={handleNextModal}
+								handleSkipDedication={handleSkipDedication}
+							/>
+						)}
+						{modalContent === 5 && (
+							<DedicationFormModal
+								handleNextModal={handleNextModal}
+								brick_id={bricks[clickedIndex].brick_id}
+							/>
+						)}
+						{modalContent === 6 && (
+							<DedicationConfirmModal
+								handleConfirm={handleConfirm}
+								clickedIndex={clickedIndex}
+							/>
+						)}
+						{modalContent === 7 && <ConfirmModal filtered={filtered} />}
+					</div>
+				</div>
+			)}
+			<div
+				className='w-full h-full bg-gray-400 flex justify-center items-center relative'
+				ref={containerRef}
+				onClick={handlePanClick}
+				onContextMenu={handleRightClick}
+			>
+				{imageScale > 0 && (
+					<TransformWrapper
+						key={`${imageNaturalWidth}x${imageNaturalHeight}`}
+						initialScale={imageScale}
+						minScale={imageScale}
+						maxScale={zoomFactor * imageScale}
+						centerOnInit
+						wheel={{ smoothStep: 0.004 }}
+					>
+						<TransformComponent
+							wrapperStyle={{
+								width: "100%",
+								height: "100%",
+							}}
+						>
+							<div
+								className='relative w-full h-full'
+								onClick={handlePanClick}
+							>
+								<div
+									className={`absolute w-full ${stage} top-0 left-0 bg-gradient-to-b bg-gray-300 z-50`}
+								></div>
 
-      {isBuyBrickModalOpen && (
-        <BuyBrickModal
-          modalPosition={modalPosition}
-          clickedIndex={bricks[clickedIndex].brick_id}
-          handleBuyBrickButtonClick={handleBuyBrickButtonClick}
-          hideModal={() => setIsBuyBrickModalOpen(false)}
-        />
-      )}
-      {isBrickInfoModalOpen && (
-        <BrickInformationModal
-          userId={userId}
-          brickInfo={hovered}
-          modalPosition={modalPosition}
-          handleDedicate={handleDedicate}
-        />
-      )}
-      {isSoldModalOpen && (
-        <SoldModal
-          // brick_id={bricks[clickedIndex].brick_id}
-          clickedIndex={parseInt(clickedIndex)}
-          modalPosition={modalPosition}
-          filtered={filtered}
-          hideModal={() => setIsSoldModalOpen(false)}
-        />
-      )}
-      {isSlideModalOpen && modalContent !== 0 && (
-        <div
-          id="slide-modal"
-          className="modal"
-          onClick={(e) => {
-            if (e.target.id == "slide-modal") setIsSlideModalOpen(false);
-          }}
-        >
-          <div className="modal-content absolute flex-col flex justify-center items-center rounded-md left-24 top-12">
-            <TiArrowLeftThick
-              className="modal-previous-button text-2xl hover:cursor-pointer"
-              onClick={handlePreviousModal}
-            />
-            <MdCancel
-              className="modal-close-button text-2xl hover:cursor-pointer"
-              onClick={handleCloseModal}
-            />
-            {modalContent === 1 && (
-              <IntroModal handleNextModal={handleNextModal} />
-            )}
-            {modalContent === 2 && (
-              <DonorInformationModal handleNextModal={handleNextModal} />
-            )}
-            {modalContent === 3 && (
-              <DonorAddressModal handleBuyBrick={handleBuyBrick} />
-            )}
-            {modalContent === 4 && (
-              <VideoModal
-                handleNextModal={handleNextModal}
-                handleSkipDedication={handleSkipDedication}
-              />
-            )}
-            {modalContent === 5 && (
-              <DedicationFormModal
-                handleNextModal={handleNextModal}
-                brick_id={bricks[clickedIndex].brick_id}
-              />
-            )}
-            {modalContent === 6 && (
-              <DedicationConfirmModal
-                handleConfirm={handleConfirm}
-                clickedIndex={clickedIndex}
-              />
-            )}
-            {modalContent === 7 && <ConfirmModal filtered={filtered} />}
-          </div>
-        </div>
-      )}
-      <div
-        className="w-full h-full bg-gray-400 flex justify-center items-center relative"
-        ref={containerRef}
-        onClick={handlePanClick}
-        onContextMenu={handleRightClick}
-      >
-        {imageScale > 0 && (
-          <TransformWrapper
-            key={`${imageNaturalWidth}x${imageNaturalHeight}`}
-            initialScale={imageScale}
-            minScale={imageScale}
-            maxScale={zoomFactor * imageScale}
-            centerOnInit
-            wheel={{ smoothStep: 0.004 }}
-          >
-            <TransformComponent
-              wrapperStyle={{
-                width: "100%",
-                height: "100%",
-              }}
-            >
-              <div className="relative w-full h-full" onClick={handlePanClick}>
-                <div
-                  className={`absolute w-full ${stage} top-0 left-0 bg-gradient-to-b bg-gray-300 z-50`}
-                ></div>
-
-                <div className="absolute top-0 left-0 w-full h-full flex flex-col">
-                  {bricks.length !== 0 && renderBricks()}
-                </div>
-                <img
-                  src={imgSrc}
-                  className="absoulte top-0 left-0 max-w-none"
-                  // " object-cover xs:w-[2000px] xs:h-[6400px] sm:w-[2500px] sm:h-[5120px] md:w-[2560px] md:h-[5000px] lg:w-[3200px] lg:h-[4000px] xl:w-[4000px] xl:h-[3200px]
-                  // className="w-[5000px] h-[2560px]"
-                  style={{
-                    width: `5000px`,
-                    height: `2560px`,
-                  }}
-                />
-              </div>
-            </TransformComponent>
-          </TransformWrapper>
-        )}
-      </div>
-      <ProgressBar height={2} />
-      <ModalOfWall />
-      {isShareModalOpen && (
-        <SharingModal hideModal={() => setIsShareModalOpen(false)} />
-      )}
-    </div>
-  );
+								<div className='absolute top-0 left-0 w-full h-full flex flex-col'>
+									{bricks.length !== 0 && renderBricks()}
+								</div>
+								<img
+									src={imgSrc}
+									className='absoulte top-0 left-0 max-w-none'
+									// " object-cover xs:w-[2000px] xs:h-[6400px] sm:w-[2500px] sm:h-[5120px] md:w-[2560px] md:h-[5000px] lg:w-[3200px] lg:h-[4000px] xl:w-[4000px] xl:h-[3200px]
+									// className="w-[5000px] h-[2560px]"
+									style={{
+										width: `5000px`, //250
+										height: `2560px`, //128
+									}}
+								/>
+							</div>
+						</TransformComponent>
+					</TransformWrapper>
+				)}
+			</div>
+			<ProgressBar height={2} />
+			<ModalOfWall />
+			{isShareModalOpen && (
+				<SharingModal hideModal={() => setIsShareModalOpen(false)} />
+			)}
+		</div>
+	);
 };
 
 export default Buybrick;
