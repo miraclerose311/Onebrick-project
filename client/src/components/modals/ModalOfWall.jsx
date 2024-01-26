@@ -1,46 +1,40 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getCurrentDonors } from "../../actions/donor";
 import PropTypes from "prop-types";
-import ProgressBar1 from "../ProgressBar1";
 import SupportWord from "../SupportWord";
+import ProgressBar1 from "../ProgressBar1";
+
+import { getCurrentDonors } from "../../actions/donor";
+import { getWords } from "../../actions/support";
 
 import { HiChevronLeft } from "react-icons/hi";
 import { HiChevronRight } from "react-icons/hi";
 
 const ModalOfWall = () => {
-  const [visible, setVisible] = useState(true);
+	const [visible, setVisible] = useState(true);
+	const [currentPage, setCurrentPage] = useState(1);
+	const { currentDonors } = useSelector((state) => state.donor);
+	const { supportWords } = useSelector((state) => state.support);
 
-  const { currentDonors } = useSelector((state) => state.donor);
-  const [currentPage, setCurrentPage] = useState(1);
+	const limit = 5;
+	const totalPages = Math.ceil(currentDonors.length / limit);
+	const startPoint = (currentPage - 1) * limit;
 
-  const limit = 5;
-  const totalPages = Math.ceil(currentDonors.length / limit);
+	const dispatch = useDispatch();
+	useEffect(() => {
+		dispatch(getCurrentDonors());
+		dispatch(getWords());
+	}, [dispatch]);
 
-  const startPoint = (currentPage - 1) * limit;
+	window.onclick = (e) => {
+		if (e.target == document.getElementById("myModal")) {
+			setVisible(false);
+		}
+	};
 
-  const dispatch = useDispatch();
+	console.log("supportWords", supportWords);
 
-  useEffect(() => {
-    dispatch(getCurrentDonors());
-  }, [dispatch]);
-
-  window.onclick = (e) => {
-    if (e.target == document.getElementById("myModal")) {
-      setVisible(false);
-    }
-  };
-
-  const supportWords = [
-    { title: "Title of Support", text: "The Alpah hospice is greate company." },
-    { title: "Title of Support", text: "The Alpah hospice is greate company." },
-    { title: "Title of Support", text: "The Alpah hospice is greate company." },
-    { title: "Title of Support", text: "The Alpah hospice is greate company." },
-    { title: "Title of Support", text: "The Alpah hospice is greate company." },
-    { title: "Title of Support", text: "The Alpah hospice is greate company." },
-  ];
-
-  return (
+	return (
 		visible && (
 			<div
 				id='myModal'
@@ -66,15 +60,16 @@ const ModalOfWall = () => {
 								Please donate to share words of support.
 							</p>
 						</div>
-						{supportWords.map((item, index) => {
-							return (
-								<SupportWord
-									key={index}
-									title={item.title}
-									text={item.text}
-								/>
-							);
-						})}
+						{supportWords &&
+							supportWords.map((item, index) => {
+								return (
+									<SupportWord
+										key={index}
+										title={item.title}
+										message={item.message}
+									/>
+								);
+							})}
 					</div>
 					<div className='w-full md:w-1/2 xl:w-5/12 py-16 px-16 md:px-0 md:pr-16 lg:pr-24 xl:pr-28 2xl:pr-36 md:pl-12 lg:pl-16 2xl:pl-24 h-full flex justify-center bg-white'>
 						<div className='w-full flex flex-col border border-gray-800 rounded-md px-12 py-6 overflow-auto scroll-hidden'>
