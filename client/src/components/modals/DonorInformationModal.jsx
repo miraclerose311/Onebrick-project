@@ -83,9 +83,10 @@ const DonorInformationModal = ({ handleNextModal }) => {
     }
 
     //Validate PAN Number
-    if (!pan.trim()) {
-      newErrors.pan = "PAN number is required";
-    } else if (!isValidPAN(pan)) {
+    // if (!pan.trim()) {
+    //   newErrors.pan = "PAN number is required";
+    // } else
+    if (pan.trim() && !isValidPAN(pan)) {
       newErrors.pan = "Please enter a valid PAN number";
     }
     // Update the errors state
@@ -217,7 +218,7 @@ const DonorInformationModal = ({ handleNextModal }) => {
 };
 
 DonorInformationModal.propTypes = {
-	handleNextModal: PropTypes.func.isRequired,
+  handleNextModal: PropTypes.func.isRequired,
 };
 
 export default DonorInformationModal;

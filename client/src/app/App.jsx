@@ -33,7 +33,7 @@ function App() {
         case "success":
           toast.success(alert.content, {
             position: "top-right",
-            autoClose: 2000,
+            autoClose: 1000,
           });
           break;
         case "error":

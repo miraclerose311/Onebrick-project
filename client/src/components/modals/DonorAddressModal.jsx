@@ -62,9 +62,10 @@ const DonorAddressModal = ({ handleBuyBrick }) => {
       newErrors.state = "state is required";
     }
 
-    if (!pin.trim()) {
-      newErrors.pin = "PIN is required";
-    } else if (!isValidNumber(pin)) {
+    // if (!pin.trim()) {
+    //   newErrors.pin = "PIN is required";
+    // } else
+    if (pin.trim() && !isValidNumber(pin)) {
       newErrors.pin = "Please enter a valid PIN number";
     }
 
@@ -179,7 +180,7 @@ const DonorAddressModal = ({ handleBuyBrick }) => {
 };
 
 DonorAddressModal.propTypes = {
-	handleBuyBrick: PropTypes.func.isRequired,
+  handleBuyBrick: PropTypes.func.isRequired,
 };
 
 export default DonorAddressModal;

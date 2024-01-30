@@ -36,7 +36,7 @@ const BrickInformationModal = ({
 
   return (
     <div
-      className="border border-gray-600 bg-gray-200 opacity-90 absolute py-2 px-4 w-72 items-center rounded-md z-10"
+      className="border border-gray-600 bg-gray-200 absolute py-2 px-4 w-72 items-center rounded-md z-10"
       style={{
         left: position.x,
         top: position.y,

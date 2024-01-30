@@ -27,8 +27,7 @@ import SelectionGroup from "../components/SelectionGroup";
 import ImageUpload from "../components/FileUpload/ImageUpload";
 import EditableParagraph from "../components/FileUpload/EditableParagraph";
 import UrlChangeModal from "../components/modals/UrlChangeModal";
-import { insertWord } from "../actions/support";
-import { setAlert } from "../features/alertSlice";
+
 
 const Home = () => {
   const base_URL = `${import.meta.env.VITE_BACKEND_URL}`;
@@ -36,8 +35,6 @@ const Home = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [videoName, setVideoName] = useState("");
   const [videoFilePath, setVideoFilePath] = useState("");
-  const [title, setTitle] = useState("");
-  const [message, setMessage] = useState("");
   const [scrollY, setScrollY] = useState(0);
 
   const [uploadImageLoading, setUploadImageLoading] = useState(false);
@@ -186,22 +183,6 @@ const Home = () => {
     // setIsModalOpen(true);
     setVideoName(name);
     setVideoFilePath(filePath);
-  };
-
-  const handleShareWord = () => {
-    if (title && message) {
-      const supportWordData = {
-        title,
-        message,
-      };
-      dispatch(insertWord(supportWordData));
-      setTitle("");
-      setMessage("");
-    } else {
-      dispatch(
-        setAlert({ alertType: "error", content: "Please feel all inputs." })
-      );
-    }
   };
 
   // useEffect(() => {
@@ -612,7 +593,7 @@ const Home = () => {
           name="HomeText17"
           content={contents.HomeText17 || "Hearts of Generosity"}
           onBlur={onBlur}
-          className="text-4xl text-center text-gray-300 font-raleway w-full"
+          className="text-2xl lg:text-4xl text-center text-gray-300 font-raleway w-full"
           iconClassName="text-white"
         />
         <EditableParagraph
@@ -871,58 +852,6 @@ const Home = () => {
         <button className="py-3 px-6 rounded-lg bg-red-700 shadow-md shadow-gray-500 hover:bg-red-800 text-white max-w-sm font-montserrat text-center">
           SEE ALL DONORS
         </button>
-      </div>
-
-      <div className="w-full px-8 sm:px-20 md:px-24 lg:px-32 xl:px-48 2xl:px-64 py-12 lg:py-24 flex flex-wrap md:flex-row-reverse items-center relative">
-        <div className="w-full md:w-5/12 h-[40vh] xl:h-[50vh] 2xl:h-[60vh] flex justify-center py-8 lg:py-0 z-10 items-center relative">
-          <ImageUpload
-            fileName={fileList[6]}
-            previewFile={imgSrc[fileList[6]]}
-            onFileSelect={handleFileChange}
-            loading={
-              currentLoadingComponent === fileList[6] && uploadImageLoading
-            }
-            className="w-full"
-          />
-        </div>
-        <div className="w-full md:w-7/12 md:pr:12 xl:pr-24 flex flex-col gap-5">
-          <EditableParagraph
-            name="HomeText26"
-            content={contents.HomeText26 || "Leave Words"}
-            onBlur={onBlur}
-            className="text-sky-700 test-center md:text-left text-4xl font-bold md:text-5xl xl:text-6xl 2xl:text-7xl text-center lg:text-left mb-5"
-          />
-          <div className="flex flex-col">
-            <label className="text-xl font-montserrat" htmlFor="title">
-              Title
-            </label>
-            <input
-              name="title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              className="w-full p-2 border border-gray-200 hover:border-orange-300 rounded-sm"
-            />
-          </div>
-          <div className="flex flex-col">
-            <label className="text-xl font-montserrat" htmlFor="message">
-              Message
-            </label>
-            <textarea
-              name="message"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              className="w-full h-32 p-2 border border-gray-200 hover:border-orange-300 rounded-sm"
-            />
-          </div>
-          <div className="flex">
-            <button
-              onClick={handleShareWord}
-              className="py-2 px-5 mt-3 rounded-lg border-2 border-red-700 hover:bg-red-800 hover:text-white font-montserrat text-center"
-            >
-              SPREAD THE WORD
-            </button>
-          </div>
-        </div>
       </div>
 
       <div className="flex flex-wrap items-center w-full bg-gray-200  px-8 sm:px-16 md:px-24 lg:px-32 xl:px-48 2xl:px-64 lg:py-12 2xl:py-24 relative justify-center">

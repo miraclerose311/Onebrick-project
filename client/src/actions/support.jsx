@@ -14,7 +14,12 @@ export const insertWord = (data) => async (dispatch) => {
       })
     );
   } catch (e) {
-    console.log(e);
+    dispatch(
+      setAlert({
+        alertType: "error",
+        content: "Failed to insert support word.", // Display an error message
+      })
+    );
   }
   dispatch(clearLoading());
 };

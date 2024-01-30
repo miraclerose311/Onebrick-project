@@ -1,25 +1,32 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
-import {
-  increaseAmount,
-  decreaseAmount,
-  setLocation,
-} from "../../features/brickSlice";
+import { setLocation, setAmountOfReduce } from "../../features/brickSlice";
 import { FaAnglesRight } from "react-icons/fa6";
+import { useState } from "react";
 
 const IntroModal = ({ handleNextModal }) => {
-  const { amount } = useSelector((state) => state.brick.current);
+  const [amount, setAmount] = useState(1);
 
   const dispatch = useDispatch();
 
+  const handleAmount = (e) => {
+    const newValue = parseInt(e.target.value);
+    if (!isNaN(newValue)) {
+      setAmount(Math.max(1, Math.min(newValue, 32000)));
+    }
+  };
   const handleIncreaseAmount = () => {
-    amount <= 35000 && dispatch(increaseAmount());
+    amount <= 32000 && setAmount(amount + 1);
   };
   const handleDecreaseAmount = () => {
-    amount > 1 && dispatch(decreaseAmount());
+    amount > 1 && dispatch(amount - 1);
   };
   const handleChangeLocation = (e) => {
     dispatch(setLocation(e.target.value));
+  };
+  const handleReadyPay = () => {
+    dispatch(setAmountOfReduce(amount));
+    handleNextModal();
   };
 
   return (
@@ -35,16 +42,21 @@ const IntroModal = ({ handleNextModal }) => {
         <button className="text-xl mb-0.5" onClick={handleDecreaseAmount}>
           -
         </button>
-        <span className="flex items-center border px-8 py-1 h-2/3 bg-gray-300 text-lg">
+        {/* <span className="flex items-center border px-8 py-1 h-2/3 bg-gray-300 text-lg">
           {amount}
-        </span>
+        </span> */}
+        <input
+          value={amount}
+          className="w-24 border px-2 py-2 h-2/3 outline-none focus:border focus:border-sky-400 bg-gray-300 text-lg text-center"
+          onChange={(e) => handleAmount(e)}
+        />
         <button className="text-xl mb-0.5" onClick={handleIncreaseAmount}>
           +
         </button>
       </div>
       <div className="flex flex-col">
         <p className="font-montserrat text-2xl">Contribution</p>
-        <p className="font-raleway text-xl">₹ {10000 * amount}</p>
+        <p className="font-raleway text-xl">₹ {1000 * amount}</p>
       </div>
       <select
         className="border px-2 py-2 my-6 cursor-pointer border-gray-400"
@@ -56,7 +68,7 @@ const IntroModal = ({ handleNextModal }) => {
       </select>
       <button
         className="text-gray-100 bg-red-700 hover:bg-red-800 px-4 py-2 rounded-md mt-4"
-        onClick={handleNextModal}
+        onClick={handleReadyPay}
       >
         <span className="flex flex-row items-center justify-between gap-x-3">
           READY TO PAY <FaAnglesRight />

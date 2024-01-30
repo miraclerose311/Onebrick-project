@@ -13,7 +13,7 @@ import Footer from "../components/Layout/Footer";
 
 import { AiOutlineInteraction } from "react-icons/ai";
 
-import Ellipse10 from "../assets/img/Ellipse10.png";
+import Ellipse10 from "../assets/img/Contact Us/Ellipse10.png";
 import UrlChangeModal from "../components/modals/UrlChangeModal";
 
 const Contact = () => {

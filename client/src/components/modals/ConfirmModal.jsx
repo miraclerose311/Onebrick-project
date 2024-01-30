@@ -2,13 +2,13 @@ import PropTypes from "prop-types";
 import { jwtDecode } from "jwt-decode";
 
 const ConfirmModal = ({ filtered }) => {
-	const imgSrc = sessionStorage.getItem("avatar");
-	const token = sessionStorage.getItem("token");
+  const imgSrc = sessionStorage.getItem("avatar");
+  const token = sessionStorage.getItem("token");
 
-	const user = jwtDecode(token);
+  const user = jwtDecode(token);
 
-	const brickIdArray = [];
-	filtered.map((item) => {
+  const brickIdArray = [];
+  filtered.map((item) => {
     brickIdArray.push(
       <p className="w-full text-md border-b-2 border-gray-800 font-raleway my-2">
         {item.brick_id}
@@ -28,7 +28,7 @@ const ConfirmModal = ({ filtered }) => {
       <p className="text-xl font-raleway font-medium">
         {brickIdArray.length}&nbsp;BRICKS DONATED
       </p>
-      <div className="w-full h-1/6 scroll-hidden">{brickIdArray}</div>
+      <div className="w-full h-48 overflow-scroll">{brickIdArray}</div>
       <div className="bg-[#FBF8BE] shadow-lg shadow-yellow-300/50 rounded-xl w-full flex flex-col gap-6 p-4 mt-8">
         <p className="text-2xl font-medium font-raleway">
           Do you want to donate more bricks?
@@ -42,7 +42,7 @@ const ConfirmModal = ({ filtered }) => {
 };
 
 ConfirmModal.propTypes = {
-	filtered: PropTypes.array.isRequired,
+  filtered: PropTypes.array.isRequired,
 };
 
 export default ConfirmModal;

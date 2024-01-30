@@ -11,7 +11,7 @@ export const createOrder = (amount) => async (dispatch) => {
     // Convert the amount and send the request to the server
     const res = await api.post(
       "/payment/order",
-      JSON.stringify({ amount: amount * 1000000 })
+      JSON.stringify({ amount: amount * 100000 })
     );
 
     // Assuming res is truthy if the request succeeded, dispatch setOrder with the data received.

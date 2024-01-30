@@ -22,7 +22,6 @@ export const brickSlice = createSlice({
     setBricks: (state, action) => {
       state.bricks = action.payload;
     },
-
     setBrick: (state, action) => {
       const { purchasedIds, date, donor, user } = action.payload;
       const brickData = { donor, sold: true, date, user };
@@ -35,7 +34,6 @@ export const brickSlice = createSlice({
         ),
       };
     },
-
     setDedication: (state, action) => {
       const { name, relationship, message, image } = action.payload;
       const dedicationData = { name, relationship, message, image };
@@ -50,27 +48,18 @@ export const brickSlice = createSlice({
         }),
       };
     },
-
     setSoldAmount: (state, action) => {
       state.soldAmount = action.payload;
     },
-
-    increaseAmount: (state) => {
-      state.current.amount += 1;
+    setAmountOfReduce: (state, action) => {
+      state.current.amount = action.payload;
     },
-
-    decreaseAmount: (state) => {
-      state.current.amount -= 1;
-    },
-
     clearAmount: (state) => {
       state.current.amount = 1;
     },
-
     clearCurrent: (state) => {
       state.current = initialState.current;
     },
-
     setLocation: (state, action) => {
       state.current.location = action.payload;
     },
@@ -84,6 +73,7 @@ export const {
   setSoldAmount,
   increaseAmount,
   decreaseAmount,
+  setAmountOfReduce,
   clearAmount,
   setDedication,
   clearCurrent,

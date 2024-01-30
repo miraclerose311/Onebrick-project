@@ -18,7 +18,7 @@ import {
 
 import { IoCloseCircleOutline } from "react-icons/io5";
 
-import imageUrl from "../../assets/img/alpha_building_high_res.jpg";
+import imageUrl from "../../assets/img/WallofHope/alpha_building_high_res.jpg";
 
 const SharingModal = ({ hideModal }) => {
   const [shareURL, setshareURL] = useState("");
