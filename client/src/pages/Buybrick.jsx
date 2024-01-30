@@ -284,8 +284,7 @@ const Buybrick = () => {
     hoverTimer = setTimeout(() => {
       if (e.target.id == "pan") {
         setIsBrickInfoModalOpen(false);
-      }
-      if (
+      } else if (
         bricks[e.target.id].sold &&
         !isBuyBrickModalOpen &&
         !isSoldModalOpen

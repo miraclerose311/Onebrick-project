@@ -20,10 +20,9 @@ export const insertDonor = (donorData) => async (dispatch) => {
 
   try {
     // Make the API call and await for the resolved promise
-    const res = await api.post("/donor/insert", donorData);
+    await api.post("/donor/insert", donorData);
 
     // If the API call is successful, log the response and clear the loading state
-    console.log(res);
   } catch (error) {
     // If there is an error, alert the user
     alert(error);

@@ -86,8 +86,10 @@ const DonorInformationModal = ({ handleNextModal }) => {
     // if (!pan.trim()) {
     //   newErrors.pan = "PAN number is required";
     // } else
-    if (pan.trim() && !isValidPAN(pan)) {
-      newErrors.pan = "Please enter a valid PAN number";
+    if (pan.trim()) {
+      if (!isValidPAN(pan)) {
+        newErrors.pan = "Please enter a valid PAN number";
+      }
     }
     // Update the errors state
     setErrors(newErrors);
@@ -105,10 +107,6 @@ const DonorInformationModal = ({ handleNextModal }) => {
       handleNextModal();
     }
   };
-
-  useEffect(() => {
-    console.log(errors);
-  }, [errors]);
 
   const handleFocus = (e) => {
     setErrors({ ...errors, [e.target.name]: "" });
@@ -163,15 +161,11 @@ const DonorInformationModal = ({ handleNextModal }) => {
       )}
 
       <input
-        type="text"
+        type="tel"
         name="mobile"
         value={mobile}
         onFocus={handleFocus}
-        onChange={(e) => {
-          if (parseInt(e.target.value) >= 0) {
-            setMobile(e.target.value);
-          }
-        }}
+        onChange={(e) => setMobile(e.target.value)}
         className={classNames(
           "border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2",
           errors.mobile && "border-red-400"

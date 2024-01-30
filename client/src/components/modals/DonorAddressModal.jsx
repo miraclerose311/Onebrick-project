@@ -42,9 +42,9 @@ const DonorAddressModal = ({ handleBuyBrick }) => {
     setState(donorInfo.state);
   }, [donorInfo]);
 
-  const isValidNumber = (mobile) => {
-    const regex = /^[0-9]{4,}$/;
-    return regex.test(mobile);
+  const isValidPin = (pin) => {
+    const regex = /^[0-9]{5}$/;
+    return regex.test(pin);
   };
 
   const handleSubmit = () => {
@@ -65,8 +65,10 @@ const DonorAddressModal = ({ handleBuyBrick }) => {
     // if (!pin.trim()) {
     //   newErrors.pin = "PIN is required";
     // } else
-    if (pin.trim() && !isValidNumber(pin)) {
-      newErrors.pin = "Please enter a valid PIN number";
+    if (pin.trim()) {
+      if (!isValidPin(pin)) {
+        newErrors.pin = "Please enter a valid PIN number";
+      }
     }
 
     setErrors(newErrors);

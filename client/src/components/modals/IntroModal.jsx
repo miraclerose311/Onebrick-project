@@ -11,15 +11,20 @@ const IntroModal = ({ handleNextModal }) => {
 
   const handleAmount = (e) => {
     const newValue = parseInt(e.target.value);
-    if (!isNaN(newValue)) {
-      setAmount(Math.max(1, Math.min(newValue, 32000)));
+    if (newValue === "" || /^[0-9]+$/.test(newValue)) {
+      setAmount(Math.min(newValue, 32000));
     }
   };
   const handleIncreaseAmount = () => {
-    amount <= 32000 && setAmount(amount + 1);
+    if (amount < 32000) {
+      setAmount(amount + 1);
+    }
   };
+
   const handleDecreaseAmount = () => {
-    amount > 1 && dispatch(amount - 1);
+    if (amount > 1) {
+      setAmount(amount - 1);
+    }
   };
   const handleChangeLocation = (e) => {
     dispatch(setLocation(e.target.value));
@@ -46,6 +51,9 @@ const IntroModal = ({ handleNextModal }) => {
           {amount}
         </span> */}
         <input
+          type="text"
+          min={1}
+          max={32000}
           value={amount}
           className="w-24 border px-2 py-2 h-2/3 outline-none focus:border focus:border-sky-400 bg-gray-300 text-lg text-center"
           onChange={(e) => handleAmount(e)}
