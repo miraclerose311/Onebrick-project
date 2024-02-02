@@ -362,7 +362,7 @@ const Home = () => {
           className="text-center text-md sm:text-lg md:text-xl lg:text-md xl:text-xl 2xl:text-2xl my-3 lg:my-12 font-raleway"
         />
         <div className="flex flex-wrap justify-center w-full">
-          <div className="p-5 2xl:p-10 w-5/6 sm:w-2/3 md:w-1/2 xl:w-1/3">
+          <div className="p-5 2xl:p-10 w-full sm:w-2/3 md:w-1/2 xl:w-1/3">
             <div className="bg-gray-800 text-white flex flex-col gap-8 rounded-md items-center p-5 lg:px-8 py-12 h-full hover:scale-105 cursor-pointer transform duration-300">
               <div className="w-24 h-24  shadow-md shadow-gray-600 border-red-800 rounded-full">
                 <img
@@ -390,7 +390,7 @@ const Home = () => {
               </button>
             </div>
           </div>
-          <div className="p-5 2xl:p-10 w-5/6 sm:w-2/3 md:w-1/2 xl:w-1/3">
+          <div className="p-5 2xl:p-10 w-full sm:w-2/3 md:w-1/2 xl:w-1/3">
             <div className="bg-white flex flex-col gap-8 rounded-md items-center p-5 lg:px-8 py-12 h-full  hover:scale-105 cursor-pointer transform duration-300">
               <div className="w-24 h-24 border-red-800 rounded-full">
                 <img
@@ -418,7 +418,7 @@ const Home = () => {
               </button>
             </div>
           </div>
-          <div className="p-5 2xl:p-10 w-5/6 sm:w-2/3 md:w-1/2 xl:w-1/3">
+          <div className="p-5 2xl:p-10 w-full sm:w-2/3 md:w-1/2 xl:w-1/3">
             <div className=" bg-white flex flex-col gap-8 rounded-md items-center p-5 lg:px-8 py-12 h-full  hover:scale-105 cursor-pointer transform duration-300">
               <div className="w-24 h-24 border-red-800 rounded-full">
                 <img
@@ -831,14 +831,14 @@ const Home = () => {
               className="w-full  md:w-1/2 xl:w-1/3 flex flex-wrap p-1 md:p-2"
             >
               <div className="w-full flex bg-sky-500 shadow-sm shadow-gray-500 rounded-lg p-4 sm:p-3 md:p-2 lg:p-4 xl:p-2 2xl:p-5">
-                <div className="flex justify-center items-center w-1/2 xs:1/3 sm:w-1/4 md:w-2/5 md:p-2">
+                <div className="flex justify-center items-center w-1/3 sm:w-1/4 md:w-2/5 md:p-2">
                   <img
                     alt="Donor avatar"
                     src={donorInfo.avatar}
                     className="rounded-lg"
                   />
                 </div>
-                <div className="flex flex-col gap-2 md:w-3/5 justify-center lg:justify-center text-white text-xl pl-3 sm:pl-5 md:px-3 lg:pl-8 xl:pl-3 2xl:pl-6 font-medium">
+                <div className="flex flex-col gap-2 md:w-3/5 justify-center lg:justify-center text-white text-md sm:text-xl pl-3 sm:pl-5 md:px-3 lg:pl-8 xl:pl-3 2xl:pl-6 font-medium">
                   <p>{donorInfo.fullName}</p>
                   <p>
                     {donorInfo.purchasedBricksCount} Bricks: ₹

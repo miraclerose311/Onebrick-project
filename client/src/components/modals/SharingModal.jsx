@@ -39,7 +39,7 @@ const SharingModal = ({ hideModal }) => {
   return (
     <div
       id="SharingModal-pan"
-      className="fixed flex justify-center items-center w-[100vw] h-[100vh] bg-gray-800/40 z-50"
+      className="fixed flex justify-center items-center w-full h-full z-50"
       onClick={handleClose}
     >
       <div className="bg-white shadow-md shadow-gray-300 rounded-md absolute p-5 w-[400px] flex flex-col gap-3 items-center">

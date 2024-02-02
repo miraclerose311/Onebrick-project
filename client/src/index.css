@@ -139,7 +139,6 @@ th{
   scrollbar-width: none;  /* Firefox */
 }
 
-
 .myModal-content {
   -webkit-animation-name: animatetop;
   -webkit-animation-duration: 0.4s;
@@ -156,3 +155,19 @@ th{
   from {top: 600px; opacity: 0}
   to {top: 200; opacity: 1}
 }
+
+
+/* #popup-modal {
+  animation-name: sidebar-popup;
+  animation-duration: 0.3s;
+}
+
+@keyframes sidebar-popup {
+  from {
+    transform: translateX(-100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+} */

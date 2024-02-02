@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from "react";
+import { memo, useRef, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
 const BuyBrickModal = ({
@@ -7,7 +7,6 @@ const BuyBrickModal = ({
   handleBuyBrickButtonClick,
   hideModal,
 }) => {
-  // const [isFirstClick, setIsFirstClick] = useState(true);
   const modalRef = useRef(null);
   const [position, setPosition] = useState({ x: -400, y: -500 });
 
@@ -16,16 +15,23 @@ const BuyBrickModal = ({
     if (modalRef.current) {
       const modalHeight = modalRef.current.offsetHeight;
       const modalWidth = modalRef.current.offsetWidth;
-      setPosition({
-        x:
-          window.innerWidth - modalPosition.x > modalWidth
-            ? modalPosition.x
-            : modalPosition.x - modalWidth,
-        y:
-          window.innerHeight - modalPosition.y > modalHeight
-            ? modalPosition.y
-            : modalPosition.y - modalHeight,
-      });
+      if (window.innerWidth > 576) {
+        setPosition({
+          x:
+            window.innerWidth - modalPosition.x > modalWidth
+              ? modalPosition.x
+              : modalPosition.x - modalWidth,
+          y:
+            window.innerHeight - modalPosition.y > modalHeight
+              ? modalPosition.y
+              : modalPosition.y - modalHeight,
+        });
+      } else {
+        setPosition({
+          x: 0,
+          y: window.innerHeight - modalHeight,
+        });
+      }
     }
   }, [modalPosition]);
 
@@ -39,11 +45,11 @@ const BuyBrickModal = ({
   return (
     <div
       id="buybrickmodal-pan"
-      className="fixed w-[100vw] h-[100vh] bg-gray-800/40 z-50"
+      className="fixed w-full h-full z-50"
       onClick={handleClose}
     >
       <div
-        className="border border-gray-600 bg-gray-200 rounded-md opacity-100 absolute px-6 py-8 w-60 h-auto flex flex-col gap-3 justify-center items-center"
+        className="border border-gray-600 bg-gray-200 rounded-md opacity-100 absolute px-6 py-8 w-full sm:w-60 h-auto flex flex-col gap-3 justify-center items-center"
         style={{
           left: position.x,
           top: position.y,
@@ -74,4 +80,6 @@ BuyBrickModal.propTypes = {
   hideModal: PropTypes.func.isRequired,
 };
 
-export default BuyBrickModal;
+const MemorizedBuybrickModal = memo(BuyBrickModal);
+
+export default MemorizedBuybrickModal;

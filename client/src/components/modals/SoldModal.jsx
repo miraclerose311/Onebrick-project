@@ -15,16 +15,23 @@ const SoldModal = ({ modalPosition, clickedIndex, hideModal }) => {
   useEffect(() => {
     const modalWidth = 208;
     const modalHeight = 256;
-    setPosition({
-      x:
-        window.innerWidth - modalPosition.x > modalWidth
-          ? modalPosition.x
-          : modalPosition.x - modalWidth,
-      y:
-        window.innerHeight - modalPosition.y > modalHeight
-          ? modalPosition.y
-          : modalPosition.y - modalHeight,
-    });
+    if (window.innerWidth > 576) {
+      setPosition({
+        x:
+          window.innerWidth - modalPosition.x > modalWidth
+            ? modalPosition.x
+            : modalPosition.x - modalWidth,
+        y:
+          window.innerHeight - modalPosition.y > modalHeight
+            ? modalPosition.y
+            : modalPosition.y - modalHeight,
+      });
+    } else {
+      setPosition({
+        x: 0,
+        y: window.innerHeight - modalHeight,
+      });
+    }
   }, [modalPosition]);
 
   const handleClose = (e) => {
@@ -37,7 +44,7 @@ const SoldModal = ({ modalPosition, clickedIndex, hideModal }) => {
   return (
     <div
       id="sold-modal-pan"
-      className="fixed w-[100vw] h-[100vh] bg-gray-100/10 z-50"
+      className="fixed w-[100vw] h-[100vh] z-50"
       onClick={handleClose}
     >
       <div

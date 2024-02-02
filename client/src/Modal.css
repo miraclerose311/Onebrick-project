@@ -24,13 +24,13 @@
 .modal-previous-button {
   position: absolute;
   top: 20px;
-  left: 40px;
+  left: 24px;
 }
 
 .modal-close-button {
   position: absolute;
   top: 20px;
-  right: 40px;
+  right: 24px;
 }
 
 .modal.open {

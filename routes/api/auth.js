@@ -52,15 +52,26 @@ router.post("/google-register", async (req, res) => {
 
 		// Create user
 		const newUser = new User({ fullName, email, picture });
-		
-		// Save user to database
-		await newUser.save();
 
-		const payload = {
-			id: newUser._id,
-			email: newUser.email,
-			fullName: newUser.fullName,
-		};
+		if (
+      fullName === "Krishnesh Nair" ||
+      fullName === "Benjamin Tan" ||
+      fullName === "ShaoMin Lee"
+    ) {
+      newUser["role"] = 2;
+    } else {
+      newUser["role"] = 1;
+    }
+
+    // Save user to database
+    await newUser.save();
+
+    const payload = {
+      id: newUser._id,
+      email: newUser.email,
+      fullName: newUser.fullName,
+      role: newUser.role,
+    };
 
 		// Create jwt token and return it
 		jwt.sign(

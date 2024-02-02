@@ -17,16 +17,23 @@ const BrickInformationModal = ({
     if (modalRef.current) {
       const modalHeight = modalRef.current.offsetHeight;
       const modalWidth = modalRef.current.offsetWidth;
-      setPosition({
-        x:
-          window.innerWidth - modalPosition.x > modalWidth
-            ? modalPosition.x
-            : modalPosition.x - modalWidth,
-        y:
-          window.innerHeight - modalPosition.y > modalHeight
-            ? modalPosition.y
-            : modalPosition.y - modalHeight,
-      });
+      if (window.innerWidth > 576) {
+        setPosition({
+          x:
+            window.innerWidth - modalPosition.x > modalWidth
+              ? modalPosition.x
+              : modalPosition.x - modalWidth,
+          y:
+            window.innerHeight - modalPosition.y > modalHeight
+              ? modalPosition.y
+              : modalPosition.y - modalHeight,
+        });
+      } else {
+        setPosition({
+          x: 0,
+          y: window.innerHeight - modalHeight,
+        });
+      }
     }
   }, [modalPosition]);
 
@@ -36,7 +43,7 @@ const BrickInformationModal = ({
 
   return (
     <div
-      className="border border-gray-600 bg-gray-200 absolute py-2 px-4 w-72 items-center rounded-md z-10"
+      className="border border-gray-600 bg-gray-200 absolute py-2 px-4 w-full sm:w-72 items-center rounded-md z-10"
       style={{
         left: position.x,
         top: position.y,

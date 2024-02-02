@@ -17,7 +17,7 @@ const ConfirmModal = ({ filtered }) => {
   });
 
   return (
-    <div className="flex flex-col items-center justify-center gap-6 px-12">
+    <div className="flex flex-col items-center justify-center gap-6 sm:w-4/5">
       <div className="flex flex-col items-end gap-4">
         <img
           src={imgSrc ? imgSrc : user}
@@ -28,12 +28,12 @@ const ConfirmModal = ({ filtered }) => {
       <p className="text-xl font-raleway font-medium">
         {brickIdArray.length}&nbsp;BRICKS DONATED
       </p>
-      <div className="w-full h-48 overflow-scroll">{brickIdArray}</div>
+      <div className="w-full max-h-48 scroll-hidden">{brickIdArray}</div>
       <div className="bg-[#FBF8BE] shadow-lg shadow-yellow-300/50 rounded-xl w-full flex flex-col gap-6 p-4 mt-8">
-        <p className="text-2xl font-medium font-raleway">
+        <p className="text-lg sm:text-2xl font-medium font-raleway">
           Do you want to donate more bricks?
         </p>
-        <p className="text-lg font-raleway">
+        <p className="text-sm sm:text-lg font-raleway">
           It’s simple. Just mouseover a brick and click to Donate!
         </p>
       </div>

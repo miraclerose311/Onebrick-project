@@ -16,14 +16,16 @@ const DedicationConfirmModal = ({ handleConfirm, clickedIndex }) => {
   return (
     <div className="flex flex-col gap-5 w-full justify-center items-center">
       <div>
-        <p className="text-4xl font-montserrat px-8">Congratulations!</p>
+        <p className="text-2xl sm:text-4xl font-montserrat px-8">
+          Congratulations!
+        </p>
         <p className="font-raleway text-xl">
           You have successfuly donated a brick.
         </p>
       </div>
 
       {currentBrick.dedication ? (
-        <div className="flex flex-col items-center bg-yellow-200 drop-shadow-lg w-4/5 h-auto rounded-lg my-2 px-4 py-6">
+        <div className="flex flex-col items-center bg-yellow-200 drop-shadow-lg w-full sm:w-4/5 h-auto rounded-lg my-2 px-4 py-6">
           <p className="font-raleway text-md">
             I dedicate this brick to my {currentBrick.dedication.relationship}
             <br />

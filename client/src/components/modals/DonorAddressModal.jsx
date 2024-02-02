@@ -111,9 +111,13 @@ const DonorAddressModal = ({ handleBuyBrick }) => {
 
   return (
     <>
-      <p className="text-4xl font-montserrat px-8">Just one more step!</p>
-      <p className="font-raleway text-xl my-4">Why we need this?</p>
-      <p className="font-raleway text-xl my-4">
+      <p className="text-2xl sm:text-4xl font-montserrat px-8">
+        Just one more step!
+      </p>
+      <p className="font-raleway text-xl my-4 hidden sm:flex">
+        Why we need this?
+      </p>
+      <p className="font-raleway text-md sm:text-xl my-4">
         You have taken a step towards making a significant difference!
       </p>
       <textarea
@@ -122,17 +126,19 @@ const DonorAddressModal = ({ handleBuyBrick }) => {
         onChange={(e) => setAddress(e.target.value)}
         onFocus={handleFocus}
         className={classNames(
-          "border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2 h-36",
+          "border border-gray-400 rounded-lg w-4/5 sm:w-2/3 my-2 px-4 py-2 h-24 sm:h-36",
           errors.address && "border-red-400"
         )}
         placeholder="Address"
       />
       {errors.address && (
-        <p className="text-red-400 text-xs text-left w-2/3">{errors.address}</p>
+        <p className="text-red-400 text-xs text-left w-4/5 sm:w-2/3">
+          {errors.address}
+        </p>
       )}
       <CountryDropdown
         className={classNames(
-          "border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2",
+          "border border-gray-400 rounded-lg w-4/5 sm:w-2/3 my-2 px-4 py-1.5 sm:py-2",
           errors.country && "border-red-400"
         )}
         name="country"
@@ -140,11 +146,13 @@ const DonorAddressModal = ({ handleBuyBrick }) => {
         onChange={(val) => setCountry(val)}
       />
       {errors.country && (
-        <p className="text-red-400 text-xs text-left w-2/3">{errors.country}</p>
+        <p className="text-red-400 text-xs text-left w-4/5 sm:w-2/3">
+          {errors.country}
+        </p>
       )}
       <RegionDropdown
         className={classNames(
-          "border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2",
+          "border border-gray-400 rounded-lg w-4/5 sm:w-2/3 my-2 px-4 py-1.5 sm:py-2",
           errors.state && "border-red-400"
         )}
         country={country}
@@ -153,7 +161,9 @@ const DonorAddressModal = ({ handleBuyBrick }) => {
         onChange={(val) => setState(val)}
       />
       {errors.state && (
-        <p className="text-red-400 text-xs text-left w-2/3">{errors.state}</p>
+        <p className="text-red-400 text-xs text-left w-4/5 sm:w-2/3">
+          {errors.state}
+        </p>
       )}
       <input
         name="pin"
@@ -161,16 +171,18 @@ const DonorAddressModal = ({ handleBuyBrick }) => {
         onChange={(e) => setPin(e.target.value)}
         onFocus={handleFocus}
         className={classNames(
-          "border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2",
+          "border border-gray-400 rounded-lg w-4/5 sm:w-2/3 my-2 px-4 py-1.5 sm:py-2",
           errors.pin && "border-red-400"
         )}
         placeholder="PIN"
       />
       {errors.pin && (
-        <p className="text-red-400 text-xs text-left w-2/3">{errors.pin}</p>
+        <p className="text-red-400 text-xs text-left w-4/5 sm:w-2/3">
+          {errors.pin}
+        </p>
       )}
       <button
-        className="text-gray-100 bg-red-700 hover:bg-red-800 px-4 py-2 my-4 rounded-md"
+        className="text-gray-100 bg-red-700 hover:bg-red-800 w-4/5 sm:w-2/3 flex justify-center py-1.5 sm:py-2 my-4 rounded-md"
         onClick={handleSubmit}
       >
         <span className="flex flex-row items-center justify-between gap-x-3">

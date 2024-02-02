@@ -118,9 +118,13 @@ const DonorInformationModal = ({ handleNextModal }) => {
 
   return (
     <>
-      <p className="text-4xl font-montserrat px-8">Donor Information</p>
-      <p className="font-raleway text-xl my-4">Why we need this?</p>
-      <p className="font-raleway text-xl my-4">
+      <p className="text-2xl sm:text-4xl font-montserrat px-8">
+        Donor Information
+      </p>
+      <p className="font-raleway text-md sm:text-xl my-4 hidden md:flex">
+        Why we need this?
+      </p>
+      <p className="font-raleway text-md sm:text-xl my-4">
         You have taken a step towards making a significant difference!
       </p>
 
@@ -131,14 +135,14 @@ const DonorInformationModal = ({ handleNextModal }) => {
         onChange={(e) => setName(e.target.value)}
         onFocus={handleFocus}
         className={classNames(
-          "bg-gray-100 border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2",
+          "bg-gray-100 border border-gray-400 rounded-lg text-sm sm:text-lg w-4/5 sm:w-2/3 my-2 px-4 py-1.5 sm:py-2",
           errors.fullName && "border-red-400"
         )}
         placeholder="Full Name"
         disabled
       />
       {errors.fullName && (
-        <p className="text-red-400 text-xs text-left w-2/3">
+        <p className="text-red-400 text-xs text-left w-4/5 sm:w-2/3">
           {errors.fullName}
         </p>
       )}
@@ -150,14 +154,16 @@ const DonorInformationModal = ({ handleNextModal }) => {
         onFocus={handleFocus}
         onChange={(e) => setEmail(e.target.value)}
         className={classNames(
-          "bg-gray-100 border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2",
+          "bg-gray-100 border border-gray-400 rounded-lg text-sm sm:text-lg w-4/5 sm:w-2/3 my-2 px-4 py-1.5 sm:py-2",
           errors.email && "border-red-400"
         )}
         placeholder="Email ID"
         disabled
       />
       {errors.email && (
-        <p className="text-red-400 text-xs text-left w-2/3">{errors.email}</p>
+        <p className="text-red-400 text-xs text-left w-4/5 sm:w-2/3">
+          {errors.email}
+        </p>
       )}
 
       <input
@@ -167,13 +173,15 @@ const DonorInformationModal = ({ handleNextModal }) => {
         onFocus={handleFocus}
         onChange={(e) => setMobile(e.target.value)}
         className={classNames(
-          "border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2",
+          "border border-gray-400 rounded-lg text-sm sm:text-lg w-4/5 sm:w-2/3 my-2 px-4 py-1.5 sm:py-2",
           errors.mobile && "border-red-400"
         )}
         placeholder="Mobile"
       />
       {errors.mobile && (
-        <p className="text-red-400 text-xs text-left w-2/3">{errors.mobile}</p>
+        <p className="text-red-400 text-xs text-left w-4/5 sm:w-2/3">
+          {errors.mobile}
+        </p>
       )}
 
       <input
@@ -183,24 +191,26 @@ const DonorInformationModal = ({ handleNextModal }) => {
         onFocus={handleFocus}
         onChange={(e) => setPan(e.target.value)}
         className={classNames(
-          "border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2",
+          "border border-gray-400 rounded-lg text-sm sm:text-lg w-4/5 sm:w-2/3 my-2 px-4 py-1.5 sm:py-2",
           errors.pan && "border-red-400"
         )}
         placeholder="PAN"
       />
       {errors.pan && (
-        <p className="text-red-400 text-xs text-left w-2/3">{errors.pan}</p>
+        <p className="text-red-400 text-xs text-left w-4/5 sm:w-2/3">
+          {errors.pan}
+        </p>
       )}
 
       <input
         type="text"
         value={aadhaar}
         onChange={(e) => setAadhaar(e.target.value)}
-        className="border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2"
+        className="border border-gray-400 rounded-lg text-sm sm:text-lg w-4/5 sm:w-2/3 my-2 px-4 py-1.5 sm:py-2"
         placeholder="Aadhaar ID"
       />
       <button
-        className="text-gray-100 bg-red-700 hover:bg-red-800 px-6 py-2 my-4 rounded-md"
+        className="text-gray-100 text-md sm:text-lg bg-red-700 hover:bg-red-800 w-4/5 sm:w-2/3 flex justify-center py-1 sm:py-2 my-4 rounded-md"
         onClick={handleSubmit}
       >
         <span className="flex flex-row items-center justify-between gap-x-3">

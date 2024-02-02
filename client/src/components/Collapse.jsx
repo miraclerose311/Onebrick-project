@@ -17,7 +17,7 @@ const Collapse = ({
   return (
     <div id={id} className="bg-white w-full px-6 py-4 flex-col rounded-lg">
       <div
-        className={`flex justify-between items-center text-xl ${classsOfQuestion}`}
+        className={`flex justify-between items-center text-sm md:text-lg lg:text-xl ${classsOfQuestion}`}
       >
         <EditableParagraph
           name={QuestionName}

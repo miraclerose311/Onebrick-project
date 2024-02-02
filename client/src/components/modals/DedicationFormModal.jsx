@@ -81,7 +81,9 @@ const DedicationFormModal = ({ handleNextModal, brick_id }) => {
 
   return (
     <>
-      <p className="text-4xl font-montserrat px-8">Just one more step!</p>
+      <p className="text-2xl sm:text-4xl font-montserrat px-8">
+        Just one more step!
+      </p>
       <p className="font-raleway text-xl my-4">Why we need this?</p>
       {/* <p className="font-raleway text-xl my-4">
         You have taken a step towards making a significant difference!
@@ -90,25 +92,27 @@ const DedicationFormModal = ({ handleNextModal, brick_id }) => {
         value={name}
         onChange={(e) => setName(e.target.value)}
         className={classNames(
-          "border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2",
+          "border border-gray-400 rounded-lg w-4/5 sm:w-2/3 my-2 px-4 py-1.5 sm:py-2",
           errors.name && "border-red-400"
         )}
         placeholder="I dedicate this brick to(name)"
       />
       {errors.name && (
-        <p className="text-red-400 text-xs text-left w-2/3">{errors.name}</p>
+        <p className="text-red-400 text-xs text-left w-4/5 sm:w-2/3">
+          {errors.name}
+        </p>
       )}
       <input
         value={relationship}
         onChange={(e) => setRelationship(e.target.value)}
         className={classNames(
-          "border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2",
+          "border border-gray-400 rounded-lg w-4/5 sm:w-2/3 my-2 px-4 py-1.5 sm:py-2",
           errors.relationship && "border-red-400"
         )}
         placeholder="who is my"
       />
       {errors.relationship && (
-        <p className="text-red-400 text-xs text-left w-2/3">
+        <p className="text-red-400 text-xs text-left w-4/5 sm:w-2/3">
           {errors.relationship}
         </p>
       )}
@@ -116,19 +120,21 @@ const DedicationFormModal = ({ handleNextModal, brick_id }) => {
         value={message}
         onChange={(e) => setMessage(e.target.value)}
         className={classNames(
-          "border border-gray-400 rounded-lg w-2/3 my-2 px-4 py-2 h-24",
+          "border border-gray-400 rounded-lg w-4/5 sm:w-2/3 my-2 px-4 py-1.5 sm:py-2 h-24",
           errors.message && "border-red-400"
         )}
         placeholder="Dedication Message"
       />
       {errors.message && (
-        <p className="text-red-400 text-xs text-left w-2/3">{errors.message}</p>
+        <p className="text-red-400 text-xs text-left w-4/5 sm:w-2/3">
+          {errors.message}
+        </p>
       )}
-      <div className="border border-gray-400 w-2/3 rounded-lg my-2 px-4 py-2 flex justify-center items-center">
+      <div className="border border-gray-400 w-4/5 sm:w-2/3 rounded-lg my-2 px-4 py-2 flex justify-center items-center">
         <AvatarUpload previewFile={filePath} onFileSelect={handleSelect} />
       </div>
       <button
-        className="text-gray-100 bg-red-700 hover:bg-red-800 px-4 py-2 my-4 rounded-md"
+        className="text-gray-100 bg-red-700 hover:bg-red-800 w-4/5 sm:w-2/3 flex justify-center py-2 my-4 rounded-md"
         onClick={handleSubmit}
       >
         <span className="flex flex-row items-center justify-between gap-x-3">
