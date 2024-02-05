@@ -1,10 +1,10 @@
 import api from "../utils/api";
-import { clearLoading, setLoading } from "../features/loadingSlice";
+// import { clearLoading, setLoading } from "../features/loadingSlice";
 import { setSupportWords } from "../features/supportSlice";
 import { setAlert } from "../features/alertSlice";
 
 export const insertWord = (data) => async (dispatch) => {
-  dispatch(setLoading());
+  // dispatch(setLoading());
   try {
     await api.post("/supportWord/insert", data);
     dispatch(
@@ -21,11 +21,11 @@ export const insertWord = (data) => async (dispatch) => {
       })
     );
   }
-  dispatch(clearLoading());
+  // dispatch(clearLoading());
 };
 
 export const getWords = () => async (dispatch) => {
-  dispatch(setLoading());
+  // dispatch(setLoading());
   try {
     // Make the API call and await for the resolved promise
     const res = await api.get("/supportWord/get");
@@ -36,6 +36,6 @@ export const getWords = () => async (dispatch) => {
     alert(error);
   } finally {
     // Clear the loading state whether the API call was successful or not
-    dispatch(clearLoading());
+    // dispatch(clearLoading());
   }
 };

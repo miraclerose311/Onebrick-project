@@ -68,17 +68,17 @@ export const buyBrick = (brickData) => async (dispatch) => {
 
 export const getBrickSoldAmount = () => async (dispatch) => {
 	try {
-		dispatch(setLoading());
-		await api
-			.get("/brick/sold-amount")
-			.then((res) => {
-				dispatch(setSoldBrickAmount(res.data));
-				dispatch(clearLoading());
-			})
-			.catch((err) => {
-				console.log(err);
-			});
-	} catch (e) {
+    // dispatch(setLoading());
+    await api
+      .get("/brick/sold-amount")
+      .then((res) => {
+        dispatch(setSoldBrickAmount(res.data));
+        // dispatch(clearLoading());
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  } catch (e) {
 		console.log(e);
 	}
 };

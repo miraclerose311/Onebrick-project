@@ -34,7 +34,9 @@ const BrickContainer = ({
   const scaleUp = true;
 
   const { bricks } = useSelector((state) => state.brick);
-
+  useEffect(() => {
+    console.log("BrickContainer");
+  }, []);
   useEffect(() => {
     if (bricks.length !== 0) {
       const image = new Image();

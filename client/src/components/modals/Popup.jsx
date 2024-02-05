@@ -10,8 +10,10 @@ import { getWords } from "../../actions/support";
 import { HiChevronLeft } from "react-icons/hi";
 import { HiChevronRight } from "react-icons/hi";
 
-const Popup = ({ hideModal, setDonorName }) => {
+const Popup = ({ hideModal, setDonorName, setIsWordsofSupportModalOpen }) => {
   const modalRef = useRef();
+  const dispatch = useDispatch();
+
   const [currentPage, setCurrentPage] = useState(1);
   const { currentDonors } = useSelector((state) => state.donor);
   const { supportWords } = useSelector((state) => state.support);
@@ -20,13 +22,15 @@ const Popup = ({ hideModal, setDonorName }) => {
   const totalPages = Math.ceil(currentDonors.length / limit);
   const startPoint = (currentPage - 1) * limit;
 
-  const dispatch = useDispatch();
-
   useEffect(() => {
     if (modalRef.current) {
       modalRef.current.scrollTo({ top: 300, behavior: "smooth" });
     }
   }, []);
+
+  useEffect(() => {
+    console.log("supportWords", supportWords);
+  }, [supportWords]);
 
   useEffect(() => {
     dispatch(getCurrentDonors());
@@ -123,11 +127,14 @@ const Popup = ({ hideModal, setDonorName }) => {
             <p className="text-left text-xl sm:text-2xl md:text-3xl lg:text-4xl">
               Words of Supports({supportWords.length})
             </p>
-            <p className="text-left text-md lg:text-xl xl:text-2xl text-gray-700">
-              Please login to share words of support.
-            </p>
+            <button
+              onClick={setIsWordsofSupportModalOpen}
+              className="py-1 md:py-2 px-12 mt-3 rounded-lg border-2 border-sky-700 hover:bg-sky-800 hover:text-white font-montserrat text-center"
+            >
+              ADD WORDS OF SUPPORT
+            </button>
           </div>
-          {supportWords &&
+          {Array.isArray(supportWords) &&
             supportWords.map((item, index) => {
               return <SupportWord key={index} message={item.message} />;
             })}

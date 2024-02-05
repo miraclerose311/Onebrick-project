@@ -33,12 +33,6 @@ const Buybrick = () => {
 
   const { isAuthenticated, token } = useSelector((state) => state.auth);
 
-  // Initialize bircks states
-  useEffect(() => {
-    dispatch(getBricks());
-    dispatch(getBrickSoldAmount());
-  }, [dispatch]);
-
   // Initialize userId
   const [userId, setUserId] = useState(null);
   useEffect(() => {
@@ -49,6 +43,12 @@ const Buybrick = () => {
       setUserId(null);
     }
   }, [token, dispatch]);
+
+  // Initialize bircks states
+  useEffect(() => {
+    dispatch(getBricks());
+    dispatch(getBrickSoldAmount());
+  }, [dispatch]);
 
   // Fetch brick states
   const { bricks } = useSelector((state) => state.brick);
@@ -522,7 +522,13 @@ const Buybrick = () => {
         handleMouseOut={handleMouseOut}
       />
       {isPopupOpen && (
-        <Popup hideModal={handleClosePopup} setDonorName={handleSetSearch} />
+        <Popup
+          hideModal={handleClosePopup}
+          setDonorName={handleSetSearch}
+          setIsWordsofSupportModalOpen={() =>
+            setIsWordsofSupportModalOpen(true)
+          }
+        />
       )}
       {isWordsofSupportModalOpen && (
         <WordsofSupportsModal

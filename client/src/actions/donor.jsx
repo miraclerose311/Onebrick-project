@@ -33,34 +33,34 @@ export const insertDonor = (donorData) => async (dispatch) => {
 };
 
 export const getDonor = (user) => async (dispatch) => {
-  dispatch(setLoading());
+  // dispatch(setLoading());
   await api
     .post("/donor/get-donor", user)
     .then((res) => {
       dispatch(setDonorInfo(res.data));
-      dispatch(clearLoading());
+      // dispatch(clearLoading());
     })
     .catch((e) => console.log(e));
 };
 
 export const getCurrentDonors = () => async (dispatch) => {
-  dispatch(setLoading());
+  // dispatch(setLoading());
   await api
     .get("/donor/current-donors")
     .then((res) => {
       dispatch(setCurrentDonors(res.data));
     })
     .catch((e) => console.log(e));
-  dispatch(clearLoading());
+  // dispatch(clearLoading());
 };
 
 export const getDonorAmount = () => async (dispatch) => {
-  dispatch(setLoading());
+  // dispatch(setLoading());
   await api
     .get("/donor/donorcount")
     .then((res) => {
       dispatch(setDonorAmount(res.data));
-      dispatch(clearLoading());
+      // dispatch(clearLoading());
     })
     .catch((err) => {
       console.log(err);

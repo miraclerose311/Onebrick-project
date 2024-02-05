@@ -1,7 +1,8 @@
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { insertWord } from "../../actions/support";
 import { setAlert } from "../../features/alertSlice";
+import { jwtDecode } from "jwt-decode";
 import PropTypes from "prop-types";
 
 import { IoClose } from "react-icons/io5";
@@ -9,13 +10,26 @@ import { IoClose } from "react-icons/io5";
 import WordsofSupportModalImg from "../../assets/img/WallofHope/words_modal.png";
 
 const WordsofSupportsModal = ({ hideModal }) => {
+  const [userId, setUserId] = useState(null);
   const [message, setMessage] = useState("");
+  const { token } = useSelector((state) => state.auth);
+
+  // Initialize userId
+  useEffect(() => {
+    if (token) {
+      const { id } = jwtDecode(token);
+      setUserId(id);
+    } else {
+      setUserId(null);
+    }
+  }, [token, dispatch]);
 
   const dispatch = useDispatch();
   const handleSubmit = () => {
     if (message) {
       const supportWordData = {
         message,
+        user: userId,
       };
       dispatch(insertWord(supportWordData));
       setMessage("");
