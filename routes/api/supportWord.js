@@ -18,8 +18,10 @@ router.get("/get", async (req, res) => {
 
 router.post("/insert", async (req, res) => {
 	const reqData = req.body;
+	const inputData = { ...req.body, date: Date() };
+	console.log(inputData);
 	try {
-		const insertedResult = await SupportWard.collection.insertOne(reqData);
+		const insertedResult = await SupportWard.collection.insertOne(inputData);
 		const insertedId = insertedResult.insertedId;
 		const supportedWard = await SupportWard.findById(insertedId).populate(
 			"user"

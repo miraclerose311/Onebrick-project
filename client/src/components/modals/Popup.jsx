@@ -53,7 +53,7 @@ const Popup = ({ hideModal, setDonorName, setIsWordsofSupportModalOpen }) => {
 				setError("");
 			}
 			setTimeout(() => {
-				setError("Please sing in first. ");
+				setError("Please sign in first. ");
 			}, 100);
 		}
 	};
@@ -145,7 +145,7 @@ const Popup = ({ hideModal, setDonorName, setIsWordsofSupportModalOpen }) => {
 					<hr className='my-4 border border-gray-800/10' />
 					<div className='flex flex-col items-start gap-3 pt-8'>
 						<p className='text-left text-xl sm:text-2xl md:text-3xl lg:text-4xl'>
-							Words of Supports&nbsp;
+							Words of Support{supportWords.length > 1 && "s"}&nbsp;
 							{supportWords.length > 0 && `(${supportWords.length})`}
 						</p>
 						<button

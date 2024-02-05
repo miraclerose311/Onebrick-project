@@ -21,6 +21,7 @@ const Header = ({
 	clearFilter,
 	setIsShareModalOpen,
 	onChangeSearchInput,
+	setBuybrickModalInCenter,
 	setIsWordsofSupportModalOpen,
 }) => {
 	const dispatch = useDispatch();
@@ -46,7 +47,7 @@ const Header = ({
 	const handleLogout = () => {
 		// dispatch(clearAmount());
 		dispatch(logout());
-		clearFilter();
+		clearFilter([]);
 		const successAlert = {
 			alertType: "success",
 			content: "Successfully signed out",
@@ -58,12 +59,16 @@ const Header = ({
 		navigate("/login");
 	};
 
+	const handleBuyBrickInCenter = () => {
+		setBuybrickModalInCenter();
+	};
+
 	const classNames = (...classes) => {
 		return classes.filter(Boolean).join(" ");
 	};
 
 	return (
-		<div className='w-full flex justify-center md:justify-between sm:px-12 h-auto sm:h-12 items-center'>
+		<div className='w-full flex justify-center md:justify-between sm:px-12 h-auto sm:h-12 items-center py-2'>
 			<div className='gap-4 hidden md:flex items-center'>
 				<Link
 					to='/'
@@ -80,15 +85,17 @@ const Header = ({
 				</p>
 			</div>
 			<div className='md:gap-3 flex flex-wrap justify-around md:px-6 mr-0 itmes-center'>
-				<span
-					className='w-12 h-12 rounded-full flex justify-center items-center p-2 cursor-pointer'
-					onClick={() => setIsWordsofSupportModalOpen(true)}
-				>
-					<img
-						src={SupportWordIcon}
-						className='rounded-full flex justify-center items-center cursor-pointer'
-					/>
-				</span>
+				{isAuthenticated && (
+					<span
+						className='w-12 h-12 rounded-full flex justify-center items-center p-2 cursor-pointer'
+						onClick={() => setIsWordsofSupportModalOpen(true)}
+					>
+						<img
+							src={SupportWordIcon}
+							className='rounded-full flex justify-center items-center cursor-pointer'
+						/>
+					</span>
+				)}
 				<span
 					className='w-12 h-12 rounded-full flex justify-center items-center p-2 cursor-pointer'
 					onClick={() => setIsShareModalOpen(true)}
@@ -244,12 +251,12 @@ const Header = ({
 					</Transition>
 				</Menu>
 				<Link
-					to='/buybrick'
-					className='bg-red-700 rounded-md font-medium text-white hover:bg-red-800  w-40 md:w-48 xl:w-56 h-10 text-center lg:text-lg items-center justify-center ml-4 sm:my-1 py-1 hidden lg:flex'
+					onClick={handleBuyBrickInCenter}
+					className='bg-red-700 rounded-md font-medium text-white hover:bg-red-800  w-40 md:w-48 xl:w-56 h-10 text-center lg:text-lg flex items-center justify-center ml-4 sm:my-1 py-1'
 				>
 					DONATE A BRICK
 				</Link>
-				<div className='flex items-center mx-4'>
+				<div className='items-center mx-4 hidden lg:flex'>
 					<input
 						type='search'
 						className='border border-gray-400 rounded-full w-40 md:w-48 xl:w-56 px-4 py-1 lg:py-2 bg-white outline-none focus-visible:border-sky-700'
@@ -263,10 +270,11 @@ const Header = ({
 };
 
 Header.propTypes = {
-  setIsShareModalOpen: PropTypes.func.isRequired,
-  onChangeSearchInput: PropTypes.func.isRequired,
-  setIsWordsofSupportModalOpen: PropTypes.func.isRequired,
-  clearFilter: PropTypes.func.isRequired,
+	setIsShareModalOpen: PropTypes.func.isRequired,
+	onChangeSearchInput: PropTypes.func.isRequired,
+	setIsWordsofSupportModalOpen: PropTypes.func.isRequired,
+	setBuybrickModalInCenter: PropTypes.func.isRequired,
+	clearFilter: PropTypes.func.isRequired,
 };
 
 const MemoizedHeader = memo(Header);

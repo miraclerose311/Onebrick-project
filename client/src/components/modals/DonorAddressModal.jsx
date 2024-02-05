@@ -65,11 +65,11 @@ const DonorAddressModal = ({ handleBuyBrick }) => {
     // if (!pin.trim()) {
     //   newErrors.pin = "PIN is required";
     // } else
-    if (pin.trim()) {
-      if (!isValidPin(pin)) {
-        newErrors.pin = "Please enter a valid PIN number";
-      }
-    }
+    if (pin) {
+			if (!isValidPin(pin)) {
+				newErrors.pin = "Please enter a valid PIN number";
+			}
+		}
 
     setErrors(newErrors);
 
