@@ -108,29 +108,29 @@ const Home = () => {
 
   const sendFileData = async (imageData) => {
     try {
-      if (Object.keys(imageData).length === 0) {
-        console.log("No imageData to send");
-        return;
-      }
-      const response = await axios.post(
-        `${base_URL}/api/upload/image`,
-        JSON.stringify({ imageData }),
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      console.log("Image uploaded", response.data);
-      setImageSrc((prevImgSrc) => ({
-        ...prevImgSrc,
-        [Object.keys(imageData)]: Object.values(imageData),
-      }));
-      setUploadImageLoading(false);
-      setCurrentLoadingComponent("");
-    } catch (error) {
-      console.error("Image upload failed", error.response || error.message);
-    }
+			if (Object.keys(imageData).length === 0) {
+				console.log("No imageData to send");
+				return;
+			}
+			await axios.post(
+				`${base_URL}/api/upload/image`,
+				JSON.stringify({ imageData }),
+				{
+					headers: {
+						"Content-Type": "application/json",
+					},
+				}
+			);
+
+			setImageSrc((prevImgSrc) => ({
+				...prevImgSrc,
+				[Object.keys(imageData)]: Object.values(imageData),
+			}));
+			setUploadImageLoading(false);
+			setCurrentLoadingComponent("");
+		} catch (error) {
+			console.error("Image upload failed", error.response || error.message);
+		}
   };
 
   const handleFileChange = async (file, fileName) => {

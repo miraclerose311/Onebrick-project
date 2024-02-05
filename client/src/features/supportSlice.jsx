@@ -13,9 +13,14 @@ export const supportSlice = createSlice({
 				state.supportWords = action.payload;
 			}
 		},
+		setSupportWord: (state, action) => {
+			if (action.payload) {
+				state.supportWords.push(action.payload);
+			}
+		},
 	},
 });
 
-export const { setSupportWords } = supportSlice.actions;
+export const { setSupportWords, setSupportWord } = supportSlice.actions;
 
 export default supportSlice.reducer;

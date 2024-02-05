@@ -460,86 +460,86 @@ const Buybrick = () => {
   // }, []);
 
   return (
-    <div className="text-center items-center h-screen min-w-[500px] bg-white w-full flex itmes-center sm:justify-center">
-      <MemoizedHeader
-        clearFilter={handleSetFiltered}
-        onChangeSearchInput={onChangeSearchInput}
-        setIsShareModalOpen={handleSetShareModalOpen}
-        setIsWordsofSupportModalOpen={handleSetWordsofSupportModalOpen}
-      />
-      {isSlideModalOpen && (
-        <SlideModalContainer
-          isSlideModalOpen={isSlideModalOpen}
-          modalContent={modalContent}
-          setIsSlideModalOpen={handleSetSlideModalOpen}
-          handleCloseModal={handleCloseModal}
-          handlePreviousModal={handlePreviousModal}
-          handleNextModal={handleNextModal}
-          handleBuyBrick={handleBuyBrick}
-          dedicationBrickId={clickedIndex ? bricks[clickedIndex].brick_id : ""}
-          handleConfirm={handleConfirm}
-          handleSkipDedication={handleSkipDedication}
-          clickedIndex={clickedIndex}
-          filtered={filtered}
-        />
-      )}
-      {isBuyBrickModalOpen && (
-        <MemorizedBuybrickModal
-          modalPosition={modalPosition}
-          clickedIndex={bricks[clickedIndex].brick_id}
-          handleBuyBrickButtonClick={handleBuyBrickButtonClick}
-          hideModal={() => handleSetIsBuyBrickModalOpen(false)}
-        />
-      )}
-      {isBrickInfoModalOpen && (
-        <BrickInformationModal
-          userId={userId}
-          brickInfo={hovered}
-          modalPosition={modalPosition}
-          handleDedicate={handleDedicate}
-        />
-      )}
-      {isSoldModalOpen && (
-        <SoldModal
-          // brick_id={bricks[clickedIndex].brick_id}
-          clickedIndex={parseInt(clickedIndex)}
-          modalPosition={modalPosition}
-          filtered={filtered}
-          hideModal={() => handleSetIsSoldModalOpen(false)}
-        />
-      )}
-      <MemorizedBrickContainer
-        stage={hiddenHeight}
-        clickedIndex={clickedIndex}
-        filtered={filtered}
-        hovered={hovered}
-        isSoldModalOpen={isSoldModalOpen}
-        setIsPopupOpen={handleSetIsPopupOpen}
-        handleBrickClick={handleBrickClick}
-        handleRightClick={handleRightClick}
-        handlePanClick={handlePanClick}
-        handleMouseOver={handleMouseOver}
-        handleMouseOut={handleMouseOut}
-      />
-      {isPopupOpen && (
-        <Popup
-          hideModal={handleClosePopup}
-          setDonorName={handleSetSearch}
-          setIsWordsofSupportModalOpen={() =>
-            setIsWordsofSupportModalOpen(true)
-          }
-        />
-      )}
-      {isWordsofSupportModalOpen && (
-        <WordsofSupportsModal
-          hideModal={() => setIsWordsofSupportModalOpen(false)}
-        />
-      )}
-      {isShareModalOpen && (
-        <SharingModal hideModal={() => setIsShareModalOpen(false)} />
-      )}
-    </div>
-  );
+		<div className='text-center items-center h-screen bg-white w-full flex flex-col itmes-center sm:justify-center'>
+			<MemoizedHeader
+				clearFilter={handleSetFiltered}
+				onChangeSearchInput={onChangeSearchInput}
+				setIsShareModalOpen={handleSetShareModalOpen}
+				setIsWordsofSupportModalOpen={handleSetWordsofSupportModalOpen}
+			/>
+			<MemorizedBrickContainer
+				stage={hiddenHeight}
+				clickedIndex={clickedIndex}
+				filtered={filtered}
+				hovered={hovered}
+				isSoldModalOpen={isSoldModalOpen}
+				setIsPopupOpen={handleSetIsPopupOpen}
+				handleBrickClick={handleBrickClick}
+				handleRightClick={handleRightClick}
+				handlePanClick={handlePanClick}
+				handleMouseOver={handleMouseOver}
+				handleMouseOut={handleMouseOut}
+			/>
+			{isSlideModalOpen && (
+				<SlideModalContainer
+					isSlideModalOpen={isSlideModalOpen}
+					modalContent={modalContent}
+					setIsSlideModalOpen={handleSetSlideModalOpen}
+					handleCloseModal={handleCloseModal}
+					handlePreviousModal={handlePreviousModal}
+					handleNextModal={handleNextModal}
+					handleBuyBrick={handleBuyBrick}
+					dedicationBrickId={clickedIndex ? bricks[clickedIndex].brick_id : ""}
+					handleConfirm={handleConfirm}
+					handleSkipDedication={handleSkipDedication}
+					clickedIndex={clickedIndex}
+					filtered={filtered}
+				/>
+			)}
+			{isBuyBrickModalOpen && (
+				<MemorizedBuybrickModal
+					modalPosition={modalPosition}
+					clickedIndex={bricks[clickedIndex].brick_id}
+					handleBuyBrickButtonClick={handleBuyBrickButtonClick}
+					hideModal={() => handleSetIsBuyBrickModalOpen(false)}
+				/>
+			)}
+			{isBrickInfoModalOpen && (
+				<BrickInformationModal
+					userId={userId}
+					brickInfo={hovered}
+					modalPosition={modalPosition}
+					handleDedicate={handleDedicate}
+				/>
+			)}
+			{isSoldModalOpen && (
+				<SoldModal
+					// brick_id={bricks[clickedIndex].brick_id}
+					clickedIndex={parseInt(clickedIndex)}
+					modalPosition={modalPosition}
+					filtered={filtered}
+					hideModal={() => handleSetIsSoldModalOpen(false)}
+				/>
+			)}
+			{isPopupOpen && (
+				<Popup
+					hideModal={handleClosePopup}
+					setDonorName={handleSetSearch}
+					setIsWordsofSupportModalOpen={() =>
+						setIsWordsofSupportModalOpen(true)
+					}
+				/>
+			)}
+			{isWordsofSupportModalOpen && (
+				<WordsofSupportsModal
+					hideModal={() => setIsWordsofSupportModalOpen(false)}
+				/>
+			)}
+			{isShareModalOpen && (
+				<SharingModal hideModal={() => setIsShareModalOpen(false)} />
+			)}
+		</div>
+	);
 };
 
 export default Buybrick;

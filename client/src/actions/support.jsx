@@ -1,27 +1,28 @@
 import api from "../utils/api";
 // import { clearLoading, setLoading } from "../features/loadingSlice";
-import { setSupportWords } from "../features/supportSlice";
+import { setSupportWords, setSupportWord } from "../features/supportSlice";
 import { setAlert } from "../features/alertSlice";
 
 export const insertWord = (data) => async (dispatch) => {
-  // dispatch(setLoading());
-  try {
-    await api.post("/supportWord/insert", data);
-    dispatch(
-      setAlert({
-        alertType: "success",
-        content: "Support word inserted successfuly.",
-      })
-    );
-  } catch (e) {
-    dispatch(
-      setAlert({
-        alertType: "error",
-        content: "Failed to insert support word.", // Display an error message
-      })
-    );
-  }
-  // dispatch(clearLoading());
+	// dispatch(setLoading());
+	try {
+		const res = await api.post("/supportWord/insert", data);
+		dispatch(setSupportWord(res.data));
+		dispatch(
+			setAlert({
+				alertType: "success",
+				content: "Support word inserted successfuly.",
+			})
+		);
+	} catch (e) {
+		dispatch(
+			setAlert({
+				alertType: "error",
+				content: "Failed to insert support word.", // Display an error message
+			})
+		);
+	}
+	// dispatch(clearLoading());
 };
 
 export const getWords = () => async (dispatch) => {

@@ -34,9 +34,7 @@ const BrickContainer = ({
   const scaleUp = true;
 
   const { bricks } = useSelector((state) => state.brick);
-  useEffect(() => {
-    console.log("BrickContainer");
-  }, []);
+
   useEffect(() => {
     if (bricks.length !== 0) {
       const image = new Image();
@@ -144,60 +142,63 @@ const BrickContainer = ({
   };
 
   return (
-    <div
-      className="w-full h-full bg-white flex justify-center items-center relative"
-      ref={containerRef}
-      onClick={handlePanClick}
-      onContextMenu={handleRightClick}
-    >
-      {imageScale > 0 && (
-        <TransformWrapper
-          key={`${imageNaturalWidth}x${imageNaturalHeight}`}
-          initialScale={imageScale}
-          minScale={imageScale}
-          maxScale={zoomFactor * imageScale}
-          centerOnInit
-          wheel={{ smoothStep: 0.003 }}
-        >
-          <TransformComponent
-            wrapperStyle={{
-              width: "100%",
-              height: "100%",
-            }}
-          >
-            <WrapperTransformComponent
-              imageScale={imageScale}
-              setIsPopupOpen={setIsPopupOpen}
-            >
-              <div className="relative w-full h-full">
-                <div
-                  id="pan"
-                  onMouseOver={handleMouseOver}
-                  className={`absolute w-full ${stage} top-0 left-0 bg-gradient-to-b z-50`}
-                >
-                  <img src={GrayImg} className="w-full h-full" />
-                </div>
+		<div
+			className='w-full h-[90vh] bg-white flex justify-center items-center relative'
+			ref={containerRef}
+			onClick={handlePanClick}
+			onContextMenu={handleRightClick}
+		>
+			{imageScale > 0 && (
+				<TransformWrapper
+					key={`${imageNaturalWidth}x${imageNaturalHeight}`}
+					initialScale={imageScale}
+					minScale={imageScale}
+					maxScale={zoomFactor * imageScale}
+					centerOnInit
+					wheel={{ smoothStep: 0.003 }}
+				>
+					<TransformComponent
+						wrapperStyle={{
+							width: "100%",
+							height: "100%",
+						}}
+					>
+						<WrapperTransformComponent
+							imageScale={imageScale}
+							setIsPopupOpen={setIsPopupOpen}
+						>
+							<div className='relative w-full h-full'>
+								<div
+									id='pan'
+									onMouseOver={handleMouseOver}
+									className={`absolute w-full ${stage} top-0 left-0 bg-gradient-to-b z-50`}
+								>
+									<img
+										src={GrayImg}
+										className='w-full h-full'
+									/>
+								</div>
 
-                <div className="absolute top-0 left-0 w-full h-full flex flex-col">
-                  {bricks.length !== 0 && renderBricks()}
-                </div>
-                <img
-                  src={bgImg}
-                  className="absoulte top-0 left-0 max-w-none"
-                  // " object-cover xs:w-[2000px] xs:h-[6400px] sm:w-[2500px] sm:h-[5120px] md:w-[2560px] md:h-[5000px] lg:w-[3200px] lg:h-[4000px] xl:w-[4000px] xl:h-[3200px]
-                  // className="w-[5000px] h-[2560px]"
-                  style={{
-                    width: `5000px`, //250
-                    height: `2560px`, //128
-                  }}
-                />
-              </div>
-            </WrapperTransformComponent>
-          </TransformComponent>
-        </TransformWrapper>
-      )}
-    </div>
-  );
+								<div className='absolute top-0 left-0 w-full h-full flex flex-col'>
+									{bricks.length !== 0 && renderBricks()}
+								</div>
+								<img
+									src={bgImg}
+									className='absoulte top-0 left-0 max-w-none'
+									// " object-cover xs:w-[2000px] xs:h-[6400px] sm:w-[2500px] sm:h-[5120px] md:w-[2560px] md:h-[5000px] lg:w-[3200px] lg:h-[4000px] xl:w-[4000px] xl:h-[3200px]
+									// className="w-[5000px] h-[2560px]"
+									style={{
+										width: `5000px`, //250
+										height: `2560px`, //128
+									}}
+								/>
+							</div>
+						</WrapperTransformComponent>
+					</TransformComponent>
+				</TransformWrapper>
+			)}
+		</div>
+	);
 };
 
 BrickContainer.propTypes = {

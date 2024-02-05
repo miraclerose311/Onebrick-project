@@ -55,16 +55,15 @@ const About = () => {
         console.log("No imageData to send");
         return;
       }
-      const response = await axios.post(
-        `${base_URL}/api/upload/image`,
-        JSON.stringify({ imageData }),
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      console.log("Image uploaded", response.data);
+      await axios.post(
+				`${base_URL}/api/upload/image`,
+				JSON.stringify({ imageData }),
+				{
+					headers: {
+						"Content-Type": "application/json",
+					},
+				}
+			);
       setImageSrc((prevImgSrc) => ({
         ...prevImgSrc,
         [Object.keys(imageData)]: Object.values(imageData),
