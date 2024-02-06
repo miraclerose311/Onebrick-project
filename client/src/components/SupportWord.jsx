@@ -26,26 +26,23 @@ const SupportWord = ({ item }) => {
 		}
 	};
 	return (
-		<div className='flex flex-col py-4 xl:py-6'>
-			<div className='flex items-start gap-6'>
-				<img
-					src={item.user.picture}
-					className='w-12 h-12 rounded-full mt-1'
-				/>
-				<div className='flex flex-col items-start'>
-					<p className='text-lg lg:text-xl font-medium font-raleway'>
-						{item.user.fullName}
-					</p>
-					<p className='text-gray-600 font-bold font-montserrat'>
-						{getTimeDelta(item.date)}
-					</p>
-					<p className='text-xl lg:text-2xl font-normal font-raleway mt-2'>
-						{item.message}
-					</p>
-				</div>
-			</div>
-		</div>
-	);
+    <div className="flex flex-col py-4 xl:py-6">
+      <div className="flex items-start gap-6">
+        <img src={item.user.picture} className="w-12 h-12 rounded-full mt-1" />
+        <div className="flex flex-col items-start">
+          <p className="text-lg lg:text-xl font-medium font-raleway">
+            {item.user.fullName}
+          </p>
+          <p className="text-gray-600 font-bold font-montserrat">
+            {getTimeDelta(item.date)}
+          </p>
+          <p className="text-xl lg:text-2xl font-normal font-raleway mt-2 text-left">
+            {item.message}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 SupportWord.propTypes = {

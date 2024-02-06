@@ -134,6 +134,7 @@ const getRandomBrickId = async (amount, stage) => {
 
 router.post("/buy", async (req, res) => {
   const { brick_id, user, amount, stage } = req.body;
+  console.log(brick_id);
   // Error handling with try-catch
   try {
     const donor = await Donor.findOne({ user: user });

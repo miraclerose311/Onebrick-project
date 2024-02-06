@@ -7,7 +7,7 @@ const ProgressBar1 = ({ height }) => {
   return (
     <div className="flex flex-col gap-1 items-center leading-4 z-10">
       <div className="w-full text-center">
-        $ {(sold * 0.1).toFixed(1)} lakhs raised of $ 32 crore goal
+        ₹ {(sold * 0.1).toFixed(1)} lakhs raised of ₹ 32 crore goal
       </div>
       <div className={`w-full bg-gray-300 h-${height}`}>
         <div
@@ -15,7 +15,7 @@ const ProgressBar1 = ({ height }) => {
           style={{ width: `${(sold / 32000) * 100}%` }}
         ></div>
       </div>
-      <p className="w-full text-center">{sold} donatoins</p>
+      <p className="w-full text-center">{sold} donations</p>
     </div>
   );
 };

@@ -81,10 +81,12 @@ const DedicationFormModal = ({ handleNextModal, brick_id }) => {
 
   return (
     <>
-      <p className="text-2xl sm:text-4xl font-montserrat px-8">
-        Just one more step!
+      <p className="text-lg sm:text-2xl font-montserrat px-8">
+        Dedicate your brick to someone you love!
       </p>
-      <p className="font-raleway text-xl my-4">Why we need this?</p>
+      <p className="font-raleway text-md sm:text-lg my-4">
+        Provide details of the person you would like to dedicate this brick
+      </p>
       {/* <p className="font-raleway text-xl my-4">
         You have taken a step towards making a significant difference!
       </p> */}

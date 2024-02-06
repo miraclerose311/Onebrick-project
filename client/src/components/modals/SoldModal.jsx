@@ -15,7 +15,13 @@ const SoldModal = ({ modalPosition, clickedIndex, hideModal }) => {
   useEffect(() => {
     const modalWidth = 208;
     const modalHeight = 256;
-    if (window.innerWidth > 576) {
+
+    if (modalPosition.x == 0 && modalPosition.y == 0) {
+      setPosition({
+        x: (window.innerWidth - modalWidth) / 2,
+        y: (window.innerHeight - modalWidth) / 2,
+      });
+    } else if (window.innerWidth > 576) {
       setPosition({
         x:
           window.innerWidth - modalPosition.x > modalWidth
