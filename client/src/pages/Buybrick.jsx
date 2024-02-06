@@ -17,7 +17,7 @@ import { clearCurrent } from "../features/brickSlice";
 import BrickInformationModal from "../components/Modals/BrickInformationModal";
 import SoldModal from "../components/Modals/SoldModal";
 import SharingModal from "../components/Modals/SharingModal";
-import Popup from "../components/Modals/Popup";
+import Popup from "../components/modals/Popup";
 import "../Modal.css";
 
 import WordsofSupportsModal from "../components/Modals/WordsofSupportsModal";
@@ -481,9 +481,6 @@ const Buybrick = () => {
   //   return () => window.removeEventListener("resize", handleResize);
   // }, []);
 
-  useEffect(() => {
-    console.log(clickedIndex);
-  }, [clickedIndex]);
 
   return (
     <div className="text-center items-center h-screen bg-white w-full flex flex-col itmes-center sm:justify-center">

@@ -2,6 +2,7 @@ import api from "../utils/api";
 import { login } from "../features/authSlice";
 import { clearLoading, setLoading } from "../features/loadingSlice";
 import { setAlertWithTimeout, setAlert } from "../features/alertSlice";
+import { setUser } from "../features/userSlice";
 
 export const googleRegister = (access_token) => async (dispatch) => {
 	dispatch(setLoading());
@@ -55,11 +56,13 @@ export const googleLogin = (access_token) => async (dispatch) => {
 	dispatch(clearLoading());
 };
 
-export const getUser = (userId) => async () => {
-  await api
-    .post("/users/byId", userId)
-    .then((res) => {
-      return res.data;
-    })
-    .catch((e) => console.log(e));
+export const getUser = (userId) => async (dispatch) => {
+	await api
+		.post("/users/byId", { userId })
+		.then((res) => {
+			// return res.data;
+			dispatch(setUser(res.data));
+			console.log(res.data);
+		})
+		.catch((e) => console.log(e));
 };

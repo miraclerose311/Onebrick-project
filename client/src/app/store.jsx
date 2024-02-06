@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "../features/authSlice";
+import userReducer from "../features/userSlice";
 import brickReducer from "../features/brickSlice";
 import alertSlice from "../features/alertSlice";
 import paymentSlice from "../features/paymentSlice";
@@ -12,6 +13,7 @@ import supportSlice from "../features/supportSlice";
 const store = configureStore({
 	reducer: {
 		auth: authReducer,
+		user: userReducer,
 		brick: brickReducer,
 		alert: alertSlice,
 		payment: paymentSlice,

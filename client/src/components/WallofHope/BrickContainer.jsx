@@ -97,162 +97,115 @@ const BrickContainer = ({
     imageNaturalHeight,
   ]);
   const renderBricks = () => {
-    const colBricks = [];
-    Array.from(Array(128).keys()).map((col) => {
-      const colBrick = (
-        <div key={col} className="flex flex-row w-full">
-          {Array.from(Array(250).keys()).map((row) => {
-            const index = col * 250 + row;
-            return (
-              <button
-                key={index}
-                id={index}
-                className={classNames(
-                  "border-2 border-white rounded-md w-5 h-5 cursor-pointer",
-                  index === clickedIndex && !bricks[index].sold
-                    ? "bg-yellow-400 z-40"
-                    : "bg-gray-100/80 z-10",
-                  !filtered.includes(bricks[index]) &&
-                    bricks[index].sold &&
-                    bricks[index].brick_id !== hovered.brick_id &&
-                    "opacity-0",
-                  !filtered.includes(bricks[index]) &&
-                    bricks[index].sold &&
-                    bricks[index].brick_id === hovered.brick_id &&
-                    "bg-transparent border-red-600",
-                  isSoldModalOpen && clickedIndex == index && "bg-white",
-                  filtered.includes(bricks[index]) &&
-                    "bg-transparent custom-shadow"
-                )}
-                onClick={() => handleBrickClick(index)}
-                // onTouchStart={onTouchStart}
-                // onTouchMove={onTouchMove}
-                // onTouchEnd={onTouchEnd}
-                onMouseOver={handleMouseOver}
-                onMouseOut={handleMouseOut}
-              />
-            );
-          })}
-        </div>
-      );
-      colBricks.push(colBrick);
-    });
-    return colBricks;
-  };
+		const colBricks = [];
+		Array.from(Array(128).keys()).map((col) => {
+			const colBrick = (
+				<div
+					key={col}
+					className='flex flex-row w-full'
+				>
+					{Array.from(Array(250).keys()).map((row) => {
+						const index = col * 250 + row;
+						return (
+							<button
+								key={index}
+								id={index}
+								className={classNames(
+									"border-2 border-white rounded-md w-5 h-5 cursor-pointer",
+									index === clickedIndex && !bricks[index].sold
+										? "bg-yellow-400 z-40"
+										: "bg-gray-100/80 z-10",
+									!filtered.includes(bricks[index]) &&
+										bricks[index].sold &&
+										bricks[index].brick_id !== hovered.brick_id &&
+										"opacity-0",
+									!filtered.includes(bricks[index]) &&
+										bricks[index].sold &&
+										bricks[index].brick_id === hovered.brick_id &&
+										"bg-transparent border-red-600",
+									isSoldModalOpen && clickedIndex == index && "bg-white",
+									filtered.includes(bricks[index]) &&
+										"bg-transparent custom-shadow"
+								)}
+								onClick={() => handleBrickClick(index)}
+								// onTouchStart={onTouchStart}
+								// onTouchMove={onTouchMove}
+								// onTouchEnd={onTouchEnd}
+								onMouseOver={handleMouseOver}
+								onMouseOut={handleMouseOut}
+							/>
+						);
+					})}
+				</div>
+			);
+			colBricks.push(colBrick);
+		});
+		return colBricks;
+	};
 
-  const classNames = (...classes) => {
-    return classes.filter(Boolean).join(" ");
-  };
+	const classNames = (...classes) => {
+		return classes.filter(Boolean).join(" ");
+	};
 
-  // const [touchStartX, setTouchStartX] = useState(null);
-  // const [touchStartY, setTouchStartY] = useState(null);
-  // const [touchEndX, setTouchEndX] = useState(null);
-  // const [touchEndY, setTouchEndY] = useState(null);
+	return (
+		<div
+			className='w-full h-[90vh] bg-white flex justify-center items-center relative'
+			ref={containerRef}
+			onClick={handlePanClick}
+			onContextMenu={handleRightClick}
+		>
+			{imageScale > 0 && (
+				<TransformWrapper
+					key={`${imageNaturalWidth}x${imageNaturalHeight}`}
+					initialScale={imageScale}
+					minScale={imageScale}
+					maxScale={zoomFactor * imageScale}
+					centerOnInit
+					wheel={{ smoothStep: 0.003 }}
+				>
+					<TransformComponent
+						wrapperStyle={{
+							width: "100%",
+							height: "100%",
+						}}
+					>
+						<WrapperTransformComponent
+							imageScale={imageScale}
+							setIsPopupOpen={setIsPopupOpen}
+						>
+							<div className='relative w-full h-full'>
+								<div
+									id='pan'
+									onMouseOver={handleMouseOver}
+									className={`absolute w-full ${stage} top-0 left-0 bg-gradient-to-b z-50`}
+								>
+									<img
+										src={GrayImg}
+										className='w-full h-full'
+									/>
+								</div>
 
-  // // the required distance between start and end touch points to be considered a swipe
-  // const minSwipeDistance = 100;
-
-  // // const onTouchStart = (e) => {
-  // //   const touch = e.targetTouches[0];
-  // //   setTouchStartX(touch.clientX);
-  // //   setTouchStartY(touch.clientY);
-  // // };
-
-  // // const onTouchMove = (e) => {
-  // //   console.log("onTouchMove");
-  // //   const touch = e.targetTouches[0];
-  // //   setTouchEndX(touch.clientX);
-  // //   setTouchEndY(touch.clientY);
-  // // };
-
-  // // useEffect(() => {
-  // //   console.log("each axis", touchStartY, touchEndY);
-  // // }, [touchStartY, touchEndY]);
-
-  // // const onTouchEnd = (e) => {
-  // //   const deltaX = touchStartX - touchEndX;
-  // //   const deltaY = touchStartY - touchEndY;
-
-  // //   if (Math.abs(deltaX) > Math.abs(deltaY)) {
-  // //     // Horizontal swipe
-  // //     if (deltaX > minSwipeDistance) {
-  // //       console.log("Swiped left");
-  // //     } else if (deltaX < -minSwipeDistance) {
-  // //       console.log("Swiped right");
-  // //     }
-  // //   } else {
-  // //     // Vertical swipe
-  // //     if (deltaY == 0) {
-  // //       console.log(e.targetTouches[0]);
-  // //       handleBrickClick();
-  // //     } else if (deltaY > minSwipeDistance) {
-  // //       handleSwipeUp();
-  // //       console.log("Swiped Up");
-  // //     } else if (deltaY < -minSwipeDistance) {
-  // //       console.log("Swiped down");
-  // //     }
-  // //   }
-  // // };
-
-  return (
-    <div
-      className="w-full h-[90vh] bg-white flex justify-center items-center relative"
-      ref={containerRef}
-      onClick={handlePanClick}
-      onContextMenu={handleRightClick}
-      // onTouchStart={onTouchStart}
-      // onTouchMove={onTouchMove}
-      // onTouchEnd={onTouchEnd}
-    >
-      {imageScale > 0 && (
-        <TransformWrapper
-          key={`${imageNaturalWidth}x${imageNaturalHeight}`}
-          initialScale={imageScale}
-          minScale={imageScale}
-          maxScale={zoomFactor * imageScale}
-          centerOnInit
-          wheel={{ smoothStep: 0.003 }}
-        >
-          <TransformComponent
-            wrapperStyle={{
-              width: "100%",
-              height: "100%",
-            }}
-          >
-            <WrapperTransformComponent
-              imageScale={imageScale}
-              setIsPopupOpen={setIsPopupOpen}
-            >
-              <div className="relative w-full h-full">
-                <div
-                  id="pan"
-                  onMouseOver={handleMouseOver}
-                  className={`absolute w-full ${stage} top-0 left-0 bg-gradient-to-b z-50`}
-                >
-                  <img src={GrayImg} className="w-full h-full" />
-                </div>
-
-                <div className="absolute top-0 left-0 w-full h-full flex flex-col">
-                  {bricks.length !== 0 && renderBricks()}
-                </div>
-                <div className="w-full h-full bg-gray-100/20 absolute top-0 left-0"></div>
-                <img
-                  src={bgImg}
-                  className="absoulte top-0 left-0 max-w-none"
-                  // " object-cover xs:w-[2000px] xs:h-[6400px] sm:w-[2500px] sm:h-[5120px] md:w-[2560px] md:h-[5000px] lg:w-[3200px] lg:h-[4000px] xl:w-[4000px] xl:h-[3200px]
-                  // className="w-[5000px] h-[2560px]"
-                  style={{
-                    width: `5000px`, //250
-                    height: `2560px`, //128
-                  }}
-                />
-              </div>
-            </WrapperTransformComponent>
-          </TransformComponent>
-        </TransformWrapper>
-      )}
-    </div>
-  );
+								<div className='absolute top-0 left-0 w-full h-full flex flex-col'>
+									{bricks.length !== 0 && renderBricks()}
+								</div>
+								<div className='w-full h-full bg-gray-100/20 absolute top-0 left-0'></div>
+								<img
+									src={bgImg}
+									className='absoulte top-0 left-0 max-w-none'
+									// " object-cover xs:w-[2000px] xs:h-[6400px] sm:w-[2500px] sm:h-[5120px] md:w-[2560px] md:h-[5000px] lg:w-[3200px] lg:h-[4000px] xl:w-[4000px] xl:h-[3200px]
+									// className="w-[5000px] h-[2560px]"
+									style={{
+										width: `5000px`, //250
+										height: `2560px`, //128
+									}}
+								/>
+							</div>
+						</WrapperTransformComponent>
+					</TransformComponent>
+				</TransformWrapper>
+			)}
+		</div>
+	);
 };
 
 BrickContainer.propTypes = {

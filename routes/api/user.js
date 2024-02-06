@@ -12,12 +12,12 @@ const Profile = require("../../models/Profile");
 
 
 router.post("/byId", async (req, res) => {
-  try {
-    const user = await User.findById(req.body);
-    res.status(200).json(user);
-  } catch (err) {
-    res.status(500).send(err.message);
-  }
+	try {
+		const user = await User.findById(req.body.userId);
+		res.status(200).json(user);
+	} catch (err) {
+		res.status(500).send(err.message);
+	}
 });
 // @route    POST api/users/add
 // @desc     Add user
