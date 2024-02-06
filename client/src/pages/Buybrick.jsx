@@ -64,6 +64,7 @@ const Buybrick = () => {
   const [hovered, setHovered] = useState("");
   const [filtered, setFiltered] = useState([]);
   const [search, setSearch] = useState(null);
+  const [donorname, setDonorName] = useState("");
 
   const handleSetFiltered = useCallback((value) => {
     setFiltered(value);
@@ -168,8 +169,8 @@ const Buybrick = () => {
       if (filtered.includes(bricks[index])) {
         setClickedIndex(index);
         handleSetSlideModalOpen(true);
-        handleSetIsBrickInfoModalOpen(false);
         setModalContent(7);
+        handleSetIsBrickInfoModalOpen(false);
       }
       handleSetIsBuyBrickModalOpen(false);
     }
@@ -255,11 +256,11 @@ const Buybrick = () => {
     clearTimeout(hoverTimer);
   }, []);
 
-  const handleSwipeUp = useCallback(() => {
-    if (!isPopupOpen) {
-      handleSetIsPopupOpen(true);
-    }
-  }, []);
+  // const handleSwipeUp = useCallback(() => {
+  //   if (!isPopupOpen) {
+  //     handleSetIsPopupOpen(true);
+  //   }
+  // }, []);
 
   const handleBuyBrickButtonClick = useCallback(() => {
     if (isAuthenticated) {
@@ -270,6 +271,11 @@ const Buybrick = () => {
       navigate("/login");
     }
   }, [isAuthenticated, navigate]);
+
+  const handleClickDonorName = (name) => {
+    handleSetSearch(name);
+    setDonorName(name);
+  };
 
   const handleCloseModal = () => {
     handleSetSlideModalOpen(false);
@@ -500,7 +506,7 @@ const Buybrick = () => {
         handlePanClick={handlePanClick}
         handleMouseOver={handleMouseOver}
         handleMouseOut={handleMouseOut}
-        handleSwipeUp={handleSwipeUp}
+        // handleSwipeUp={handleSwipeUp}
       />
       <div
         className="fixed bottom-0 h-12 flex justify-center items-center sm:hidden cursor-pointer"
@@ -522,6 +528,7 @@ const Buybrick = () => {
           handleSkipDedication={handleSkipDedication}
           clickedIndex={clickedIndex}
           filtered={filtered}
+          donorName={donorname}
         />
       )}
       {isBuyBrickModalOpen && (
@@ -552,7 +559,7 @@ const Buybrick = () => {
       {isPopupOpen && (
         <Popup
           hideModal={handleClosePopup}
-          setDonorName={handleSetSearch}
+          setDonorName={handleClickDonorName}
           setIsWordsofSupportModalOpen={() =>
             setIsWordsofSupportModalOpen(true)
           }

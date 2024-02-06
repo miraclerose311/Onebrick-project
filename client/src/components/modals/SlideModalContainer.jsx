@@ -35,11 +35,11 @@ const SlideModalContainer = ({
     >
       <div className="absolute w-5/6 h-5/6 bg-white sm:w-96 sm:h-[800px] lg:w-[400px] lg:h-4/5 px-6 flex-col flex justify-center items-center rounded-md sm:left-24 sm:top-12">
         <HiMiniArrowLeft
-          className="modal-previous-button text-xl hover:cursor-pointer"
+          className="modal-previous-button text-xl hover:cursor-pointer cursor-pointer"
           onClick={handlePreviousModal}
         />
         <IoClose
-          className="modal-close-button text-xl font-bold hover:cursor-pointer"
+          className="modal-close-button text-xl font-bold hover:cursor-pointer cursor-pointer"
           onClick={handleCloseModal}
         />
         {modalContent === 1 && <IntroModal handleNextModal={handleNextModal} />}

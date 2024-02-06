@@ -1,11 +1,17 @@
 import PropTypes from "prop-types";
-import { jwtDecode } from "jwt-decode";
+import { useDispatch } from "react-redux";
+import { getUser } from "../../actions/auth";
+
+import userAvatar from "../../assets/img/user.png";
 
 const ConfirmModal = ({ filtered }) => {
-  const imgSrc = sessionStorage.getItem("avatar");
-  const token = sessionStorage.getItem("token");
+  const dispatch = useDispatch();
 
-  const user = jwtDecode(token);
+  const userId = filtered[0].user;
+
+  const user = dispatch(getUser(userId));
+
+  console.log("User", user);
 
   const brickIdArray = [];
   filtered.map((item) => {
@@ -20,7 +26,7 @@ const ConfirmModal = ({ filtered }) => {
     <div className="flex flex-col items-center justify-center gap-6 sm:w-4/5">
       <div className="flex flex-col items-end gap-4">
         <img
-          src={imgSrc ? imgSrc : user}
+          src={user.picture ? user.picture : userAvatar}
           className="w-28 h-28 rounded-full mx-auto"
         />
         <p className="text-2xl font-bold font-raleway">{user.fullName}</p>
@@ -29,7 +35,7 @@ const ConfirmModal = ({ filtered }) => {
         {brickIdArray.length}&nbsp;BRICKS DONATED
       </p>
       <div className="w-full max-h-48 scroll-hidden">{brickIdArray}</div>
-      <div className="bg-[#FBF8BE] shadow-lg shadow-yellow-300/50 rounded-xl w-full flex flex-col gap-6 p-4 mt-8">
+      <div className="bg-[#FBF8BE] shadow-lg shadow-yellow-300/50 rounded-xl w-full hidden sm:flex flex-col gap-6 p-4 mt-8">
         <p className="text-lg sm:text-2xl font-medium font-raleway">
           Do you want to donate more bricks?
         </p>

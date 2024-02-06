@@ -54,3 +54,12 @@ export const googleLogin = (access_token) => async (dispatch) => {
 	}
 	dispatch(clearLoading());
 };
+
+export const getUser = (userId) => async () => {
+  await api
+    .post("/users/byId", userId)
+    .then((res) => {
+      return res.data;
+    })
+    .catch((e) => console.log(e));
+};

@@ -7,7 +7,7 @@ import GrayImg from "../../assets/img/WallofHope/gray.png";
 import bgImg from "../../assets/img/WallofHope/alpha_building_high_res.jpg";
 import { useSelector } from "react-redux";
 
-const zoomFactor = 10;
+const zoomFactor = 15;
 
 const BrickContainer = ({
   stage,
@@ -21,7 +21,7 @@ const BrickContainer = ({
   handlePanClick,
   handleMouseOver,
   handleMouseOut,
-  handleSwipeUp,
+  // handleSwipeUp,
 }) => {
   const containerRef = useRef();
 
@@ -108,7 +108,7 @@ const BrickContainer = ({
                 key={index}
                 id={index}
                 className={classNames(
-                  "border-2 border-white rounded-md w-5 h-5",
+                  "border-2 border-white rounded-md w-5 h-5 cursor-pointer",
                   index === clickedIndex && !bricks[index].sold
                     ? "bg-yellow-400 z-40"
                     : "bg-gray-100/80 z-10",
@@ -125,6 +125,9 @@ const BrickContainer = ({
                     "bg-transparent custom-shadow"
                 )}
                 onClick={() => handleBrickClick(index)}
+                // onTouchStart={onTouchStart}
+                // onTouchMove={onTouchMove}
+                // onTouchEnd={onTouchEnd}
                 onMouseOver={handleMouseOver}
                 onMouseOut={handleMouseOut}
               />
@@ -141,46 +144,55 @@ const BrickContainer = ({
     return classes.filter(Boolean).join(" ");
   };
 
-  const [touchStartX, setTouchStartX] = useState(null);
-  const [touchStartY, setTouchStartY] = useState(null);
-  const [touchEndX, setTouchEndX] = useState(null);
-  const [touchEndY, setTouchEndY] = useState(null);
+  // const [touchStartX, setTouchStartX] = useState(null);
+  // const [touchStartY, setTouchStartY] = useState(null);
+  // const [touchEndX, setTouchEndX] = useState(null);
+  // const [touchEndY, setTouchEndY] = useState(null);
 
-  // the required distance between start and end touch points to be considered a swipe
-  const minSwipeDistance = 50;
+  // // the required distance between start and end touch points to be considered a swipe
+  // const minSwipeDistance = 100;
 
-  const onTouchStart = (e) => {
-    const touch = e.targetTouches[0];
-    setTouchStartX(touch.clientX);
-    setTouchStartY(touch.clientY);
-  };
+  // // const onTouchStart = (e) => {
+  // //   const touch = e.targetTouches[0];
+  // //   setTouchStartX(touch.clientX);
+  // //   setTouchStartY(touch.clientY);
+  // // };
 
-  const onTouchMove = (e) => {
-    const touch = e.targetTouches[0];
-    setTouchEndX(touch.clientX);
-    setTouchEndY(touch.clientY);
-  };
+  // // const onTouchMove = (e) => {
+  // //   console.log("onTouchMove");
+  // //   const touch = e.targetTouches[0];
+  // //   setTouchEndX(touch.clientX);
+  // //   setTouchEndY(touch.clientY);
+  // // };
 
-  const onTouchEnd = () => {
-    const deltaX = touchStartX - touchEndX;
-    const deltaY = touchStartY - touchEndY;
+  // // useEffect(() => {
+  // //   console.log("each axis", touchStartY, touchEndY);
+  // // }, [touchStartY, touchEndY]);
 
-    if (Math.abs(deltaX) > Math.abs(deltaY)) {
-      // Horizontal swipe
-      if (deltaX > minSwipeDistance) {
-        console.log("Swiped left");
-      } else if (deltaX < -minSwipeDistance) {
-        console.log("Swiped right");
-      }
-    } else {
-      // Vertical swipe
-      if (deltaY > minSwipeDistance) {
-        handleSwipeUp();
-      } else if (deltaY < -minSwipeDistance) {
-        console.log("Swiped down");
-      }
-    }
-  };
+  // // const onTouchEnd = (e) => {
+  // //   const deltaX = touchStartX - touchEndX;
+  // //   const deltaY = touchStartY - touchEndY;
+
+  // //   if (Math.abs(deltaX) > Math.abs(deltaY)) {
+  // //     // Horizontal swipe
+  // //     if (deltaX > minSwipeDistance) {
+  // //       console.log("Swiped left");
+  // //     } else if (deltaX < -minSwipeDistance) {
+  // //       console.log("Swiped right");
+  // //     }
+  // //   } else {
+  // //     // Vertical swipe
+  // //     if (deltaY == 0) {
+  // //       console.log(e.targetTouches[0]);
+  // //       handleBrickClick();
+  // //     } else if (deltaY > minSwipeDistance) {
+  // //       handleSwipeUp();
+  // //       console.log("Swiped Up");
+  // //     } else if (deltaY < -minSwipeDistance) {
+  // //       console.log("Swiped down");
+  // //     }
+  // //   }
+  // // };
 
   return (
     <div
@@ -188,9 +200,9 @@ const BrickContainer = ({
       ref={containerRef}
       onClick={handlePanClick}
       onContextMenu={handleRightClick}
-      onTouchStart={onTouchStart}
-      onTouchMove={onTouchMove}
-      onTouchEnd={onTouchEnd}
+      // onTouchStart={onTouchStart}
+      // onTouchMove={onTouchMove}
+      // onTouchEnd={onTouchEnd}
     >
       {imageScale > 0 && (
         <TransformWrapper
@@ -255,7 +267,7 @@ BrickContainer.propTypes = {
   handlePanClick: PropTypes.func.isRequired,
   handleMouseOver: PropTypes.func.isRequired,
   handleMouseOut: PropTypes.func.isRequired,
-  handleSwipeUp: PropTypes.func.isRequired,
+  // handleSwipeUp: PropTypes.func.isRequired,
 };
 
 const MemorizedBrickContainer = memo(BrickContainer);

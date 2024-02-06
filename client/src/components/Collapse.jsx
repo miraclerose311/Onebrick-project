@@ -23,6 +23,7 @@ const Collapse = ({
           name={QuestionName}
           content={question}
           onBlur={handleBular}
+          className=""
         />
         <button
           className={`flex justify-center items-center bg-gray-300  p-2 mb-2 rounded-full w-8 h-8`}
@@ -37,6 +38,7 @@ const Collapse = ({
             name={AnswerName}
             content={answer}
             onBlur={handleBular}
+            className=""
           />
         </div>
       )}
