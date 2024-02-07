@@ -81,7 +81,7 @@ const DedicationFormModal = ({ handleNextModal, brick_id }) => {
 
   return (
     <>
-      <p className="text-lg sm:text-2xl font-montserrat px-8">
+      <p className="text-xl font-medium sm:text-2xl font-montserrat px-8">
         Dedicate your brick to someone you love!
       </p>
       <p className="font-raleway text-md sm:text-lg my-4">
@@ -122,7 +122,7 @@ const DedicationFormModal = ({ handleNextModal, brick_id }) => {
         value={message}
         onChange={(e) => setMessage(e.target.value)}
         className={classNames(
-          "border border-gray-400 rounded-lg w-4/5 sm:w-2/3 my-2 px-4 py-1.5 sm:py-2 h-24",
+          "border border-gray-400 rounded-lg w-4/5 sm:w-2/3 my-2 px-4 py-1.5 sm:py-2 h-20 sm:h-24",
           errors.message && "border-red-400"
         )}
         placeholder="Dedication Message"
@@ -132,8 +132,14 @@ const DedicationFormModal = ({ handleNextModal, brick_id }) => {
           {errors.message}
         </p>
       )}
-      <div className="border border-gray-400 w-4/5 sm:w-2/3 rounded-lg my-2 px-4 py-2 flex justify-center items-center">
-        <AvatarUpload previewFile={filePath} onFileSelect={handleSelect} />
+      <div className="border border-gray-400 w-4/5 sm:w-2/3 rounded-lg my-2 px sm:px-4 sm:py-2 flex justify-center items-center">
+        <div className="object-cover flex">
+          <AvatarUpload
+            previewFile={filePath}
+            onFileSelect={handleSelect}
+            className="w-full h-full"
+          />
+        </div>
       </div>
       <button
         className="text-gray-100 bg-red-700 hover:bg-red-800 w-4/5 sm:w-2/3 flex justify-center py-2 my-4 rounded-md"

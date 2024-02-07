@@ -66,10 +66,10 @@ const DonorAddressModal = ({ handleBuyBrick }) => {
     //   newErrors.pin = "PIN is required";
     // } else
     if (pin) {
-			if (!isValidPin(pin)) {
-				newErrors.pin = "Please enter a valid PIN number";
-			}
-		}
+      if (!isValidPin(pin)) {
+        newErrors.pin = "Please enter a valid PIN number";
+      }
+    }
 
     setErrors(newErrors);
 
@@ -111,7 +111,7 @@ const DonorAddressModal = ({ handleBuyBrick }) => {
 
   return (
     <>
-      <p className="text-2xl sm:text-4xl font-montserrat px-8">
+      <p className="text-2xl sm:text-4xl font-medium font-montserrat px-8">
         Just one more step!
       </p>
       <p className="font-raleway text-xl my-4 hidden sm:flex">

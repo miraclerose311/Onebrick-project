@@ -16,7 +16,7 @@ const DedicationConfirmModal = ({ handleConfirm, clickedIndex }) => {
   return (
     <div className="flex flex-col gap-5 w-full justify-center items-center">
       <div>
-        <p className="text-2xl sm:text-4xl font-montserrat px-8">
+        <p className="text-2xl sm:text-4xl font-medium font-montserrat px-8">
           Congratulations!
         </p>
         <p className="font-raleway text-xl">

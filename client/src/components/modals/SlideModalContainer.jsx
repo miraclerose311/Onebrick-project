@@ -11,6 +11,7 @@ import ConfirmModal from "./ConfirmModal";
 //import react icons
 import { HiMiniArrowLeft } from "react-icons/hi2";
 import { IoClose } from "react-icons/io5";
+import { useEffect } from "react";
 
 const SlideModalContainer = ({
   setIsSlideModalOpen,
@@ -20,11 +21,15 @@ const SlideModalContainer = ({
   modalContent,
   handleBuyBrick,
   dedicationBrickId,
+  handleDedicate,
   handleConfirm,
   handleSkipDedication,
   clickedIndex,
   filtered,
 }) => {
+  useEffect(() => {
+    console.log(modalContent);
+  }, [modalContent]);
   return (
     <div
       id="slide-modal"
@@ -67,7 +72,13 @@ const SlideModalContainer = ({
             clickedIndex={clickedIndex}
           />
         )}
-        {modalContent === 7 && <ConfirmModal filtered={filtered} />}
+        {modalContent === 7 && (
+          <ConfirmModal
+            filtered={filtered}
+            clickedIndex={clickedIndex}
+            handleDedicate={handleDedicate}
+          />
+        )}
       </div>
     </div>
   );
@@ -82,6 +93,7 @@ SlideModalContainer.propTypes = {
   handleBuyBrick: PropTypes.func.isRequired,
   dedicationBrickId: PropTypes.string,
   handleConfirm: PropTypes.func.isRequired,
+  handleDedicate: PropTypes.func.isRequired,
   handleSkipDedication: PropTypes.func.isRequired,
   clickedIndex: PropTypes.number,
   filtered: PropTypes.array,

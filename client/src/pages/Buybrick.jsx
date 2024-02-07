@@ -296,6 +296,7 @@ const Buybrick = () => {
   };
 
   const handleDedicate = () => {
+    console.log("handlededicte");
     handleSetIsSoldModalOpen(false);
     handleSetSlideModalOpen(true);
     handleSetIsBrickInfoModalOpen(false);
@@ -481,7 +482,6 @@ const Buybrick = () => {
   //   return () => window.removeEventListener("resize", handleResize);
   // }, []);
 
-
   return (
     <div className="text-center items-center h-screen bg-white w-full flex flex-col itmes-center sm:justify-center">
       <MemoizedHeader
@@ -505,11 +505,11 @@ const Buybrick = () => {
         handleMouseOut={handleMouseOut}
         // handleSwipeUp={handleSwipeUp}
       />
-      <div
-        className="fixed bottom-0 h-12 flex justify-center items-center sm:hidden cursor-pointer"
-        onClick={() => handleSetIsPopupOpen(true)}
-      >
-        <IoIosArrowUp />
+      <div className="fixed bottom-0 h-16 flex justify-center items-center sm:hidden cursor-pointer">
+        <IoIosArrowUp
+          onClick={() => handleSetIsPopupOpen(true)}
+          className="font-normal text-4xl"
+        />
       </div>
       {isSlideModalOpen && (
         <SlideModalContainer
@@ -522,6 +522,7 @@ const Buybrick = () => {
           handleBuyBrick={handleBuyBrick}
           dedicationBrickId={clickedIndex ? bricks[clickedIndex].brick_id : ""}
           handleConfirm={handleConfirm}
+          handleDedicate={handleDedicate}
           handleSkipDedication={handleSkipDedication}
           clickedIndex={clickedIndex}
           filtered={filtered}

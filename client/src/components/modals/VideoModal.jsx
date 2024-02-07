@@ -4,7 +4,9 @@ import PropTypes from "prop-types";
 const VideoModal = ({ handleNextModal, handleSkipDedication }) => {
   return (
     <>
-      <p className="text-4xl font-montserrat px-8">Congratulations!</p>
+      <p className="text-2xl sm:text-4xl font-medium font-montserrat px-8">
+        Congratulations!
+      </p>
       <p className="font-raleway text-xl my-4">
         You have taken a step towards making a significant difference!
         <br />

@@ -118,7 +118,7 @@ const DonorInformationModal = ({ handleNextModal }) => {
 
   return (
     <>
-      <p className="text-2xl sm:text-4xl font-montserrat px-8">
+      <p className="text-2xl sm:text-4xl font-medium font-montserrat px-8">
         Donor Information
       </p>
       <p className="font-raleway text-md sm:text-xl my-4 hidden md:flex">

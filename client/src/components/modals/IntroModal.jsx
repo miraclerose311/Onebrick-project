@@ -36,7 +36,7 @@ const IntroModal = ({ handleNextModal }) => {
 
   return (
     <>
-      <p className="text-2xl sm:text-4xl font-montserrat px-8">
+      <p className="text-2xl sm:text-4xl font-medium font-montserrat px-8">
         Congratulations!
       </p>
       <p className="font-raleway text-md sm:text-xl my-4">
@@ -77,7 +77,7 @@ const IntroModal = ({ handleNextModal }) => {
         <option key={2}>I am a Foreign National</option>
       </select>
       <button
-        className="text-gray-100 bg-red-700 hover:bg-red-800 w-4/5 flex justify-center py-2 rounded-md mt-4"
+        className="text-gray-100 bg-red-700 hover:bg-red-800 w-4/5 flex justify-center py-1.5 sm:py-2 rounded-md mt-4"
         onClick={handleReadyPay}
       >
         <span className="flex flex-row items-center justify-between gap-x-3">
