@@ -12,7 +12,12 @@ import { HiChevronLeft } from "react-icons/hi";
 import { HiChevronRight } from "react-icons/hi";
 import { FaCaretRight } from "react-icons/fa";
 
-const Popup = ({ hideModal, setDonorName, setIsWordsofSupportModalOpen }) => {
+const Popup = ({
+  hideModal,
+  setDonorName,
+  setIsWordsofSupportModalOpen,
+  handleClickVideo,
+}) => {
   const modalRef = useRef();
   const dispatch = useDispatch();
 
@@ -136,7 +141,10 @@ const Popup = ({ hideModal, setDonorName, setIsWordsofSupportModalOpen }) => {
             contribution,brings us closer to realizing our shared vision of
             care. and dignity.
           </p>
-          <button className="bg-red-700 hover:bg-red-800 text-white text-xl flex gap-2 justify-center items-center rounded-md my-2 px-6 py-1.5">
+          <button
+            onClick={handleClickVideo}
+            className="bg-red-700 hover:bg-red-800 text-white text-xl flex gap-2 justify-center items-center rounded-md my-2 px-6 py-1.5"
+          >
             Watch video <FaCaretRight className="w-8 h-8 text-white" />
           </button>
           <hr className="my-4 border border-gray-800/10" />
@@ -176,6 +184,7 @@ const Popup = ({ hideModal, setDonorName, setIsWordsofSupportModalOpen }) => {
 Popup.propTypes = {
   isShow: PropTypes.bool,
   hideModal: PropTypes.func.isRequired,
+  handleClickVideo: PropTypes.func.isRequired,
   setDonorName: PropTypes.func.isRequired,
   setIsWordsofSupportModalOpen: PropTypes.func.isRequired,
 };

@@ -25,8 +25,8 @@ import SlideModalContainer from "../components/Modals/SlideModalContainer";
 import MemoizedHeader from "../components/WallofHope/Header";
 import MemorizedBrickContainer from "../components/WallofHope/BrickContainer";
 import MemorizedBuybrickModal from "../components/Modals/BuyBrickModal";
-
-import { IoIosArrowUp } from "react-icons/io";
+import ArrowUpButton from "../components/ArrowUpButton";
+import VideoModal from "../components/WallofHope/Video";
 
 const Buybrick = () => {
   const navigate = useNavigate();
@@ -101,6 +101,7 @@ const Buybrick = () => {
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const [isWordsofSupportModalOpen, setIsWordsofSupportModalOpen] =
     useState(false);
+  const [isVideoModalOpen, setIsVideoModalOpen] = useState(true);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   const [modalContent, setModalContent] = useState(0);
@@ -505,12 +506,9 @@ const Buybrick = () => {
         handleMouseOut={handleMouseOut}
         // handleSwipeUp={handleSwipeUp}
       />
-      <div className="fixed bottom-0 h-16 flex justify-center items-center sm:hidden cursor-pointer">
-        <IoIosArrowUp
-          onClick={() => handleSetIsPopupOpen(true)}
-          className="font-normal text-4xl"
-        />
-      </div>
+
+      <ArrowUpButton handleSetIsPopupOpen={() => handleSetIsPopupOpen(true)} />
+
       {isSlideModalOpen && (
         <SlideModalContainer
           isSlideModalOpen={isSlideModalOpen}
@@ -558,10 +556,14 @@ const Buybrick = () => {
         <Popup
           hideModal={handleClosePopup}
           setDonorName={handleClickDonorName}
+          handleClickVideo={() => setIsVideoModalOpen(true)}
           setIsWordsofSupportModalOpen={() =>
             setIsWordsofSupportModalOpen(true)
           }
         />
+      )}
+      {isVideoModalOpen && (
+        <VideoModal hideModal={() => setIsVideoModalOpen(false)} />
       )}
       {isWordsofSupportModalOpen && (
         <WordsofSupportsModal

@@ -1,7 +1,7 @@
 import { FaAnglesRight } from "react-icons/fa6";
 import PropTypes from "prop-types";
 
-const VideoModal = ({ handleNextModal, handleSkipDedication }) => {
+const CongratulationModal = ({ handleNextModal, handleSkipDedication }) => {
   return (
     <>
       <p className="text-2xl sm:text-4xl font-medium font-montserrat px-8">
@@ -44,9 +44,9 @@ const VideoModal = ({ handleNextModal, handleSkipDedication }) => {
   );
 };
 
-VideoModal.propTypes = {
+CongratulationModal.propTypes = {
   handleNextModal: PropTypes.func.isRequired,
   handleSkipDedication: PropTypes.func.isRequired,
 };
 
-export default VideoModal;
+export default CongratulationModal;

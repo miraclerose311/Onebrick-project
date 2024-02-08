@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import IntroModal from "./IntroModal";
 import DonorInformationModal from "./DonorInformationModal";
 import DonorAddressModal from "./DonorAddressModal";
-import VideoModal from "./VideoModal";
+import CongratulationModal from "./CongratulationModal";
 import DedicationFormModal from "./DedicationFormModal";
 import DedicationConfirmModal from "./DedicationConfirmModal";
 import ConfirmModal from "./ConfirmModal";
@@ -55,7 +55,7 @@ const SlideModalContainer = ({
           <DonorAddressModal handleBuyBrick={handleBuyBrick} />
         )}
         {modalContent === 4 && (
-          <VideoModal
+          <CongratulationModal
             handleNextModal={handleNextModal}
             handleSkipDedication={handleSkipDedication}
           />
