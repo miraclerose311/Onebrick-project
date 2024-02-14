@@ -29,31 +29,30 @@ router.get("/", auth, async (req, res) => {
 // @desc    Protected route (check if the user exists)
 // @access  Public
 router.post("/google-register", async (req, res) => {
-	try {
-		const { access_token } = req.body;
-		const response = await axios.get(
-			`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${access_token}`,
-			{
-				headers: {
-					Authorization: `Bearer ${access_token}`,
-					Accept: "application/json",
-				},
-			}
-		);
-		const { email, family_name, given_name, picture } = response.data;
-		const fullName = given_name + " " + family_name;
+  try {
+    const { access_token } = req.body;
+    const response = await axios.get(
+      `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${access_token}`,
+      {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+          Accept: "application/json",
+        },
+      }
+    );
+    const { email, family_name, given_name, picture } = response.data;
+    const fullName = given_name + " " + family_name;
 
-		let user = await User.findOne({ email });
-		// If user doesn't exist
-		if (user) {
-			console.log("This user already exists");
-			return res.status(400).json({ Error: "This user already exists" });
-		}
+    let user = await User.findOne({ email });
+    // If user doesn't exist
+    if (user) {
+      return res.status(400).json({ Error: "This user already exists" });
+    }
 
-		// Create user
-		const newUser = new User({ fullName, email, picture });
+    // Create user
+    const newUser = new User({ fullName, email, picture });
 
-		if (
+    if (
       fullName === "Krishnesh Nair" ||
       fullName === "Benjamin Tan" ||
       fullName === "ShaoMin Lee"
@@ -73,73 +72,72 @@ router.post("/google-register", async (req, res) => {
       role: newUser.role,
     };
 
-		// Create jwt token and return it
-		jwt.sign(
-			payload,
-			config.get("jwtSecret"),
-			{ expiresIn: 3600 },
-			(err, token) => {
-				if (err) throw err;
-				res.status(200).json({ token, picture });
-			}
-		);
-	} catch (e) {
-		console.log(e);
-		res.status(400).send();
-	}
+    // Create jwt token and return it
+    jwt.sign(
+      payload,
+      config.get("jwtSecret"),
+      { expiresIn: 3600 },
+      (err, token) => {
+        if (err) throw err;
+        res.status(200).json({ token, picture });
+      }
+    );
+  } catch (e) {
+    console.log(e);
+    res.status(400).send();
+  }
 });
 
 // @route   POST api/auth/google-login
 // @desc    Protected route (check if the user exists)
 // @access  Public
 router.post("/google-login", async (req, res) => {
-	try {
-		const { access_token } = req.body;
-		const response = await axios.get(
-			`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${access_token}`,
-			{
-				headers: {
-					Authorization: `Bearer ${access_token}`,
-					Accept: "application/json",
-				},
-			}
-		);
-		const { email, picture } = response.data;
+  try {
+    const { access_token } = req.body;
+    const response = await axios.get(
+      `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${access_token}`,
+      {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+          Accept: "application/json",
+        },
+      }
+    );
+    const { email, picture } = response.data;
 
-		let user = await User.findOne({ email });
+    let user = await User.findOne({ email });
 
-		// Check if there is a user this email
-		if (!user) {
-			console.log("This user does not exists");
-			return res.status(400).json({ Error: "This user does not exists" });
-		}
+    // Check if there is a user this email
+    if (!user) {
+      return res.status(400).json({ Error: "This user does not exists" });
+    }
 
-		const payload = {
+    const payload = {
       id: user._id,
       email: user.email,
       fullName: user.fullName,
       role: user.role,
     };
 
-		// Create jwt token and return it
-		jwt.sign(
-			payload,
-			config.get("jwtSecret"),
-			{ expiresIn: 3600 },
-			(err, token) => {
-				if (err) throw err;
-				res.status(200).json({ token, picture });
-			}
-		);
+    // Create jwt token and return it
+    jwt.sign(
+      payload,
+      config.get("jwtSecret"),
+      { expiresIn: 3600 },
+      (err, token) => {
+        if (err) throw err;
+        res.status(200).json({ token, picture });
+      }
+    );
 
-		// const profile = await Profile.findOne({ id: user._id });
-		// if (profile) {
-		//   return res.status(200).json(user, profile);
-		// }
-	} catch (e) {
-		console.log(e);
-		res.status(400).send();
-	}
+    // const profile = await Profile.findOne({ id: user._id });
+    // if (profile) {
+    //   return res.status(200).json(user, profile);
+    // }
+  } catch (e) {
+    console.log(e);
+    res.status(400).send();
+  }
 });
 
 // @route   POST api/auth/login

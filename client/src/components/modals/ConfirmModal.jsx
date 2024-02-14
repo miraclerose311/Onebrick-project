@@ -5,7 +5,14 @@ import { getUser } from "../../actions/auth";
 import userAvatar from "../../assets/img/user.png";
 import { useEffect } from "react";
 
-const ConfirmModal = ({ filtered, clickedIndex, handleDedicate }) => {
+const ConfirmModal = ({
+  filtered,
+  clickedIndex,
+  handleDedicate,
+  handleClickOnList,
+  handleShowAll,
+  hideModal,
+}) => {
   const dispatch = useDispatch();
 
   const userId = filtered[0].user;
@@ -17,19 +24,22 @@ const ConfirmModal = ({ filtered, clickedIndex, handleDedicate }) => {
   const { user } = useSelector((state) => state.user);
   const { bricks } = useSelector((state) => state.brick);
 
+  const brickArray = bricks?.filter((element) => element.user === userId);
+
   const clickedBrick = bricks[clickedIndex];
 
-  const brickIdArray = [];
-  filtered.map((item) => {
-    brickIdArray.push(
-      <p className="w-full text-md border-b-2 border-gray-800 font-raleway my-2">
-        {item.brick_id}
-      </p>
-    );
-  });
+  const onClickBrick = (brick_id) => {
+    hideModal();
+    handleClickOnList(brick_id);
+  };
+
+  const onClickShowAll = (brickIDs) => {
+    hideModal();
+    handleShowAll(brickIDs);
+  };
 
   return (
-    <div className="flex flex-col items-center justify-center gap-6 sm:w-4/5">
+    <div className="flex flex-col items-center justify-center gap-4 sm:w-4/5">
       <div className="flex flex-col items-end gap-4">
         <img
           src={user.picture ? user.picture : userAvatar}
@@ -38,12 +48,28 @@ const ConfirmModal = ({ filtered, clickedIndex, handleDedicate }) => {
         <p className="text-2xl font-bold font-raleway">{user.fullName}</p>
       </div>
       <p className="text-xl font-raleway font-medium hidden sm:flex">
-        {brickIdArray.length}&nbsp;BRICKS DONATED
+        {brickArray.length}&nbsp;BRICKS DONATED
       </p>
-      <div className="w-full max-h-48 scroll-hidden hidden sm:flex sm:flex-col">
-        {brickIdArray}
+      <div className="w-full max-h-48 scroll-hidden hidden sm:flex sm:flex-col border border-gray-100">
+        {brickArray.map((brick) => (
+          <p
+            key={brick.brick_id}
+            className="w-full text-md border-b-2 border-gray-200 font-raleway my-2 cursor-pointer"
+            onClick={() => onClickBrick(brick.brick_id)}
+          >
+            {brick.dedication
+              ? `Dedicated to ${brick.dedication.name}`
+              : "Haven't donated yet"}
+          </p>
+        ))}
       </div>
-      <div className="bg-[#FBF8BE] shadow-lg shadow-yellow-300/50 rounded-xl w-full hidden sm:flex flex-col gap-6 p-4 mt-8">
+      <span
+        className="cursor-pointer bg-red-700 rounded-sm hover:bg-red-600 text-white px-4 py-1"
+        onClick={() => onClickShowAll(brickArray)}
+      >
+        View all
+      </span>
+      <div className="bg-[#FBF8BE] shadow-lg shadow-yellow-300/50 rounded-xl w-full hidden sm:flex flex-col gap-6 p-4">
         <p className="text-lg sm:text-2xl font-medium font-raleway">
           Do you want to donate more bricks?
         </p>
@@ -113,6 +139,9 @@ ConfirmModal.propTypes = {
   filtered: PropTypes.array.isRequired,
   clickedIndex: PropTypes.number.isRequired,
   handleDedicate: PropTypes.func.isRequired,
+  handleClickOnList: PropTypes.func.isRequired,
+  handleShowAll: PropTypes.func.isRequired,
+  hideModal: PropTypes.func.isRequired,
 };
 
 export default ConfirmModal;

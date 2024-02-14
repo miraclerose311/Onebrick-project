@@ -134,7 +134,6 @@ const getRandomBrickId = async (amount, stage) => {
 
 router.post("/buy", async (req, res) => {
   const { brick_id, user, amount, stage } = req.body;
-  console.log(brick_id);
   // Error handling with try-catch
   try {
     const donor = await Donor.findOne({ user: user });
@@ -361,7 +360,21 @@ router.get("/current_page", async (req, res) => {
 router.post("/add-dedication", async (req, res) => {
   try {
     const { brick_id, name, relationship, message, image } = req.body;
+    const brick_Info = await Brick.findOne({ brick_id: brick_id });
 
+    const { date, user } = brick_Info;
+    let bricks = [];
+    await Brick.find({
+      user: user,
+      date: {
+        $gt: new Date(date.getTime() - 1000),
+        $lt: new Date(date.getTime() + 1000),
+      },
+    }).then((result) => {
+      result.forEach((brick) => {
+        bricks.push(brick.brick_id);
+      });
+    });
     const dedication = {
       name,
       relationship,
@@ -369,8 +382,11 @@ router.post("/add-dedication", async (req, res) => {
       image,
     };
     // update brick by id
-    Brick.updateOne({ brick_id }, { $set: { dedication: dedication } })
-      .then(() => res.status(200).send(req.body))
+    Brick.updateMany(
+      { brick_id: { $in: bricks } },
+      { $set: { dedication: dedication } }
+    )
+      .then(() => res.json({ bricks, name, relationship, message, image }))
       .catch((e) => console.log(e));
   } catch (error) {
     res.status(500).send("Server error");

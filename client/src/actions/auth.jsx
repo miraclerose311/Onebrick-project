@@ -62,7 +62,6 @@ export const getUser = (userId) => async (dispatch) => {
 		.then((res) => {
 			// return res.data;
 			dispatch(setUser(res.data));
-			console.log(res.data);
 		})
 		.catch((e) => console.log(e));
 };

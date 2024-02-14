@@ -11,7 +11,6 @@ import ConfirmModal from "./ConfirmModal";
 //import react icons
 import { HiMiniArrowLeft } from "react-icons/hi2";
 import { IoClose } from "react-icons/io5";
-import { useEffect } from "react";
 
 const SlideModalContainer = ({
   setIsSlideModalOpen,
@@ -24,12 +23,12 @@ const SlideModalContainer = ({
   handleDedicate,
   handleConfirm,
   handleSkipDedication,
+  handleClickOnList,
+  handleShowAll,
+  hideModal,
   clickedIndex,
   filtered,
 }) => {
-  useEffect(() => {
-    console.log(modalContent);
-  }, [modalContent]);
   return (
     <div
       id="slide-modal"
@@ -39,10 +38,15 @@ const SlideModalContainer = ({
       }}
     >
       <div className="absolute w-5/6 h-5/6 bg-white sm:w-96 sm:h-[800px] lg:w-[400px] lg:h-4/5 px-6 flex-col flex justify-center items-center rounded-md sm:left-24 sm:top-12">
-        <HiMiniArrowLeft
-          className="modal-previous-button text-xl hover:cursor-pointer cursor-pointer"
-          onClick={handlePreviousModal}
-        />
+        {modalContent == 2 ||
+          modalContent == 3 ||
+          modalContent == 5 ||
+          modalContent == 6 || (
+            <HiMiniArrowLeft
+              className="modal-previous-button text-xl hover:cursor-pointer cursor-pointer"
+              onClick={handlePreviousModal}
+            />
+          )}
         <IoClose
           className="modal-close-button text-xl font-bold hover:cursor-pointer cursor-pointer"
           onClick={handleCloseModal}
@@ -77,6 +81,9 @@ const SlideModalContainer = ({
             filtered={filtered}
             clickedIndex={clickedIndex}
             handleDedicate={handleDedicate}
+            handleClickOnList={handleClickOnList}
+            handleShowAll={handleShowAll}
+            hideModal={hideModal}
           />
         )}
       </div>
@@ -95,6 +102,9 @@ SlideModalContainer.propTypes = {
   handleConfirm: PropTypes.func.isRequired,
   handleDedicate: PropTypes.func.isRequired,
   handleSkipDedication: PropTypes.func.isRequired,
+  handleClickOnList: PropTypes.func.isRequired,
+  handleShowAll: PropTypes.func.isRequired,
+  hideModal: PropTypes.func.isRequired,
   clickedIndex: PropTypes.number,
   filtered: PropTypes.array,
 };

@@ -151,14 +151,6 @@ const Buybrick = () => {
     }
   }, [userId, bricks, isSoldModalOpen]);
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      setIsWordsofSupportModalOpen(true);
-    } else {
-      handleSetIsPopupOpen(true);
-    }
-  }, []);
-
   const handleBrickClick = (index) => {
     if (!bricks[index].sold && !isSoldModalOpen && !isBuyBrickModalOpen) {
       handleSetIsBrickInfoModalOpen(false);
@@ -283,7 +275,9 @@ const Buybrick = () => {
   };
 
   const handlePreviousModal = () => {
-    setModalContent(modalContent - 1);
+    if (modalContent != 4 && modalContent != 7) {
+      setModalContent(modalContent - 1);
+    }
   };
 
   const handleNextModal = () => {
@@ -293,11 +287,11 @@ const Buybrick = () => {
   const handleSkipDedication = () => {
     dispatch(getBrickSoldAmount());
     handleSetSlideModalOpen(false);
+    setIsWordsofSupportModalOpen(true);
     handleSetIsSoldModalOpen(true);
   };
 
   const handleDedicate = () => {
-    console.log("handlededicte");
     handleSetIsSoldModalOpen(false);
     handleSetSlideModalOpen(true);
     handleSetIsBrickInfoModalOpen(false);
@@ -522,6 +516,9 @@ const Buybrick = () => {
           handleConfirm={handleConfirm}
           handleDedicate={handleDedicate}
           handleSkipDedication={handleSkipDedication}
+          handleShowAll={(brickIDs) => handleSetFiltered(brickIDs)}
+          handleClickOnList={(brick_id) => handleSetSearch(brick_id)}
+          hideModal={() => handleSetSlideModalOpen(false)}
           clickedIndex={clickedIndex}
           filtered={filtered}
           donorName={donorname}

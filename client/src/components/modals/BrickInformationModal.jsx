@@ -43,7 +43,7 @@ const BrickInformationModal = ({
 
   return (
     <div
-      className="border border-gray-600 bg-gray-200 absolute py-2 px-4 w-full sm:w-72 items-center rounded-md z-10"
+      className="border border-gray-600 bg-gray-200 absolute py-4 px-4 w-full sm:w-72 items-center rounded-md z-10"
       style={{
         left: position.x,
         top: position.y,
@@ -53,11 +53,19 @@ const BrickInformationModal = ({
       ref={modalRef}
     >
       {brickInfo.dedication ? (
-        <div className="flex flex-col gap-1 w-full h-full items-center justify-around py-2">
+        <div className="flex flex-col gap-1 w-full h-full items-center justify-around">
           <p className="font-raleway">
-            Donated by <b>{brickInfo.donor.fullName}</b>.<br /> Dedicated to{" "}
-            <b>{brickInfo.dedication.name}</b> who is my{" "}
-            <b>{brickInfo.dedication.relationship}</b>.
+            Donated by{" "}
+            <span className="font-semibold">{brickInfo.donor.fullName}</span>.
+            <br /> Dedicated to{" "}
+            <span className="font-semibold">
+              {brickInfo.dedication.name}
+            </span>{" "}
+            who is my{" "}
+            <span className="font-semibold">
+              {brickInfo.dedication.relationship}
+            </span>
+            .
           </p>
           <div className="w-2/3 rounded-lg">
             <div className="flex flex-col w-full items-center justify-between gap-y-3">

@@ -3,6 +3,7 @@
 // import { getContents } from "../../actions/content";
 
 import PropTypes from "prop-types";
+import { IoClose } from "react-icons/io5";
 
 const VideoModal = ({ hideModal }) => {
   const handleClose = (e) => {
@@ -18,6 +19,12 @@ const VideoModal = ({ hideModal }) => {
       onClick={handleClose}
     >
       <div className="w-5/6 sm:w-2/3 md:w-2/3 2xl:w-7/12 h-2/3 sm:h-4/5 lg:h-1/2 2xl:h-2/3 flex bg-white rounded-md relative">
+        <span
+          className="absolute top-2 right-2 cursor-pointer text-white"
+          onClick={hideModal}
+        >
+          <IoClose size={24} />
+        </span>
         <iframe
           src={`https://www.youtube.com/embed/xC1we1BdLDE`}
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

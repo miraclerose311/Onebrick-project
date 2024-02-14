@@ -40,7 +40,7 @@ export const brickSlice = createSlice({
       return {
         ...state,
         bricks: state.bricks.map((brick) => {
-          if (brick.brick_id === action.payload.brick_id) {
+          if (action.payload.bricks.includes(brick.brick_id)) {
             return { ...brick, dedication: dedicationData }; // Return a new brick object with updated dedication
           } else {
             return brick; // Return the untouched brick object
