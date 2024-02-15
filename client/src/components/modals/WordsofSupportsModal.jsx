@@ -67,9 +67,15 @@ const WordsofSupportsModal = ({ hideModal }) => {
           />
         </div>
         <div className="w-full lg:w-1/2 h-full px-8 md:px-12 py-6 flex flex-col justify-evenly shadow-md shadow-gray-500 rounded-r-md items-center gap-3">
-          <p className="text-2xl sm:text-4xl lg:text-2xl xl:text-4xl 2xl:text-4xl font-montserrat font-bold">
-            Words of Support
-          </p>
+          <div className="flex flex-col gap-2">
+            <p className="text-2xl sm:text-4xl lg:text-2xl xl:text-4xl 2xl:text-4xl font-montserrat font-bold">
+              Words of Support
+            </p>
+            <p className="w-full text-center">
+              Before departing, kindly offer a brief message of encouragement
+              that may assist us in attracting additional donors
+            </p>
+          </div>
           <textarea
             name="message"
             placeholder="Message"
