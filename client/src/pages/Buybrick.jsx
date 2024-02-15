@@ -285,293 +285,311 @@ const Buybrick = () => {
   };
 
   const handleSkipDedication = () => {
-    dispatch(getBrickSoldAmount());
-    handleSetSlideModalOpen(false);
-    setIsWordsofSupportModalOpen(true);
-    handleSetIsSoldModalOpen(true);
-  };
+		// dispatch(getBrickSoldAmount());
+		handleSetSlideModalOpen(false);
+		setIsWordsofSupportModalOpen(true);
+		// handleSetIsSoldModalOpen(true);
+	};
 
-  const handleDedicate = () => {
-    handleSetIsSoldModalOpen(false);
-    handleSetSlideModalOpen(true);
-    handleSetIsBrickInfoModalOpen(false);
-    setModalContent(5);
-  };
+	const handleDedicate = () => {
+		handleSetIsSoldModalOpen(false);
+		handleSetSlideModalOpen(true);
+		handleSetIsBrickInfoModalOpen(false);
+		setModalContent(5);
+	};
 
-  const handleConfirm = () => {
-    handleSetSlideModalOpen(false);
-    dispatch(getBrickSoldAmount());
-  };
+	const handleGoToDedicate = (brick_id) => {
+		let indexNumber;
+		bricks.forEach((element, index) => {
+			if (element.brick_id === brick_id) {
+				indexNumber = index;
+			}
+		});
+		setClickedIndex(indexNumber);
+		setModalContent(5);
+	};
 
-  const handleBuyBrick = async () => {
-    const res = await loadScript(
-      "https://checkout.razorpay.com/v1/checkout.js"
-    );
-    if (!res) {
-      alert("Razorpay SDK failed to load. Are you online?");
-      return;
-    }
-    dispatch(createOrder(amount));
-    handleSetSlideModalOpen(false);
-  };
+	const handleConfirm = () => {
+		handleSetSlideModalOpen(false);
+		dispatch(getBrickSoldAmount());
+	};
 
-  useEffect(() => {
-    if (order.order_id !== "") {
-      const { amount, order_id, currency } = order;
-      const options = {
-        key: `${import.meta.env.VITE_RAZORPAY_KEY_ID}`,
-        amount: amount,
-        currency: currency,
-        name: "Soumya Corp.",
-        description: "Test Transaction",
-        order_id: order_id,
-        handler: async function (response) {
-          const data = {
-            orderCreationId: order_id,
-            razorpayPaymentId: response.razorpay_payment_id,
-            razorpayOrderId: response.razorpay_order_id,
-            razorpaySignature: response.razorpay_signature,
-          };
+	const hideComfirmModal = () => {
+		handleSetSlideModalOpen(false);
+		handleSetWordsofSupportModalOpen(true);
+	};
 
-          const result = await axios.post(
-            `${import.meta.env.VITE_BACKEND_URL}/api/payment/success`,
-            data
-          );
+	const handleBuyBrick = async () => {
+		const res = await loadScript(
+			"https://checkout.razorpay.com/v1/checkout.js"
+		);
+		if (!res) {
+			alert("Razorpay SDK failed to load. Are you online?");
+			return;
+		}
+		dispatch(createOrder(amount));
+		handleSetSlideModalOpen(false);
+	};
 
-          dispatch(
-            setAlertWithTimeout({
-              alertType: "success",
-              content: result.data.msg,
-            })
-          );
+	useEffect(() => {
+		if (order.order_id !== "") {
+			const { amount, order_id, currency } = order;
+			const options = {
+				key: `${import.meta.env.VITE_RAZORPAY_KEY_ID}`,
+				amount: amount,
+				currency: currency,
+				name: "Soumya Corp.",
+				description: "Test Transaction",
+				order_id: order_id,
+				handler: async function (response) {
+					const data = {
+						orderCreationId: order_id,
+						razorpayPaymentId: response.razorpay_payment_id,
+						razorpayOrderId: response.razorpay_order_id,
+						razorpaySignature: response.razorpay_signature,
+					};
 
-          const brickData = {
-            brick_id: bricks[clickedIndex].brick_id,
-            user: userId,
-            amount: amount / 100000,
-            stage: Math.ceil((sold + 1) / 8000),
-          };
+					const result = await axios.post(
+						`${import.meta.env.VITE_BACKEND_URL}/api/payment/success`,
+						data
+					);
 
-          dispatch(buyBrick(brickData));
-          dispatch(getBrickSoldAmount());
-          dispatch(clearOrder());
-          handleSetSlideModalOpen(true);
-          setModalContent(4);
-        },
-        modal: {
-          ondismiss: function () {
-            dispatch(clearOrder());
-          },
-        },
-        prefill: {
-          name: "John Doe",
-          email: "johndoe@example.com",
-          contact: "9999999999",
-        },
-        notes: {
-          address: "Alpha Hospice",
-        },
-        theme: {
-          color: "#61dafb",
-        },
-      };
-      const paymentObject = new window.Razorpay(options);
-      paymentObject.open();
-    }
-  }, [order]);
+					dispatch(
+						setAlertWithTimeout({
+							alertType: "success",
+							content: result.data.msg,
+						})
+					);
 
-  const loadScript = (src) => {
-    return new Promise((resolve) => {
-      const script = document.createElement("script");
-      script.src = src;
-      script.onload = () => {
-        resolve(true);
-      };
-      script.onerror = () => {
-        resolve(false);
-      };
-      script.ondismiss = () => {};
-      document.body.appendChild(script);
-    });
-  };
+					const brickData = {
+						brick_id: bricks[clickedIndex].brick_id,
+						user: userId,
+						amount: amount / 100000,
+						stage: Math.ceil((sold + 1) / 8000),
+					};
 
-  const onChangeSearchInput = useCallback((e) => {
-    if (e.target.value.length > 2) setSearch(e.target.value.toLowerCase());
-    else if (e.target.value.length == 0) {
-      if (userId) {
-        const temp = bricks.filter((item) => {
-          if (item.user) {
-            return item.sold && item.user == userId;
-          }
-        });
-        handleSetFiltered(temp);
-      }
-    } else {
-      setSearch("");
-      handleSetFiltered([]);
-    }
-  }, []);
+					dispatch(buyBrick(brickData));
+					dispatch(getBrickSoldAmount());
+					dispatch(clearOrder());
+					handleSetSlideModalOpen(true);
+					setModalContent(4);
+				},
+				modal: {
+					ondismiss: function () {
+						dispatch(clearOrder());
+					},
+				},
+				prefill: {
+					name: "John Doe",
+					email: "johndoe@example.com",
+					contact: "9999999999",
+				},
+				notes: {
+					address: "Alpha Hospice",
+				},
+				theme: {
+					color: "#61dafb",
+				},
+			};
+			const paymentObject = new window.Razorpay(options);
+			paymentObject.open();
+		}
+	}, [order]);
 
-  useEffect(() => {
-    if (search) {
-      const temp = bricks.filter((item) => {
-        if (item.donor) {
-          // Check if the donor's full name, email, or address includes the search search
-          return (
-            item.donor.fullName.toLowerCase().includes(search.toLowerCase()) ||
-            item.donor.email.toLowerCase().includes(search.toLowerCase()) ||
-            item.donor.address.toLowerCase().includes(search.toLowerCase()) ||
-            item.donor.country.toLowerCase().includes(search.toLowerCase()) ||
-            item.donor.state.toLowerCase().includes(search.toLowerCase()) ||
-            item.brick_id.includes(search.toUpperCase())
-          );
-        } else {
-          // If there is no donor, match by brick_id
-          return item.brick_id.includes(search.toUpperCase());
-        }
-      });
-      handleSetFiltered(temp);
-    }
-  }, [search, bricks]);
+	const loadScript = (src) => {
+		return new Promise((resolve) => {
+			const script = document.createElement("script");
+			script.src = src;
+			script.onload = () => {
+				resolve(true);
+			};
+			script.onerror = () => {
+				resolve(false);
+			};
+			script.ondismiss = () => {};
+			document.body.appendChild(script);
+		});
+	};
 
-  // const breakpoints = {
-  //   sm: 576,
-  //   md: 768,
-  //   lg: 992,
-  //   xl: 1200,
-  //   "2xl": 1536,
-  // };
+	const onChangeSearchInput = useCallback((e) => {
+		if (e.target.value.length > 2) setSearch(e.target.value.toLowerCase());
+		else if (e.target.value.length == 0) {
+			if (userId) {
+				const temp = bricks.filter((item) => {
+					if (item.user) {
+						return item.sold && item.user == userId;
+					}
+				});
+				handleSetFiltered(temp);
+			}
+		} else {
+			setSearch("");
+			handleSetFiltered([]);
+		}
+	}, []);
 
-  // const CountOfWH = {
-  //   xs: { x: 100, y: 320 },
-  //   sm: { x: 125, y: 256 },
-  //   md: { x: 128, y: 250 },
-  //   lg: { x: 160, y: 200 },
-  //   xl: { x: 200, y: 160 },
-  //   "2xl": { x: 256, y: 125 },
-  // };
+	useEffect(() => {
+		if (search) {
+			const temp = bricks.filter((item) => {
+				if (item.donor) {
+					// Check if the donor's full name, email, or address includes the search search
+					return (
+						item.donor.fullName.toLowerCase().includes(search.toLowerCase()) ||
+						item.donor.email.toLowerCase().includes(search.toLowerCase()) ||
+						item.donor.address.toLowerCase().includes(search.toLowerCase()) ||
+						item.donor.country.toLowerCase().includes(search.toLowerCase()) ||
+						item.donor.state.toLowerCase().includes(search.toLowerCase()) ||
+						item.brick_id.includes(search.toUpperCase())
+					);
+				} else {
+					// If there is no donor, match by brick_id
+					return item.brick_id.includes(search.toUpperCase());
+				}
+			});
+			handleSetFiltered(temp);
+		}
+	}, [search, bricks]);
 
-  // // Function to determine the screen width category
-  // const getScreenWidthCategory = (width) => {
-  //   if (width < breakpoints.sm) return "xs";
-  //   else if (width >= breakpoints.sm && width < breakpoints.md) return "sm";
-  //   else if (width >= breakpoints.md && width < breakpoints.lg) return "md";
-  //   else if (width >= breakpoints.lg && width < breakpoints.xl) return "lg";
-  //   else if (width >= breakpoints.xl && width < breakpoints["2xl"]) return "xl";
-  //   else return "2xl";
-  // };
+	// const breakpoints = {
+	//   sm: 576,
+	//   md: 768,
+	//   lg: 992,
+	//   xl: 1200,
+	//   "2xl": 1536,
+	// };
 
-  // const [screenWidthCategory, setScreenWidthCategory] = useState(
-  //   getScreenWidthCategory(window.innerWidth)
-  // );
+	// const CountOfWH = {
+	//   xs: { x: 100, y: 320 },
+	//   sm: { x: 125, y: 256 },
+	//   md: { x: 128, y: 250 },
+	//   lg: { x: 160, y: 200 },
+	//   xl: { x: 200, y: 160 },
+	//   "2xl": { x: 256, y: 125 },
+	// };
 
-  // // Handle screen resize
-  // useEffect(() => {
-  //   function handleResize() {
-  //     setScreenWidthCategory(getScreenWidthCategory(window.innerWidth));
-  //   }
+	// // Function to determine the screen width category
+	// const getScreenWidthCategory = (width) => {
+	//   if (width < breakpoints.sm) return "xs";
+	//   else if (width >= breakpoints.sm && width < breakpoints.md) return "sm";
+	//   else if (width >= breakpoints.md && width < breakpoints.lg) return "md";
+	//   else if (width >= breakpoints.lg && width < breakpoints.xl) return "lg";
+	//   else if (width >= breakpoints.xl && width < breakpoints["2xl"]) return "xl";
+	//   else return "2xl";
+	// };
 
-  //   window.addEventListener("resize", handleResize);
+	// const [screenWidthCategory, setScreenWidthCategory] = useState(
+	//   getScreenWidthCategory(window.innerWidth)
+	// );
 
-  //   // Clean up the event listener on component unmount
-  //   return () => window.removeEventListener("resize", handleResize);
-  // }, []);
+	// // Handle screen resize
+	// useEffect(() => {
+	//   function handleResize() {
+	//     setScreenWidthCategory(getScreenWidthCategory(window.innerWidth));
+	//   }
 
-  return (
-    <div className="text-center items-center h-screen bg-white w-full flex flex-col itmes-center sm:justify-center">
-      <MemoizedHeader
-        clearFilter={handleSetFiltered}
-        onChangeSearchInput={onChangeSearchInput}
-        setIsShareModalOpen={handleSetShareModalOpen}
-        setBuybrickModalInCenter={setBuybrickModalInCenter}
-        setIsWordsofSupportModalOpen={handleSetWordsofSupportModalOpen}
-      />
-      <MemorizedBrickContainer
-        stage={hiddenHeight}
-        clickedIndex={clickedIndex}
-        filtered={filtered}
-        hovered={hovered}
-        isSoldModalOpen={isSoldModalOpen}
-        setIsPopupOpen={handleSetIsPopupOpen}
-        handleBrickClick={handleBrickClick}
-        handleRightClick={handleRightClick}
-        handlePanClick={handlePanClick}
-        handleMouseOver={handleMouseOver}
-        handleMouseOut={handleMouseOut}
-        // handleSwipeUp={handleSwipeUp}
-      />
+	//   window.addEventListener("resize", handleResize);
 
-      <ArrowUpButton handleSetIsPopupOpen={() => handleSetIsPopupOpen(true)} />
+	//   // Clean up the event listener on component unmount
+	//   return () => window.removeEventListener("resize", handleResize);
+	// }, []);
 
-      {isSlideModalOpen && (
-        <SlideModalContainer
-          isSlideModalOpen={isSlideModalOpen}
-          modalContent={modalContent}
-          setIsSlideModalOpen={handleSetSlideModalOpen}
-          handleCloseModal={handleCloseModal}
-          handlePreviousModal={handlePreviousModal}
-          handleNextModal={handleNextModal}
-          handleBuyBrick={handleBuyBrick}
-          dedicationBrickId={clickedIndex ? bricks[clickedIndex].brick_id : ""}
-          handleConfirm={handleConfirm}
-          handleDedicate={handleDedicate}
-          handleSkipDedication={handleSkipDedication}
-          handleShowAll={(brickIDs) => handleSetFiltered(brickIDs)}
-          handleClickOnList={(brick_id) => handleSetSearch(brick_id)}
-          hideModal={() => handleSetSlideModalOpen(false)}
-          clickedIndex={clickedIndex}
-          filtered={filtered}
-          donorName={donorname}
-        />
-      )}
-      {isBuyBrickModalOpen && (
-        <MemorizedBuybrickModal
-          modalPosition={modalPosition}
-          clickedBrick={bricks[clickedIndex].brick_id}
-          handleBuyBrickButtonClick={handleBuyBrickButtonClick}
-          hideModal={() => handleSetIsBuyBrickModalOpen(false)}
-        />
-      )}
-      {isBrickInfoModalOpen && (
-        <BrickInformationModal
-          userId={userId}
-          brickInfo={hovered}
-          modalPosition={modalPosition}
-          handleDedicate={handleDedicate}
-        />
-      )}
-      {isSoldModalOpen && (
-        <SoldModal
-          // brick_id={bricks[clickedIndex].brick_id}
-          clickedIndex={parseInt(clickedIndex)}
-          modalPosition={modalPosition}
-          filtered={filtered}
-          hideModal={() => handleSetIsSoldModalOpen(false)}
-        />
-      )}
-      {isPopupOpen && (
-        <Popup
-          hideModal={handleClosePopup}
-          setDonorName={handleClickDonorName}
-          handleClickVideo={() => setIsVideoModalOpen(true)}
-          setIsWordsofSupportModalOpen={() =>
-            setIsWordsofSupportModalOpen(true)
-          }
-        />
-      )}
-      {isVideoModalOpen && (
-        <VideoModal hideModal={() => setIsVideoModalOpen(false)} />
-      )}
-      {isWordsofSupportModalOpen && (
-        <WordsofSupportsModal
-          hideModal={() => setIsWordsofSupportModalOpen(false)}
-        />
-      )}
-      {isShareModalOpen && (
-        <SharingModal hideModal={() => setIsShareModalOpen(false)} />
-      )}
-    </div>
-  );
+	return (
+		<div className='text-center items-center h-screen bg-white w-full flex flex-col itmes-center sm:justify-center'>
+			<MemoizedHeader
+				clearFilter={handleSetFiltered}
+				onChangeSearchInput={onChangeSearchInput}
+				setIsShareModalOpen={handleSetShareModalOpen}
+				setBuybrickModalInCenter={setBuybrickModalInCenter}
+				setIsWordsofSupportModalOpen={handleSetWordsofSupportModalOpen}
+			/>
+			<MemorizedBrickContainer
+				stage={hiddenHeight}
+				clickedIndex={clickedIndex}
+				filtered={filtered}
+				hovered={hovered}
+				isSoldModalOpen={isSoldModalOpen}
+				setIsPopupOpen={handleSetIsPopupOpen}
+				handleBrickClick={handleBrickClick}
+				handleRightClick={handleRightClick}
+				handlePanClick={handlePanClick}
+				handleMouseOver={handleMouseOver}
+				handleMouseOut={handleMouseOut}
+				// handleSwipeUp={handleSwipeUp}
+			/>
+
+			<ArrowUpButton handleSetIsPopupOpen={() => handleSetIsPopupOpen(true)} />
+
+			{isSlideModalOpen && (
+				<SlideModalContainer
+					isSlideModalOpen={isSlideModalOpen}
+					modalContent={modalContent}
+					setIsSlideModalOpen={handleSetSlideModalOpen}
+					handleCloseModal={handleCloseModal}
+					handlePreviousModal={handlePreviousModal}
+					handleNextModal={handleNextModal}
+					handleBuyBrick={handleBuyBrick}
+					dedicationBrickId={clickedIndex ? bricks[clickedIndex].brick_id : ""}
+					handleConfirm={handleConfirm}
+					handleDedicate={handleDedicate}
+					handleSkipDedication={handleSkipDedication}
+					handleShowAll={(brickIDs) => handleSetFiltered(brickIDs)}
+					handleGoToDedicate={handleGoToDedicate}
+					handleClickOnList={(brick_id) => handleSetSearch(brick_id)}
+					hideModal={() => handleSetSlideModalOpen(false)}
+					hideComfirmModal={hideComfirmModal}
+					clickedIndex={clickedIndex}
+					filtered={filtered}
+					donorName={donorname}
+				/>
+			)}
+			{isBuyBrickModalOpen && (
+				<MemorizedBuybrickModal
+					modalPosition={modalPosition}
+					clickedBrick={bricks[clickedIndex].brick_id}
+					handleBuyBrickButtonClick={handleBuyBrickButtonClick}
+					hideModal={() => handleSetIsBuyBrickModalOpen(false)}
+				/>
+			)}
+			{isBrickInfoModalOpen && (
+				<BrickInformationModal
+					userId={userId}
+					brickInfo={hovered}
+					modalPosition={modalPosition}
+					handleDedicate={handleDedicate}
+				/>
+			)}
+			{isSoldModalOpen && (
+				<SoldModal
+					// brick_id={bricks[clickedIndex].brick_id}
+					clickedIndex={parseInt(clickedIndex)}
+					modalPosition={modalPosition}
+					filtered={filtered}
+					hideModal={() => handleSetIsSoldModalOpen(false)}
+				/>
+			)}
+			{isPopupOpen && (
+				<Popup
+					hideModal={handleClosePopup}
+					setDonorName={handleClickDonorName}
+					handleClickVideo={() => setIsVideoModalOpen(true)}
+					setIsWordsofSupportModalOpen={() =>
+						setIsWordsofSupportModalOpen(true)
+					}
+				/>
+			)}
+			{isVideoModalOpen && (
+				<VideoModal hideModal={() => setIsVideoModalOpen(false)} />
+			)}
+			{isWordsofSupportModalOpen && (
+				<WordsofSupportsModal
+					hideModal={() => setIsWordsofSupportModalOpen(false)}
+				/>
+			)}
+			{isShareModalOpen && (
+				<SharingModal hideModal={() => setIsShareModalOpen(false)} />
+			)}
+		</div>
+	);
 };
 
 export default Buybrick;
