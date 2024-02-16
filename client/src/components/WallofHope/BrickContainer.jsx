@@ -12,8 +12,10 @@ const zoomFactor = 15;
 const BrickContainer = ({
   stage,
   clickedIndex,
+  dedicatedBrickId,
   hovered,
   filtered,
+  setModalPosition,
   isSoldModalOpen,
   setIsPopupOpen,
   handleBrickClick,
@@ -21,7 +23,6 @@ const BrickContainer = ({
   handlePanClick,
   handleMouseOver,
   handleMouseOut,
-  // handleSwipeUp,
 }) => {
   const containerRef = useRef();
 
@@ -64,7 +65,8 @@ const BrickContainer = ({
       setContainerWidth(0);
       setContainerHeight(0);
     }
-  }, [containerRef]);
+    console.log(getBrickElementPositionById(dedicatedBrickId));
+  }, [containerRef, dedicatedBrickId]);
 
   useEffect(() => {
     handleResize();
@@ -96,123 +98,126 @@ const BrickContainer = ({
     imageNaturalWidth,
     imageNaturalHeight,
   ]);
+
+  const getBrickElementPositionById = (brickId) => {
+    const brickElement = document.getElementById(`brick-${brickId}`);
+    if (brickElement) {
+      const rect = brickElement.getBoundingClientRect();
+      setModalPosition({ x: rect.x, y: rect.y });
+    } else {
+      return null; // brick element not found
+    }
+  };
+
   const renderBricks = () => {
-		const colBricks = [];
-		Array.from(Array(128).keys()).map((col) => {
-			const colBrick = (
-				<div
-					key={col}
-					className='flex flex-row w-full'
-				>
-					{Array.from(Array(250).keys()).map((row) => {
-						const index = col * 250 + row;
-						return (
-							<button
-								key={index}
-								id={index}
-								className={classNames(
-									"border-2 border-white rounded-md w-5 h-5 cursor-pointer",
-									index === clickedIndex && !bricks[index].sold
-										? "bg-yellow-400 z-40"
-										: "bg-gray-100/80 z-10",
-									!filtered.includes(bricks[index]) &&
-										bricks[index].sold &&
-										bricks[index].brick_id !== hovered.brick_id &&
-										"opacity-0",
-									!filtered.includes(bricks[index]) &&
-										bricks[index].sold &&
-										bricks[index].brick_id === hovered.brick_id &&
-										"bg-transparent border-red-600",
-									isSoldModalOpen && clickedIndex == index && "bg-white",
-									filtered.includes(bricks[index]) &&
-										"bg-transparent custom-shadow"
-								)}
-								onClick={() => handleBrickClick(index)}
-								// onTouchStart={onTouchStart}
-								// onTouchMove={onTouchMove}
-								// onTouchEnd={onTouchEnd}
-								onMouseOver={handleMouseOver}
-								onMouseOut={handleMouseOut}
-							/>
-						);
-					})}
-				</div>
-			);
-			colBricks.push(colBrick);
-		});
-		return colBricks;
-	};
+    return Array.from(Array(128).keys()).map((col) => (
+      <div key={col} className="flex flex-row w-full">
+        {Array.from(Array(250).keys()).map((row) => {
+          const index = col * 250 + row;
 
-	const classNames = (...classes) => {
-		return classes.filter(Boolean).join(" ");
-	};
+          return (
+            <div
+              key={index}
+              id={`brick-${bricks[index].brick_id}`}
+              className={classNames(
+                "border-2 border-white rounded-md w-5 h-5 cursor-pointer relative",
+                index === clickedIndex && !bricks[index].sold
+                  ? "bg-yellow-400 z-40"
+                  : "bg-gray-100/80 z-10",
+                !filtered.includes(bricks[index]) &&
+                  bricks[index].sold &&
+                  bricks[index].brick_id !== hovered.brick_id &&
+                  "opacity-0",
+                !filtered.includes(bricks[index]) &&
+                  bricks[index].sold &&
+                  bricks[index].brick_id === hovered.brick_id &&
+                  "bg-transparent border-red-600",
+                isSoldModalOpen && clickedIndex === index && "bg-white",
+                filtered.includes(bricks[index]) &&
+                  "bg-transparent custom-shadow"
+              )}
+              onClick={() => handleBrickClick(index)}
+              // onTouchStart={onTouchStart}
+              // onTouchMove={onTouchMove}
+              // onTouchEnd={onTouchEnd}
+              onMouseOver={handleMouseOver}
+              onMouseOut={handleMouseOut}
+            ></div>
+          );
+        })}
+      </div>
+    ));
+  };
 
-	return (
-		<div
-			className='w-full h-[90vh] bg-white flex justify-center items-center relative'
-			ref={containerRef}
-			onClick={handlePanClick}
-			onContextMenu={handleRightClick}
-		>
-			{imageScale > 0 && (
-				<TransformWrapper
-					key={`${imageNaturalWidth}x${imageNaturalHeight}`}
-					initialScale={imageScale}
-					minScale={imageScale}
-					maxScale={zoomFactor * imageScale}
-					centerOnInit
-					wheel={{ smoothStep: 0.003 }}
-				>
-					<TransformComponent
-						wrapperStyle={{
-							width: "100%",
-							height: "100%",
-						}}
-					>
-						<WrapperTransformComponent
-							imageScale={imageScale}
-							setIsPopupOpen={setIsPopupOpen}
-						>
-							<div className='relative w-full h-full'>
-								<div
-									id='pan'
-									onMouseOver={handleMouseOver}
-									className={`absolute w-full ${stage} top-0 left-0 bg-gradient-to-b z-50`}
-								>
-									<img
-										src={GrayImg}
-										className='w-full h-full'
-									/>
-								</div>
+  const classNames = (...classes) => {
+    return classes.filter(Boolean).join(" ");
+  };
 
-								<div className='absolute top-0 left-0 w-full h-full flex flex-col'>
-									{bricks.length !== 0 && renderBricks()}
-								</div>
-								<div className='w-full h-full bg-gray-100/20 absolute top-0 left-0'></div>
-								<img
-									src={bgImg}
-									className='absoulte top-0 left-0 max-w-none'
-									// " object-cover xs:w-[2000px] xs:h-[6400px] sm:w-[2500px] sm:h-[5120px] md:w-[2560px] md:h-[5000px] lg:w-[3200px] lg:h-[4000px] xl:w-[4000px] xl:h-[3200px]
-									// className="w-[5000px] h-[2560px]"
-									style={{
-										width: `5000px`, //250
-										height: `2560px`, //128
-									}}
-								/>
-							</div>
-						</WrapperTransformComponent>
-					</TransformComponent>
-				</TransformWrapper>
-			)}
-		</div>
-	);
+  return (
+    <div
+      className="w-full h-[90vh] bg-white flex justify-center items-center relative"
+      ref={containerRef}
+      onClick={handlePanClick}
+      onContextMenu={handleRightClick}
+    >
+      {imageScale > 0 && (
+        <TransformWrapper
+          key={`${imageNaturalWidth}x${imageNaturalHeight}`}
+          initialScale={imageScale}
+          minScale={imageScale}
+          maxScale={zoomFactor * imageScale}
+          centerOnInit
+          wheel={{ smoothStep: 0.003 }}
+        >
+          <TransformComponent
+            wrapperStyle={{
+              width: "100%",
+              height: "100%",
+            }}
+          >
+            <WrapperTransformComponent
+              imageScale={imageScale}
+              setIsPopupOpen={setIsPopupOpen}
+            >
+              <div className="relative w-full h-full">
+                <div
+                  id="pan"
+                  onMouseOver={handleMouseOver}
+                  className={`absolute w-full ${stage} top-0 left-0 bg-gradient-to-b z-50`}
+                >
+                  <img src={GrayImg} className="w-full h-full" />
+                </div>
+
+                <div className="absolute top-0 left-0 w-full h-full flex flex-col">
+                  {bricks.length !== 0 && renderBricks()}
+                </div>
+                <div className="w-full h-full bg-gray-100/20 absolute top-0 left-0"></div>
+                <img
+                  src={bgImg}
+                  className="absoulte top-0 left-0 max-w-none"
+                  // " object-cover xs:w-[2000px] xs:h-[6400px] sm:w-[2500px] sm:h-[5120px] md:w-[2560px] md:h-[5000px] lg:w-[3200px] lg:h-[4000px] xl:w-[4000px] xl:h-[3200px]
+                  // className="w-[5000px] h-[2560px]"
+                  style={{
+                    width: `5000px`, //250
+                    height: `2560px`, //128
+                  }}
+                />
+              </div>
+            </WrapperTransformComponent>
+          </TransformComponent>
+        </TransformWrapper>
+      )}
+    </div>
+  );
 };
 
 BrickContainer.propTypes = {
   stage: PropTypes.string.isRequired,
   clickedIndex: PropTypes.number,
+  dedicatedBrickId: PropTypes.string,
   hovered: PropTypes.string,
   filtered: PropTypes.array,
+  setModalPosition: PropTypes.func.isRequired,
   isSoldModalOpen: PropTypes.bool.isRequired,
   setIsPopupOpen: PropTypes.func.isRequired,
   handleBrickClick: PropTypes.func.isRequired,
@@ -220,6 +225,7 @@ BrickContainer.propTypes = {
   handlePanClick: PropTypes.func.isRequired,
   handleMouseOver: PropTypes.func.isRequired,
   handleMouseOut: PropTypes.func.isRequired,
+  hideDedicatedBrickInfoModal: PropTypes.func.isRequired,
   // handleSwipeUp: PropTypes.func.isRequired,
 };
 

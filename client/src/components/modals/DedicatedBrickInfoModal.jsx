@@ -2,12 +2,7 @@ import PropTypes from "prop-types";
 import userImg from "../../assets/img/user.png";
 import { useRef, useEffect, useState } from "react";
 
-const BrickInformationModal = ({
-  userId,
-  brickInfo,
-  modalPosition,
-  handleDedicate,
-}) => {
+const DedicatedBrickInfoModal = ({ brickInfo, modalPosition, hideModal }) => {
   const modalRef = useRef(null);
   const [position, setPosition] = useState({});
   const [visible, setVisible] = useState("hidden");
@@ -18,16 +13,23 @@ const BrickInformationModal = ({
       const modalHeight = modalRef.current.offsetHeight;
       const modalWidth = modalRef.current.offsetWidth;
       if (window.innerWidth > 576) {
-        setPosition({
-          x:
-            window.innerWidth - modalPosition.x > modalWidth
-              ? modalPosition.x
-              : modalPosition.x - modalWidth,
-          y:
-            window.innerHeight - modalPosition.y > modalHeight
-              ? modalPosition.y
-              : modalPosition.y - modalHeight,
-        });
+        if (modalPosition.x == 0 && modalPosition.y == 0) {
+          setPosition({
+            x: (window.innerWidth - modalWidth) / 2,
+            y: (window.innerHeight - modalWidth) / 2,
+          });
+        } else {
+          setPosition({
+            x:
+              window.innerWidth - modalPosition.x > modalWidth
+                ? modalPosition.x
+                : modalPosition.x - modalWidth,
+            y:
+              window.innerHeight - modalPosition.y > modalHeight
+                ? modalPosition.y
+                : modalPosition.y - modalHeight,
+          });
+        }
       } else {
         setPosition({
           x: 0,
@@ -41,18 +43,32 @@ const BrickInformationModal = ({
     setVisible("visible");
   }, [position]);
 
+  const handleClose = (e) => {
+    e.preventDefault();
+    if (e.target.id === "dedicated-brickinfo-pan") {
+      hideModal();
+    }
+  };
+
+  console.log(brickInfo);
+
   return (
     <div
-      className="border border-gray-600 bg-gray-200 absolute py-4 px-4 w-full sm:w-80 items-center rounded-md z-10"
-      style={{
-        left: position.x,
-        top: position.y,
-        boxShadow: "0px 0px 5px rgba(0, 0, 0, 0.7)",
-        visibility: visible,
-      }}
-      ref={modalRef}
+      id="dedicated-brickinfo-pan"
+      className="fixed w-full h-full z-50"
+      onClick={handleClose}
     >
-      {brickInfo.dedication ? (
+      <div
+        className="border border-gray-600 bg-gray-200 rounded-md opacity-100 absolute px-4 py-4 w-full sm:w-80 h-auto flex flex-col gap-3 justify-center items-center"
+        style={{
+          left: position.x,
+          top: position.y,
+          boxShadow: "0px 0px 5px rgba(0, 0, 0, 0.7)",
+          visibility: visible,
+        }}
+        onClick={hideModal}
+        ref={modalRef}
+      >
         <div className="flex flex-col gap-1 w-full h-full items-center justify-around">
           <p className="font-raleway">
             Donated by{" "}
@@ -82,33 +98,15 @@ const BrickInformationModal = ({
           </div>
           <p className="font-raleway text-md">{brickInfo.dedication.message}</p>
         </div>
-      ) : (
-        <div className="flex flex-col gap-4 w-full h-full justify-center items-center px-4 py-6">
-          <p className="text-xl font-bold font-montserrat">
-            {brickInfo.brick_id}
-          </p>
-          <p className="font-lg font-bold font-raleway">
-            Donated by {brickInfo.donor.fullName}
-          </p>
-          {brickInfo.user === userId && (
-            <button
-              className="text-gray-100 bg-red-700 hover:bg-red-800 px-4 py-2 rounded-md"
-              onClick={handleDedicate}
-            >
-              DEDICATE NOW
-            </button>
-          )}
-        </div>
-      )}
+      </div>
     </div>
   );
 };
 
-BrickInformationModal.propTypes = {
-  userId: PropTypes.string,
+DedicatedBrickInfoModal.propTypes = {
   brickInfo: PropTypes.object.isRequired,
   modalPosition: PropTypes.object.isRequired,
-  handleDedicate: PropTypes.func.isRequired,
+  hideModal: PropTypes.func.isRequired,
 };
 
-export default BrickInformationModal;
+export default DedicatedBrickInfoModal;
