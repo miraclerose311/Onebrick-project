@@ -35,6 +35,9 @@ const Buybrick = () => {
 
   const { isAuthenticated, token } = useSelector((state) => state.auth);
 
+  useEffect(() => {
+    console.log("BuyBrick component Rerendered!");
+  }, []);
   // Initialize userId
   const [userId, setUserId] = useState(null);
   useEffect(() => {
@@ -62,7 +65,7 @@ const Buybrick = () => {
 
   const [hiddenHeight, setHiddenHeight] = useState("h-3/4");
   const [clickedIndex, setClickedIndex] = useState(null);
-  const [hovered, setHovered] = useState("");
+  const [hovered, setHovered] = useState({});
   const [filtered, setFiltered] = useState([]);
   const [search, setSearch] = useState(null);
   const [donorname, setDonorName] = useState("");
@@ -573,6 +576,7 @@ const Buybrick = () => {
           hideModal={() => handleSetIsBuyBrickModalOpen(false)}
         />
       )}
+
       {isBrickInfoModalOpen && (
         <BrickInformationModal
           userId={userId}

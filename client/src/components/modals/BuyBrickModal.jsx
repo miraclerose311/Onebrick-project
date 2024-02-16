@@ -52,7 +52,7 @@ const BuyBrickModal = ({
   return (
     <div
       id="buybrickmodal-pan"
-      className="fixed w-full h-full z-50"
+      className="fixed w-full h-full z-50 bg-gray-500/20"
       onClick={handleClose}
     >
       <div

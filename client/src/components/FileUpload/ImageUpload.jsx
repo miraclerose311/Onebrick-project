@@ -48,6 +48,7 @@ const ImageUpload = ({
           <img
             src={previewFile}
             alt="Upload"
+            loading="lazy"
             className={classNames(
               `inline-block object-cover ${className}`,
               userRole === 2 && "cursor-pointer"

@@ -12,6 +12,10 @@ const BrickInformationModal = ({
   const [position, setPosition] = useState({});
   const [visible, setVisible] = useState("hidden");
 
+  useEffect(() => {
+    console.log("BrickInfoModal Rerendered!");
+  }, []);
+
   // Use effect to calculate the position after the component mounts or updates
   useEffect(() => {
     if (modalRef.current) {

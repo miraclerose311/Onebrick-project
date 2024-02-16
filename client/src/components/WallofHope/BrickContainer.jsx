@@ -26,6 +26,10 @@ const BrickContainer = ({
 }) => {
   const containerRef = useRef();
 
+  useEffect(() => {
+    console.log("BrickContainer Rerendered!");
+  }, []);
+
   const [containerWidth, setContainerWidth] = useState(0);
   const [containerHeight, setContainerHeight] = useState(0);
 
@@ -65,7 +69,7 @@ const BrickContainer = ({
       setContainerWidth(0);
       setContainerHeight(0);
     }
-    console.log(getBrickElementPositionById(dedicatedBrickId));
+    getBrickElementPositionById(dedicatedBrickId);
   }, [containerRef, dedicatedBrickId]);
 
   useEffect(() => {
@@ -185,7 +189,7 @@ const BrickContainer = ({
                   onMouseOver={handleMouseOver}
                   className={`absolute w-full ${stage} top-0 left-0 bg-gradient-to-b z-50`}
                 >
-                  <img src={GrayImg} className="w-full h-full" />
+                  <img loading="lazy" src={GrayImg} className="w-full h-full" />
                 </div>
 
                 <div className="absolute top-0 left-0 w-full h-full flex flex-col">
@@ -194,6 +198,7 @@ const BrickContainer = ({
                 <div className="w-full h-full bg-gray-100/20 absolute top-0 left-0"></div>
                 <img
                   src={bgImg}
+                  loading="lazy"
                   className="absoulte top-0 left-0 max-w-none"
                   // " object-cover xs:w-[2000px] xs:h-[6400px] sm:w-[2500px] sm:h-[5120px] md:w-[2560px] md:h-[5000px] lg:w-[3200px] lg:h-[4000px] xl:w-[4000px] xl:h-[3200px]
                   // className="w-[5000px] h-[2560px]"
@@ -215,7 +220,7 @@ BrickContainer.propTypes = {
   stage: PropTypes.string.isRequired,
   clickedIndex: PropTypes.number,
   dedicatedBrickId: PropTypes.string,
-  hovered: PropTypes.string,
+  hovered: PropTypes.object,
   filtered: PropTypes.array,
   setModalPosition: PropTypes.func.isRequired,
   isSoldModalOpen: PropTypes.bool.isRequired,

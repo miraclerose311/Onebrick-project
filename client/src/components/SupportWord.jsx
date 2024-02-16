@@ -28,7 +28,7 @@ const SupportWord = ({ item }) => {
   };
 
   return (
-    <div className="flex flex-col py-4 xl:py-6">
+    <div className="flex flex-col py-2">
       <div className="flex items-start gap-6">
         <img
           src={item.user.picture}
@@ -42,7 +42,7 @@ const SupportWord = ({ item }) => {
           <p className="text-gray-600 font-bold font-montserrat">
             {getTimeDelta(item.date)}
           </p>
-          <p className="text-xl lg:text-2xl font-normal font-raleway mt-2 text-left">
+          <p className="text-lg lg:text-xl font-normal font-raleway text-left">
             {item.message}
           </p>
         </div>

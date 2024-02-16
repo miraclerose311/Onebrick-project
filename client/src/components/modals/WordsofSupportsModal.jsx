@@ -55,7 +55,7 @@ const WordsofSupportsModal = ({ hideModal }) => {
       className="fixed flex h-full w-full overflow-y-auto justify-center items-center z-50"
       onClick={handleClose}
     >
-      <div className="w-5/6 sm:w-2/3 md:w-2/3 2xl:w-7/12 h-2/3 sm:h-4/5 lg:h-1/2 2xl:h-2/3 flex bg-white rounded-md relative">
+      <div className="w-5/6 sm:w-2/3 md:w-2/3 2xl:w-7/12 h-2/3 sm:h-4/5 lg:h-1/2 2xl:h-2/3 flex bg-white shadow-md shadow-gray-500 rounded-md relative">
         <IoClose
           className="absolute top-4 right-4 cursor-pointer w-8 h-8"
           onClick={() => hideModal()}
@@ -63,10 +63,11 @@ const WordsofSupportsModal = ({ hideModal }) => {
         <div className="w-1/2 hidden lg:flex">
           <img
             src={WordsofSupportModalImg}
+            loading="lazy"
             className="rounded-l-md object-cover w-full h-full"
           />
         </div>
-        <div className="w-full lg:w-1/2 h-full px-8 md:px-12 py-6 flex flex-col justify-evenly shadow-md shadow-gray-500 rounded-r-md items-center gap-3">
+        <div className="w-full lg:w-1/2 h-full px-8 md:px-12 py-6 flex flex-col justify-evenly rounded-r-md items-center gap-3">
           <div className="flex flex-col gap-2">
             <p className="text-2xl sm:text-4xl lg:text-2xl xl:text-4xl 2xl:text-4xl font-montserrat font-bold">
               Words of Support
