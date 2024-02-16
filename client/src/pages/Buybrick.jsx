@@ -14,17 +14,17 @@ import { clearOrder } from "../features/paymentSlice";
 import { clearCurrent } from "../features/brickSlice";
 
 // Import modal components
-import BrickInformationModal from "../components/Modals/BrickInformationModal";
-import SoldModal from "../components/Modals/SoldModal";
-import SharingModal from "../components/Modals/SharingModal";
+import BrickInformationModal from "../components/modals/BrickInformationModal";
+import SoldModal from "../components/modals/SoldModal";
+import SharingModal from "../components/modals/SharingModal";
 import Popup from "../components/modals/Popup";
 import "../Modal.css";
 
-import WordsofSupportsModal from "../components/Modals/WordsofSupportsModal";
-import SlideModalContainer from "../components/Modals/SlideModalContainer";
+import WordsofSupportsModal from "../components/modals/WordsofSupportsModal";
+import SlideModalContainer from "../components/modals/SlideModalContainer";
 import MemoizedHeader from "../components/WallofHope/Header";
 import MemorizedBrickContainer from "../components/WallofHope/BrickContainer";
-import MemorizedBuybrickModal from "../components/Modals/BuyBrickModal";
+import MemorizedBuybrickModal from "../components/modals/BuyBrickModal";
 import ArrowUpButton from "../components/ArrowUpButton";
 import VideoModal from "../components/WallofHope/Video";
 
