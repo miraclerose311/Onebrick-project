@@ -1,6 +1,6 @@
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
-import WrapperTransformComponent from "../Modals/WrapperTransformComponent";
+import WrapperTransformComponent from "../modals/WrapperTransformComponent";
 import PropTypes from "prop-types";
 
 import GrayImg from "../../assets/img/WallofHope/gray.png";
