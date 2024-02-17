@@ -12,11 +12,11 @@ const IntroModal = ({ handleNextModal }) => {
   const handleAmount = (e) => {
     const newValue = parseInt(e.target.value);
     if (newValue === "" || /^[0-9]+$/.test(newValue)) {
-      setAmount(Math.min(newValue, 32000));
+      setAmount(Math.min(newValue, 40000));
     }
   };
   const handleIncreaseAmount = () => {
-    if (amount < 32000) {
+    if (amount < 40000) {
       setAmount(amount + 1);
     }
   };
@@ -55,7 +55,7 @@ const IntroModal = ({ handleNextModal }) => {
         <input
           type="text"
           min={1}
-          max={32000}
+          max={40000}
           value={amount}
           className="w-24 border px-2 py-2 h-2/3 outline-none focus:border focus:border-sky-400 bg-gray-300 text-lg text-center"
           onChange={(e) => handleAmount(e)}

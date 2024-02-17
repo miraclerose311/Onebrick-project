@@ -3,7 +3,7 @@ import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import WrapperTransformComponent from "../modals/WrapperTransformComponent";
 import PropTypes from "prop-types";
 
-import GrayImg from "../../assets/img/WallofHope/gray.png";
+// import GrayImg from "../../assets/img/WallofHope/gray.png";
 import bgImg from "../../assets/img/WallofHope/alpha_building_high_res.jpg";
 import { useSelector } from "react-redux";
 
@@ -114,10 +114,10 @@ const BrickContainer = ({
   };
 
   const renderBricks = () => {
-    return Array.from(Array(128).keys()).map((col) => (
+    return Array.from(Array(125).keys()).map((col) => (
       <div key={col} className="flex flex-row w-full">
-        {Array.from(Array(250).keys()).map((row) => {
-          const index = col * 250 + row;
+        {Array.from(Array(320).keys()).map((row) => {
+          const index = col * 320 + row;
 
           return (
             <div
@@ -187,9 +187,9 @@ const BrickContainer = ({
                 <div
                   id="pan"
                   onMouseOver={handleMouseOver}
-                  className={`absolute w-full ${stage} top-0 left-0 bg-gradient-to-b z-50`}
+                  className={`absolute w-full ${stage} top-0 left-0 bg-transparent z-50`}
                 >
-                  <img loading="lazy" src={GrayImg} className="w-full h-full" />
+                  {/* <img loading="lazy" src={GrayImg} className="w-full h-full" /> */}
                 </div>
 
                 <div className="absolute top-0 left-0 w-full h-full flex flex-col">
@@ -203,8 +203,8 @@ const BrickContainer = ({
                   // " object-cover xs:w-[2000px] xs:h-[6400px] sm:w-[2500px] sm:h-[5120px] md:w-[2560px] md:h-[5000px] lg:w-[3200px] lg:h-[4000px] xl:w-[4000px] xl:h-[3200px]
                   // className="w-[5000px] h-[2560px]"
                   style={{
-                    width: `5000px`, //250
-                    height: `2560px`, //128
+                    width: `6400px`, //320
+                    height: `2500px`, //125
                   }}
                 />
               </div>

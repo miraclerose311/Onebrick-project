@@ -89,13 +89,13 @@ const Buybrick = () => {
 
   useEffect(() => {
     let soldblas = sold + 1;
-    if (Math.ceil(soldblas / 8000) === 1) {
+    if (Math.ceil(soldblas / 10000) === 1) {
       setHiddenHeight("h-3/4");
-    } else if (Math.ceil(soldblas / 8000) === 2) {
+    } else if (Math.ceil(soldblas / 10000) === 2) {
       setHiddenHeight("h-1/2");
-    } else if (Math.ceil(soldblas / 8000) === 3) {
+    } else if (Math.ceil(soldblas / 10000) === 3) {
       setHiddenHeight("h-1/4");
-    } else if (Math.ceil(soldblas / 8000) === 4) setHiddenHeight("hidden");
+    } else if (Math.ceil(soldblas / 10000) === 4) setHiddenHeight("hidden");
   }, [sold]);
 
   // Initialize modal variables
@@ -176,9 +176,9 @@ const Buybrick = () => {
   };
 
   const setBuybrickModalInCenter = () => {
-    const stage = 4 - Math.ceil((sold + 1) / 8000);
+    const stage = 4 - Math.ceil((sold + 1) / 10000);
     const CurrentBricks = bricks
-      .slice(8000 * stage, 8000 * (stage + 1) - 1)
+      .slice(10000 * stage, 10000 * (stage + 1) - 1)
       .filter((item) => item.sold == false);
     const randomNumber = Math.floor(Math.random() * CurrentBricks.length);
     const selectedBrick = CurrentBricks[randomNumber];
@@ -389,7 +389,7 @@ const Buybrick = () => {
             brick_id: bricks[clickedIndex].brick_id,
             user: userId,
             amount: amount / 100000,
-            stage: Math.ceil((sold + 1) / 8000),
+            stage: Math.ceil((sold + 1) / 10000),
           };
 
           dispatch(buyBrick(brickData));

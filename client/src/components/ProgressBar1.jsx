@@ -12,7 +12,7 @@ const ProgressBar1 = ({ height }) => {
       <div className={`w-full bg-gray-300 h-${height}`}>
         <div
           className={`bg-sky-700 h-${height}`}
-          style={{ width: `${(sold / 32000) * 100}%` }}
+          style={{ width: `${(sold / 40000) * 100}%` }}
         ></div>
       </div>
       <p className="w-full text-center">{sold} donations</p>

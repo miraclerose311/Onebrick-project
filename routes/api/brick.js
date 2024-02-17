@@ -8,7 +8,7 @@ const Brick = require("../../models/Brick");
 const Donor = require("../../models/Donor");
 const User = require("../../models/User");
 
-const bricksID = require("./initialValue.js");
+const randomIds = require("./initialValue.js");
 const { randomInt } = require("crypto");
 const { default: mongoose } = require("mongoose");
 router.get("/test", (req, res) => {
@@ -16,13 +16,14 @@ router.get("/test", (req, res) => {
 });
 
 router.post("/initial", async (req, res) => {
-  let count = 32000;
+  console.log(randomIds);
+  let count = 40000;
   try {
     await Brick.deleteMany({});
     let brickArray = [];
     for (let i = 0; i < count; i++) {
       brickArray.push({
-        brick_id: bricksID[i],
+        brick_id: randomIds[i],
         sold: false,
       });
     }
@@ -121,7 +122,7 @@ router.get("/all", async (req, res) => {
 
 const getRandomBrickId = async (amount, stage) => {
   let UnpurchasedBricks = await Brick.aggregate([
-    { $skip: (4 - stage) * 8000 },
+    { $skip: (4 - stage) * 10000 },
     { $match: { sold: false } },
   ]);
   let RandomId = [];
