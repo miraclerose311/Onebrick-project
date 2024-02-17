@@ -74,7 +74,7 @@ const ConfirmModal = ({
       <p className="text-xl font-raleway font-medium hidden sm:flex">
         {brickArray.length}&nbsp;BRICKS DONATED
       </p>
-      <div className="w-full max-h-48 scroll-hidden hidden sm:flex sm:flex-col border border-gray-100">
+      <div className="w-full max-h-48 scroll-hidden flex flex-col border border-gray-100">
         {brickArray.map((brick) => (
           <p
             key={brick.brick_id}
