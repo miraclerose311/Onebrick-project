@@ -26,10 +26,6 @@ const BrickContainer = ({
 }) => {
   const containerRef = useRef();
 
-  useEffect(() => {
-    console.log("BrickContainer Rerendered!");
-  }, []);
-
   const [containerWidth, setContainerWidth] = useState(0);
   const [containerHeight, setContainerHeight] = useState(0);
 
@@ -37,8 +33,6 @@ const BrickContainer = ({
   const [imageNaturalHeight, setImageNaturalHeight] = useState(0);
 
   // Initialize zoom in and out variables
-  const scaleUp = true;
-
   const { bricks } = useSelector((state) => state.brick);
 
   useEffect(() => {
@@ -92,16 +86,12 @@ const BrickContainer = ({
     //   containerWidth / imageNaturalWidth,
     //   containerHeight / imageNaturalHeight
     // );
-    const scale = containerWidth / imageNaturalWidth;
+    const scale = containerWidth / imageNaturalWidth / 4.16;
 
-    return scaleUp ? scale : Math.max(scale, 1);
-  }, [
-    scaleUp,
-    containerWidth,
-    containerHeight,
-    imageNaturalWidth,
-    imageNaturalHeight,
-  ]);
+    return scale;
+
+    // return scaleUp ? scale : Math.max(scale, 1);
+  }, [containerWidth, containerHeight, imageNaturalWidth, imageNaturalHeight]);
 
   const getBrickElementPositionById = (brickId) => {
     const brickElement = document.getElementById(`brick-${brickId}`);
@@ -114,11 +104,10 @@ const BrickContainer = ({
   };
 
   const renderBricks = () => {
-    return Array.from(Array(125).keys()).map((col) => (
+    return Array.from(Array(140).keys()).map((col) => (
       <div key={col} className="flex flex-row w-full">
-        {Array.from(Array(320).keys()).map((row) => {
-          const index = col * 320 + row;
-
+        {Array.from(Array(300).keys()).map((row) => {
+          const index = col * 300 + row;
           return (
             <div
               key={index}
@@ -141,9 +130,6 @@ const BrickContainer = ({
                   "bg-transparent custom-shadow"
               )}
               onClick={() => handleBrickClick(index)}
-              // onTouchStart={onTouchStart}
-              // onTouchMove={onTouchMove}
-              // onTouchEnd={onTouchEnd}
               onMouseOver={handleMouseOver}
               onMouseOut={handleMouseOut}
             ></div>
@@ -164,7 +150,7 @@ const BrickContainer = ({
       onClick={handlePanClick}
       onContextMenu={handleRightClick}
     >
-      {imageScale > 0 && (
+      {
         <TransformWrapper
           key={`${imageNaturalWidth}x${imageNaturalHeight}`}
           initialScale={imageScale}
@@ -187,31 +173,31 @@ const BrickContainer = ({
                 <div
                   id="pan"
                   onMouseOver={handleMouseOver}
-                  className={`absolute w-full ${stage} top-0 left-0 bg-transparent z-50`}
+                  className={`absolute w-full flex justify-center ${stage} mb-2 top-0 left-0 bg-gray-800/10 border-b-8 border-green-400 z-50`}
                 >
-                  {/* <img loading="lazy" src={GrayImg} className="w-full h-full" /> */}
+                  <p className="flex self-end text-6xl mt-8 text-gray-700">
+                    YOU CAN NOW DONATE BRICKS FOR THE GROUND LAYER
+                  </p>
                 </div>
 
                 <div className="absolute top-0 left-0 w-full h-full flex flex-col">
                   {bricks.length !== 0 && renderBricks()}
                 </div>
-                <div className="w-full h-full bg-gray-100/20 absolute top-0 left-0"></div>
+
                 <img
                   src={bgImg}
                   loading="lazy"
                   className="absoulte top-0 left-0 max-w-none"
-                  // " object-cover xs:w-[2000px] xs:h-[6400px] sm:w-[2500px] sm:h-[5120px] md:w-[2560px] md:h-[5000px] lg:w-[3200px] lg:h-[4000px] xl:w-[4000px] xl:h-[3200px]
-                  // className="w-[5000px] h-[2560px]"
                   style={{
-                    width: `6400px`, //320
-                    height: `2500px`, //125
+                    width: `6000px`, //320
+                    height: `2800px`, //125
                   }}
                 />
               </div>
             </WrapperTransformComponent>
           </TransformComponent>
         </TransformWrapper>
-      )}
+      }
     </div>
   );
 };

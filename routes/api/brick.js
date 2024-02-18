@@ -17,7 +17,7 @@ router.get("/test", (req, res) => {
 
 router.post("/initial", async (req, res) => {
   console.log(randomIds);
-  let count = 40000;
+  let count = process.env.BRICK_COUNT;
   try {
     await Brick.deleteMany({});
     let brickArray = [];
@@ -121,8 +121,9 @@ router.get("/all", async (req, res) => {
 });
 
 const getRandomBrickId = async (amount, stage) => {
+  const quater = process.env.BRICK_COUNT / 4;
   let UnpurchasedBricks = await Brick.aggregate([
-    { $skip: (4 - stage) * 10000 },
+    { $skip: (4 - stage) * quater },
     { $match: { sold: false } },
   ]);
   let RandomId = [];
@@ -139,7 +140,6 @@ router.post("/buy", async (req, res) => {
   try {
     const donor = await Donor.findOne({ user: user });
     // Assume that Brick.updateOne() and getRandomBrickId() return Promises
-    let purchasedIds = [brick_id];
     let updatePromises = [
       Brick.updateOne(
         { brick_id },
@@ -153,6 +153,7 @@ router.post("/buy", async (req, res) => {
       ),
     ];
 
+    let purchasedIds = [brick_id];
     if (amount > 1) {
       const randomIDs = await getRandomBrickId(amount - 1, stage);
       purchasedIds.push(...randomIDs);

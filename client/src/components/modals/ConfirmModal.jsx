@@ -75,10 +75,12 @@ const ConfirmModal = ({
         {brickArray.length}&nbsp;BRICKS DONATED
       </p>
       <div className="w-full max-h-48 scroll-hidden flex flex-col border border-gray-100">
-        {brickArray.map((brick) => (
+        {brickArray.map((brick, index) => (
           <p
             key={brick.brick_id}
-            className="w-full text-md border-b-2 border-gray-200 font-raleway my-2 cursor-pointer"
+            className={`w-full text-md border-gray-200 font-raleway my-2 cursor-pointer ${
+              brickArray.length - 1 === index ? "border-none" : "border-b-1"
+            }`}
           >
             {brick.dedication ? (
               <span onClick={() => onClickBrick(brick.brick_id)}>

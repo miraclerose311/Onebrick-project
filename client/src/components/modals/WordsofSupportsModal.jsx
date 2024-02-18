@@ -67,14 +67,15 @@ const WordsofSupportsModal = ({ hideModal }) => {
             className="rounded-l-md object-cover w-full h-full"
           />
         </div>
-        <div className="w-full lg:w-1/2 h-full px-8 md:px-12 py-6 flex flex-col justify-evenly rounded-r-md items-center gap-3">
+        <div className="w-full lg:w-1/2 h-full px-8 md:px-12 py-12 flex flex-col justify-evenly rounded-r-md items-center gap-3">
           <div className="flex flex-col gap-2">
             <p className="text-2xl sm:text-4xl lg:text-2xl xl:text-4xl 2xl:text-4xl font-montserrat font-bold">
               Words of Support
             </p>
             <p className="w-full text-center text-gray-600">
-              Before departing, kindly offer a brief message of encouragement
-              that may assist us in attracting additional donors
+              You&rsquo;re a hero! Thank you for supporting our hospice
+              initiative. Can you help inspire others to join this initiative by
+              sharing a few words of support?
             </p>
           </div>
           <textarea
@@ -86,7 +87,7 @@ const WordsofSupportsModal = ({ hideModal }) => {
           />
           <button
             onClick={handleSubmit}
-            className="py-1 md:py-2 px-12 mt-3 rounded-lg border-2 border-sky-700 hover:bg-sky-800 hover:text-white font-montserrat text-center"
+            className="w-full py-1 md:py-2 mt-3 rounded-lg border-2 border-sky-700 hover:bg-sky-800 hover:text-white font-montserrat text-center"
           >
             Send
           </button>

@@ -68,7 +68,7 @@ const Header = ({
 	};
 
 	return (
-    <div className="w-full flex justify-center md:justify-between sm:px-12 h-full sm:h-12 items-center py-2 border-b border-gray-100">
+    <div className="w-full flex justify-center md:justify-between sm:px-12 h-12 items-center py-2 border-b border-gray-100">
       <div className="gap-4 hidden md:flex items-center">
         <Link to="/" className="flex items-center w-16 h-12">
           <img
@@ -243,7 +243,7 @@ const Header = ({
         </Menu>
         <Link
           onClick={handleBuyBrickInCenter}
-          className="bg-red-700 rounded-md font-medium text-white hover:bg-red-800  w-40 md:w-48 xl:w-56 h-10 text-center lg:text-lg flex items-center justify-center ml-4 sm:my-1 py-1"
+          className="bg-red-700 rounded-md font-medium text-white hover:bg-red-800  w-40 md:w-48 xl:w-56 h-10 text-center lg:text-lg flex items-center self-center justify-center ml-4 sm:my-1 py-1"
         >
           DONATE A BRICK
         </Link>

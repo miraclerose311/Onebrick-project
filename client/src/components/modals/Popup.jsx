@@ -145,7 +145,7 @@ const Popup = ({
             onClick={handleClickVideo}
             className="bg-red-700 hover:bg-red-800 text-white text-xl flex gap-2 justify-center items-center rounded-md my-4 px-6 py-1.5"
           >
-            <sapn className="mb-1">Watch video</sapn>{" "}
+            <span className="mb-1">Watch video</span>{" "}
             <FaCaretRight className="w-8 h-8 text-white" />
           </button>
           <hr className="my-4 border border-gray-800/10" />

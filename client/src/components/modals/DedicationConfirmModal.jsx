@@ -65,7 +65,7 @@ const DedicationConfirmModal = ({ handleConfirm, clickedIndex }) => {
         onClick={handleSubmit}
       >
         <span className="flex flex-row items-center justify-between gap-x-3">
-          DONATIONS
+          Offer Words of Support
           <FaAnglesRight />
         </span>
       </button>

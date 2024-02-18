@@ -30,14 +30,12 @@ import VideoModal from "../components/WallofHope/Video";
 import DedicatedBrickInfoModal from "../components/modals/DedicatedBrickInfoModal";
 
 const Buybrick = () => {
+	const quarter = 10500;
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const { isAuthenticated, token } = useSelector((state) => state.auth);
 
-  useEffect(() => {
-    console.log("BuyBrick component Rerendered!");
-  }, []);
   // Initialize userId
   const [userId, setUserId] = useState(null);
   useEffect(() => {
@@ -88,14 +86,24 @@ const Buybrick = () => {
   }, [dispatch, userId]);
 
   useEffect(() => {
-    let soldblas = sold + 1;
-    if (Math.ceil(soldblas / 10000) === 1) {
-      setHiddenHeight("h-3/4");
-    } else if (Math.ceil(soldblas / 10000) === 2) {
-      setHiddenHeight("h-1/2");
-    } else if (Math.ceil(soldblas / 10000) === 3) {
-      setHiddenHeight("h-1/4");
-    } else if (Math.ceil(soldblas / 10000) === 4) setHiddenHeight("hidden");
+    let soldIncrements = Math.ceil((sold + 1) / quarter);
+
+    switch (soldIncrements) {
+      case 1:
+        setHiddenHeight("h-3/4"); // This seems to be an error; CSS classes cannot have calculations
+        break;
+      case 2:
+        setHiddenHeight("h-1/2");
+        break;
+      case 3:
+        setHiddenHeight("h-1/4");
+        break;
+      case 4:
+        setHiddenHeight("hidden");
+        break;
+      default:
+        setHiddenHeight("");
+    }
   }, [sold]);
 
   // Initialize modal variables
@@ -158,6 +166,7 @@ const Buybrick = () => {
   }, [userId, bricks, isSoldModalOpen]);
 
   const handleBrickClick = (index) => {
+    console.log(index);
     if (!bricks[index].sold && !isSoldModalOpen && !isBuyBrickModalOpen) {
       handleSetIsBrickInfoModalOpen(false);
       handleSetIsSoldModalOpen(false);
@@ -176,9 +185,10 @@ const Buybrick = () => {
   };
 
   const setBuybrickModalInCenter = () => {
-    const stage = 4 - Math.ceil((sold + 1) / 10000);
+    const quarter = 10500;
+    const stage = 4 - Math.ceil((sold + 1) / quarter);
     const CurrentBricks = bricks
-      .slice(10000 * stage, 10000 * (stage + 1) - 1)
+      .slice(quarter * stage, quarter * (stage + 1) - 1)
       .filter((item) => item.sold == false);
     const randomNumber = Math.floor(Math.random() * CurrentBricks.length);
     const selectedBrick = CurrentBricks[randomNumber];
@@ -389,7 +399,7 @@ const Buybrick = () => {
             brick_id: bricks[clickedIndex].brick_id,
             user: userId,
             amount: amount / 100000,
-            stage: Math.ceil((sold + 1) / 10000),
+            stage: Math.ceil((sold + 1) / quarter),
           };
 
           dispatch(buyBrick(brickData));
@@ -465,10 +475,11 @@ const Buybrick = () => {
             item.donor.state.toLowerCase().includes(search.toLowerCase()) ||
             item.brick_id.includes(search.toUpperCase())
           );
-        } else {
-          // If there is no donor, match by brick_id
-          return item.brick_id.includes(search.toUpperCase());
         }
+        // else {
+        //   // If there is no donor, match by brick_id
+        //   return item.brick_id.includes(search.toUpperCase());
+        // }
       });
       handleSetFiltered(temp);
     }
@@ -546,7 +557,7 @@ const Buybrick = () => {
 
       <ArrowUpButton handleSetIsPopupOpen={() => handleSetIsPopupOpen(true)} />
 
-      {isSlideModalOpen && filtered.length > 0 && (
+      {isSlideModalOpen && (
         <SlideModalContainer
           isSlideModalOpen={isSlideModalOpen}
           modalContent={modalContent}

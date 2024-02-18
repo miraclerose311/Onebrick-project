@@ -20,6 +20,6 @@ function generateManyRandomIds(numberOfIds) {
   return [...ids]; // Convert the set back to an array
 }
 
-const randomIds = generateManyRandomIds(40000);
+const randomIds = generateManyRandomIds(process.env.BRICK_COUNT);
 
 module.exports = randomIds;

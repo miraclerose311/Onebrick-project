@@ -77,7 +77,7 @@ const SlideModalContainer = ({
             clickedIndex={clickedIndex}
           />
         )}
-        {modalContent === 7 && (
+        {modalContent === 7 && filtered.length > 0 && (
           <ConfirmModal
             filtered={filtered}
             // clickedIndex={clickedIndex}
