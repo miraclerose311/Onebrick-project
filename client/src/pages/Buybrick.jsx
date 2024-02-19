@@ -116,7 +116,7 @@ const Buybrick = () => {
     useState(false);
   const [dedicatedBrickModalOpen, setDedicatedBrickModalOpen] = useState(false);
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(true);
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [isPopupOpen, setIsPopupOpen] = useState(true);
 
   const [modalContent, setModalContent] = useState(0);
   const [modalPosition, setModalPosition] = useState({ x: 0, y: 0 });

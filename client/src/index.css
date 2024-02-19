@@ -52,10 +52,7 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.custom-shadow {
-  box-shadow: 0 0 20px 10px  rgb(233, 40, 14);
-  z-index: 40
-}
+
 
 .custom-file-upload {
   padding: 6px 12px;
@@ -171,3 +168,14 @@ th{
     transform: translateX(0);
   }
 } */
+.custom-shadow {
+  box-shadow: 0 0 20px 10px  rgb(233, 40, 14);
+  animation: iterativeZoomInOutShadow 1.5s infinite;
+  z-index: 40
+}
+
+@keyframes iterativeZoomInOutShadow {
+  0%, 16.67% { box-shadow: 0 0 30px 20px rgb(233, 40, 14); }
+  50%, 66.67% { box-shadow: 0 0 50px 40px rgb(233, 40, 14); }
+  100% { box-shadow: 0 0 30px 20px rgb(233, 40, 14); }
+}

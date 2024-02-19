@@ -173,10 +173,10 @@ const BrickContainer = ({
                 <div
                   id="pan"
                   onMouseOver={handleMouseOver}
-                  className={`absolute w-full flex justify-center ${stage} mb-2 top-0 left-0 bg-gray-800/10 border-b-8 border-green-400 z-50`}
+                  className={`absolute w-full flex justify-center ${stage} mb-2 top-0 left-0 bg-gray-800/10 z-50`}
                 >
-                  <p className="flex self-end text-6xl mt-8 text-gray-700">
-                    YOU CAN NOW DONATE BRICKS FOR THE GROUND LAYER
+                  <p className="flex self-end text-6xl font-bold font-sans mt-8 text-gray-700">
+                    YOU CAN NOW DONATE BRICKS FOR THE GROUND FLOOR
                   </p>
                 </div>
 

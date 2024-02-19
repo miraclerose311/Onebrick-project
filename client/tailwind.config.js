@@ -12,6 +12,7 @@ export default {
     fontFamily: {
       montserrat: ["Montserrat"],
       raleway: ["Raleway"],
+      sans: ["Arial"],
     },
   },
   plugins: [],
