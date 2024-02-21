@@ -20,8 +20,8 @@ jobs:
     - name: SSH into remote server and run commands
       run: |
           tar -cvf app.tar .
-          sshpass -p  $PASS scp -o StrictHostKeyChecking=no app.tar $HOST:/home/ubuntu/alphahospice
-          sshpass -p $PASS ssh -o StrictHostKeyChecking=no $HOST 'cd /home/ubuntu/alphahospice && tar -xvf app.tar'
+          sshpass -p  $PASS scp -o StrictHostKeyChecking=no app.tar $HOST:/home/ubuntu/
+          sshpass -p $PASS ssh -o StrictHostKeyChecking=no $HOST 'cd /home/ubuntu/ && tar -xvf app.tar'
       env:
           HOST: ubuntu@13.200.164.92
           PASS: RIblEardiver
