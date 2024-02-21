@@ -21,20 +21,14 @@ jobs:
       run: |
           tar -cvf app.tar .
           sshpass -p  $PASS scp -o StrictHostKeyChecking=no app.tar $HOST:/home/ubuntu/
-          sshpass -p $PASS ssh -o StrictHostKeyChecking=no $HOST 'cd /home/ubuntu/ && tar -xvf app.tar'
+          sshpass -p $PASS ssh -o StrictHostKeyChecking=no $HOST 'cd /home/ubuntu/alphahospice && sudo tar -xvf app.tar'
       env:
           HOST: ubuntu@13.200.164.92
           PASS: RIblEardiver
     - name: Install Node and run commands
       run: |
-          sshpass -p $PASS ssh -o StrictHostKeyChecking=no $HOST 'export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  && node -v && cd client && npm install && npm run build && cp -R dist/* /var/www/html'
+          sshpass -p $PASS ssh -o StrictHostKeyChecking=no $HOST 'export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  && node -v && cd client && npm install && npm run build && sudo cp -R dist/* /var/www/html'
       env:
           HOST: ubuntu@13.200.164.92
           PASS: RIblEardiver
-    # - name: NPM Install and run commands
-    #   run: |
-    #       sshpass -p $PASS ssh -o StrictHostKeyChecking=no $HOST 'npm install && cd client && npm install && npm run build && cp -R . /var/www/html'
-    #   env:
-    #       HOST: ubuntu@13.200.164.92
-    #       PASS: RIblEardiver
 
