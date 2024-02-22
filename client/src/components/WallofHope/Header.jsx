@@ -83,11 +83,11 @@ const Header = ({
         </p>
       </div>
 
-      <div className="md:gap-3 flex flex-wrap justify-around md:px-6 mr-0 itmes-center">
-        <div className="items-center mx-4 hidden lg:flex">
+      <div className="md:gap-3 flex flex-wrap justify-between md:px-6 mr-0 itmes-center">
+        <div className="items-center hidden lg:flex">
           <input
             type="search"
-            className="border border-gray-400 rounded-full w-40 md:w-48 xl:w-56 px-4 py-1 lg:py-2 bg-white outline-none focus-visible:border-sky-700"
+            className="border border-gray-400 rounded-full w-40 md:w-48 xl:w-56 px-4 py-1 bg-white outline-none focus-visible:border-sky-700"
             placeholder="Search the Wall of Hope"
             onChange={(e) => onChangeSearchInput(e)}
           />
@@ -95,7 +95,7 @@ const Header = ({
 
         {/*Share*/}
         <span
-          className=" rounded-full flex justify-center items-center sm:gap-1 p-2 cursor-pointer  hover:text-sky-700"
+          className=" rounded-full flex justify-center items-center sm:gap-1 cursor-pointer  hover:text-sky-700"
           onClick={() => setIsShareModalOpen(true)}
         >
           <FaShare className="w-6 sm:w-8 h-6 sm:h-8 text-gray-600 sm:mr-1" />
@@ -123,13 +123,16 @@ const Header = ({
         {/* Donatino Button  */}
         <Link
           onClick={handleBuyBrickInCenter}
-          className="w-full sm:w-40 md:w-48 xl:w-56 h-10 sm:mx-0 bg-red-700 rounded-md font-medium text-white hover:bg-red-800  text-center lg:text-lg flex items-center self-center justify-center sm:ml-4 sm:my-1 py-1 order-5 sm:order-3"
+          className="w-full sm:w-40 md:w-48 xl:w-56 h-10 sm:mx-0 bg-red-700 rounded-md font-medium text-white hover:bg-red-800  text-center lg:text-lg flex items-center self-center justify-center sm:my-1 py-1 order-5 sm:order-3"
         >
           SPONSOR A BRICK
         </Link>
 
         {/* User Avatar  */}
-        <Menu as="div" className="relative flex justify-center itmes-center sm:order-4">
+        <Menu
+          as="div"
+          className="relative flex justify-center itmes-center sm:order-4"
+        >
           <Menu.Button className="btn rounded-full">
             <img
               src={userAvatar}
@@ -174,8 +177,11 @@ const Header = ({
         </Menu>
 
         {/* Hambuger menu  */}
-        <Menu as="div" className="relative flex justify-center itmes-center sm:order-5">
-          <Menu.Button className="w-10 md:w-12 h-10 md:h-12 btn btn-change px-1 rounded-full">
+        <Menu
+          as="div"
+          className="relative flex justify-center itmes-center sm:order-5"
+        >
+          <Menu.Button className="w-10 md:w-12 h-10 md:h-12 btn btn-change px-1 sm:mt-1 rounded-full">
             <MdOutlineMenu className="w-full h-full text-gray-600 hover:text-sky-700 md:mt-0" />
           </Menu.Button>
           <Transition
@@ -187,7 +193,7 @@ const Header = ({
             leaveFrom="transform opacity-100 scale-100"
             leaveTo="transform opacity-0 scale-95"
           >
-            <Menu.Items className="absolute w-44 flex flex-col items-center -left-14 sm:-left-16 top-12 z-10 mt-2 p-2 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+            <Menu.Items className="absolute w-44 flex flex-col items-center right-0 sm:-left-16 top-8 sm:top-12 z-10 mt-2 p-2 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
               {userRole === 2 && (
                 <Menu.Item>
                   {({ active }) => (
