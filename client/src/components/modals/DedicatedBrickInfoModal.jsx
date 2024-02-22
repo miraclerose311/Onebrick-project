@@ -50,8 +50,6 @@ const DedicatedBrickInfoModal = ({ brickInfo, modalPosition, hideModal }) => {
     }
   };
 
-  console.log(brickInfo);
-
   return (
     <div
       id="dedicated-brickinfo-pan"

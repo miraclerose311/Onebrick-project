@@ -124,7 +124,6 @@ const Buybrick = () => {
   const handleSetIsBuyBrickModalOpen = useCallback((value) => {
     setIsBuyBrickModalOpen(value);
   }, []);
-  // console.log(isBuyBrickModalOpen)
   const handleSetIsBrickInfoModalOpen = useCallback((value) => {
     setIsBrickInfoModalOpen(value);
   }, []);
@@ -166,7 +165,6 @@ const Buybrick = () => {
   }, [userId, bricks, isSoldModalOpen]);
 
   const handleBrickClick = (index) => {
-    console.log(index);
     if (!bricks[index].sold && !isSoldModalOpen && !isBuyBrickModalOpen) {
       handleSetIsBrickInfoModalOpen(false);
       handleSetIsSoldModalOpen(false);

@@ -63,7 +63,7 @@ const ConfirmModal = ({
   };
 
   return (
-    <div className="flex flex-col items-center justify-center gap-4 sm:w-4/5">
+    <div className="w-5/6 sm:w-4/5 flex flex-col items-center justify-center gap-4">
       <div className="flex flex-col items-end gap-4">
         <img
           src={user.picture ? user.picture : userAvatar}
@@ -74,13 +74,11 @@ const ConfirmModal = ({
       <p className="text-xl font-raleway font-medium hidden sm:flex">
         {brickArray.length}&nbsp;BRICKS DONATED
       </p>
-      <div className="w-full max-h-48 scroll-hidden flex flex-col border border-gray-100">
-        {brickArray.map((brick, index) => (
+      <div className="w-full max-h-48 scroll-hidden flex flex-col">
+        {brickArray.map((brick) => (
           <p
             key={brick.brick_id}
-            className={`w-full text-md border-gray-200 font-raleway my-2 cursor-pointer ${
-              brickArray.length - 1 === index ? "border-none" : "border-b-1"
-            }`}
+            className="w-full text-md border-gray-200 font-raleway my-2 cursor-pointer border-b"
           >
             {brick.dedication ? (
               <span onClick={() => onClickBrick(brick.brick_id)}>

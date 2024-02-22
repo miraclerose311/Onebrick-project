@@ -44,19 +44,10 @@ const DonorInformationModal = ({ handleNextModal }) => {
 
   const dispatch = useDispatch();
 
-  function isValidNumber(mobile) {
-    const regex = /^[0-9]{8,}$/;
-    return regex.test(mobile);
-  }
   // Make sure validateEmail function is defined
   function isValidEmail(email) {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
-  }
-
-  function isValidPAN(pan) {
-    const regex = /^[A-Z, a-z]{5}[0-9]{4}[A-Z]$/;
-    return regex.test(pan.toUpperCase());
   }
 
   const handleSubmit = () => {
@@ -74,24 +65,6 @@ const DonorInformationModal = ({ handleNextModal }) => {
     } else if (!isValidEmail(email)) {
       newErrors.email = "Please enter a valid email address";
     }
-
-    // Validate Mobile Number
-    if (!mobile.trim()) {
-      newErrors.mobile = "Mobile number is required";
-    } else if (!isValidNumber(mobile)) {
-      newErrors.mobile = "Please enter a valid phone number";
-    }
-
-    //Validate PAN Number
-    // if (!pan.trim()) {
-    //   newErrors.pan = "PAN number is required";
-    // } else
-    if (pan.trim()) {
-      if (!isValidPAN(pan)) {
-        newErrors.pan = "Please enter a valid PAN number";
-      }
-    }
-    // Update the errors state
     setErrors(newErrors);
 
     // If there are no errors, proceed to dispatch the data and handle the next modal
@@ -132,6 +105,7 @@ const DonorInformationModal = ({ handleNextModal }) => {
         type="text"
         name="fullName"
         value={fullName}
+        maxLength={20}
         onChange={(e) => setName(e.target.value)}
         onFocus={handleFocus}
         className={classNames(
@@ -151,6 +125,7 @@ const DonorInformationModal = ({ handleNextModal }) => {
         type="email"
         name="email"
         value={email}
+        maxLength={20}
         onFocus={handleFocus}
         onChange={(e) => setEmail(e.target.value)}
         className={classNames(
@@ -170,8 +145,14 @@ const DonorInformationModal = ({ handleNextModal }) => {
         type="tel"
         name="mobile"
         value={mobile}
+        maxLength={20}
         onFocus={handleFocus}
-        onChange={(e) => setMobile(e.target.value)}
+        onChange={(e) => {
+          // Update the state only with numeric input or empty string (to allow deletion)
+          if (/^\d*$/.test(e.target.value)) {
+            setMobile(e.target.value);
+          }
+        }}
         className={classNames(
           "border border-gray-400 rounded-lg text-sm sm:text-lg w-4/5 sm:w-2/3 my-2 px-4 py-1.5 sm:py-2",
           errors.mobile && "border-red-400"
@@ -188,8 +169,13 @@ const DonorInformationModal = ({ handleNextModal }) => {
         type="text"
         name="pan"
         value={pan}
+        maxLength={20}
         onFocus={handleFocus}
-        onChange={(e) => setPan(e.target.value)}
+        onChange={(e) => {
+          if (/^\d*$/.test(e.target.value)) {
+            setPan(e.target.value);
+          }
+        }}
         className={classNames(
           "border border-gray-400 rounded-lg text-sm sm:text-lg w-4/5 sm:w-2/3 my-2 px-4 py-1.5 sm:py-2",
           errors.pan && "border-red-400"
