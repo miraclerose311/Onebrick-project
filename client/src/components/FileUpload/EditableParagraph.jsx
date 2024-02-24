@@ -61,6 +61,7 @@ const EditableParagraph = ({
     onBlur(name, textValue);
   };
 
+  // In this Conponent we can edit paragraph by click
   return (
     <div className="flex flex-col items-start w-full h-auto">
       {userRole === 2 &&
