@@ -16,7 +16,6 @@ router.get("/test", (req, res) => {
 });
 
 router.post("/initial", async (req, res) => {
-  console.log(randomIds);
   let count = process.env.BRICK_COUNT;
   try {
     await Brick.deleteMany({});
