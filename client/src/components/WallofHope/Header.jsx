@@ -129,7 +129,10 @@ const Header = ({
         </Link>
 
         {/* User Avatar  */}
-        <Menu as="div" className="relative flex justify-center itmes-center sm:order-4">
+        <Menu
+          as="div"
+          className="relative flex justify-center itmes-center sm:order-4"
+        >
           <Menu.Button className="btn rounded-full">
             <img
               src={userAvatar}
@@ -174,7 +177,10 @@ const Header = ({
         </Menu>
 
         {/* Hambuger menu  */}
-        <Menu as="div" className="relative flex justify-center itmes-center sm:order-5">
+        <Menu
+          as="div"
+          className="relative flex justify-center itmes-center sm:order-5"
+        >
           <Menu.Button className="w-10 md:w-12 h-10 md:h-12 btn btn-change px-1 rounded-full">
             <MdOutlineMenu className="w-full h-full text-gray-600 hover:text-sky-700 md:mt-0" />
           </Menu.Button>
@@ -187,7 +193,7 @@ const Header = ({
             leaveFrom="transform opacity-100 scale-100"
             leaveTo="transform opacity-0 scale-95"
           >
-            <Menu.Items className="absolute w-44 flex flex-col items-center -left-14 sm:-left-16 top-12 z-10 mt-2 p-2 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+            <Menu.Items className="absolute w-44 flex flex-col items-center right-0 top-12 z-10 mt-2 p-2 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
               {userRole === 2 && (
                 <Menu.Item>
                   {({ active }) => (
