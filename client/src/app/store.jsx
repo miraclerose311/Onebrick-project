@@ -11,18 +11,18 @@ import contentSlice from "../features/contentSlice";
 import supportSlice from "../features/supportSlice";
 
 const store = configureStore({
-	reducer: {
-		auth: authReducer,
-		user: userReducer,
-		brick: brickReducer,
-		alert: alertSlice,
-		payment: paymentSlice,
-		loading: loadingSlice,
-		donor: donorSlice,
-		admin: adminSlice,
-		content: contentSlice,
-		support: supportSlice,
-	},
+  reducer: {
+    auth: authReducer,
+    user: userReducer,
+    alert: alertSlice,
+    payment: paymentSlice,
+    loading: loadingSlice,
+    donor: donorSlice,
+    admin: adminSlice,
+    content: contentSlice,
+    support: supportSlice,
+    brick: brickReducer,
+  },
 });
 
 export default store;
