@@ -1,4 +1,4 @@
 {
-  "mongoURI": "mongodb://13.200.164.92:27017/onebrick",
+  "mongoURI": "mongodb://admin-onebrick:72kvN2cZ7G75@13.200.164.92:27017/onebrick",
   "jwtSecret": "OneBrickSecret"
 }
