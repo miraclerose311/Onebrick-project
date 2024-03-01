@@ -9,7 +9,8 @@ import { setAlertWithTimeout } from "../../features/alertSlice";
 import { logout } from "../../features/authSlice";
 
 // import Icons
-import { MdOutlineMenu } from "react-icons/md";
+import { GiHamburgerMenu } from "react-icons/gi";
+
 import { FaShare } from "react-icons/fa";
 
 // import Images
@@ -70,7 +71,7 @@ const Header = ({
   return (
     <div className="w-full flex justify-center md:justify-between px-4 sm:px-12 items-center py-2 border-b border-gray-100">
       {/*Logo*/}
-      <div className="gap-4 hidden lg:flex items-center">
+      <div className="gap-4 hidden md:flex items-center">
         <Link to="/" className="flex items-center w-16 h-12">
           <img
             src={logoImg}
@@ -83,8 +84,8 @@ const Header = ({
         </p>
       </div>
 
-      <div className="md:gap-3 flex flex-wrap justify-around md:px-6 mr-0 itmes-center">
-        <div className="items-center mx-4 hidden lg:flex">
+      <div className="w-full md:w-auto md:gap-3 xl:gap-6 flex flex-wrap justify-between mr-0 itmes-center">
+        <div className="items-center hidden lg:flex">
           <input
             type="search"
             className="border border-gray-400 rounded-full w-40 md:w-48 xl:w-56 px-4 py-1 lg:py-2 bg-white outline-none focus-visible:border-sky-700"
@@ -95,11 +96,11 @@ const Header = ({
 
         {/*Share*/}
         <span
-          className=" rounded-full flex justify-center items-center sm:gap-1 p-2 cursor-pointer  hover:text-sky-700"
+          className=" rounded-full flex justify-center items-center cursor-pointer  hover:text-sky-700"
           onClick={() => setIsShareModalOpen(true)}
         >
-          <FaShare className="w-6 sm:w-8 h-6 sm:h-8 text-gray-600 sm:mr-1" />
-          <span className="text-sm sm:text-xl lg:font-simibold font-sans">
+          <FaShare className="w-6 sm:w-8 h-6 sm:h-8 text-gray-400 sm:mr-1" />
+          <span className="text-xs sm:text-sm md:text-md xl:text-lg lg:font-simibold font-sans">
             SHARE
           </span>
         </span>
@@ -107,14 +108,14 @@ const Header = ({
         {/*Words of Supports*/}
         {isAuthenticated && (
           <span
-            className="rounded-full flex justify-center items-center sm:gap-1 sm:p-2 cursor-pointer  hover:text-sky-700"
+            className="rounded-full flex justify-center items-center cursor-pointer  hover:text-sky-700"
             onClick={() => setIsWordsofSupportModalOpen(true)}
           >
             <img
               src={SupportWordIcon}
               className="w-7 sm:w-8 h-7 sm:h-8 rounded-full flex justify-center items-center cursor-pointer"
             />
-            <span className="text-sm sm:text-xl lg:font-simibold font-sans">
+            <span className="text-xs sm:text-sm md:text-md xl:text-lg lg:font-simibold font-sans">
               WORDS OF SUPPORT
             </span>
           </span>
@@ -123,7 +124,7 @@ const Header = ({
         {/* Donatino Button  */}
         <Link
           onClick={handleBuyBrickInCenter}
-          className="w-full sm:w-40 md:w-48 xl:w-56 h-10 sm:mx-0 bg-red-700 rounded-md font-medium text-white hover:bg-red-800  text-center lg:text-lg flex items-center self-center justify-center sm:ml-4 sm:my-1 py-1 order-5 sm:order-3"
+          className="w-full sm:w-40 md:w-48 xl:w-56 h-10 sm:mx-0 bg-red-700 rounded-md font-medium text-white hover:bg-red-800  text-center lg:text-lg flex items-center self-center justify-center sm:my-1 py-1 order-5 sm:order-3"
         >
           SPONSOR A BRICK
         </Link>
@@ -136,7 +137,7 @@ const Header = ({
           <Menu.Button className="btn rounded-full">
             <img
               src={userAvatar}
-              className="w-8 h-8 hover:border-2 border-sky-700 rounded-full"
+              className="w-8 md:w-10 h-8 md:h-10 hover:border-2 border-sky-700 rounded-full"
             />
           </Menu.Button>
           <Transition
@@ -181,8 +182,8 @@ const Header = ({
           as="div"
           className="relative flex justify-center itmes-center sm:order-5"
         >
-          <Menu.Button className="w-10 md:w-12 h-10 md:h-12 btn btn-change px-1 rounded-full">
-            <MdOutlineMenu className="w-full h-full text-gray-600 hover:text-sky-700 md:mt-0" />
+          <Menu.Button className="w-10 md:w-12 h-10 md:h-12 btn btn-change px-1 mt-1 md:mt-0 rounded-full">
+            <GiHamburgerMenu className="w-full h-full text-gray-600 hover:text-sky-700 md:mt-0" />
           </Menu.Button>
           <Transition
             as={Fragment}

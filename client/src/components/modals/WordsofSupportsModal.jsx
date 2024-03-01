@@ -55,7 +55,7 @@ const WordsofSupportsModal = ({ hideModal }) => {
       className="fixed flex h-full w-full overflow-y-auto justify-center items-center z-50"
       onClick={handleClose}
     >
-      <div className="w-5/6 sm:w-2/3 md:w-2/3 2xl:w-7/12 h-2/3 sm:h-4/5 lg:h-1/2 2xl:h-2/3 flex bg-white shadow-md shadow-gray-500 rounded-md relative">
+      <div className="w-5/6 sm:w-2/3 md:w-2/3 2xl:w-7/12 h-2/3 sm:h-4/5 lg:h-1/2 xl:h-2/3 flex bg-white shadow-md shadow-gray-500 rounded-md relative">
         <IoClose
           className="absolute top-4 right-4 cursor-pointer w-8 h-8"
           onClick={() => hideModal()}

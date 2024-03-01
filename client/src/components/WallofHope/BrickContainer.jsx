@@ -86,7 +86,7 @@ const BrickContainer = ({
     //   containerWidth / imageNaturalWidth,
     //   containerHeight / imageNaturalHeight
     // );
-    const scale = containerWidth / imageNaturalWidth / 4.16;
+    const scale = containerWidth / imageNaturalWidth / 13.88;
 
     return scale;
 
@@ -104,34 +104,38 @@ const BrickContainer = ({
   };
 
   const renderBricks = () => {
-    return Array.from(Array(140).keys()).map((col) => (
+    return Array.from(Array(400).keys()).map((col) => (
       <div key={col} className="flex flex-row w-full">
-        {Array.from(Array(300).keys()).map((row) => {
-          const index = col * 300 + row;
+        {Array.from(Array(1000).keys()).map((row) => {
+          const index = col * 1000 + row;
           return (
+            // <div
+            //   key={index}
+            //   id={`brick-${bricks[index].brick_id}`}
+            //   className={classNames(
+            //     "border-2 border-white rounded-md w-5 h-5 cursor-pointer relative",
+            //     index === clickedIndex && !bricks[index].sold
+            //       ? "bg-yellow-400 z-40"
+            //       : "bg-gray-100/80 z-10",
+            //     !filtered.includes(bricks[index]) &&
+            //       bricks[index].sold &&
+            //       bricks[index].brick_id !== hovered.brick_id &&
+            //       "opacity-0",
+            //     !filtered.includes(bricks[index]) &&
+            //       bricks[index].sold &&
+            //       bricks[index].brick_id === hovered.brick_id &&
+            //       "bg-transparent border-red-600",
+            //     isSoldModalOpen && clickedIndex === index && "bg-white",
+            //     filtered.includes(bricks[index]) &&
+            //       "bg-transparent custom-shadow"
+            //   )}
+            //   onClick={() => handleBrickClick(index)}
+            //   onMouseOver={handleMouseOver}
+            //   onMouseOut={handleMouseOut}
+            // ></div>
             <div
               key={index}
-              id={`brick-${bricks[index].brick_id}`}
-              className={classNames(
-                "border-2 border-white rounded-md w-5 h-5 cursor-pointer relative",
-                index === clickedIndex && !bricks[index].sold
-                  ? "bg-yellow-400 z-40"
-                  : "bg-gray-100/80 z-10",
-                !filtered.includes(bricks[index]) &&
-                  bricks[index].sold &&
-                  bricks[index].brick_id !== hovered.brick_id &&
-                  "opacity-0",
-                !filtered.includes(bricks[index]) &&
-                  bricks[index].sold &&
-                  bricks[index].brick_id === hovered.brick_id &&
-                  "bg-transparent border-red-600",
-                isSoldModalOpen && clickedIndex === index && "bg-white",
-                filtered.includes(bricks[index]) &&
-                  "bg-transparent custom-shadow"
-              )}
-              onClick={() => handleBrickClick(index)}
-              onMouseOver={handleMouseOver}
-              onMouseOut={handleMouseOut}
+              className="border-2 border-white rounded-md w-5 h-5 cursor-pointer bg-gray-100/80 z-10"
             ></div>
           );
         })}
@@ -189,8 +193,8 @@ const BrickContainer = ({
                   loading="lazy"
                   className="absoulte top-0 left-0 max-w-none"
                   style={{
-                    width: `6000px`, //320
-                    height: `2800px`, //125
+                    width: `20000px`, //320
+                    height: `8000px`, //125
                   }}
                 />
               </div>
