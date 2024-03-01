@@ -82,7 +82,7 @@ const Popup = ({
             <ProgressBar1 height={2} />
             <div className="h-full flex flex-col gap-3 mt-5">
               <p className="text-2xl font-medium">RECENT DONORS</p>
-              <div className="flex flex-col gap-4">
+              <div className="flex flex-col">
                 {currentDonors &&
                   currentDonors
                     .slice(startPoint, startPoint + limit)
@@ -90,7 +90,7 @@ const Popup = ({
                       <div
                         key={index}
                         id={item.fullName}
-                        className="flex gap-4 cursor-pointer"
+                        className="flex gap-4 cursor-pointer hover:bg-stone-200 py-2 px-4 rounded-md"
                         onClick={(e) => handleClick(e)}
                       >
                         <img
@@ -98,7 +98,9 @@ const Popup = ({
                           className="w-12 h-12 rounded-full"
                         />
                         <div className="flex flex-col">
-                          <p className="text-xl font-normal">{item.fullName}</p>
+                          <p className="text-xl text-left font-normal underline underline-offset-4">
+                            {item.fullName}
+                          </p>
                           <p className="text-start">
                             Rs. {item.purchasedBricksCount * 1000}
                           </p>

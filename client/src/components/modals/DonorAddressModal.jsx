@@ -43,22 +43,23 @@ const DonorAddressModal = ({ handleBuyBrick }) => {
   }, [donorInfo]);
 
   const isValidPin = (pin) => {
-    const regex = /^[0-9]{5}$/;
+    const regex = /^[0-9]{6}$/;
     return regex.test(pin);
   };
 
   const handleSubmit = () => {
+    console.log("here=>");
     let newErrors = {};
 
-    if (!address.trim()) {
+    if (!address || !address.trim()) {
       newErrors.address = "Address is required";
     }
 
-    if (!country.trim()) {
+    if (!country || !country.trim()) {
       newErrors.country = "country is required";
     }
 
-    if (!state.trim()) {
+    if (!state || !state.trim()) {
       newErrors.state = "state is required";
     }
 
@@ -143,6 +144,7 @@ const DonorAddressModal = ({ handleBuyBrick }) => {
         )}
         name="country"
         value={country}
+        onClick={handleFocus}
         onChange={(val) => setCountry(val)}
       />
       {errors.country && (
@@ -156,6 +158,7 @@ const DonorAddressModal = ({ handleBuyBrick }) => {
           errors.state && "border-red-400"
         )}
         country={country}
+        onClick={handleFocus}
         name="state"
         value={state}
         onChange={(val) => setState(val)}

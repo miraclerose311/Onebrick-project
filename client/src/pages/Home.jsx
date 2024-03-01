@@ -921,9 +921,10 @@ const Home = () => {
       />
       <Footer />
       <ScrollToTop
-        className="flex fixed shadow-md shadow-gray-800 justify-center items-center rounded-full z-50 bottom-6 right-6"
+        className="scroll-to-top flex fixed shadow-md shadow-gray-800 justify-center items-center rounded-full bottom-6 right-6"
         smooth
         height={18}
+        style={{ zIndex: 999 }}
       />
     </div>
   );

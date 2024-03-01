@@ -5,6 +5,7 @@ import { jwtDecode } from "jwt-decode";
 
 import userAvatar from "../../assets/img/user.png";
 import { useEffect, useState } from "react";
+import { clearUser } from "../../features/userSlice";
 
 const ConfirmModal = ({
   filtered,
@@ -53,28 +54,30 @@ const ConfirmModal = ({
   };
 
   const onClickBrick = (brick_id) => {
+    dispatch(clearUser());
     handleClickOnList(brick_id);
     hideModal();
   };
 
   const onClickShowAll = (brickIDs) => {
     hideModal();
+    dispatch(clearUser());
     handleShowAll(brickIDs);
   };
 
   return (
-    <div className="flex flex-col items-center justify-center gap-4 sm:w-4/5">
+    <div className="w-full sm:w-4/5 flex flex-col items-center justify-center gap-4">
       <div className="flex flex-col items-end gap-4">
         <img
           src={user.picture ? user.picture : userAvatar}
-          className="w-28 h-28 rounded-full mx-auto"
+          className="w-20 sm:w-28 h-20 sm:h-28 rounded-full mx-auto"
         />
         <p className="text-2xl font-bold font-raleway">{user.fullName}</p>
       </div>
       <p className="text-xl font-raleway font-medium hidden sm:flex">
         {brickArray.length}&nbsp;BRICKS DONATED
       </p>
-      <div className="w-full max-h-48 scroll-hidden flex flex-col border border-gray-100">
+      <div className="w-4/5 md:w-full max-h-48 scroll-hidden flex flex-col border border-gray-100">
         {brickArray.map((brick, index) => (
           <p
             key={brick.brick_id}
