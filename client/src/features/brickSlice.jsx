@@ -22,6 +22,9 @@ export const brickSlice = createSlice({
     setBricks: (state, action) => {
       state.bricks = action.payload;
     },
+    resetBricks: (state) => {
+      state.bricks = initialState.bricks
+    },
     setBrick: (state, action) => {
       const { purchasedIds, date, donor, user } = action.payload;
       const brickData = { donor, sold: true, date, user };

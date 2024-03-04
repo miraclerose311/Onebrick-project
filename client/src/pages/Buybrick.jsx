@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 
@@ -30,11 +30,21 @@ import VideoModal from "../components/WallofHope/Video";
 import DedicatedBrickInfoModal from "../components/modals/DedicatedBrickInfoModal";
 
 const Buybrick = () => {
-	const quarter = 10500;
+	const quarter = import.meta.env.VITE_BRICK_COUNT / 4;
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const { isAuthenticated, token } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    const initialState = location.state || {};
+    
+    setIsSlideModalOpen(initialState.isSlideModalOpen);
+    setModalContent(initialState.pageContent); 
+    setDonorName(initialState.donorName);
+  }, [location]);
+
 
   // Initialize userId
   const [userId, setUserId] = useState(null);
@@ -185,18 +195,21 @@ const Buybrick = () => {
   };
 
   const setBuybrickModalInCenter = () => {
-    const quarter = 10500;
     const stage = 4 - Math.ceil((sold + 1) / quarter);
+    console.log(stage)
     const CurrentBricks = bricks
       .slice(quarter * stage, quarter * (stage + 1) - 1)
       .filter((item) => item.sold == false);
-    const randomNumber = Math.floor(Math.random() * CurrentBricks.length);
+      const randomNumber = Math.floor(Math.random() * CurrentBricks.length);
+      console.log("randomNumber",randomNumber)
     const selectedBrick = CurrentBricks[randomNumber];
+    console.log("selectedBrick",selectedBrick)
     const selectedIndex = bricks.indexOf(selectedBrick);
     setClickedIndex(selectedIndex);
     handleSetIsBuyBrickModalOpen(true);
     setModalPosition({ x: 0, y: 0 });
   };
+
 
   const handlePanClick = useCallback((e) => {
     if (!isSoldModalOpen) {
@@ -394,7 +407,6 @@ const Buybrick = () => {
               content: result.data.msg,
             })
           );
-
           const brickData = {
             brick_id: bricks[clickedIndex].brick_id,
             user: userId,
@@ -532,6 +544,7 @@ const Buybrick = () => {
     <div className="text-center items-center h-screen bg-white w-full flex flex-col itmes-center sm:justify-center">
       <MemoizedHeader
         clearFilter={handleSetFiltered}
+        setDonorName={handleClickDonorName}
         onChangeSearchInput={onChangeSearchInput}
         setIsShareModalOpen={handleSetShareModalOpen}
         setBuybrickModalInCenter={setBuybrickModalInCenter}

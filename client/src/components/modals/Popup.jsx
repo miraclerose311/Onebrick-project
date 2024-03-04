@@ -2,8 +2,8 @@ import { memo, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-import SupportWord from "../SupportWord";
-import ProgressBar1 from "../ProgressBar1";
+import SupportWord from "../WallofHope/SupportWord";
+import ProgressBar1 from "../WallofHope/ProgressBar1";
 
 import { getCurrentDonors } from "../../actions/donor";
 import { getWords } from "../../actions/support";
@@ -15,8 +15,8 @@ import { FaCaretRight } from "react-icons/fa";
 const Popup = ({
   hideModal,
   setDonorName,
-  setIsWordsofSupportModalOpen,
   handleClickVideo,
+  setIsWordsofSupportModalOpen,
 }) => {
   const modalRef = useRef();
   const dispatch = useDispatch();
@@ -24,9 +24,10 @@ const Popup = ({
   const { token } = useSelector((state) => state.auth);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [error, setError] = useState("");
-  const { currentDonors } = useSelector((state) => state.donor);
-  const { supportWords } = useSelector((state) => state.support);
+	const { currentDonors } = useSelector((state) => state.donor);
+	const { supportWords } = useSelector((state) => state.support);
+
+	const [error, setError] = useState("");
 
   const limit = 5;
   const totalPages = Math.ceil(currentDonors.length / limit);

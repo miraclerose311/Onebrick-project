@@ -1,3 +1,5 @@
+const brickCount = process.env.BRICK_COUNT
+
 function generateRandomId() {
   const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
   let result = "";
@@ -20,6 +22,6 @@ function generateManyRandomIds(numberOfIds) {
   return [...ids]; // Convert the set back to an array
 }
 
-const randomIds = generateManyRandomIds(400000);
+const randomIds = generateManyRandomIds(brickCount);
 
 module.exports = randomIds;

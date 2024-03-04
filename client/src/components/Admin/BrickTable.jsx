@@ -1,8 +1,10 @@
+import axios from "axios";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { clearLoading, setLoading } from "../../features/loadingSlice";
+import { confirmAlert } from "react-confirm-alert";
 import ScrollToTop from "react-scroll-to-top";
-import axios from "axios";
+
+import { clearLoading, setLoading } from "../../features/loadingSlice";
 
 import { HiChevronDoubleLeft } from "react-icons/hi";
 import { HiChevronDoubleRight } from "react-icons/hi";
@@ -13,12 +15,17 @@ import { FaSortAmountDownAlt } from "react-icons/fa";
 import { TbArrowsSort } from "react-icons/tb";
 import { getBrickSoldAmount } from "../../actions/brick";
 
+import "react-confirm-alert/src/react-confirm-alert.css";
+
+
 const BrickTable = () => {
   const [data, setData] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
   const [limit, setLimit] = useState(10);
   const [search, setSearch] = useState("");
   const [term, setTerm] = useState("");
+
+  const backendUrl = import.meta.env.VITE_BACKEND_URL
 
   const dispatch = useDispatch();
 
@@ -70,6 +77,37 @@ const BrickTable = () => {
     };
   }, [search]);
 
+  const handleReset = () => {
+    confirmAlert({
+      title: "Confirm!",
+      message: "Are you sure to reset brick data.",
+      buttons: [
+        {
+          label: "Yes",
+          onClick: async () => {
+            try {
+              dispatch(setLoading());
+              const response = await fetch(`${backendUrl}/api/brick/initial`, {
+                method: "POST",
+              });
+              if (response.ok) {
+                alert("Successfully initialized.")
+              }
+              
+              dispatch(clearLoading());
+            } catch (error) {
+              console.error("Error occurred while deleting the item:", error);
+            }
+          },
+        },
+        {
+          label: "No",
+          onClick: () => console.log("no"),
+        },
+      ],
+    });
+  }
+
   const today = new Date();
 
   return (
@@ -80,7 +118,10 @@ const BrickTable = () => {
         </p>
         <hr className="w-full" />
       </div>
-      <div className="w-full pt-12">
+      <div className="w-full mt-4">
+        <div className="w-full flex justify-end">
+          <button onClick={handleReset} className="bg-gray-800 text-white hover:bg-gray-700 rounded-md px-6 py-1.5">Reset</button>
+        </div>
         <div className="w-full flex justify-between py-1">
           <p className="text-xl font-montserrat">
             {sold} Bricks donated as on {today.getFullYear()}/

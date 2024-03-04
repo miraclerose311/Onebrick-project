@@ -26,6 +26,7 @@ app.use("/api/payment", require("./routes/api/payment"));
 app.use("/api/upload", require("./routes/api/fileUpload"));
 app.use("/api/content", require("./routes/api/content"));
 app.use("/api/supportWord", require("./routes/api/supportWord"));
+app.use("/api/social", require("./routes/api/socialMedia"));
 
 app.use("/upload", express.static("./uploads"));
 // Serve static assets in production

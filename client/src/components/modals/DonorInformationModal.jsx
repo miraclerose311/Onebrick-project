@@ -44,10 +44,10 @@ const DonorInformationModal = ({ handleNextModal }) => {
 
   const dispatch = useDispatch();
 
-  function isValidNumber(mobile) {
-    const regex = /^[0-9]{8,}$/;
-    return regex.test(mobile);
-  }
+  function validateMobileNumber(mobileNumber) {
+    const pattern = /^0[7-9]\d{9}$/;
+    return pattern.test(mobileNumber);
+}
   // Make sure validateEmail function is defined
   function isValidEmail(email) {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -78,14 +78,10 @@ const DonorInformationModal = ({ handleNextModal }) => {
     // Validate Mobile Number
     if (!mobile.trim()) {
       newErrors.mobile = "Mobile number is required";
-    } else if (!isValidNumber(mobile)) {
-      newErrors.mobile = "Please enter a valid phone number";
+    } else if (!validateMobileNumber(mobile)) {
+      newErrors.mobile = "Please enter a valid phone number(7~9 numbers)";
     }
 
-    //Validate PAN Number
-    // if (!pan.trim()) {
-    //   newErrors.pan = "PAN number is required";
-    // } else
     if (pan.trim()) {
       if (!isValidPAN(pan)) {
         newErrors.pan = "Please enter a valid PAN number";

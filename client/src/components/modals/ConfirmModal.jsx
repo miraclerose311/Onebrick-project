@@ -9,8 +9,6 @@ import { clearUser } from "../../features/userSlice";
 
 const ConfirmModal = ({
   filtered,
-  // clickedIndex,
-  // handleDedicate,
   handleClickOnList,
   handleShowAll,
   handleGoToDedicate,
@@ -40,16 +38,11 @@ const ConfirmModal = ({
 
   const brickArray = bricks?.filter((element) => element.user === userId);
 
-  // const clickedBrick = bricks[clickedIndex];
 
   const onClickNotDedicated = (brick_id, userId, userName) => {
     if (masterId && masterId === userId) handleGoToDedicate(brick_id);
     else {
-      // setAlert({
-      //   alertType: "error",
-      //   content: `You can't dedicate to ${userName}' brick.`,
-      // });
-      console.log(`You can't dedicate to ${userName}' brick.`);
+      alert(`You can't dedicate to ${userName}' brick.`);
     }
   };
 
@@ -70,7 +63,7 @@ const ConfirmModal = ({
       <div className="flex flex-col items-end gap-4">
         <img
           src={user.picture ? user.picture : userAvatar}
-          className="w-20 sm:w-28 h-20 sm:h-28 rounded-full mx-auto"
+          className="w-20 sm:w-24 h-20 sm:h-24 rounded-full mx-auto"
         />
         <p className="text-2xl font-bold font-raleway">{user.fullName}</p>
       </div>

@@ -20,6 +20,7 @@ import UserImg from "../../assets/img/user.png";
 
 const Header = ({
   clearFilter,
+  setDonorName,
   setIsShareModalOpen,
   onChangeSearchInput,
   setBuybrickModalInCenter,
@@ -30,6 +31,8 @@ const Header = ({
 
   const { avatar } = useSelector((state) => state.auth);
   const { isAuthenticated, token } = useSelector((state) => state.auth);
+  
+  const [donorFullName, setDonorFullName] = useState("")
 
   const userAvatar = avatar ? avatar : UserImg;
 
@@ -38,8 +41,10 @@ const Header = ({
 
   useEffect(() => {
     if (token) {
-      const { role } = jwtDecode(token);
+      const { role, fullName } = jwtDecode(token);
+      setDonorFullName(fullName)
       setUserRole(role);
+
     } else {
       setUserRole(null);
     }
@@ -64,6 +69,14 @@ const Header = ({
     setBuybrickModalInCenter();
   };
 
+  const handleClick = () => {
+    if (donorFullName) {
+      setDonorName(donorFullName)
+    } else {
+      alert("Please sign in")
+    }
+  }
+
   const classNames = (...classes) => {
     return classes.filter(Boolean).join(" ");
   };
@@ -85,14 +98,15 @@ const Header = ({
       </div>
 
       <div className="w-full md:w-auto md:gap-3 xl:gap-6 flex flex-wrap justify-between mr-0 itmes-center">
-        <div className="items-center hidden lg:flex">
+        {/* <div className="items-center hidden lg:flex">
           <input
             type="search"
             className="border border-gray-400 rounded-full w-40 md:w-48 xl:w-56 px-4 py-1 lg:py-2 bg-white outline-none focus-visible:border-sky-700"
             placeholder="Search the Wall of Hope"
             onChange={(e) => onChangeSearchInput(e)}
           />
-        </div>
+        </div> */}
+        <button onClick={handleClick} className="w-full sm:w-40 md:w-48 xl:w-56 h-10 sm:mx-0 border border-gray-500 hover:bg-black hover:text-white rounded-md font-medium  text-center lg:text-lg flex items-center self-center justify-center sm:my-1 py-1">WHERE'S MY BRICK</button>
 
         {/*Share*/}
         <span
@@ -286,6 +300,7 @@ const Header = ({
 Header.propTypes = {
   setIsShareModalOpen: PropTypes.func.isRequired,
   onChangeSearchInput: PropTypes.func.isRequired,
+  setDonorName: PropTypes.func.isRequired,  
   setIsWordsofSupportModalOpen: PropTypes.func.isRequired,
   setBuybrickModalInCenter: PropTypes.func.isRequired,
   clearFilter: PropTypes.func.isRequired,

@@ -1,6 +1,10 @@
 const mongoose = require("mongoose");
 
 const BrickSchema = new mongoose.Schema({
+  no: {
+    type: Number,
+    unique: true,
+  },
   brick_id: {
     type: String,
     required: true,

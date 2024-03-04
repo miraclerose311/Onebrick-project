@@ -75,135 +75,134 @@ const BrickContainer = ({
   }, [handleResize]);
 
   const imageScale = useMemo(() => {
-    if (
-      containerWidth === 0 ||
-      containerHeight === 0 ||
-      imageNaturalWidth === 0 ||
-      imageNaturalHeight === 0
-    )
-      return 0;
-    // const scale = Math.max(
-    //   containerWidth / imageNaturalWidth,
-    //   containerHeight / imageNaturalHeight
-    // );
-    const scale = containerWidth / imageNaturalWidth / 13.88;
+		if (
+			containerWidth === 0 ||
+			containerHeight === 0 ||
+			imageNaturalWidth === 0 ||
+			imageNaturalHeight === 0
+		)
+			return 0;
+		// const scale = Math.max(
+		//   containerWidth / imageNaturalWidth,
+		//   containerHeight / imageNaturalHeight
+		// );
+		const scale = containerWidth / imageNaturalWidth / 4.15; //6000/1440 width of orinal image
 
-    return scale;
+		return scale;
 
-    // return scaleUp ? scale : Math.max(scale, 1);
-  }, [containerWidth, containerHeight, imageNaturalWidth, imageNaturalHeight]);
+		// return scaleUp ? scale : Math.max(scale, 1);
+	}, [containerWidth, containerHeight, imageNaturalWidth, imageNaturalHeight]);
 
-  const getBrickElementPositionById = (brickId) => {
-    const brickElement = document.getElementById(`brick-${brickId}`);
-    if (brickElement) {
-      const rect = brickElement.getBoundingClientRect();
-      setModalPosition({ x: rect.x, y: rect.y });
-    } else {
-      return null; // brick element not found
-    }
-  };
+	const getBrickElementPositionById = (brickId) => {
+		const brickElement = document.getElementById(`brick-${brickId}`);
+		if (brickElement) {
+			const rect = brickElement.getBoundingClientRect();
+			setModalPosition({ x: rect.x, y: rect.y });
+		} else {
+			return null; // brick element not found
+		}
+	};
 
-  const renderBricks = () => {
-    return Array.from(Array(400).keys()).map((col) => (
-      <div key={col} className="flex flex-row w-full">
-        {Array.from(Array(1000).keys()).map((row) => {
-          const index = col * 1000 + row;
-          return (
-            // <div
-            //   key={index}
-            //   id={`brick-${bricks[index].brick_id}`}
-            //   className={classNames(
-            //     "border-2 border-white rounded-md w-5 h-5 cursor-pointer relative",
-            //     index === clickedIndex && !bricks[index].sold
-            //       ? "bg-yellow-400 z-40"
-            //       : "bg-gray-100/80 z-10",
-            //     !filtered.includes(bricks[index]) &&
-            //       bricks[index].sold &&
-            //       bricks[index].brick_id !== hovered.brick_id &&
-            //       "opacity-0",
-            //     !filtered.includes(bricks[index]) &&
-            //       bricks[index].sold &&
-            //       bricks[index].brick_id === hovered.brick_id &&
-            //       "bg-transparent border-red-600",
-            //     isSoldModalOpen && clickedIndex === index && "bg-white",
-            //     filtered.includes(bricks[index]) &&
-            //       "bg-transparent custom-shadow"
-            //   )}
-            //   onClick={() => handleBrickClick(index)}
-            //   onMouseOver={handleMouseOver}
-            //   onMouseOut={handleMouseOut}
-            // ></div>
-            <div
-              key={index}
-              className="border-2 border-white rounded-md w-5 h-5 cursor-pointer bg-gray-100/80 z-10"
-            ></div>
-          );
-        })}
-      </div>
-    ));
-  };
+	const renderBricks = () => {
+		return Array.from(Array(140).keys()).map((col) => (
+			<div
+				key={col}
+				className='flex flex-row w-full'
+			>
+				{Array.from(Array(300).keys()).map((row) => {
+					const index = col * 300 + row;
+					return (
+						<div
+							key={index}
+							id={`brick-${bricks[index].brick_id}`}
+							className={classNames(
+								"border-2 border-white rounded-md w-5 h-5 cursor-pointer relative",
+								index === clickedIndex && !bricks[index].sold
+									? "bg-yellow-400 z-40"
+									: "bg-gray-100/80 z-10",
+								!filtered.includes(bricks[index]) &&
+									bricks[index].sold &&
+									bricks[index].brick_id !== hovered.brick_id &&
+									"opacity-0",
+								!filtered.includes(bricks[index]) &&
+									bricks[index].sold &&
+									bricks[index].brick_id === hovered.brick_id &&
+									"bg-transparent border-red-600",
+								isSoldModalOpen && clickedIndex === index && "bg-white",
+								filtered.includes(bricks[index]) &&
+									"bg-transparent custom-shadow"
+							)}
+							onClick={() => handleBrickClick(index)}
+							onMouseOver={handleMouseOver}
+							onMouseOut={handleMouseOut}
+						></div>
+					);
+				})}
+			</div>
+		));
+	};
 
-  const classNames = (...classes) => {
-    return classes.filter(Boolean).join(" ");
-  };
+	const classNames = (...classes) => {
+		return classes.filter(Boolean).join(" ");
+	};
 
-  return (
-    <div
-      className="w-full h-[90vh] bg-white flex justify-center items-center relative"
-      ref={containerRef}
-      onClick={handlePanClick}
-      onContextMenu={handleRightClick}
-    >
-      {
-        <TransformWrapper
-          key={`${imageNaturalWidth}x${imageNaturalHeight}`}
-          initialScale={imageScale}
-          minScale={imageScale}
-          maxScale={zoomFactor * imageScale}
-          centerOnInit
-          wheel={{ smoothStep: 0.003 }}
-        >
-          <TransformComponent
-            wrapperStyle={{
-              width: "100%",
-              height: "100%",
-            }}
-          >
-            <WrapperTransformComponent
-              imageScale={imageScale}
-              setIsPopupOpen={setIsPopupOpen}
-            >
-              <div className="relative w-full h-full">
-                <div
-                  id="pan"
-                  onMouseOver={handleMouseOver}
-                  className={`absolute w-full flex justify-center ${stage} mb-2 top-0 left-0 bg-gray-800/10 z-50`}
-                >
-                  <p className="flex self-end text-6xl font-bold font-sans mt-8 text-gray-700">
-                    YOU CAN NOW DONATE BRICKS FOR THE GROUND FLOOR
-                  </p>
-                </div>
+	return (
+		<div
+			className='w-full h-[90vh] bg-white flex justify-center items-center relative'
+			ref={containerRef}
+			onClick={handlePanClick}
+			onContextMenu={handleRightClick}
+		>
+			{
+				<TransformWrapper
+					key={`${imageNaturalWidth}x${imageNaturalHeight}`}
+					initialScale={imageScale}
+					minScale={imageScale}
+					maxScale={zoomFactor * imageScale}
+					centerOnInit
+					wheel={{ smoothStep: 0.003 }}
+				>
+					<TransformComponent
+						wrapperStyle={{
+							width: "100%",
+							height: "100%",
+						}}
+					>
+						<WrapperTransformComponent
+							imageScale={imageScale}
+							setIsPopupOpen={setIsPopupOpen}
+						>
+							<div className='relative w-full h-full'>
+								<div
+									id='pan'
+									onMouseOver={handleMouseOver}
+									className={`absolute w-full flex justify-center ${stage} mb-2 top-0 left-0 bg-gray-800/10 z-50`}
+								>
+									<p className='flex self-end text-6xl font-bold font-sans mt-8 text-gray-700'>
+										YOU CAN NOW DONATE BRICKS FOR THE GROUND FLOOR
+									</p>
+								</div>
 
-                <div className="absolute top-0 left-0 w-full h-full flex flex-col">
-                  {bricks.length !== 0 && renderBricks()}
-                </div>
+								<div className='absolute top-0 left-0 w-full h-full flex flex-col'>
+									{bricks.length !== 0 && renderBricks()}
+								</div>
 
-                <img
-                  src={bgImg}
-                  loading="lazy"
-                  className="absoulte top-0 left-0 max-w-none"
-                  style={{
-                    width: `20000px`, //320
-                    height: `8000px`, //125
-                  }}
-                />
-              </div>
-            </WrapperTransformComponent>
-          </TransformComponent>
-        </TransformWrapper>
-      }
-    </div>
-  );
+								<img
+									src={bgImg}
+									loading='lazy'
+									className='absoulte top-0 left-0 max-w-none'
+									style={{
+										width: `6000px`, //300
+										height: `2800px`, //140
+									}}
+								/>
+							</div>
+						</WrapperTransformComponent>
+					</TransformComponent>
+				</TransformWrapper>
+			}
+		</div>
+	);
 };
 
 BrickContainer.propTypes = {

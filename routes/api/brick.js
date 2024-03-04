@@ -11,17 +11,21 @@ const User = require("../../models/User");
 const randomIds = require("./initialValue.js");
 const { randomInt } = require("crypto");
 const { default: mongoose } = require("mongoose");
+
+const brickCount = process.env.BRICK_COUNT
+
 router.get("/test", (req, res) => {
   res.json("test!");
 });
 
 router.post("/initial", async (req, res) => {
-  let count = 400000;
+  let count = brickCount;
   try {
     await Brick.deleteMany({});
     let brickArray = [];
     for (let i = 0; i < count; i++) {
       brickArray.push({
+        no: i,
         brick_id: randomIds[i],
         sold: false,
       });
@@ -32,6 +36,7 @@ router.post("/initial", async (req, res) => {
     console.error("Error inserting fake data:", error);
   }
 });
+
 // router.post("/initial", async (req, res) => {
 // 	try {
 // 		const fakeBricks = [];
@@ -78,6 +83,7 @@ router.post("/initial", async (req, res) => {
 // });
 
 //get sold amound for wallofbrick
+
 router.get("/sold-amount", async (req, res) => {
   await Brick.find({ sold: true })
     .count()
@@ -87,13 +93,6 @@ router.get("/sold-amount", async (req, res) => {
 });
 
 router.get("/all", async (req, res) => {
-  // await Brick.find()
-  //   .then((result) => {
-  //     res.json(result);
-  //   })
-  //   .catch(function (error) {
-  //     console.log(error); // Failure
-  //   });
   const dataPipeline = [
     {
       $lookup: {
@@ -105,6 +104,7 @@ router.get("/all", async (req, res) => {
     },
     {
       $project: {
+        no: 1,
         brick_id: 1,
         sold: 1,
         date: 1,
@@ -133,12 +133,75 @@ const getRandomBrickId = async (amount, stage) => {
   return RandomId;
 };
 
+
+function getRandomNeighbors(matrixRows, matrixCols, i, j, count) {
+  let flag = Array.from({ length: matrixRows }, () =>
+    Array(matrixCols).fill(false)
+  );
+  flag[i][j] = true;
+  function isValid(neighborRow, neighborCol) {
+    if (
+      neighborRow >= 0 &&
+      neighborRow < matrixRows &&
+      neighborCol >= 0 &&
+      neighborCol < matrixCols
+    ) {
+      return !flag[neighborRow][neighborCol];
+    } else {
+      return false;
+    }
+  }
+  function randomIJ(i, j) {
+    const potentialNeighbors = [
+      [i - 1, j],
+      [i, j - 1],
+      [i, j + 1],
+      [i + 1, j],
+    ];
+    // console.log(potentialNeighbors);
+    const validNeighbors = potentialNeighbors.filter((n) =>
+      isValid(n[0], n[1])
+    );
+    // console.log(validNeighbors);
+    const IJ = Math.floor(Math.random() * validNeighbors.length);
+    return validNeighbors[IJ];
+  }
+  let list = [];
+  ii = i;
+  jj = j;
+  list.push([ii, jj]);
+  for (let k = count - 1; k > 0; k--) {
+    present = randomIJ(ii, jj);
+    flag[ii][jj] = true;
+    list.push(present);
+    ii = present[0];
+    jj = present[1];
+  }
+  return list;
+}
+const rows = 320;
+const cols = 125;
+
+// const getRandom = async (brick_id, amount) => {
+//   console.log(brick_id)
+//   const brick = await Brick.find({brick_id: brick_id});
+//   let id = [];
+//   const number = brick[0].no;
+//   id.push(brick[0].no);
+//   const i = number % 320;
+//   const j = Math.floor(number / rows);
+//   const randomNeighbors = getRandomNeighbors(rows, cols, i, j, amount);
+//   randomNeighbors.map((key) => {
+//     id.push(key[1] * rows + key[0]);
+//   });
+//   return id
+// }
+
+
 router.post("/buy", async (req, res) => {
   const { brick_id, user, amount, stage } = req.body;
-  // Error handling with try-catch
   try {
     const donor = await Donor.findOne({ user: user });
-    // Assume that Brick.updateOne() and getRandomBrickId() return Promises
     let updatePromises = [
       Brick.updateOne(
         { brick_id },
@@ -155,6 +218,7 @@ router.post("/buy", async (req, res) => {
     let purchasedIds = [brick_id];
     if (amount > 1) {
       const randomIDs = await getRandomBrickId(amount - 1, stage);
+      
       purchasedIds.push(...randomIDs);
 
       const updateRandomBricks = randomIDs.map((id) =>
