@@ -17,15 +17,17 @@ import {
 } from "react-share";
 
 import { IoCloseCircleOutline } from "react-icons/io5";
+import { useDispatch } from "react-redux";
+import { clearLoading, setLoading } from "../../features/loadingSlice";
 
-import imageUrl from "../../assets/img/WallofHope/alpha_building_high_res.jpg";
+// import imageUrl from "../../assets/img/WallofHope/alpha_building_high_res.jpg";
 
 const SharingModal = ({ hideModal }) => {
+  const dispatch = useDispatch();
+
   const [socialData, setSocialData] = useState({});
-  const [sharingData, setSharingData] = useState({});
 
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
-  const shareURL = "https://api.alphahospice.org";
 
   const handleClose = (e) => {
     e.preventDefault();
@@ -34,35 +36,44 @@ const SharingModal = ({ hideModal }) => {
     }
   };
 
+  console.log(socialData);
+
   useEffect(() => {
-    getSocialMediaData();
+    dispatch(setLoading());
+    dispatch(clearLoading());
   }, []);
 
   console.log(socialData);
-  console.log("===>", sharingData);
 
-  const getSocialMediaData = async () => {
-    try {
-      const response = await fetch(`${backendUrl}/api/social/get`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      if (response.ok) {
-        const dataArray = await response.json();
-        const dataObject = dataArray.reduce((obj, item) => {
-          obj[item.mediaType] = item; // Assume each item has 'mediaType' field
-          return obj;
-        }, {});
-        setSocialData(dataObject);
-      } else {
-        console.error("Error fetching social media data:", response.statusText);
+  useEffect(() => {
+    const getSocialMediaData = async () => {
+      dispatch(setLoading());
+      try {
+        const response = await fetch(`${backendUrl}/api/social/get`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        if (response.ok) {
+          const dataArray = await response.json();
+          const dataObject = dataArray.reduce((obj, item) => {
+            obj[item.mediaType] = item; // Assume each item has 'mediaType' field
+            return obj;
+          }, {});
+          setSocialData(dataObject);
+        } else {
+          console.error(
+            "Error fetching social media data:",
+            response.statusText
+          );
+        }
+      } catch (error) {
+        console.error("Error fetching social media data:", error);
       }
-    } catch (error) {
-      console.error("Error fetching social media data:", error);
-    }
-  };
+    };
+    getSocialMediaData();
+  }, [dispatch]);
 
   const title = "Sharing URL";
 
@@ -82,85 +93,75 @@ const SharingModal = ({ hideModal }) => {
           />
         </div>
         <div className="flex flex-wrap justify-center">
-          {socialData.Facebook && (
-            <div className="w-32 flex flex-col justify-center items-center gap-3 py-6">
-              {/* Assuming that socialData['Facebook'] has already been set */}
-              <FacebookShareButton
-                url={socialData["Facebook"].link}
-                id="Facebook"
-                quote="Check out this awesome website!"
-                hashtag="#react"
-                image={imageUrl}
-              >
-                <FacebookIcon size={32} round />
-              </FacebookShareButton>
-              <label htmlFor="facebook">Facebook</label>
-            </div>
-          )}
-          {socialData.Telegram && (
-            <div className="w-32 flex flex-col justify-center items-center gap-3 py-6">
-              <TelegramShareButton
-                id="telegram"
-                url={socialData["Telegram"].link}
-                title={title}
-              >
-                <TelegramIcon size={32} round />
-              </TelegramShareButton>
-              <label htmlFor="telegram" className="">
-                Telegram
-              </label>
-            </div>
-          )}
-
-          {socialData.Twitter && (
-            <div className="w-32 flex flex-col justify-center items-center gap-3 py-6">
-              <TwitterShareButton
-                id="twitter"
-                url={socialData["Twitter"].link}
-                title={title}
-              >
-                <XIcon size={32} round />
-              </TwitterShareButton>
-              <label htmlFor="Twitter" className="">
-                Twitter
-              </label>
-            </div>
-          )}
-
-          {socialData.Whatsapp && (
-            <div className="w-32 flex flex-col justify-center items-center gap-3 py-6">
-              <WhatsappShareButton
-                url={socialData["Whatsapp"].link}
-                title={title}
-                separator=":: "
-              >
-                <WhatsappIcon size={32} round />
-              </WhatsappShareButton>
-              <label>Whatsapp</label>
-            </div>
-          )}
-
-          {socialData.Linkedin && (
-            <div className="w-32 flex flex-col justify-center items-center gap-3 py-6">
-              <LinkedinShareButton url={socialData["Linkedin"].link}>
-                <LinkedinIcon size={32} round />
-              </LinkedinShareButton>
-              <label>LinkedIn</label>
-            </div>
-          )}
-
-          {socialData.Email && (
-            <div className="w-32 flex flex-col justify-center items-center gap-3 py-6">
-              <EmailShareButton
-                url={socialData["Email"].link}
-                subject={title}
-                body="body"
-              >
-                <EmailIcon size={32} round />
-              </EmailShareButton>
-              <label>Email</label>
-            </div>
-          )}
+          <div className="w-32 flex flex-col justify-center items-center gap-3 py-6">
+            {/* Assuming that socialData['Facebook'] has already been set */}
+            <FacebookShareButton
+              url={socialData["Facebook"]?.link}
+              id="Facebook"
+              quote="Check out this awesome website!"
+              hashtag="#react"
+              image={socialData["Facebook"]?.image}
+            >
+              <FacebookIcon size={32} round />
+            </FacebookShareButton>
+            <label htmlFor="facebook">Facebook</label>
+          </div>
+          <div className="w-32 flex flex-col justify-center items-center gap-3 py-6">
+            <TelegramShareButton
+              id="telegram"
+              url={socialData["Telegram"]?.link}
+              title={title}
+            >
+              <TelegramIcon size={32} round />
+            </TelegramShareButton>
+            <label htmlFor="telegram" className="">
+              Telegram
+            </label>
+          </div>
+          <div className="w-32 flex flex-col justify-center items-center gap-3 py-6">
+            <TwitterShareButton
+              id="twitter"
+              url={socialData["Twitter"]?.link}
+              title={title}
+            >
+              <XIcon size={32} round />
+            </TwitterShareButton>
+            <label htmlFor="Twitter" className="">
+              Twitter
+            </label>
+          </div>
+          <div className="w-32 flex flex-col justify-center items-center gap-3 py-6">
+            <WhatsappShareButton
+              url={socialData["Whatsapp"]?.link}
+              image={socialData["Whatsapp"]?.image}
+              title={title}
+              separator=":: "
+            >
+              <WhatsappIcon size={32} round />
+            </WhatsappShareButton>
+            <label>Whatsapp</label>
+          </div>
+          <div className="w-32 flex flex-col justify-center items-center gap-3 py-6">
+            <LinkedinShareButton
+              url={socialData["Linkedin"]?.link}
+              image={socialData["Linkedin"]?.image}
+              title={title}
+            >
+              <LinkedinIcon size={32} round />
+            </LinkedinShareButton>
+            <label>LinkedIn</label>
+          </div>
+          <div className="w-32 flex flex-col justify-center items-center gap-3 py-6">
+            <EmailShareButton
+              url={socialData["Email"]?.link}
+              image={socialData["Email"]?.image}
+              subject={title}
+              body="body"
+            >
+              <EmailIcon size={32} round />
+            </EmailShareButton>
+            <label>Email</label>
+          </div>
         </div>
         {/* <div className="w-full px-8 flex gap-2">
           <input

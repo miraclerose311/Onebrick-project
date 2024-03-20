@@ -16,7 +16,7 @@ import { clearCurrent } from "../features/brickSlice";
 // Import modal components
 import BrickInformationModal from "../components/modals/BrickInformationModal";
 import SoldModal from "../components/modals/SoldModal";
-import SharingModal from "../components/modals/SharingModal";
+// import SharingModal from "../components/modals/SharingModal";
 import Popup from "../components/modals/Popup";
 import "../Modal.css";
 
@@ -28,9 +28,10 @@ import MemorizedBuybrickModal from "../components/modals/BuyBrickModal";
 import ArrowUpButton from "../components/ArrowUpButton";
 import VideoModal from "../components/WallofHope/Video";
 import DedicatedBrickInfoModal from "../components/modals/DedicatedBrickInfoModal";
+import NewShareModal from "../components/modals/newShareModal";
 
 const Buybrick = () => {
-	const quarter = import.meta.env.VITE_BRICK_COUNT / 4;
+  const quarter = import.meta.env.VITE_BRICK_COUNT / 4;
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
@@ -39,12 +40,11 @@ const Buybrick = () => {
 
   useEffect(() => {
     const initialState = location.state || {};
-    
+
     setIsSlideModalOpen(initialState.isSlideModalOpen);
-    setModalContent(initialState.pageContent); 
+    setModalContent(initialState.pageContent);
     setDonorName(initialState.donorName);
   }, [location]);
-
 
   // Initialize userId
   const [userId, setUserId] = useState(null);
@@ -196,20 +196,19 @@ const Buybrick = () => {
 
   const setBuybrickModalInCenter = () => {
     const stage = 4 - Math.ceil((sold + 1) / quarter);
-    console.log(stage)
+    console.log(stage);
     const CurrentBricks = bricks
       .slice(quarter * stage, quarter * (stage + 1) - 1)
       .filter((item) => item.sold == false);
-      const randomNumber = Math.floor(Math.random() * CurrentBricks.length);
-      console.log("randomNumber",randomNumber)
+    const randomNumber = Math.floor(Math.random() * CurrentBricks.length);
+    console.log("randomNumber", randomNumber);
     const selectedBrick = CurrentBricks[randomNumber];
-    console.log("selectedBrick",selectedBrick)
+    console.log("selectedBrick", selectedBrick);
     const selectedIndex = bricks.indexOf(selectedBrick);
     setClickedIndex(selectedIndex);
     handleSetIsBuyBrickModalOpen(true);
     setModalPosition({ x: 0, y: 0 });
   };
-
 
   const handlePanClick = useCallback((e) => {
     if (!isSoldModalOpen) {
@@ -644,7 +643,7 @@ const Buybrick = () => {
         />
       )}
       {isShareModalOpen && (
-        <SharingModal hideModal={() => setIsShareModalOpen(false)} />
+        <NewShareModal hideModal={() => setIsShareModalOpen(false)} />
       )}
     </div>
   );

@@ -22,7 +22,6 @@ const Header = ({
   clearFilter,
   setDonorName,
   setIsShareModalOpen,
-  onChangeSearchInput,
   setBuybrickModalInCenter,
   setIsWordsofSupportModalOpen,
 }) => {
@@ -31,8 +30,8 @@ const Header = ({
 
   const { avatar } = useSelector((state) => state.auth);
   const { isAuthenticated, token } = useSelector((state) => state.auth);
-  
-  const [donorFullName, setDonorFullName] = useState("")
+
+  const [donorFullName, setDonorFullName] = useState("");
 
   const userAvatar = avatar ? avatar : UserImg;
 
@@ -42,9 +41,8 @@ const Header = ({
   useEffect(() => {
     if (token) {
       const { role, fullName } = jwtDecode(token);
-      setDonorFullName(fullName)
+      setDonorFullName(fullName);
       setUserRole(role);
-
     } else {
       setUserRole(null);
     }
@@ -71,11 +69,11 @@ const Header = ({
 
   const handleClick = () => {
     if (donorFullName) {
-      setDonorName(donorFullName)
+      setDonorName(donorFullName);
     } else {
-      alert("Please sign in")
+      alert("Please sign in");
     }
-  }
+  };
 
   const classNames = (...classes) => {
     return classes.filter(Boolean).join(" ");
@@ -106,7 +104,12 @@ const Header = ({
             onChange={(e) => onChangeSearchInput(e)}
           />
         </div> */}
-        <button onClick={handleClick} className="w-full sm:w-40 md:w-48 xl:w-56 h-10 sm:mx-0 border border-gray-500 hover:bg-black hover:text-white rounded-md font-medium  text-center lg:text-lg flex items-center self-center justify-center sm:my-1 py-1">WHERE'S MY BRICK</button>
+        <button
+          onClick={handleClick}
+          className="w-full sm:w-40 md:w-48 xl:w-56 h-10 sm:mx-0 border border-gray-500 hover:bg-black hover:text-white rounded-md font-medium  text-center lg:text-lg flex items-center self-center justify-center sm:my-1 py-1"
+        >
+          WHERE&lsquo;S MY BRICK
+        </button>
 
         {/*Share*/}
         <span

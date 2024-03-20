@@ -825,7 +825,7 @@ const Home = () => {
           className="w-full text-4xl text-sky-700 font-bold md:text-5xl xl:text-6xl 2xl:text-7xl text-center font-montserrat z-10"
         />
         <div className="w-full flex flex-wrap py-8 md:py-12 xl:py-16">
-          {currentDonors.slice(0, 6).map((donorInfo, index) => (
+          {currentDonors && currentDonors.slice(0, 6).map((donorInfo, index) => (
             <div
               key={index}
               className="w-full  md:w-1/2 xl:w-1/3 flex flex-wrap p-1 md:p-2"
