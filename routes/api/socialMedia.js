@@ -7,7 +7,6 @@ const SocialMedia = require("../../models/SocialMedia");
 router.get("/get", async (req, res) => {
   try {
     const results = await SocialMedia.find();
-    ocnsole.log(results);
     const resultsWithImages = await Promise.all(
       results.map(async (item) => {
         try {

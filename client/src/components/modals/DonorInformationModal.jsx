@@ -45,7 +45,8 @@ const DonorInformationModal = ({ handleNextModal }) => {
   const dispatch = useDispatch();
 
   function validateMobileNumber(mobileNumber) {
-    const pattern = /^0[7-9]\d{9}$/;
+    const pattern = /^\d{7,11}$/;
+    console.log(typeof mobileNumber, pattern.test(mobileNumber));
     return pattern.test(mobileNumber);
 }
   // Make sure validateEmail function is defined

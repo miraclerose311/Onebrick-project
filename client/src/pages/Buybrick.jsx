@@ -28,7 +28,8 @@ import MemorizedBuybrickModal from "../components/modals/BuyBrickModal";
 import ArrowUpButton from "../components/ArrowUpButton";
 import VideoModal from "../components/WallofHope/Video";
 import DedicatedBrickInfoModal from "../components/modals/DedicatedBrickInfoModal";
-import NewShareModal from "../components/modals/newShareModal";
+// import NewShareModal from "../components/modals/newShareModal";
+import SharingModal from "../components/modals/SharingModal";
 
 const Buybrick = () => {
   const quarter = import.meta.env.VITE_BRICK_COUNT / 4;
@@ -643,7 +644,7 @@ const Buybrick = () => {
         />
       )}
       {isShareModalOpen && (
-        <NewShareModal hideModal={() => setIsShareModalOpen(false)} />
+        <SharingModal hideModal={() => setIsShareModalOpen(false)} />
       )}
     </div>
   );

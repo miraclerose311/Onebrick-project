@@ -40,9 +40,6 @@ export default function Navbar() {
         <NavLink to="/donors">DONORS</NavLink>
       </button>
       <button className="px-8 py-2 text-lg hover:font-medium hover:bg-sky-100">
-        <NavLink to="/beneficiaries">BENEFICIARIES</NavLink>
-      </button>
-      <button className="px-8 py-2 text-lg hover:font-medium hover:bg-sky-100">
         <NavLink to="/contact">CONTACT US</NavLink>
       </button>
     </div>

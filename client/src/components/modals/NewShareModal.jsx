@@ -3,9 +3,8 @@ import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 
 import { clearLoading, setLoading } from "../../features/loadingSlice";
-
+import { FacebookShareButton } from "react-share";
 import {
-  FaFacebookF,
   FaTelegramPlane,
   FaTwitter,
   FaWhatsapp,
@@ -29,6 +28,7 @@ const NewShareModal = ({ hideModal }) => {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
+            "ngrok-skip-browser-warnning": true,
           },
         });
         if (response.ok) {
@@ -63,15 +63,25 @@ const NewShareModal = ({ hideModal }) => {
     if (Object.keys(socialData).length !== 0) {
       const newShareUrls = {
         facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(socialData.Facebook.url)}`,
-        // twitter: `https://twitter.com/intent/tweet?url=${encodeURIComponent(socialData.Twitter.url)}&text=${encodeURIComponent(socialData.Twitter.title)}`,
+        twitter: `https://twitter.com/intent/tweet?url=${encodeURIComponent(socialData.Twitter.url)}&text=${encodeURIComponent(socialData.Twitter.description)}`,
         linkedin: `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(socialData.Linkedin.url)}&title=${encodeURIComponent(title)}&summary=${encodeURIComponent(socialData.Linkedin.description)}&source=${encodeURIComponent(socialData.Linkedin.url)}`,
         whatsapp: `https://wa.me/?text=${encodeURIComponent(`${title} ${socialData.Whatsapp.url}`)}`,
-        telegram: `https://t.me/share/url?url=${encodeURIComponent(socialData.Telegram.url)}&text=${encodeURIComponent(title)}`,
-        // email: Uncomment and populate as needed
+        telegram: `https://t.me/share/url?url=${socialData.Telegram.url}&text=${encodeURIComponent(title)}`,
       };
       setShareUrls(newShareUrls);
     }
   }, [socialData]);
+
+  const handleFacebookShare = () => {
+    if (socialData) {
+      window.FB.ui({
+        method: "share",
+        href: socialData.Facebook.url,
+        quote: "Alphahospice One brick",
+        picture: socialData.Facebook.image,
+      });
+    }
+  };
 
   return (
     <div
@@ -86,22 +96,15 @@ const NewShareModal = ({ hideModal }) => {
           Please Share to Your Socia Media!
         </h3>
 
-        {/* <p className="text-sm text-gray-500 mb-4">{description}</p>
-        {/* Optional Image */}
-        {/* {image && <img className="mb-4" src={image} alt={title} />}  */}
-        {/* Share Icons */}
-
         <div className="flex justify-center space-x-4">
-          <div className="flex flex-col">
-            <a
-              href={shareUrls.facebook}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-600"
-            >
-              <FaFacebookF size={24} />
-            </a>
-          </div>
+          {socialData && (
+            <FacebookShareButton
+              url={socialData.Facebook.url}
+              title="Alphahospice One brick"
+              image={socialData.Facebook.image}
+              onClick={handleFacebookShare}
+            />
+          )}
 
           <a
             href={shareUrls.twitter}
@@ -127,16 +130,14 @@ const NewShareModal = ({ hideModal }) => {
           >
             <FaWhatsapp size={24} />
           </a>
-          <div className="flex flex-col">
-            <a
-              href={shareUrls.telegram}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-400"
-            >
-              <FaTelegramPlane size={24} />
-            </a>
-          </div>
+          <a
+            href={shareUrls.telegram}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-400"
+          >
+            <FaTelegramPlane size={24} />
+          </a>
           <a href={shareUrls.email} target="_self" className="text-red-600">
             <MdEmail size={24} />
           </a>
