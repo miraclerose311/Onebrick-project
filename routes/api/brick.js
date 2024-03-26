@@ -19,7 +19,8 @@ router.get("/test", (req, res) => {
 });
 
 router.post("/initial", async (req, res) => {
-  let count = process.env.BRICK_COUNT;
+  console.log("brickCount", brickCount);
+  let count = brickCount;
   try {
     await Brick.deleteMany({});
     let brickArray = [];
@@ -93,6 +94,7 @@ router.get("/sold-amount", async (req, res) => {
 });
 
 router.get("/all", async (req, res) => {
+  console.log("request");
   const dataPipeline = [
     {
       $lookup: {

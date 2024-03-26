@@ -34,7 +34,7 @@ const BrickContainer = ({
 
   // Initialize zoom in and out variables
   const { bricks } = useSelector((state) => state.brick);
-
+	console.log("Stage", stage);
   useEffect(() => {
     if (bricks.length !== 0) {
       const image = new Image();

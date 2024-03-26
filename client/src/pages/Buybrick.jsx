@@ -98,7 +98,7 @@ const Buybrick = () => {
 
   useEffect(() => {
     let soldIncrements = Math.ceil((sold + 1) / quarter);
-
+    console.log(soldIncrements, quarter, sold);
     switch (soldIncrements) {
       case 1:
         setHiddenHeight("h-3/4"); // This seems to be an error; CSS classes cannot have calculations
