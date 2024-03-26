@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
-import { FaShare } from "react-icons/fa";
 
 import logoImg from "../../assets/img/logo.png";
-import NewShareModal from "../modals/newShareModal";
+import { FaShare } from "react-icons/fa";
+import SharingModal from "../modals/SharingModal";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -13,6 +13,7 @@ export default function Navbar() {
   const { token } = useSelector((state) => state.auth);
 
   const [userRole, setUserRole] = useState(null);
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
 
   useEffect(() => {
     if (token) {
@@ -24,7 +25,10 @@ export default function Navbar() {
   }, [token]);
 
   const DropdownNavbar = () => (
-    <div className="text-center flex flex-col bg-gray-300 shadow-md shadow-gray-500 absolute py-4 top-12 rounded-md opacity-90 text-gray-700">
+    <div
+      className="text-center flex flex-col bg-gray-300 shadow-md shadow-gray-500 absolute py-4 top-12 rounded-md opacity-90 text-gray-700"
+      style={{ zIndex: 999 }}
+    >
       {userRole === 2 && (
         <button className="px-8 py-2 text-lg hover:font-medium hover:bg-sky-100">
           <NavLink to="/admin">Dashboard</NavLink>
@@ -45,7 +49,7 @@ export default function Navbar() {
     </div>
   );
 
-  const [isShareMOdalOpen, setIsShareModalOpen] = useState(false);
+  // const [isShareMOdalOpen, setIsShareModalOpen] = useState(false);
 
   return (
     <nav className="bg-transparent z-20 start-0 px-8 sm:px-16 md:px-24 lg:px-32 xl:px-48 2xl:px-64 text-left absolute w-full">
@@ -58,21 +62,19 @@ export default function Navbar() {
           />
         </NavLink>
         <div className="flex items-center relative">
-          <span
-            className=" rounded-full flex justify-center items-center cursor-pointer  hover:text-sky-700"
-            onClick={() => setIsShareModalOpen(true)}
-          >
-            <FaShare className="w-6 sm:w-8 h-6 sm:h-8 text-gray-400 sm:mr-1" />
-            <span className="text-xs sm:text-sm md:text-md xl:text-lg lg:font-simibold font-sans">
-              SHARE
-            </span>
-          </span>
-          <div className="flex items-center ml-8">
-            {isShareMOdalOpen && (
-              <NewShareModal hideModal={() => setIsShareModalOpen(false)} />
-            )}
-          </div>
           <ul className="hidden lg:flex items-center 2xl:pr-4 lg:text-md xl:text-lg 2xl:text-xl font-medium">
+            <li className="px-8">
+              <span
+                className=" rounded-full flex justify-center items-center cursor-pointer  hover:text-sky-700"
+                onClick={() => setIsShareModalOpen(true)}
+              >
+                <FaShare className="w-6 sm:w-8 h-6 sm:h-8 text-gray-400 sm:mr-1" />
+                <span className="text-xs sm:text-sm md:text-md xl:text-lg lg:font-simibold font-sans">
+                  SHARE
+                </span>
+              </span>
+            </li>
+
             {userRole === 2 && (
               <li className="flex mr-6">
                 <NavLink
@@ -86,6 +88,7 @@ export default function Navbar() {
                 </NavLink>
               </li>
             )}
+
             <li className="flex mr-6">
               <NavLink
                 to="/"
@@ -174,6 +177,9 @@ export default function Navbar() {
           >
             WALL OF HOPE
           </NavLink>
+          {isShareModalOpen && (
+            <SharingModal hideModal={() => setIsShareModalOpen(false)} />
+          )}
         </div>
       </div>
     </nav>

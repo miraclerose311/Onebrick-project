@@ -1,162 +1,93 @@
-import PropTypes from "prop-types";
-
-import { useEffect, useState } from "react";
-
-import { clearLoading, setLoading } from "../../features/loadingSlice";
-import { FacebookShareButton } from "react-share";
 import {
-  FaTelegramPlane,
-  FaTwitter,
-  FaWhatsapp,
-  FaLinkedinIn,
-} from "react-icons/fa";
-import { MdEmail } from "react-icons/md";
-import { useDispatch } from "react-redux";
+  FacebookShareButton,
+  LinkedinShareButton,
+  TwitterShareButton,
+  PinterestShareButton,
+  TelegramShareButton,
+  WhatsappShareButton,
+  EmailShareButton,
+  FacebookIcon,
+  TwitterIcon,
+  LinkedinIcon,
+  PinterestIcon,
+  TelegramIcon,
+  WhatsappIcon,
+  EmailIcon,
+} from "react-share";
 
-const NewShareModal = ({ hideModal }) => {
-  const dispatch = useDispatch();
+import exampleImage from "../../assets/img/WallofHope/alpha_building_high_res.jpg";
+import HeadMetaTags from "../HeadMetaTags";
 
-  const [socialData, setSocialData] = useState({});
-
-  const backendUrl = import.meta.env.VITE_BACKEND_URL;
-
-  useEffect(() => {
-    const getSocialMediaData = async () => {
-      dispatch(setLoading());
-      try {
-        const response = await fetch(`${backendUrl}/api/social/get`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            "ngrok-skip-browser-warnning": true,
-          },
-        });
-        if (response.ok) {
-          const dataArray = await response.json();
-          const dataObject = dataArray.reduce((obj, item) => {
-            obj[item.mediaType] = item; // Assume each item has 'mediaType' field
-            return obj;
-          }, {});
-          console.log(dataObject);
-          setSocialData(dataObject);
-        } else {
-          console.error(
-            "Error fetching social media data:",
-            response.statusText
-          );
-        }
-        dispatch(clearLoading());
-      } catch (error) {
-        console.error("Error fetching social media data:", error);
-      }
-    };
-    getSocialMediaData();
-  }, []);
-
-  console.log("socialData", socialData);
-  const title = "AlphaHospice";
-
-  // at the top of your component
-  const [shareUrls, setShareUrls] = useState({});
-
-  useEffect(() => {
-    if (Object.keys(socialData).length !== 0) {
-      const newShareUrls = {
-        facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(socialData.Facebook.url)}`,
-        twitter: `https://twitter.com/intent/tweet?url=${encodeURIComponent(socialData.Twitter.url)}&text=${encodeURIComponent(socialData.Twitter.description)}`,
-        linkedin: `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(socialData.Linkedin.url)}&title=${encodeURIComponent(title)}&summary=${encodeURIComponent(socialData.Linkedin.description)}&source=${encodeURIComponent(socialData.Linkedin.url)}`,
-        whatsapp: `https://wa.me/?text=${encodeURIComponent(`${title} ${socialData.Whatsapp.url}`)}`,
-        telegram: `https://t.me/share/url?url=${socialData.Telegram.url}&text=${encodeURIComponent(title)}`,
-      };
-      setShareUrls(newShareUrls);
-    }
-  }, [socialData]);
-
-  const handleFacebookShare = () => {
-    if (socialData) {
-      window.FB.ui({
-        method: "share",
-        href: socialData.Facebook.url,
-        quote: "Alphahospice One brick",
-        picture: socialData.Facebook.image,
-      });
-    }
-  };
+const NewShareModal = () => {
+  const shareUrl = "https://api.alphahospice.org";
+  const title = "Alpha Hospice";
+  const image =
+    "https://www.mckinsey.com/~/media/mckinsey/business%20functions/people%20and%20organizational%20performance/our%20insights/the%20state%20of%20organizations%202023/soo-covermockups-standard-1536x1536-v2.jpg";
 
   return (
     <div
-      className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full"
-      style={{ zIndex: 200 }}
+      className="w-64 absolute inset-0 bg-gray-600 bg-opacity-75 flex flex-wrap justify-center items-center"
+      style={{ zIndex: 500 }}
     >
-      <div
-        className="flex flex-col items-center relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <h3 className="text-lg leading-6 font-medium text-gray-900 mb-4">
-          Please Share to Your Socia Media!
-        </h3>
+      <div className="bg-white p-6 rounded-lg shadow-lg overflow-auto max-h-full w-full max-w-md">
+        <h3 className="text-xl font-semibold mb-4">Share</h3>
 
-        <div className="flex justify-center space-x-4">
-          {socialData && (
-            <FacebookShareButton
-              url={socialData.Facebook.url}
-              title="Alphahospice One brick"
-              image={socialData.Facebook.image}
-              onClick={handleFacebookShare}
-            />
-          )}
+        <div className="flex flex-wrap justify-between items-center">
+          {/* Below this line, each button + icon combination is wrapped in a div with Tailwind classes */}
+          <div className="p-2">
+            <FacebookShareButton url={shareUrl} quote={title} image={image}>
+              <FacebookIcon size={32} round />
+            </FacebookShareButton>
+          </div>
 
-          <a
-            href={shareUrls.twitter}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-blue-400"
-          >
-            <FaTwitter size={24} />
-          </a>
-          <a
-            href={shareUrls.linkedin}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-blue-700"
-          >
-            <FaLinkedinIn size={24} />
-          </a>
-          <a
-            href={shareUrls.whatsapp}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-green-500"
-          >
-            <FaWhatsapp size={24} />
-          </a>
-          <a
-            href={shareUrls.telegram}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-blue-400"
-          >
-            <FaTelegramPlane size={24} />
-          </a>
-          <a href={shareUrls.email} target="_self" className="text-red-600">
-            <MdEmail size={24} />
-          </a>
+          <div className="p-2">
+            <TwitterShareButton url={shareUrl} title={title}>
+              <TwitterIcon size={32} round />
+            </TwitterShareButton>
+          </div>
+
+          <div className="p-2">
+            <TelegramShareButton url={shareUrl} title={title} image={image}>
+              <TelegramIcon size={32} round />
+            </TelegramShareButton>
+          </div>
+
+          <div className="p-2">
+            <WhatsappShareButton url={shareUrl} title={title} separator=":: ">
+              <WhatsappIcon size={32} round />
+            </WhatsappShareButton>
+          </div>
+
+          <div className="p-2">
+            <LinkedinShareButton
+              url={shareUrl}
+              windowWidth={750}
+              windowHeight={600}
+            >
+              <LinkedinIcon size={32} round />
+            </LinkedinShareButton>
+          </div>
+
+          <div className="p-2">
+            <PinterestShareButton
+              url={String(window.location)}
+              media={`${String(window.location)}/${exampleImage}`}
+              windowWidth={1000}
+              windowHeight={730}
+            >
+              <PinterestIcon size={32} round />
+            </PinterestShareButton>
+          </div>
+
+          <div className="p-2">
+            <EmailShareButton url={shareUrl} subject={title} body="body">
+              <EmailIcon size={32} round />
+            </EmailShareButton>
+          </div>
         </div>
-        {/* Close Button */}
-        <button
-          onClick={hideModal}
-          type="button"
-          className="mt-4 inline-flex justify-center rounded-md border border-transparent px-4 py-2 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500"
-        >
-          Close
-        </button>
       </div>
     </div>
   );
-};
-
-NewShareModal.propTypes = {
-  hideModal: PropTypes.func.isRequired,
 };
 
 export default NewShareModal;

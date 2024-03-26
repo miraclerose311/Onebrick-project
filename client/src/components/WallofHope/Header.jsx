@@ -10,9 +10,7 @@ import { logout } from "../../features/authSlice";
 
 // import Icons
 import { GiHamburgerMenu } from "react-icons/gi";
-
 import { FaShare } from "react-icons/fa";
-
 // import Images
 import SupportWordIcon from "../../assets/img/WallofHope/share_icon.png";
 import logoImg from "../../assets/img/logo.png";

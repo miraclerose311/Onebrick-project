@@ -108,29 +108,29 @@ const Home = () => {
 
   const sendFileData = async (imageData) => {
     try {
-			if (Object.keys(imageData).length === 0) {
-				console.log("No imageData to send");
-				return;
-			}
-			await axios.post(
-				`${base_URL}/api/upload/image`,
-				JSON.stringify({ imageData }),
-				{
-					headers: {
-						"Content-Type": "application/json",
-					},
-				}
-			);
+      if (Object.keys(imageData).length === 0) {
+        console.log("No imageData to send");
+        return;
+      }
+      await axios.post(
+        `${base_URL}/api/upload/image`,
+        JSON.stringify({ imageData }),
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-			setImageSrc((prevImgSrc) => ({
-				...prevImgSrc,
-				[Object.keys(imageData)]: Object.values(imageData),
-			}));
-			setUploadImageLoading(false);
-			setCurrentLoadingComponent("");
-		} catch (error) {
-			console.error("Image upload failed", error.response || error.message);
-		}
+      setImageSrc((prevImgSrc) => ({
+        ...prevImgSrc,
+        [Object.keys(imageData)]: Object.values(imageData),
+      }));
+      setUploadImageLoading(false);
+      setCurrentLoadingComponent("");
+    } catch (error) {
+      console.error("Image upload failed", error.response || error.message);
+    }
   };
 
   const handleFileChange = async (file, fileName) => {
@@ -215,7 +215,7 @@ const Home = () => {
         className="flex flex-wrap-reverse lg:flex-wrap-reverse items-center bg-gray-100 w-full pt-28 pb-12 px-8 sm:px-16 md:px-24 lg:px-32 xl:px-48 2xl:px-64 relative"
       >
         <div className="w-full lg:w-1/3">
-          <div className="flex flex-col gap-5 lg:gap-10 items-center lg:items-start 2xl:py-12 z-20">
+          <div className="flex flex-col gap-5 lg:gap-10 items-center lg:items-start 2xl:py-12 z-0">
             <EditableParagraph
               name="HomeText1"
               content={contents.HomeText1 || "Building Compassion"}
@@ -291,7 +291,7 @@ const Home = () => {
           </div> */}
         </div>
         <img src={Ellipse1} className="absolute right-0 top-0 z-0" />
-        <img src={Ellipse2} className="absolute left-0 top-96" />
+        <img src={Ellipse2} className="absolute left-0 top-96 z-0" />
       </div>
 
       <div className="flex flex-wrap w-full items-center px-8 sm:px-16 md:px-24 lg:px-32 xl:px-48 2xl:px-64 pt-12 lg:py-24 relative">
@@ -825,29 +825,31 @@ const Home = () => {
           className="w-full text-4xl text-sky-700 font-bold md:text-5xl xl:text-6xl 2xl:text-7xl text-center font-montserrat z-10"
         />
         <div className="w-full flex flex-wrap py-8 md:py-12 xl:py-16">
-          {currentDonors && currentDonors.slice(0, 6).map((donorInfo, index) => (
-            <div
-              key={index}
-              className="w-full  md:w-1/2 xl:w-1/3 flex flex-wrap p-1 md:p-2"
-            >
-              <div className="w-full flex bg-sky-500 shadow-sm shadow-gray-500 rounded-lg p-4 sm:p-3 md:p-2 lg:p-4 xl:p-2 2xl:p-5">
-                <div className="flex justify-center items-center w-1/3 sm:w-1/4 md:w-2/5 md:p-2">
-                  <img
-                    alt="Donor avatar"
-                    src={donorInfo.avatar}
-                    className="rounded-lg"
-                  />
-                </div>
-                <div className="flex flex-col gap-2 md:w-3/5 justify-center lg:justify-center text-white text-md sm:text-xl pl-3 sm:pl-5 md:px-3 lg:pl-8 xl:pl-3 2xl:pl-6 font-medium">
-                  <p>{donorInfo.fullName}</p>
-                  <p>
-                    {donorInfo.purchasedBricksCount} Bricks: ₹
-                    {donorInfo.purchasedBricksCount * 10000}
-                  </p>
+          {currentDonors &&
+            currentDonors.length > 0 &&
+            currentDonors.map((donorInfo, index) => (
+              <div
+                key={index}
+                className="w-full  md:w-1/2 xl:w-1/3 flex flex-wrap p-1 md:p-2"
+              >
+                <div className="w-full flex bg-sky-500 shadow-sm shadow-gray-500 rounded-lg p-4 sm:p-3 md:p-2 lg:p-4 xl:p-2 2xl:p-5">
+                  <div className="flex justify-center items-center w-1/3 sm:w-1/4 md:w-2/5 md:p-2">
+                    <img
+                      alt="Donor avatar"
+                      src={donorInfo.avatar}
+                      className="rounded-lg"
+                    />
+                  </div>
+                  <div className="flex flex-col gap-2 md:w-3/5 justify-center lg:justify-center text-white text-md sm:text-xl pl-3 sm:pl-5 md:px-3 lg:pl-8 xl:pl-3 2xl:pl-6 font-medium">
+                    <p>{donorInfo.fullName}</p>
+                    <p>
+                      {donorInfo.purchasedBricksCount} Bricks: ₹
+                      {donorInfo.purchasedBricksCount * 10000}
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
         </div>
         <button className="py-3 px-6 rounded-lg bg-red-700 shadow-md shadow-gray-500 hover:bg-red-800 text-white max-w-sm font-montserrat text-center">
           SEE ALL DONORS

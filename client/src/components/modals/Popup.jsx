@@ -70,6 +70,8 @@ const Popup = ({
     }
   };
 
+  console.log("supportWords", supportWords);
+
   return (
     <div
       id="popup-modal"

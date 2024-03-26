@@ -30,11 +30,13 @@ const SupportWord = ({ item }) => {
   return (
     <div className="flex flex-col py-2">
       <div className="flex items-start gap-6">
-        <img
-          src={item.user.picture}
-          alt={`${item.user.fullName}'s profile`}
-          className="w-12 h-12 rounded-full mt-1"
-        />
+        {item.user.picture && (
+          <img
+            src={item.user.picture}
+            alt="user avatar"
+            className="w-12 h-12 rounded-full mt-1"
+          />
+        )}
         <div className="flex flex-col items-start">
           <p className="text-lg lg:text-xl font-medium font-raleway">
             {item.user.fullName}
