@@ -36,16 +36,13 @@ const DonorAddressModal = ({ handleBuyBrick }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    setAddress(donorInfo.address);
-    setPin(donorInfo.pin);
-    setCountry(donorInfo.country);
-    setState(donorInfo.state);
+    if (donorInfo) {
+      setAddress(donorInfo.address);
+      setPin(donorInfo.pin);
+      setCountry(donorInfo.country);
+      setState(donorInfo.state);
+    }
   }, [donorInfo]);
-
-  const isValidPin = (pin) => {
-    const regex = /^[0-9]{6}$/;
-    return regex.test(pin);
-  };
 
   const handleSubmit = () => {
     console.log("here=>");
@@ -61,15 +58,6 @@ const DonorAddressModal = ({ handleBuyBrick }) => {
 
     if (!state || !state.trim()) {
       newErrors.state = "state is required";
-    }
-
-    // if (!pin.trim()) {
-    //   newErrors.pin = "PIN is required";
-    // } else
-    if (pin) {
-      if (!isValidPin(pin)) {
-        newErrors.pin = "Please enter a valid PIN number";
-      }
     }
 
     setErrors(newErrors);
@@ -170,8 +158,14 @@ const DonorAddressModal = ({ handleBuyBrick }) => {
       )}
       <input
         name="pin"
+        type="text"
         value={pin}
-        onChange={(e) => setPin(e.target.value)}
+        maxLength={20}
+        onChange={(e) => {
+          if (/^\d*$/.test(e.target.value)) {
+            setPin(e.target.value);
+          }
+        }}
         onFocus={handleFocus}
         className={classNames(
           "border border-gray-400 rounded-lg w-4/5 sm:w-2/3 my-2 px-4 py-1.5 sm:py-2",

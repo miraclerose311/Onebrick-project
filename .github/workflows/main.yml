@@ -1,0 +1,34 @@
+name: Code Sync
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest # You can change the runner OS if needed
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Install SSH client
+      run: sudo apt-get install -y openssh-client
+  
+    - name: SSH into remote server and run commands
+      run: |
+          tar -cvf app.tar .
+          sshpass -p  $PASS scp -o StrictHostKeyChecking=no app.tar $HOST:/home/ubuntu/
+          sshpass -p $PASS ssh -o StrictHostKeyChecking=no $HOST 'cd /home/ubuntu/ && tar -xvf app.tar'
+      env:
+          HOST: ubuntu@13.200.164.92
+          PASS: RIblEardiver
+    - name: Install Node and run commands
+      run: |
+          sshpass -p $PASS ssh -o StrictHostKeyChecking=no $HOST 'export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  && node -v && npm install pm2 && npm install && cd client && npm install && npm run build && sudo cp -R dist/* /var/www/html '
+      env:
+          HOST: ubuntu@13.200.164.92
+          PASS: RIblEardiver
+

@@ -170,6 +170,10 @@ th{
     transform: translateX(0);
   }
 } */
+.wof-header {
+  z-index: 999;
+  background-color: white;
+}
 .custom-shadow {
   box-shadow: 0 0 20px 10px  rgb(233, 40, 14);
   animation: iterativeZoomInOutShadow 1.5s infinite;

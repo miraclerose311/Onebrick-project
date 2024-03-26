@@ -48,7 +48,7 @@ const DonorInformationModal = ({ handleNextModal }) => {
     const pattern = /^\d{7,11}$/;
     console.log(typeof mobileNumber, pattern.test(mobileNumber));
     return pattern.test(mobileNumber);
-}
+  }
   // Make sure validateEmail function is defined
   function isValidEmail(email) {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -129,6 +129,7 @@ const DonorInformationModal = ({ handleNextModal }) => {
         type="text"
         name="fullName"
         value={fullName}
+        maxLength={20}
         onChange={(e) => setName(e.target.value)}
         onFocus={handleFocus}
         className={classNames(
@@ -148,6 +149,7 @@ const DonorInformationModal = ({ handleNextModal }) => {
         type="email"
         name="email"
         value={email}
+        maxLength={20}
         onFocus={handleFocus}
         onChange={(e) => setEmail(e.target.value)}
         className={classNames(
@@ -167,8 +169,14 @@ const DonorInformationModal = ({ handleNextModal }) => {
         type="tel"
         name="mobile"
         value={mobile}
+        maxLength={20}
         onFocus={handleFocus}
-        onChange={(e) => setMobile(e.target.value)}
+        onChange={(e) => {
+          // Update the state only with numeric input or empty string (to allow deletion)
+          if (/^\d*$/.test(e.target.value)) {
+            setMobile(e.target.value);
+          }
+        }}
         className={classNames(
           "border border-gray-400 rounded-lg text-sm sm:text-lg w-4/5 sm:w-2/3 my-2 px-4 py-1.5 sm:py-2",
           errors.mobile && "border-red-400"
@@ -185,8 +193,13 @@ const DonorInformationModal = ({ handleNextModal }) => {
         type="text"
         name="pan"
         value={pan}
+        maxLength={20}
         onFocus={handleFocus}
-        onChange={(e) => setPan(e.target.value)}
+        onChange={(e) => {
+          if (/^\d*$/.test(e.target.value)) {
+            setPan(e.target.value);
+          }
+        }}
         className={classNames(
           "border border-gray-400 rounded-lg text-sm sm:text-lg w-4/5 sm:w-2/3 my-2 px-4 py-1.5 sm:py-2",
           errors.pan && "border-red-400"

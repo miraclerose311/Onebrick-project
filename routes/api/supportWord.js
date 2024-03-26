@@ -3,10 +3,11 @@ const router = express.Router();
 const mongoose = require("mongoose");
 
 const SupportWard = require("../../models/SupportWard");
+const { database } = require("faker/lib/locales/en");
 
 router.get("/get", async (req, res) => {
   try {
-    const result = await SupportWard.find().populate("user");
+    const result = await SupportWard.find().sort({ date: 1 }).populate("user");
     res.status(200).json(result);
   } catch (e) {
     console.error(e);

@@ -12,14 +12,14 @@ const randomIds = require("./initialValue.js");
 const { randomInt } = require("crypto");
 const { default: mongoose } = require("mongoose");
 
-const brickCount = process.env.BRICK_COUNT
+const brickCount = process.env.BRICK_COUNT;
 
 router.get("/test", (req, res) => {
   res.json("test!");
 });
 
 router.post("/initial", async (req, res) => {
-  let count = brickCount;
+  let count = process.env.BRICK_COUNT;
   try {
     await Brick.deleteMany({});
     let brickArray = [];
@@ -133,7 +133,6 @@ const getRandomBrickId = async (amount, stage) => {
   return RandomId;
 };
 
-
 function getRandomNeighbors(matrixRows, matrixCols, i, j, count) {
   let flag = Array.from({ length: matrixRows }, () =>
     Array(matrixCols).fill(false)
@@ -197,7 +196,6 @@ const cols = 125;
 //   return id
 // }
 
-
 router.post("/buy", async (req, res) => {
   const { brick_id, user, amount, stage } = req.body;
   try {
@@ -218,7 +216,7 @@ router.post("/buy", async (req, res) => {
     let purchasedIds = [brick_id];
     if (amount > 1) {
       const randomIDs = await getRandomBrickId(amount - 1, stage);
-      
+
       purchasedIds.push(...randomIDs);
 
       const updateRandomBricks = randomIDs.map((id) =>
@@ -504,6 +502,5 @@ router.post("/add-dedication", async (req, res) => {
 //     smtpTransport.close();
 //   });
 // };
-
 
 module.exports = router;

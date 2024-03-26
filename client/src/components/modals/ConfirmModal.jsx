@@ -38,7 +38,6 @@ const ConfirmModal = ({
 
   const brickArray = bricks?.filter((element) => element.user === userId);
 
-
   const onClickNotDedicated = (brick_id, userId, userName) => {
     if (masterId && masterId === userId) handleGoToDedicate(brick_id);
     else {
@@ -71,12 +70,10 @@ const ConfirmModal = ({
         {brickArray.length}&nbsp;BRICKS DONATED
       </p>
       <div className="w-4/5 md:w-full max-h-48 scroll-hidden flex flex-col border border-gray-100">
-        {brickArray.map((brick, index) => (
+        {brickArray.map((brick) => (
           <p
             key={brick.brick_id}
-            className={`w-full text-md border-gray-200 font-raleway my-2 cursor-pointer ${
-              brickArray.length - 1 === index ? "border-none" : "border-b-1"
-            }`}
+            className="w-full text-md border-gray-200 font-raleway my-2 cursor-pointer border-b"
           >
             {brick.dedication ? (
               <span onClick={() => onClickBrick(brick.brick_id)}>

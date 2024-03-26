@@ -78,7 +78,7 @@ const Header = ({
   };
 
   return (
-    <div className="w-full flex justify-center md:justify-between px-4 sm:px-12 items-center py-2 border-b border-gray-100">
+    <div className="w-full h-24 wof-header flex justify-center md:justify-between px-4 sm:px-12 items-center py-2 border-b border-gray-100">
       {/*Logo*/}
       <div className="gap-4 hidden md:flex items-center">
         <Link to="/" className="flex items-center w-16 h-12">
@@ -97,7 +97,7 @@ const Header = ({
         {/* <div className="items-center hidden lg:flex">
           <input
             type="search"
-            className="border border-gray-400 rounded-full w-40 md:w-48 xl:w-56 px-4 py-1 lg:py-2 bg-white outline-none focus-visible:border-sky-700"
+            className="border border-gray-400 rounded-full w-40 md:w-48 xl:w-56 px-4 py-1 bg-white outline-none focus-visible:border-sky-700"
             placeholder="Search the Wall of Hope"
             onChange={(e) => onChangeSearchInput(e)}
           />
